@@ -62,10 +62,10 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-hello-world" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-深入理解Presto-1-Presto的架构" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2019/03/29/hello-world/" class="article-date">
-  <time datetime="2019-03-29T10:05:06.592Z" itemprop="datePublished">2019-03-29</time>
+    <a href="/2019/03/29/深入理解Presto-1-Presto的架构/" class="article-date">
+  <time datetime="2019-03-29T11:21:12.103Z" itemprop="datePublished">2019-03-29</time>
 </a>
     
   </div>
@@ -76,7 +76,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2019/03/29/hello-world/">Hello World</a>
+      <a class="article-title" href="/2019/03/29/深入理解Presto-1-Presto的架构/">深入理解Presto(1) : Presto的架构</a>
     </h1>
   
 
@@ -84,20 +84,252 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://mayunlei.github.io/2019/03/29/深入理解Presto-1-Presto的架构/" data-id="cjttz03yx0000pp3jrdu1x852" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-presto-3-memory-management" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/01/11/presto-3-memory-management/" class="article-date">
+  <time datetime="2019-01-11T12:48:38.000Z" itemprop="datePublished">2019-01-11</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/01/11/presto-3-memory-management/">深入理解Presto(3)：Presto内存管理</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="深入理解Presto-3-：Presto内存管理"><a href="#深入理解Presto-3-：Presto内存管理" class="headerlink" title="深入理解Presto(3)：Presto内存管理"></a>深入理解Presto(3)：Presto内存管理</h1><p>上一篇文章，我们讲了<a href="https://www.atatech.org/articles/91969" target="_blank" rel="noopener">Presto的架构</a>。Presto是一款内存计算型的引擎，所以对于内存管理必须做到精细，才能保证query有序、顺利的执行，部分发生饿死、死锁等情况。</p>
+<h2 id="内存池"><a href="#内存池" class="headerlink" title="内存池"></a>内存池</h2><p>Presto采用逻辑的内存池，来管理不同类型的内存需求。</p>
+<p>Presto把整个内存划分成三个内存池，分别是System Pool ,Reserved Pool, General Pool。</p>
+<p><img src="http://ata2-img.cn-hangzhou.img-pub.aliyun-inc.com/f2a0b04d61e5ca4b90242d5d0137e7d9.png" alt="image.png"></p>
+<ol>
+<li>System Pool 是用来保留给系统使用的，默认为40%的内存空间留给系统使用。</li>
+<li>Reserved Pool和General Pool 是用来分配query运行时内存的。</li>
+<li>其中大部分的query使用general Pool。 而最大的一个query，使用Reserved Pool， 所以Reserved Pool的空间等同于一个query在一个机器上运行使用的最大空间大小，默认是10%的空间。</li>
+<li>General则享有除了System Pool和General Pool之外的其他内存空间。</li>
+</ol>
+<h2 id="为什么要使用内存池"><a href="#为什么要使用内存池" class="headerlink" title="为什么要使用内存池"></a>为什么要使用内存池</h2><p>System Pool自然不必说，名义上是规定系统所用内存，实际是为了划定出query能够使用的内存上限。避免query使用内存太多，造成oom。</p>
+<p>那么，为什么需要保留区内存呢？并且保留区内存正好等于query在机器上使用的最大内存？</p>
+<p>如果没有Reserved Pool， 那么当query非常多，并且把内存空间几乎快要占完的时候，某一个内存消耗比较大的query开始运行。但是这时候已经没有内存空间可供这个query运行了，这个query一直处于挂起状态，等待可用的内存。 但是其他的小内存query跑完后，又有新的小内存query加进来。由于小内存query占用内存小，很容易找到可用内存。 这种情况下，大内存query就一直挂起直到饿死。</p>
+<p>所以为了防止出现这种饿死的情况，必须预留出来一块空间，共大内存query运行。 预留的空间大小等于query允许使用的最大内存。Presto每秒钟，挑出来一个内存占用最大的query，允许它使用reserved pool，避免一直没有可用内存供该query运行。</p>
+<h2 id="内存管理"><a href="#内存管理" class="headerlink" title="内存管理"></a>内存管理</h2><p><img src="http://ata2-img.cn-hangzhou.img-pub.aliyun-inc.com/9f49f578848c4f28c27bab8712964f8b.png" alt="image.png"></p>
+<p>Presto内存管理，分两部分：</p>
+<ul>
+<li>query内存管理<ul>
+<li>query划分成很多task， 每个task会有一个线程循环获取task的状态，包括task所用内存。汇总成query所用内存。</li>
+<li>如果query的汇总内存超过一定大小，则强制终止该query。 </li>
+</ul>
+</li>
+<li>机器内存管理<ul>
+<li>coordinator有一个线程，定时的轮训每台机器，查看当前的机器内存状态。</li>
+</ul>
+</li>
+</ul>
+<p>当query内存和机器内存汇总之后，coordinator会挑选出一个内存使用最大的query，分配给Reserved Pool。</p>
+<p>内存管理是由coordinator来管理的， coordinator每秒钟做一次判断，指定某个query在所有的机器上都能使用reserved 内存。那么问题来了，如果某台机器上，，没有运行该query，那岂不是该机器预留的内存浪费了？为什么不在单台机器上挑出来一个最大的task执行。原因还是死锁，假如query，在其他机器上享有reserved内存，很快执行结束。但是在某一台机器上不是最大的task，一直得不到运行，导致该query无法结束。</p>
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?561f64275a5d4dab256b033830fecc5a";
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://mayunlei.github.io/2019/03/29/hello-world/" data-id="cjttyo5ev0000jz3jvxbsezc4" class="article-share-link">Share</a>
+      <a data-url="http://mayunlei.github.io/2019/01/11/presto-3-memory-management/" data-id="cjttz5ibz0001s93j9w8oaqkt" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-presto-4-tutorial-config-a-http-connector" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/05/10/presto-4-tutorial-config-a-http-connector/" class="article-date">
+  <time datetime="2018-05-10T03:25:42.000Z" itemprop="datePublished">2018-05-10</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/05/10/presto-4-tutorial-config-a-http-connector/">Presto入门： 配置第一个http connector</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Presto入门：-配置第一个http-connector"><a href="#Presto入门：-配置第一个http-connector" class="headerlink" title="Presto入门： 配置第一个http connector"></a>Presto入门： 配置第一个http connector</h1><h1 id="1-connector"><a href="#1-connector" class="headerlink" title="1. connector"></a>1. connector</h1><p>在presto中，可以对接多种类型的<a href="https://prestodb.io/docs/current/connector.html" target="_blank" rel="noopener">数据源</a>，今天以http 服务器数据为例，简单介绍如何接入presto。</p>
+<h1 id="2-搭建http数据数据源"><a href="#2-搭建http数据数据源" class="headerlink" title="2. 搭建http数据数据源"></a>2. 搭建http数据数据源</h1><h2 id="2-1-http数据源的schema"><a href="#2-1-http数据源的schema" class="headerlink" title="2.1 http数据源的schema"></a>2.1 http数据源的schema</h2><p>在http服务器上，提供一个文件，文件内容是数据源的格式。 一个文件是json格式，顶层是schema的名称，schema类似数据的database。schema之下是一个表的list。每张表要提供列的名称和类型，以及数据的地址，即http地址，见一个样例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;schema&quot;:[&#123;</span><br><span class="line">        &quot;name&quot;:&quot;table1&quot;,</span><br><span class="line">        &quot;columns&quot;:[</span><br><span class="line">            &#123;   </span><br><span class="line">            &quot;name&quot;:&quot;key1&quot;,</span><br><span class="line">            &quot;type&quot;:&quot;bigint&quot;</span><br><span class="line">            &#125;,  </span><br><span class="line">            &#123;   </span><br><span class="line">            &quot;name&quot;:&quot;key2&quot;,</span><br><span class="line">            &quot;type&quot;:&quot;varchar&quot;</span><br><span class="line">            &#125;   </span><br><span class="line">        ],  </span><br><span class="line">        &quot;sources&quot;:[</span><br><span class="line">            &quot;http://localhost:9080/data.csv&quot;</span><br><span class="line">        ]   </span><br><span class="line">    &#125;   </span><br><span class="line">    ]   </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="2-2-提供数据："><a href="#2-2-提供数据：" class="headerlink" title="2.2 提供数据："></a>2.2 提供数据：</h2><p>http数据是一个csv格式，例如上文提到的data.csv的内容是：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">10,b</span><br><span class="line">1,d</span><br></pre></td></tr></table></figure>
+<h2 id="2-3-配置presto"><a href="#2-3-配置presto" class="headerlink" title="2.3 配置presto"></a>2.3 配置presto</h2><p>接下来配置presto，使得presto知道http 数据源的存在，创建文件etc/catalog/http.properties ，在文件中指定schema的地址：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">connector.name=example-http</span><br><span class="line">metadata-uri=http://localhost:9080/schema.json</span><br></pre></td></tr></table></figure></p>
+<h2 id="2-4-查看查询效果"><a href="#2-4-查看查询效果" class="headerlink" title="2.4 查看查询效果:"></a>2.4 查看查询效果:</h2><h3 id="2-4-1-展示http-catalog中的schema"><a href="#2-4-1-展示http-catalog中的schema" class="headerlink" title="2.4.1  展示http catalog中的schema"></a>2.4.1  展示http catalog中的schema</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">presto&gt; show schemas from http;</span><br><span class="line">       Schema       </span><br><span class="line">--------------------</span><br><span class="line"> information_schema </span><br><span class="line"> schema             </span><br><span class="line">(2 rows)</span><br><span class="line"></span><br><span class="line">Query 20180510_030439_00002_58j4x, FINISHED, 1 node</span><br><span class="line">Splits: 18 total, 18 done (100.00%)</span><br><span class="line">0:00 [2 rows, 34B] [15 rows/s, 263B/s]</span><br></pre></td></tr></table></figure>
+<h3 id="2-4-2-展示http-catalog的schema库中的表内容"><a href="#2-4-2-展示http-catalog的schema库中的表内容" class="headerlink" title="2.4.2 展示http catalog的schema库中的表内容"></a>2.4.2 展示http catalog的schema库中的表内容</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">presto&gt; show tables  from http.schema;</span><br><span class="line"> Table  </span><br><span class="line">--------</span><br><span class="line"> table1 </span><br><span class="line">(1 row)</span><br><span class="line"></span><br><span class="line">Query 20180510_030453_00003_58j4x, FINISHED, 1 node</span><br><span class="line">Splits: 18 total, 18 done (100.00%)</span><br><span class="line">0:00 [1 rows, 22B] [4 rows/s, 108B/s]</span><br></pre></td></tr></table></figure>
+<h3 id="2-4-3-展示表的格式"><a href="#2-4-3-展示表的格式" class="headerlink" title="2.4.3 展示表的格式"></a>2.4.3 展示表的格式</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">presto&gt; describe  http.schema.table1;</span><br><span class="line"> Column |  Type   | Extra | Comment </span><br><span class="line">--------+---------+-------+---------</span><br><span class="line"> key1   | bigint  |       |         </span><br><span class="line"> key2   | varchar |       |         </span><br><span class="line">(2 rows)</span><br><span class="line"></span><br><span class="line">Query 20180510_030507_00004_58j4x, FINISHED, 1 node</span><br><span class="line">Splits: 18 total, 18 done (100.00%)</span><br><span class="line">0:00 [2 rows, 123B] [9 rows/s, 603B/s]</span><br></pre></td></tr></table></figure>
+<h3 id="2-4-4-获取表的数据"><a href="#2-4-4-获取表的数据" class="headerlink" title="2.4.4  获取表的数据"></a>2.4.4  获取表的数据</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">presto&gt; select * from http.schema.table1;</span><br><span class="line"></span><br><span class="line">Query 20180510_031258_00005_58j4x, FAILED, 1 node</span><br><span class="line">Splits: 17 total, 0 done (0.00%)</span><br><span class="line">0:00 [0 rows, 0B] [0 rows/s, 0B/s]</span><br><span class="line"></span><br><span class="line">Query 20180510_031258_00005_58j4x failed: For input string: &quot;a&quot;</span><br><span class="line"></span><br><span class="line">presto&gt; select * from http.schema.table1;</span><br><span class="line"> key1 | key2 </span><br><span class="line">------+------</span><br><span class="line">   10 | b    </span><br><span class="line">    1 | d    </span><br><span class="line">(2 rows)</span><br><span class="line"></span><br><span class="line">Query 20180510_031315_00006_58j4x, FINISHED, 1 node</span><br><span class="line">Splits: 17 total, 17 done (100.00%)</span><br><span class="line">0:00 [2 rows, 0B] [41 rows/s, 0B/s]</span><br></pre></td></tr></table></figure>
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?561f64275a5d4dab256b033830fecc5a";
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://mayunlei.github.io/2018/05/10/presto-4-tutorial-config-a-http-connector/" data-id="cjttz5ibs0000s93je1xok7h5" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-presto-2-execution-flow" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/02/26/presto-2-execution-flow/" class="article-date">
+  <time datetime="2018-02-26T15:33:00.000Z" itemprop="datePublished">2018-02-26</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/02/26/presto-2-execution-flow/">深入理解Presto(2) ：Presto查询执行过程</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="深入理解Presto-2-：Presto查询执行过程"><a href="#深入理解Presto-2-：Presto查询执行过程" class="headerlink" title="深入理解Presto(2) ：Presto查询执行过程"></a>深入理解Presto(2) ：Presto查询执行过程</h1><h2 id="Presto查询执行过程"><a href="#Presto查询执行过程" class="headerlink" title="Presto查询执行过程"></a>Presto查询执行过程</h2><p><img src="http://img.blog.csdn.net/20180226231925791?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvc2p0dXl1bmxlaQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="这里写图片描述"></p>
+<p>Presto包含三类角色，coordinator,discovery,worker。coordinator负责query的解析和调度。discovery负责集群的心跳和角色管理。worker负责执行计算。</p>
+<p>presto-cli提交的查询，实际上是一个http POST请求。查询请求发送到coordinator后，经过词法解析和语法解析，生成抽象语法树，描述查询的执行。</p>
+<p>执行计划编译器，会根据抽象语法树，层层展开，把语法树所表示的结构，转化成由单个操作所组成的树状的执行结构，称为逻辑执行计划。</p>
+<p>原始的逻辑执行计划，直接表示用户所期望的操作，未必是性能最优的，在经过一系列性能优化和转写，以及分布式处理后，形成最终的逻辑执行计划。这时的逻辑执行计划，已经包含了map-reduce操作，以及跨机器传输中间计算结果操作。</p>
+<p>scheduler从数据的meta上获取数据的分布，构造split，配合逻辑执行计划，把对应的执行计划调度到对应的worker上。</p>
+<p>在worker上，逻辑执行计划生成物理执行计划，根据逻辑执行计划，会生成执行的字节码，以及operator列表。operator交由执行驱动来完成计算。</p>
+<h3 id="抽象语法树"><a href="#抽象语法树" class="headerlink" title="抽象语法树"></a>抽象语法树</h3><p>由语法解析器根据SQL，解析生成的树状结构，描述SQL的执行过程。 在下文中，以SQL<code>select avg(response_size) as a , client_address from localfile.logs.http_request_log group by client_address order by a desc limit 10</code>为例来描述。</p>
+<p>抽象语法树数以Query为单位来描述查询，分层次表示不同层的子查询。每一层查询查询包含了几个关键因素：<code>select</code>, <code>from</code>,<code>where</code>,<code>group by</code>,<code>having</code>,<code>order by</code>,<code>limit</code>。其中，<code>from</code>可以是一个子查询，也可以是一张表。</p>
+<p>一个典型的抽象语法树：</p>
+<p><img src="http://img.blog.csdn.net/20180226232039250?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvc2p0dXl1bmxlaQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="这里写图片描述"></p>
+<h3 id="生成逻辑执行计划"><a href="#生成逻辑执行计划" class="headerlink" title="生成逻辑执行计划"></a>生成逻辑执行计划</h3><p>抽象语法树树，描述的最原始的用户需求。抽象语法树描述的信息，执行效率上不是最优，执行操作也过于复杂。需要把抽象语法树转化成执行计划。执行计划分成两类，一类是逻辑执行计划，一类是物理执行计划。逻辑执行计划，以树状结构来描述执行，每个节点是最简单的操作。物理执行计划，根据逻辑执行计划生成字节码，交由驱动执行。</p>
+<p>转写成逻辑执行计划的过程，包括转写和优化。把抽象语法树转写成由简单操作组成的结点树，然后把树中所有聚合计算节点转写成map-reduce形式。并且在map-reduce节点中间插入Exchange节点。然后，进行一系列优化，把一些能提前加速计算的节点下推，能合并的节点合并。</p>
+<p>最后逻辑执行计划按照Exchange节点做划分，分成不同的段(fragament)，表示不同阶段的的执行计划。在调度时，按照fragment调度。</p>
+<p>SQL<code>select avg(response_size) as a , client_address from localfile.logs.http_request_log group by client_address order by a desc limit 10</code>的逻辑执行计划：<br><img src="http://img.blog.csdn.net/20180226232159260?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvc2p0dXl1bmxlaQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="这里写图片描述"></p>
+<p>从执行计划中可以看到，agg节点都是分成partial和final两步。</p>
+<h3 id="调度执行计划到机器上"><a href="#调度执行计划到机器上" class="headerlink" title="调度执行计划到机器上"></a>调度执行计划到机器上</h3><p>调度涉及到两个问题，第一，某个fragment分配由哪些机器执行；第二，某个fragment的计算结果如何输出到下游fragment。</p>
+<p>在调度时，需要为每一个fragment指定分配到哪些机器上。从调度上划分，fragment分三种类型</p>
+<ul>
+<li>一类是source类型由原始数据的存储位置决定fragment调度机器，有多少个source节点呢？connector会根据数据的meta，决定需要读取多少个split(分片) ，对于每一个source节点，分配一个split到一台机器上，如果在配置中指定了network-topology=flat，则尽量选择split所在的机器。</li>
+<li>一类是FIXED类型，主要用于纯计算节点，从集群中选择一台或多台机器分配给某个fragment。一般只有最终输出节点分配一个机器，中间的计算结果都要分配多台机器。分配的机器数由配置<code>hash_partition_count</code>决定。选择机器的方式是随机选择。</li>
+<li>一类是SINGLE类型，只有一台机器，主要用于汇总结果，随机选择一台机器。</li>
+</ul>
+<p>对于计算结果输出，根据下游节点的机器个数，也有多种方式，</p>
+<ul>
+<li>如果下游节点有多台机器，例如group by的中间结果，会按照group by的key计算hash，按照hash值选择一个下游机器输出。对于非group by的计算，会随机选择或者round robin。</li>
+<li>如果下游节点只有一台机器，会输出到这台机器上。</li>
+</ul>
+<p>以下图为例，fragment 2是source类型fragment，有三个split，所以分配了三台机器。因为这一层计算是group by 聚合计算，所以输出时按照group by的key计算hash，选择下游的某台机器输出。</p>
+<p><img src="http://img.blog.csdn.net/20180226232230284?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvc2p0dXl1bmxlaQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="这里写图片描述"></p>
+<p>调度之前的任务，都在coordinator完成，调度完成后，之后任务发送到worker上执行。</p>
+<h3 id="生成物理执行计划"><a href="#生成物理执行计划" class="headerlink" title="生成物理执行计划"></a>生成物理执行计划</h3><p>逻辑执行计划fragment发送到机器上后，由结点树形式转写成operator list，根据逻辑代码动态编译生成字节码。动态生成字节码，主要是利用编译原理：</p>
+<ul>
+<li>展开循环</li>
+<li>根据数据列的类型，直接调用对用的函数，以减少分支跳转语句。</li>
+</ul>
+<p>这些手段会更好的利用CPU的流水线。</p>
+<h3 id="执行驱动"><a href="#执行驱动" class="headerlink" title="执行驱动"></a>执行驱动</h3><p>物理执行计划构造生成的Operator list，交给Driver执行。具体计算哪些数据，由加载的Split决定。</p>
+<p>Operator list 以串联形式处理数据，前一个operator的结果作为下一个结果的输入，对于source类型的operator，每一次调用都会获取一份新的数据；对于Aggregate的operator，只有之前所有的operator都finish之后，才能获取输出结果。</p>
+<p><img src="http://img.blog.csdn.net/20180226232302199?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvc2p0dXl1bmxlaQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="这里写图片描述"></p>
+<h3 id="聚合计算"><a href="#聚合计算" class="headerlink" title="聚合计算"></a>聚合计算</h3><p>生成的执行计划中，聚合计算都拆分成了两步，分别是Map、Reduce。</p>
+<p>聚合计算的Operator有两类，分别是AggregationOperator和HashAggregationOperator。</p>
+<p>AggregationOperator对所有行进行计算，并且把结果更新到一个位置。HashAggregationOperator使用某一列的hash值作为hash表的key，key相同的行才会把结果保存在一起，用于group by类的计算。</p>
+<p>聚合计算都是要按照Map-Reduce的形式执行。</p>
+<p>聚合计算所提供的函数，都要提供四个接口，分别有两个输入，两个输出:</p>
+<ol>
+<li>接受原始数据的输入</li>
+<li>接受中间结果的输入</li>
+<li>输出中间结果</li>
+<li>输出最终结果。</li>
+</ol>
+<p>1+3 构成了Map操作  2+4构成了Reduce操作。</p>
+<p>以Avg为例：</p>
+<ol>
+<li>Map阶段输入1,2,3,4</li>
+<li>Map截断输出10,4 分别代表Sum和Count</li>
+<li>Reduce输入10,4</li>
+<li>Reduce输出最终平均值2.5</li>
+</ol>
+<p>我们改造了Presto系统，使得Presto能够提供缓存功能，就是在MapReduce中间加了一层计算，接受中间结果输入和中间结果输出。</p>
+<h3 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h3><p>函数分为两类，分别是Scaler函数和Aggregate函数</p>
+<p>Scaler函数提供数据的转换处理，不保存状态，一个输入产生一个输出。</p>
+<p>Aggregate函数提供数据的聚合处理，利用已有状态+输入，产生新的状态。</p>
+<p>上文已经提到，聚合函数提供了两种输入接口和两种输出接口。</p>
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?561f64275a5d4dab256b033830fecc5a";
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://mayunlei.github.io/2018/02/26/presto-2-execution-flow/" data-id="cjttz5ice0002s93jn45gcl57" class="article-share-link">Share</a>
       
       
     </footer>
@@ -125,7 +357,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li></ul>
     </div>
   </div>
 
@@ -138,7 +370,19 @@
       <ul>
         
           <li>
-            <a href="/2019/03/29/hello-world/">Hello World</a>
+            <a href="/2019/03/29/深入理解Presto-1-Presto的架构/">深入理解Presto(1) : Presto的架构</a>
+          </li>
+        
+          <li>
+            <a href="/2019/01/11/presto-3-memory-management/">深入理解Presto(3)：Presto内存管理</a>
+          </li>
+        
+          <li>
+            <a href="/2018/05/10/presto-4-tutorial-config-a-http-connector/">Presto入门： 配置第一个http connector</a>
+          </li>
+        
+          <li>
+            <a href="/2018/02/26/presto-2-execution-flow/">深入理解Presto(2) ：Presto查询执行过程</a>
           </li>
         
       </ul>
