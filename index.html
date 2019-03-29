@@ -129,7 +129,7 @@ var _hmt = _hmt || [];
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://mayunlei.github.io/2019/01/11/presto-3-memory-management/" data-id="cjttzyw7500014z3judtsub70" class="article-share-link">Share</a>
+      <a data-url="http://mayunlei.github.io/2019/01/11/presto-3-memory-management/" data-id="cjtu0o1ct0003f73jvooeqlva" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/presto/">presto</a></li></ul>
@@ -187,7 +187,7 @@ var _hmt = _hmt || [];
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://mayunlei.github.io/2018/05/10/presto-4-tutorial-config-a-http-connector/" data-id="cjttzyw7800034z3j3s46odz3" class="article-share-link">Share</a>
+      <a data-url="http://mayunlei.github.io/2018/05/10/presto-4-tutorial-config-a-http-connector/" data-id="cjtu0o1cp0001f73jnmcqp2hz" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/presto/">presto</a></li></ul>
@@ -299,7 +299,7 @@ var _hmt = _hmt || [];
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://mayunlei.github.io/2018/02/26/presto-2-execution-flow/" data-id="cjttzyw7p00094z3jh5r7rkps" class="article-share-link">Share</a>
+      <a data-url="http://mayunlei.github.io/2018/02/26/presto-2-execution-flow/" data-id="cjtu0o1db000cf73jp5qqqviw" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/presto/">presto</a></li></ul>
@@ -416,10 +416,55 @@ var _hmt = _hmt || [];
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://mayunlei.github.io/2017/10/12/presto-1-infrastructure/" data-id="cjttzyw7000004z3jrupc98nv" class="article-share-link">Share</a>
+      <a data-url="http://mayunlei.github.io/2017/10/12/presto-1-infrastructure/" data-id="cjtu0o1ck0000f73jzad7prt5" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/presto/">presto</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-string-copy-on-write" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2013/06/26/string-copy-on-write/" class="article-date">
+  <time datetime="2013-06-26T12:33:49.000Z" itemprop="datePublished">2013-06-26</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2013/06/26/string-copy-on-write/">String copy on write 引发的线程不安全</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>   一个string对象的读操作是线程安全的么？答案是否定的。读取一个string在某些情况下是线程不安全的。这是为什么呢？原因就是string在优化存储空间时采用的策略cow。</p>
+<p>什么是cow</p>
+<pre><code>Cow 是copy on write的缩写。String 为了减少内存拷贝，当两个string对象的内容相同时，他们指向同一块内存空间，并通过引用计数来表示有多少对象引用了这块内存。当其中某个string对象的内容发生改变时，string会先重新分配一块空间，把原来的内容拷贝到新空间，原来的空间的引用计数减去1。
+</code></pre><p>什么情况下引发cow</p>
+<pre><code>当程序判断string对象要改变时，就会引发cow。一种比较少见的情况就是，程序获得了string对象的非const引用，那么程序无法判断在接下来的操作中是否会改变这个string对象。所以会触发cow操作。一个典型的例子是string::operator[], 当一个非const对象调用[]操作符时，实际上获得的是对象的非const引用，于是引发了cow。
+</code></pre><p>危害<br>      上边的operator[],如果只是为了读取字符串的话，那么我们期望这个操作应该是线程安全的。但实际上这个读操作包含了写操作，假如另一个线程同时在读这个字符串的话，程序就有可能在这里使内存写坏。为了解决这个问题，必须给string对象限定为const.</p>
+<p>我在产品中发现了这个问题，为了调查这个问题花费了3周的时间，并在第四周时从理论上解释通了这个原因。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://mayunlei.github.io/2013/06/26/string-copy-on-write/" data-id="cjtu0o1cu0004f73jkmfxj4je" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/string-cow/">string cow</a></li></ul>
 
     </footer>
   </div>
@@ -441,7 +486,7 @@ var _hmt = _hmt || [];
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/presto/">presto</a></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/presto/">presto</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/string-cow/">string cow</a></li></ul>
     </div>
   </div>
 
@@ -451,7 +496,7 @@ var _hmt = _hmt || [];
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/presto/" style="font-size: 10px;">presto</a>
+      <a href="/tags/presto/" style="font-size: 20px;">presto</a> <a href="/tags/string-cow/" style="font-size: 10px;">string cow</a>
     </div>
   </div>
 
@@ -460,7 +505,7 @@ var _hmt = _hmt || [];
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/06/">June 2013</a></li></ul>
     </div>
   </div>
 
@@ -486,6 +531,10 @@ var _hmt = _hmt || [];
         
           <li>
             <a href="/2017/10/12/presto-1-infrastructure/">深入理解Presto(1) : Presto的架构</a>
+          </li>
+        
+          <li>
+            <a href="/2013/06/26/string-copy-on-write/">String copy on write 引发的线程不安全</a>
           </li>
         
       </ul>
@@ -529,5 +578,6 @@ var _hmt = _hmt || [];
 
 
   </div>
+  <script> var _hmt = _hmt || []; (function() { var hm = document.createElement("script"); hm.src = "https://hm.baidu.com/hm.js?561f64275a5d4dab256b033830fecc5a"; var s = document.getElementsByTagName("script")[0]; s.parentNode.insertBefore(hm, s); })(); </script>
 </body>
 </html>
