@@ -5,22 +5,23 @@
   
 
   
-  <title>马云雷的技术博客</title>
+  <title>深入理解Presto(1) : Presto的架构 | 马云雷的技术博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="深入理解Presto(1) : Presto的架构简介Presto是一个facebook开源的分布式SQL查询引擎，适用于交互式分析查询，数据量支持GB到PB字节。presto的架构由关系型数据库的架构演化而来。presto之所以能在各个内存计算型数据库中脱颖而出，在于以下几点：  清晰的架构，是一个能够独立运行的系统，不依赖于任何其他外部系统。例如调度，presto自身提供了对集群的监控，可以根">
+  <meta name="description" content="简介Presto是一个facebook开源的分布式SQL查询引擎，适用于交互式分析查询，数据量支持GB到PB字节。presto的架构由关系型数据库的架构演化而来。presto之所以能在各个内存计算型数据库中脱颖而出，在于以下几点：  清晰的架构，是一个能够独立运行的系统，不依赖于任何其他外部系统。例如调度，presto自身提供了对集群的监控，可以根据监控信息完成调度。 简单的数据结构，列式存储，逻">
+<meta name="keywords" content="presto">
 <meta property="og:type" content="article">
-<meta property="og:title" content="马云雷的技术博客">
-<meta property="og:url" content="http://mayunlei.github.io/2019/03/29/presto-1-infrastructure/index.html">
+<meta property="og:title" content="深入理解Presto(1) : Presto的架构">
+<meta property="og:url" content="http://mayunlei.github.io/2017/10/12/presto-1-infrastructure/index.html">
 <meta property="og:site_name" content="马云雷的技术博客">
-<meta property="og:description" content="深入理解Presto(1) : Presto的架构简介Presto是一个facebook开源的分布式SQL查询引擎，适用于交互式分析查询，数据量支持GB到PB字节。presto的架构由关系型数据库的架构演化而来。presto之所以能在各个内存计算型数据库中脱颖而出，在于以下几点：  清晰的架构，是一个能够独立运行的系统，不依赖于任何其他外部系统。例如调度，presto自身提供了对集群的监控，可以根">
+<meta property="og:description" content="简介Presto是一个facebook开源的分布式SQL查询引擎，适用于交互式分析查询，数据量支持GB到PB字节。presto的架构由关系型数据库的架构演化而来。presto之所以能在各个内存计算型数据库中脱颖而出，在于以下几点：  清晰的架构，是一个能够独立运行的系统，不依赖于任何其他外部系统。例如调度，presto自身提供了对集群的监控，可以根据监控信息完成调度。 简单的数据结构，列式存储，逻">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="http://ata2-img.cn-hangzhou.img-pub.aliyun-inc.com/a3f863b0236a31d11851fe2c2f94df53.png">
 <meta property="og:image" content="http://ata2-img.cn-hangzhou.img-pub.aliyun-inc.com/01be5ad22d66e0b0099901fb5b1980c3.png">
 <meta property="og:image" content="http://ata2-img.cn-hangzhou.img-pub.aliyun-inc.com/169cd57c386a9d4a83a7d6f761423346.png">
-<meta property="og:updated_time" content="2019-03-29T11:08:19.231Z">
+<meta property="og:updated_time" content="2019-03-29T11:36:31.158Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="马云雷的技术博客">
-<meta name="twitter:description" content="深入理解Presto(1) : Presto的架构简介Presto是一个facebook开源的分布式SQL查询引擎，适用于交互式分析查询，数据量支持GB到PB字节。presto的架构由关系型数据库的架构演化而来。presto之所以能在各个内存计算型数据库中脱颖而出，在于以下几点：  清晰的架构，是一个能够独立运行的系统，不依赖于任何其他外部系统。例如调度，presto自身提供了对集群的监控，可以根">
+<meta name="twitter:title" content="深入理解Presto(1) : Presto的架构">
+<meta name="twitter:description" content="简介Presto是一个facebook开源的分布式SQL查询引擎，适用于交互式分析查询，数据量支持GB到PB字节。presto的架构由关系型数据库的架构演化而来。presto之所以能在各个内存计算型数据库中脱颖而出，在于以下几点：  清晰的架构，是一个能够独立运行的系统，不依赖于任何其他外部系统。例如调度，presto自身提供了对集群的监控，可以根据监控信息完成调度。 简单的数据结构，列式存储，逻">
 <meta name="twitter:image" content="http://ata2-img.cn-hangzhou.img-pub.aliyun-inc.com/a3f863b0236a31d11851fe2c2f94df53.png">
   
     <link rel="alternate" href="/atom.xml" title="马云雷的技术博客" type="application/atom+xml">
@@ -70,17 +71,27 @@
       <div class="outer">
         <section id="main"><article id="post-presto-1-infrastructure" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2019/03/29/presto-1-infrastructure/" class="article-date">
-  <time datetime="2019-03-29T11:08:19.231Z" itemprop="datePublished">2019-03-29</time>
+    <a href="/2017/10/12/presto-1-infrastructure/" class="article-date">
+  <time datetime="2017-10-12T11:56:49.000Z" itemprop="datePublished">2017-10-12</time>
 </a>
     
   </div>
   <div class="article-inner">
     
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      深入理解Presto(1) : Presto的架构
+    </h1>
+  
+
+      </header>
+    
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="深入理解Presto-1-Presto的架构"><a href="#深入理解Presto-1-Presto的架构" class="headerlink" title="深入理解Presto(1) : Presto的架构"></a>深入理解Presto(1) : Presto的架构</h1><h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>Presto是一个facebook开源的分布式SQL查询引擎，适用于交互式分析查询，数据量支持GB到PB字节。presto的架构由关系型数据库的架构演化而来。presto之所以能在各个内存计算型数据库中脱颖而出，在于以下几点：</p>
+        <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>Presto是一个facebook开源的分布式SQL查询引擎，适用于交互式分析查询，数据量支持GB到PB字节。presto的架构由关系型数据库的架构演化而来。presto之所以能在各个内存计算型数据库中脱颖而出，在于以下几点：</p>
 <ol>
 <li>清晰的架构，是一个能够独立运行的系统，不依赖于任何其他外部系统。例如调度，presto自身提供了对集群的监控，可以根据监控信息完成调度。</li>
 <li>简单的数据结构，列式存储，逻辑行，大部分数据都可以轻易的转化成presto所需要的这种数据结构。</li>
@@ -163,29 +174,26 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://mayunlei.github.io/2019/03/29/presto-1-infrastructure/" data-id="cjttyrkoi0002m03jmk52r49q" class="article-share-link">Share</a>
+      <a data-url="http://mayunlei.github.io/2017/10/12/presto-1-infrastructure/" data-id="cjttzoq4o0000zz3jbjvx4cuk" class="article-share-link">Share</a>
       
       
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/presto/">presto</a></li></ul>
+
     </footer>
   </div>
   
     
 <nav id="article-nav">
   
-    <a href="/2019/03/29/presto-3-memory-management/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2018/02/26/presto-2-execution-flow/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Newer</strong>
       <div class="article-nav-title">
         
-          (no title)
+          深入理解Presto(2) ：Presto查询执行过程
         
       </div>
     </a>
   
-  
-    <a href="/2019/03/29/presto-2-execution-flow/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title"></div>
-    </a>
   
 </nav>
 
@@ -200,15 +208,29 @@
 
   
     
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/presto/">presto</a></li></ul>
+    </div>
+  </div>
+
 
   
     
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/presto/" style="font-size: 10px;">presto</a>
+    </div>
+  </div>
+
   
     
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a></li></ul>
     </div>
   </div>
 
@@ -221,23 +243,19 @@
       <ul>
         
           <li>
-            <a href="/2019/03/29/README/">(no title)</a>
+            <a href="/2019/01/11/presto-3-memory-management/">深入理解Presto(3)：Presto内存管理</a>
           </li>
         
           <li>
-            <a href="/2019/03/29/presto-3-memory-management/">(no title)</a>
+            <a href="/2018/05/10/presto-4-tutorial-config-a-http-connector/">Presto入门： 配置第一个http connector</a>
           </li>
         
           <li>
-            <a href="/2019/03/29/presto-1-infrastructure/">(no title)</a>
+            <a href="/2018/02/26/presto-2-execution-flow/">深入理解Presto(2) ：Presto查询执行过程</a>
           </li>
         
           <li>
-            <a href="/2019/03/29/presto-2-execution-flow/">(no title)</a>
-          </li>
-        
-          <li>
-            <a href="/2019/03/29/hello-world/">Hello World</a>
+            <a href="/2017/10/12/presto-1-infrastructure/">深入理解Presto(1) : Presto的架构</a>
           </li>
         
       </ul>

@@ -8,6 +8,7 @@
   <title>深入理解Presto(2) ：Presto查询执行过程 | 马云雷的技术博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="深入理解Presto(2) ：Presto查询执行过程Presto查询执行过程 Presto包含三类角色，coordinator,discovery,worker。coordinator负责query的解析和调度。discovery负责集群的心跳和角色管理。worker负责执行计算。 presto-cli提交的查询，实际上是一个http POST请求。查询请求发送到coordinator后，经过词">
+<meta name="keywords" content="presto">
 <meta property="og:type" content="article">
 <meta property="og:title" content="深入理解Presto(2) ：Presto查询执行过程">
 <meta property="og:url" content="http://mayunlei.github.io/2018/02/26/presto-2-execution-flow/index.html">
@@ -19,7 +20,7 @@
 <meta property="og:image" content="http://img.blog.csdn.net/20180226232159260?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvc2p0dXl1bmxlaQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70">
 <meta property="og:image" content="http://img.blog.csdn.net/20180226232230284?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvc2p0dXl1bmxlaQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70">
 <meta property="og:image" content="http://img.blog.csdn.net/20180226232302199?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvc2p0dXl1bmxlaQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70">
-<meta property="og:updated_time" content="2019-03-29T11:21:26.501Z">
+<meta property="og:updated_time" content="2019-03-29T11:36:04.875Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="深入理解Presto(2) ：Presto查询执行过程">
 <meta name="twitter:description" content="深入理解Presto(2) ：Presto查询执行过程Presto查询执行过程 Presto包含三类角色，coordinator,discovery,worker。coordinator负责query的解析和调度。discovery负责集群的心跳和角色管理。worker负责执行计算。 presto-cli提交的查询，实际上是一个http POST请求。查询请求发送到coordinator后，经过词">
@@ -170,9 +171,11 @@ var _hmt = _hmt || [];
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://mayunlei.github.io/2018/02/26/presto-2-execution-flow/" data-id="cjttz5ice0002s93jn45gcl57" class="article-share-link">Share</a>
+      <a data-url="http://mayunlei.github.io/2018/02/26/presto-2-execution-flow/" data-id="cjttzn8ld0004zt3jdu64cz1k" class="article-share-link">Share</a>
       
       
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/presto/">presto</a></li></ul>
+
     </footer>
   </div>
   
@@ -189,6 +192,11 @@ var _hmt = _hmt || [];
     </a>
   
   
+    <a href="/2017/10/12/presto-1-infrastructure/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">深入理解Presto(1) : Presto的架构</div>
+    </a>
+  
 </nav>
 
   
@@ -202,15 +210,29 @@ var _hmt = _hmt || [];
 
   
     
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/presto/">presto</a></li></ul>
+    </div>
+  </div>
+
 
   
     
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/presto/" style="font-size: 10px;">presto</a>
+    </div>
+  </div>
+
   
     
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a></li></ul>
     </div>
   </div>
 
@@ -223,10 +245,6 @@ var _hmt = _hmt || [];
       <ul>
         
           <li>
-            <a href="/2019/03/29/深入理解Presto-1-Presto的架构/">深入理解Presto(1) : Presto的架构</a>
-          </li>
-        
-          <li>
             <a href="/2019/01/11/presto-3-memory-management/">深入理解Presto(3)：Presto内存管理</a>
           </li>
         
@@ -236,6 +254,10 @@ var _hmt = _hmt || [];
         
           <li>
             <a href="/2018/02/26/presto-2-execution-flow/">深入理解Presto(2) ：Presto查询执行过程</a>
+          </li>
+        
+          <li>
+            <a href="/2017/10/12/presto-1-infrastructure/">深入理解Presto(1) : Presto的架构</a>
           </li>
         
       </ul>
