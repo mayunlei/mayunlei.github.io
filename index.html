@@ -160,7 +160,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://mayunlei.github.io/2019/05/20/Presto-coordinator的CPU持续上涨，原因竟然是这样/" data-id="cjvvpx72a000d2c3jgzdua86o" class="article-share-link">Share</a>
+      <a data-url="http://mayunlei.github.io/2019/05/20/Presto-coordinator的CPU持续上涨，原因竟然是这样/" data-id="cjw009n7s0007jq3jq45q3nqo" class="article-share-link">Share</a>
       
       
     </footer>
@@ -202,7 +202,7 @@
 <li>其中大部分的query使用general Pool。 而最大的一个query，使用Reserved Pool， 所以Reserved Pool的空间等同于一个query在一个机器上运行使用的最大空间大小，默认是10%的空间。</li>
 <li>General则享有除了System Pool和General Pool之外的其他内存空间。</li>
 </ol>
-<h2 id="为什么要使用内存池"><a href="#为什么要使用内存池" class="headerlink" title="为什么要使用内存池"></a>为什么要使用内存池</h2><p>System Pool自然不必说，名义上是规定系统所用内存，实际是为了划定出query能够使用的内存上限。避免query使用内存太多，造成oom。</p>
+<h2 id="为什么要使用内存池"><a href="#为什么要使用内存池" class="headerlink" title="为什么要使用内存池"></a>为什么要使用内存池</h2><p>System Pool用于系统使用的内存，例如机器之间传递数据，在内存中会维护buffer，这部分内存挂载system名下。</p>
 <p>那么，为什么需要保留区内存呢？并且保留区内存正好等于query在机器上使用的最大内存？</p>
 <p>如果没有Reserved Pool， 那么当query非常多，并且把内存空间几乎快要占完的时候，某一个内存消耗比较大的query开始运行。但是这时候已经没有内存空间可供这个query运行了，这个query一直处于挂起状态，等待可用的内存。 但是其他的小内存query跑完后，又有新的小内存query加进来。由于小内存query占用内存小，很容易找到可用内存。 这种情况下，大内存query就一直挂起直到饿死。</p>
 <p>所以为了防止出现这种饿死的情况，必须预留出来一块空间，共大内存query运行。 预留的空间大小等于query允许使用的最大内存。Presto每秒钟，挑出来一个内存占用最大的query，允许它使用reserved pool，避免一直没有可用内存供该query运行。</p>
@@ -235,7 +235,7 @@ var _hmt = _hmt || [];
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://mayunlei.github.io/2019/01/11/presto-3-memory-management/" data-id="cjvvpx71n00022c3j5p0ar7ts" class="article-share-link">Share</a>
+      <a data-url="http://mayunlei.github.io/2019/01/11/presto-3-memory-management/" data-id="cjw009n790002jq3jvosxnbab" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/presto/">presto</a></li></ul>
@@ -293,7 +293,7 @@ var _hmt = _hmt || [];
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://mayunlei.github.io/2018/05/10/presto-4-tutorial-config-a-http-connector/" data-id="cjvvpx71r00042c3jnjfakwap" class="article-share-link">Share</a>
+      <a data-url="http://mayunlei.github.io/2018/05/10/presto-4-tutorial-config-a-http-connector/" data-id="cjw009n740001jq3jv0yqai1s" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/presto/">presto</a></li></ul>
@@ -405,7 +405,7 @@ var _hmt = _hmt || [];
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://mayunlei.github.io/2018/02/26/presto-2-execution-flow/" data-id="cjvvpx72c000e2c3jqmrrax6j" class="article-share-link">Share</a>
+      <a data-url="http://mayunlei.github.io/2018/02/26/presto-2-execution-flow/" data-id="cjw009n7u0008jq3jd1ye1j64" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/presto/">presto</a></li></ul>
@@ -522,7 +522,7 @@ var _hmt = _hmt || [];
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://mayunlei.github.io/2017/10/12/presto-1-infrastructure/" data-id="cjvvpx71h00002c3j1nk48oi4" class="article-share-link">Share</a>
+      <a data-url="http://mayunlei.github.io/2017/10/12/presto-1-infrastructure/" data-id="cjw009n7v0009jq3jq8j6ol0l" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/presto/">presto</a></li></ul>
@@ -567,7 +567,7 @@ var _hmt = _hmt || [];
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://mayunlei.github.io/2013/06/26/string-copy-on-write/" data-id="cjvvpx71s00052c3j3yl1l3zx" class="article-share-link">Share</a>
+      <a data-url="http://mayunlei.github.io/2013/06/26/string-copy-on-write/" data-id="cjw009n7x000bjq3j6kz6o6ol" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/string-cow/">string cow</a></li></ul>
