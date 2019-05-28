@@ -21,7 +21,7 @@
 <meta property="og:image" content="https://ata2-img.cn-hangzhou.oss-pub.aliyun-inc.com/ff4bf8d06279e968cda7d4b2e4b91c48.png">
 <meta property="og:image" content="https://ata2-img.cn-hangzhou.oss-pub.aliyun-inc.com/36a907cc024a816567ee727155400d67.png">
 <meta property="og:image" content="https://ata2-img.cn-hangzhou.oss-pub.aliyun-inc.com/6530cf137e74fb75dd0b7750041d4a63.png">
-<meta property="og:updated_time" content="2019-05-20T01:53:50.220Z">
+<meta property="og:updated_time" content="2019-05-28T12:51:09.233Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Presto coordinator的CPU持续上涨，原因竟然是这样">
 <meta name="twitter:description" content="问题背景之前介绍过presto的架构， coordinator是Presto架构中负责调度的master节点。在实际部署中，为了减少该节点的负载，指定node-scheduler.include-coordinator=false，避免把计算任务调度到coordinator节点上。 由于Presto进程是常驻进程，而且需要实时的提供在线服务。通常只有在需要升级时，才会通过热升级手段重启进程。于是我">
@@ -96,7 +96,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="问题背景"><a href="#问题背景" class="headerlink" title="问题背景"></a>问题背景</h2><p>之前介绍过<a href="https://www.atatech.org/articles/91969" target="_blank" rel="noopener">presto的架构</a>， coordinator是Presto架构中负责调度的master节点。在实际部署中，为了减少该节点的负载，指定<code>node-scheduler.include-coordinator=false</code>，避免把计算任务调度到coordinator节点上。</p>
+        <h2 id="问题背景"><a href="#问题背景" class="headerlink" title="问题背景"></a>问题背景</h2><p>之前介绍过<a href="https://mayunlei.github.io/2017/10/12/presto-1-infrastructure/">presto的架构</a>， coordinator是Presto架构中负责调度的master节点。在实际部署中，为了减少该节点的负载，指定<code>node-scheduler.include-coordinator=false</code>，避免把计算任务调度到coordinator节点上。</p>
 <p>由于Presto进程是常驻进程，而且需要实时的提供在线服务。通常只有在需要升级时，才会通过热升级手段重启进程。于是我们在一个大集群上发现了这个现象，coordinator的CPU随着时间不短增长。最高达到了3000%+ 。见下图是连续一个月的持续上涨。<br><img src="https://ata2-img.cn-hangzhou.oss-pub.aliyun-inc.com/ade1f0a32898a86f03e7b33391a70270.png" alt="image.png"></p>
 <p>如果任由CPU这样上涨下去，整个集群将不可控，也会影响计算能力。于是我开始了一系列的调查。</p>
 <h2 id="是json的原因吗？"><a href="#是json的原因吗？" class="headerlink" title="是json的原因吗？"></a>是json的原因吗？</h2><p>首先，通过jstack命令打印Presto进程的栈。在栈中最常见的调用栈，是json的反序列化操作。</p>
@@ -170,7 +170,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://mayunlei.github.io/2019/05/20/Presto-coordinator的CPU持续上涨，原因竟然是这样/" data-id="cjw009n7s0007jq3jq45q3nqo" class="article-share-link">Share</a>
+      <a data-url="http://mayunlei.github.io/2019/05/20/Presto-coordinator的CPU持续上涨，原因竟然是这样/" data-id="cjw7suoam000d243j9t5duk2l" class="article-share-link">Share</a>
       
       
     </footer>
