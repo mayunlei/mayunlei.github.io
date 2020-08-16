@@ -5,11 +5,11 @@
   
 
   
-  <title>Archives: 2018 | 马云雷的技术博客</title>
+  <title>马云雷的技术博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta property="og:type" content="website">
 <meta property="og:title" content="马云雷的技术博客">
-<meta property="og:url" content="http://mayunlei.github.io/archives/2018/index.html">
+<meta property="og:url" content="http://mayunlei.github.io/page/2/index.html">
 <meta property="og:site_name" content="马云雷的技术博客">
 <meta property="og:locale" content="default">
 <meta name="twitter:card" content="summary">
@@ -64,57 +64,57 @@
       <div class="outer">
         <section id="main">
   
-  
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2018" class="archive-year">2018</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2018/05/10/presto-4-tutorial-config-a-http-connector/" class="archive-article-date">
-  <time datetime="2018-05-10T03:25:42.000Z" itemprop="datePublished">May 10</time>
+    <article id="post-string-copy-on-write" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2013/06/26/string-copy-on-write/" class="article-date">
+  <time datetime="2013-06-26T12:33:49.000Z" itemprop="datePublished">2013-06-26</time>
 </a>
-      
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
   
     <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/05/10/presto-4-tutorial-config-a-http-connector/">Presto入门： 配置第一个http connector</a>
+      <a class="article-title" href="/2013/06/26/string-copy-on-write/">String copy on write 引发的线程不安全</a>
     </h1>
   
 
-    </header>
-  </div>
-</article>
-  
+      </header>
     
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2018/02/26/presto-2-execution-flow/" class="archive-article-date">
-  <time datetime="2018-02-26T15:33:00.000Z" itemprop="datePublished">Feb 26</time>
-</a>
+    <div class="article-entry" itemprop="articleBody">
       
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/02/26/presto-2-execution-flow/">深入理解Presto(2) ：Presto查询执行过程</a>
-    </h1>
-  
+        <p>   一个string对象的读操作是线程安全的么？答案是否定的。读取一个string在某些情况下是线程不安全的。这是为什么呢？原因就是string在优化存储空间时采用的策略cow。</p>
+<p>什么是cow</p>
+<pre><code>Cow 是copy on write的缩写。String 为了减少内存拷贝，当两个string对象的内容相同时，他们指向同一块内存空间，并通过引用计数来表示有多少对象引用了这块内存。当其中某个string对象的内容发生改变时，string会先重新分配一块空间，把原来的内容拷贝到新空间，原来的空间的引用计数减去1。
+</code></pre><p>什么情况下引发cow</p>
+<pre><code>当程序判断string对象要改变时，就会引发cow。一种比较少见的情况就是，程序获得了string对象的非const引用，那么程序无法判断在接下来的操作中是否会改变这个string对象。所以会触发cow操作。一个典型的例子是string::operator[], 当一个非const对象调用[]操作符时，实际上获得的是对象的非const引用，于是引发了cow。
+</code></pre><p>危害<br>      上边的operator[],如果只是为了读取字符串的话，那么我们期望这个操作应该是线程安全的。但实际上这个读操作包含了写操作，假如另一个线程同时在读这个字符串的话，程序就有可能在这里使内存写坏。为了解决这个问题，必须给string对象限定为const.</p>
+<p>我在产品中发现了这个问题，为了调查这个问题花费了3周的时间，并在第四周时从理论上解释通了这个原因。</p>
 
-    </header>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://mayunlei.github.io/2013/06/26/string-copy-on-write/" data-id="ckdwrtx2y0006be3jt56t3lhb" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/string-cow/">string cow</a></li></ul>
+
+    </footer>
   </div>
+  
 </article>
-  
-  
-    </div></section>
+
+
   
 
+
+  <nav id="page-nav">
+    
+    <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
+  </nav>
 
 </section>
         
