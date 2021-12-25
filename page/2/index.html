@@ -64,6 +64,112 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-Presto-coordinator的CPU持续上涨，原因竟然是这样" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/05/20/Presto-coordinator的CPU持续上涨，原因竟然是这样/" class="article-date">
+  <time datetime="2019-05-20T01:52:09.000Z" itemprop="datePublished">2019-05-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/05/20/Presto-coordinator的CPU持续上涨，原因竟然是这样/">Presto coordinator的CPU持续上涨，原因竟然是这样</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="问题背景"><a href="#问题背景" class="headerlink" title="问题背景"></a>问题背景</h2><p>之前介绍过<a href="https://mayunlei.github.io/2017/10/12/presto-1-infrastructure/">presto的架构</a>， coordinator是Presto架构中负责调度的master节点。在实际部署中，为了减少该节点的负载，指定<code>node-scheduler.include-coordinator=false</code>，避免把计算任务调度到coordinator节点上。</p>
+<p>由于Presto进程是常驻进程，而且需要实时的提供在线服务。通常只有在需要升级时，才会通过热升级手段重启进程。于是我们在一个大集群上发现了这个现象，coordinator的CPU随着时间不短增长。最高达到了3000%+ 。见下图是连续一个月的持续上涨。<br><img src="https://ata2-img.cn-hangzhou.oss-pub.aliyun-inc.com/ade1f0a32898a86f03e7b33391a70270.png" alt="image.png"></p>
+<p>如果任由CPU这样上涨下去，整个集群将不可控，也会影响计算能力。于是我开始了一系列的调查。</p>
+<h2 id="是json的原因吗？"><a href="#是json的原因吗？" class="headerlink" title="是json的原因吗？"></a>是json的原因吗？</h2><p>首先，通过jstack命令打印Presto进程的栈。在栈中最常见的调用栈，是json的反序列化操作。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">at com.fasterxml.jackson.core.json.UTF8StreamJsonParser.parseMediumName2(UTF8StreamJsonParser.java:1836)</span><br><span class="line">at com.fasterxml.jackson.core.json.UTF8StreamJsonParser.parseMediumName(UTF8StreamJsonParser.java:1793)</span><br><span class="line">at com.fasterxml.jackson.core.json.UTF8StreamJsonParser._parseName(UTF8StreamJsonParser.java:1728)</span><br><span class="line">at com.fasterxml.jackson.core.json.UTF8StreamJsonParser.nextToken(UTF8StreamJsonParser.java:776)</span><br><span class="line">at com.fasterxml.jackson.databind.deser.BeanDeserializer._deserializeUsingPropertyBased(BeanDeserializer.java:389)</span><br><span class="line">at com.fasterxml.jackson.databind.deser.BeanDeserializerBase.deserializeFromObjectUsingNonDefault(BeanDeserializerBase.java:1194)</span><br><span class="line">at com.fasterxml.jackson.databind.deser.BeanDeserializer.deserializeFromObject(BeanDeserializer.java:314)</span><br><span class="line">at com.fasterxml.jackson.databind.deser.BeanDeserializer.deserialize(BeanDeserializer.java:148)</span><br><span class="line">at com.fasterxml.jackson.databind.ObjectMapper._readMapAndClose(ObjectMapper.java:3789)</span><br><span class="line">at com.fasterxml.jackson.databind.ObjectMapper.readValue(ObjectMapper.java:2950)</span><br><span class="line">at io.airlift.json.JsonCodec.fromJson(JsonCodec.java:198)</span><br><span class="line">at io.airlift.http.client.FullJsonResponseHandler$JsonResponse.&lt;init&gt;(FullJsonResponseHandler.java:118)</span><br><span class="line">at io.airlift.http.client.FullJsonResponseHandler.handle(FullJsonResponseHandler.java:68)</span><br><span class="line">at io.airlift.http.client.FullJsonResponseHandler.handle(FullJsonResponseHandler.java:37)</span><br><span class="line">at io.airlift.http.client.jetty.JettyHttpClient$JettyResponseFuture.processResponse(JettyHttpClient.java:857)</span><br><span class="line">at io.airlift.http.client.jetty.JettyHttpClient$JettyResponseFuture.completed(JettyHttpClient.java:834)</span><br><span class="line">at io.airlift.http.client.jetty.JettyHttpClient$BufferingResponseListener.onComplete(JettyHttpClient.java:1119)</span><br></pre></td></tr></table></figure>
+<p>这个栈是一个http请求的callback，在callback中把response把json反序列化成对象。http的callback线程时包括了200个线程，而我经常能在stack中看到超过180个线程在做json反序列化。从栈总看不出是属于什么http请求。但是我们能从代码中找到coordinator发出的这几类请求。</p>
+<p><img src="https://ata2-img.cn-hangzhou.oss-pub.aliyun-inc.com/d0fae569617369cfd5605f6fefe514d7.png" alt="image.png"></p>
+<ol>
+<li>task任务状态的fetcher，循环的获取task的状态，直到task结束。这其中其中有两类fetch操作:<ol start="2">
+<li>一个获取taskStatus，只包含task状态,循环获取，前一次获取结束后，立马启动下一次</li>
+<li>一个获取taskInfo。包含task的详细信息，每3秒获取一次。</li>
+</ol>
+</li>
+<li>Memory管理，coordinator定期向每台机器获取机器的内存使用状况。</li>
+<li>fail detect 请求有两类：<ol start="4">
+<li>一类是head请求，没有response</li>
+<li>另一类是/v1/info/state请求，是worker的状态，返回类似于”ACTIVE”或者”SHUTDOWN”之类的状态。 </li>
+</ol>
+</li>
+</ol>
+<p>由于内存同步和心跳检查是跟机器数据相关，而task同步则跟query数目相关。于是我怀疑是同时运行的query太多，有1000多个query在同时运行，每个query生成上百个task。 coordinator每分钟要发起几十万次读取task状态的请求。jackson库的反序列化效率不高，导致coordinator的CPU很高。 这可以解释CPU高的原因，但不能解释CPU持续上涨的原因。不管怎么样，我还是决定把jackson改成性能更佳的fastjson。 </p>
+<p>改成fastjson上线后，过段时间发现，CPU仍然在缓慢的持续上涨，不得不再重新寻找新的证据。</p>
+<h2 id="是不停的分配新的线程吗？"><a href="#是不停的分配新的线程吗？" class="headerlink" title="是不停的分配新的线程吗？"></a>是不停的分配新的线程吗？</h2><p>我们在jstack栈中，能清楚地看到很多线程同时在做json反序列化操作。证明是和json反序列化相关的操作。于是再去阅读源码。发现task status fetcher使用的线程池是一个可变的线程池<code>newCachedThreadPool</code>。 </p>
+<p>具体操作是：任何请求，都是放入队列中，然后由线程池处理。如果队列满，则线程池会新分配一个线程。</p>
+<p>于是我怀疑是负载太高，导致不停的分配新的线程，于是CPU越来越高。怎么解决这个问题？我改造了coordinator，由原来的单节点，变成了多节点，以均分coordinator的压力。</p>
+<h2 id="把coordinator改造成分布式能解决问题吗？"><a href="#把coordinator改造成分布式能解决问题吗？" class="headerlink" title="把coordinator改造成分布式能解决问题吗？"></a>把coordinator改造成分布式能解决问题吗？</h2><p>Presto原生的coordinator由于依赖单节点进行内存监控，如果强行部署成多coordinator的话，会造成内存管理的混乱，有可能让某些大query死锁。因此改造成分布式还颇费一番功夫。我会另起一个话题，讲述如何把coordinator改造成分布式。</p>
+<p>简单的说，改造完成后，有3个coordinator。原来的coordinator，负责内存管理和worker failover管理，同时处理1/3的query。而另外两个coordinator，只分别负责管理另外1/3的query。同时把内存管理的心跳间隔调整到了5s。</p>
+<p>过了一段时间，发现了新的情况。中心coordinator的CPU仍然在缓慢持续上涨，但是CPU并不是一直很高，而是每隔5s飙升一次。新增的两个coordinator则没有变化。于是我从所有的配置中找跟5s相关的参数，从这里开始意思到似乎和内存管理的心跳有关。</p>
+<p>从jstack能看到跟json反序列化有关， 内存管理的http response也需要反序列化json。虽然之前把jackson改造成了fastjson，但只是改造了task心跳部分，没有改造内存管理部分。</p>
+<p>coordinator每5s向每个worker发送一次请求，获取worker的内存使用，这个请求量是恒定的。理论上，除非我们增加机器，负载才会增加。于是我去检查了presto的http-request.log。 我把日志采集到阿里云日志服务，通过日志分析，检查http请求的变化趋势。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">v1/memory | select date_trunc(&apos;day&apos;,__time__) as t, count(1) as pv, sum(response_size) as res from log group by t order by t</span><br></pre></td></tr></table></figure>
+<p><img src="https://ata2-img.cn-hangzhou.oss-pub.aliyun-inc.com/d89fdc380ff859cfaef6f560703a5352.png" alt="image.png"><br>左Y轴是PV，右Y轴是response size的一天累加值。我们可以看到PV基本上没有大的变化。而response size则不断增长。20天内从最低7.6G/day增长到了237G/day。平均每个response达到149k。 这个截图是我写文章时截取的。在当时调查问题时，看到了600k的response。</p>
+<p>response增加 -&gt; json反序列化负载增加 -&gt; CPU不断增加。看起来符合逻辑，接下来只有去找为什么response不断增加了。</p>
+<h2 id="tcp抓包"><a href="#tcp抓包" class="headerlink" title="tcp抓包"></a>tcp抓包</h2><p>为了查看response这么大的原因，我用tcpdump抓取presto的流量。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo tcpdump  port 10000 -s 0 -w /tmp/netstat</span><br></pre></td></tr></table></figure>
+<p>在/v1/memory的响应结果中，会包含general , reserved， 和system 三个pool分别总的大小以及使用大小，和目前占用对应内存池的queryId。结构是这样：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;totalNodeMemory&quot;: &quot;12884901888B&quot;,</span><br><span class="line">  &quot;pools&quot;: &#123;</span><br><span class="line">    &quot;reserved&quot;: &#123;</span><br><span class="line">      &quot;maxBytes&quot;: 3221225472,</span><br><span class="line">      &quot;freeBytes&quot;: 3221225472,</span><br><span class="line">      &quot;queryMemoryReservations&quot;: &#123;</span><br><span class="line">        </span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    &quot;general&quot;: &#123;</span><br><span class="line">      &quot;maxBytes&quot;: 9663676416,</span><br><span class="line">      &quot;freeBytes&quot;: 9663676416,</span><br><span class="line">      &quot;queryMemoryReservations&quot;: &#123;</span><br><span class="line">        </span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    &quot;system&quot;: &#123;</span><br><span class="line">      &quot;maxBytes&quot;: 8589934592,</span><br><span class="line">      &quot;freeBytes&quot;: 8589934592,</span><br><span class="line">      &quot;queryMemoryReservations&quot;: &#123;</span><br><span class="line">        &quot;20190509_113603_03920_25e2h&quot;,</span><br><span class="line">        &quot;20190509_113608_02758_rdy5b&quot;,</span><br><span class="line">        ...</span><br><span class="line">        ...</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>其中system -&gt; queryMemoryReservations 这个节点下的内容非常的多，甚至包含几天前的queryId。这意味着某些query占用了system内存池，结束后没有正常释放。接下来就需要查找什么地方存在内存泄露。</p>
+<h2 id="查找内存泄漏点"><a href="#查找内存泄漏点" class="headerlink" title="查找内存泄漏点"></a>查找内存泄漏点</h2><p>query使用的内存，都会记录在context中，因此我专门写了个程序，向coordinator轮训已经完成的query，获取这些query的描述信息。查看到底是哪个环节的内存使用有问题。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&quot;tasks&quot; : [ &#123;          </span><br><span class="line">	&quot;stats&quot; : &#123;</span><br><span class="line">		&quot;systemMemoryReservation&quot; : &quot;712B&quot;,</span><br><span class="line">       &quot;pipelines&quot; : [ &#123;           </span><br><span class="line">            &quot;systemMemoryReservation&quot; : &quot;712B&quot;, </span><br><span class="line">            &quot;operatorSummaries&quot; : [ &#123;                                                                                                                             </span><br><span class="line">            		&quot;systemMemoryReservation&quot; : &quot;0B&quot;,</span><br></pre></td></tr></table></figure>
+<p>抓取到的多个query的stat信息，都具备相同的特征：</p>
+<ol>
+<li>某一个task的systemMemoryReservation 不为0。</li>
+<li>task的第一层pipeline不为0。</li>
+<li>pipeline的Operator都是ExchangeOperator和LocalExchangeSinkOperator，但是operator内部的systemMeoryReservation为0。</li>
+</ol>
+<p>system内存是在计算过程中，使用的系统内存，例如两个worker之间传递数据，使用的就是system mem pool</p>
+<p>Operator信息表明，这个节点是从前一层节点接收数据，放在内存中，供下层pipeline计算。</p>
+<p><img src="https://ata2-img.cn-hangzhou.oss-pub.aliyun-inc.com/2d6ed0982d3266b6ffe8d6ac3b0eb54f.png" alt="image.png"></p>
+<p>task -&gt; pipeline -&gt; driver -&gt; operator 构成了一层层结构。由于数据显示pipeline这一层发生了泄露，我只好去看pipeline分配内存的逻辑。</p>
+<p><img src="https://ata2-img.cn-hangzhou.oss-pub.aliyun-inc.com/ff4bf8d06279e968cda7d4b2e4b91c48.png" alt="image.png"></p>
+<p>Driver和ExchangeClient在分配内存时，都会调用Pipeline的内存分配逻辑。由于数据显示跟Exchange有关，于是我重点检查了这ExchangeOperator分配内存的逻辑，初看之下，每一层都能做到自平衡，也就是在某一层结束的时候，调用close，自己把尚未释放的内存释放掉。</p>
+<p>但是，我也发现了在多线程场景下，由于执行时序不同，会导致出现内存泄露情况。</p>
+<h2 id="多线程时序问题"><a href="#多线程时序问题" class="headerlink" title="多线程时序问题"></a>多线程时序问题</h2><p>在ExchangeClient中，就存在多种场景。</p>
+<p>第一种场景，ExchangeClient是一个生产者和消费者模型，后台线程从远端拿到数据后，由callback线程把数据放入队列，然后才分配内存。 消费者线程从队列中poll到数据后，再释放内存。</p>
+<p><img src="https://ata2-img.cn-hangzhou.oss-pub.aliyun-inc.com/36a907cc024a816567ee727155400d67.png" alt="image.png"></p>
+<p>假如事件发生的顺序是这样的 P1 C1 C2 P2 ， 那么会先释放内存，在C2释放内存时，由于出错而分配失败。接下来在P2再去分配内存就会出错。确保不会出错的顺序是把P1和P2对调顺序。</p>
+<p>如果上边的假设成立，那么会在日志中看到<code>tried to free more memory than is reserved</code>的错误。没有从日志中发现上边的错误，于是这种假设被排除了。</p>
+<p>第二种场景， C2在释放内存是，会先判断closed变量。如果生产者在C2之前就设置了closed变量，那么就不会进入释放的逻辑。我加了一些日志，证明发生内存泄露时，closed变量确实被设置了。</p>
+<p>设置closed变量的方式如下代码，在代码中只设置了closed变量，而没有做内存清理：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">if (!closed.get() &amp;&amp; pageBuffer.peek() == NO_MORE_PAGES) &#123;</span><br><span class="line">    closed.set(true);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>由于我使用的presto代码比较老，是176版本，和master head版本进行对比，发现最新代码已经改成了<code>close()</code>， 调用<code>close()</code>函数，会提前清理内存，能够避免内存泄露的问题。<br>git blame的结果:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">e3535bbfeca (Dain Sundstrom     2017-02-24 10:04:37 -0800 289)                 close();</span><br></pre></td></tr></table></figure>
+<p>根据commit id找到对应的信息：<code>https://github.com/prestodb/presto/commit/e3535bbfeca</code></p>
+<p><img src="https://ata2-img.cn-hangzhou.oss-pub.aliyun-inc.com/6530cf137e74fb75dd0b7750041d4a63.png" alt="image.png"></p>
+<p>内存泄露的原因已经解决了，我用的版本已经太老了。但是由于我对presto内核做了很多改动，想要merge到HEAD版本恐怕要花费不少时间。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>在ExchangeClient中，向上游节点拉取数据时，有一定概率导致内存泄露，上游节点越多，概率越大。</p>
+<p>当内存发生泄露时，内存池忠实的记录了每一个queryId。这导致随着时间推移，queryId的list越来越多。</p>
+<p>coordinator会定时向每台机器获取内存池的使用情况。因此response越来越大，而json反序列化的CPU使用率越来越高，几乎占满了http callback的线程池。最终反映到监控图上，就是coordinator随着时间推移，CPU Usage直线上涨。</p>
+<h2 id="One-More-Thing"><a href="#One-More-Thing" class="headerlink" title="One More Thing"></a>One More Thing</h2><p>把ExchangeClient内存泄露的问题解决后，再去验证。由ExchangeClient造成的内存泄露已经解决了，但是发现ScanFilterAndProjectOperator在很小的场景下，会出现内存泄露。这是一个SourceOperator的派生类，会调用plugin实现的ConnectorSource，方便ConnectorSource使用系统内存。内存泄露的原因还待分析。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://mayunlei.github.io/2019/05/20/Presto-coordinator的CPU持续上涨，原因竟然是这样/" data-id="ckxl5hdea0003fd3jgvn8rivb" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-presto-3-memory-management" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2019/01/11/presto-3-memory-management/" class="article-date">
@@ -129,7 +235,7 @@ var _hmt = _hmt || [];
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://mayunlei.github.io/2019/01/11/presto-3-memory-management/" data-id="ckxl54wg000077j3joyo5wpvo" class="article-share-link">Share</a>
+      <a data-url="http://mayunlei.github.io/2019/01/11/presto-3-memory-management/" data-id="ckxl5hdem000mfd3jnciut8iy" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/presto/">presto</a></li></ul>
@@ -187,7 +293,7 @@ var _hmt = _hmt || [];
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://mayunlei.github.io/2018/05/10/presto-4-tutorial-config-a-http-connector/" data-id="ckxl54wg3000b7j3jrdifbwuf" class="article-share-link">Share</a>
+      <a data-url="http://mayunlei.github.io/2018/05/10/presto-4-tutorial-config-a-http-connector/" data-id="ckxl5hdeg000afd3jrwvdiynb" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/presto/">presto</a></li></ul>
@@ -299,7 +405,7 @@ var _hmt = _hmt || [];
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://mayunlei.github.io/2018/02/26/presto-2-execution-flow/" data-id="ckxl54wg2000a7j3j2qvdjdlt" class="article-share-link">Share</a>
+      <a data-url="http://mayunlei.github.io/2018/02/26/presto-2-execution-flow/" data-id="ckxl5hdeg0009fd3jrz1wgghq" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/presto/">presto</a></li></ul>
@@ -416,7 +522,7 @@ var _hmt = _hmt || [];
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://mayunlei.github.io/2017/10/12/presto-1-infrastructure/" data-id="ckxl54wfz00067j3jc1dxruxi" class="article-share-link">Share</a>
+      <a data-url="http://mayunlei.github.io/2017/10/12/presto-1-infrastructure/" data-id="ckxl5hdeh000cfd3jfmn1moxd" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/presto/">presto</a></li></ul>
@@ -461,7 +567,7 @@ var _hmt = _hmt || [];
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://mayunlei.github.io/2013/06/26/string-copy-on-write/" data-id="ckxl54wg4000e7j3jn1g2nktw" class="article-share-link">Share</a>
+      <a data-url="http://mayunlei.github.io/2013/06/26/string-copy-on-write/" data-id="ckxl5hdek000hfd3ju8n4wquo" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/string-cow/">string cow</a></li></ul>
@@ -523,6 +629,10 @@ var _hmt = _hmt || [];
       <ul>
         
           <li>
+            <a href="/2021/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/">Petabytes scale log analysis at Alibaba:intrastructure challenge optimization</a>
+          </li>
+        
+          <li>
             <a href="/2021/12/24/数据用途和玩转数据的手段/">数据用途和玩转数据的手段</a>
           </li>
         
@@ -536,10 +646,6 @@ var _hmt = _hmt || [];
         
           <li>
             <a href="/2020/10/27/机器学习和数据挖掘/">机器学习和数据挖掘</a>
-          </li>
-        
-          <li>
-            <a href="/2020/08/16/深入理解Presto-Presto的内部架构/">深入理解Presto,Presto的内部架构</a>
           </li>
         
       </ul>
