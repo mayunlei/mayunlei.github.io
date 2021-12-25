@@ -1,0 +1,1484 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+
+  
+  <title>马云雷的技术博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="马云雷的技术博客">
+<meta property="og:url" content="http://mayunlei.github.io/index.html">
+<meta property="og:site_name" content="马云雷的技术博客">
+<meta property="og:locale" content="default">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="马云雷的技术博客">
+  
+    <link rel="alternate" href="/atom.xml" title="马云雷的技术博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">马云雷的技术博客</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/about">About</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://mayunlei.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-数据用途和玩转数据的手段" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2021/12/24/数据用途和玩转数据的手段/" class="article-date">
+  <time datetime="2021-12-24T09:48:25.000Z" itemprop="datePublished">2021-12-24</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/12/24/数据用途和玩转数据的手段/">数据用途和玩转数据的手段</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="数据用途和玩转数据的手段"><a href="#数据用途和玩转数据的手段" class="headerlink" title="数据用途和玩转数据的手段"></a>数据用途和玩转数据的手段</h2><p><img src="https://intranetproxy.alipay.com/skylark/lark/0/2021/png/53094/1639895690262-2b65cf5f-0853-488a-aa1c-136d2d79be11.png#clientId=uf51e320b-0c66-4&amp;crop=0&amp;crop=0&amp;crop=1&amp;crop=1&amp;from=paste&amp;height=281&amp;id=ub6b3a640&amp;margin=%5Bobject%20Object%5D&amp;name=image.png&amp;originHeight=562&amp;originWidth=1124&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;size=64856&amp;status=done&amp;style=none&amp;taskId=uf566c090-0173-4fb7-89bd-68da6955326&amp;title=&amp;width=562" alt="image.png"><br>数据分析通常用于商业决策，一般在大公司中，会养一个专门的商业分析部门，专门采集各种数据用于辅助董事会/CEO等决策层做核心的商业决策。但是，数据分析的需求无处不在，在各个业务线中也有对于数据分析的诉求，例如运营部分，一个运营活动的好坏、应该向哪个渠道投放资源，不能靠拍脑袋决定，要分析具体数据。同样对于开发运维也一样，线上系统是否稳定，各个模块指标怎么样，都需要数据得到反馈。对于董事会，可以养一个专门的机构搞数据分析；而对于普通的业务线，那只能自助分析了。今天我们就来总结一下数据分析的方法，如何洞察数据中的有效信息。<br>数据分析首先得有数据，从各个地方采集数据。所谓巧妇难为无米之炊，没有数据更谈不上数据洞察。有些公司，成立商业分析部门，干的活却是窃取其他公司的商业核心数据，愣是把一个高上大的技术名词搞成了间谍。20世纪上半叶，数学上的统计学在各行各业流行开来，数学家们，利用很少的数据，再加上统计学理论，推断一个结论。如经典的”女士品茶”这个故事，通过数据判定女士到底有没有某个超能力。至于把商业分析干成商业间谍的人，大概是不懂得需要如何合法的采集数据，以及分析数据的手段吧。<br>数据存储无需多讨论，要分析数据，首先要把数据存储下来，无论是存储在云端也好，还是excel也好，只有存储下来，才能方便后续的计算和分析。<br>数据有哪些使用方式呢？这里列举了四种用法，例如report，monitoring，analysis，exploration/mining。我们可以按照两个维度来划分，需求是否明确，分析方式是否成熟。<br><img src="https://intranetproxy.alipay.com/skylark/lark/0/2021/png/53094/1639914240796-aa90d9c9-0521-4741-825f-248664cbe39d.png#clientId=u53c0c54b-c9b3-4&amp;crop=0&amp;crop=0&amp;crop=1&amp;crop=1&amp;from=paste&amp;height=313&amp;id=uc907114b&amp;margin=%5Bobject%20Object%5D&amp;name=image.png&amp;originHeight=626&amp;originWidth=916&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;size=46589&amp;status=done&amp;style=none&amp;taskId=uf4cf91d8-6d80-4d5f-ada6-d8777a28388&amp;title=&amp;width=458" alt="image.png"><br>有些需求场景是明确的，例如老板需要每天看几个关键的业务指标，那么就需要每天跑个固定的脚本，生成报告。在这个过程中分析方法也是固定的，即运行固定的计算逻辑。有些需求需要经过一番分析，例如某天业务量降低了，要分析下原因是什么，就需要从多种指标里边去探索。<br>还有些需求场景是不明确的，给你一份数据，我们知道数据里边有金矿，关键是怎么把数据中的核心信息捞出来，也需要探索才能找到，但是探索的目标不确定。这就是个开放式的话题了，也就是探索式数据分析：有数据，尝试找信息。应该沿着怎么样的一条路是探索呢？我认为有两种方式：</p>
+<ul>
+<li>尝试不同的分析方法，例如统计方法/机器学习方，挨个尝试，看能得到什么结果。有哪些分析方法，会在下文列一下常用的手段。</li>
+<li>尝试不同的目标，比如，首先用一句话描述数据的总体分布，然后找出其中的一些异常点，最后通过拟合数据做未来预测等等，有哪些分析目标，也会在下文列出一下常用的。</li>
+</ul>
+<h2 id="洞察数据的目标"><a href="#洞察数据的目标" class="headerlink" title="洞察数据的目标"></a>洞察数据的目标</h2><h3 id="寻找common-pattern"><a href="#寻找common-pattern" class="headerlink" title="寻找common pattern"></a>寻找common pattern</h3><p>common pattern是数据中出现频率最高的特征，可用于概括行描述一个数据集的总体信息。<br>​</p>
+<h3 id="寻找outlier"><a href="#寻找outlier" class="headerlink" title="寻找outlier"></a>寻找outlier</h3><p>outlier是离群点，即数据集合中某个偏离common pattern的数据。在一些异常监控中经常用到。<br>​</p>
+<h3 id="分类"><a href="#分类" class="headerlink" title="分类"></a>分类</h3><p>把一个数据集合分成不同的子集合，分成不同的类别。<br>​</p>
+<h3 id="验证假设"><a href="#验证假设" class="headerlink" title="验证假设"></a>验证假设</h3><p>首先给出一个假设，通过数据给出证明。</p>
+<h3 id="预测"><a href="#预测" class="headerlink" title="预测"></a>预测</h3><p>拟合已有的数据，根据模型预测未来数据。<br>​</p>
+<p>无论哪种目标，最终都是需要能过帮助完成决策，只有完成决策，才算完沉了闭环，否则就是无意义的数据分析。</p>
+<h2 id="洞察数据的方法"><a href="#洞察数据的方法" class="headerlink" title="洞察数据的方法"></a>洞察数据的方法</h2><p>一个优秀的软件，必定是有灵魂的，他的灵魂就是背后的方法论。Saas的本质，就是输出管理的理念和方法论，并且提供解决方案的工具。具体到数据分析工具而言，一个优秀的数据分析工具一定以数据分析方法论的为基础的，融合集合常见的数据分析方法。而不是东一榔头、西一棒槌追加分析函数，永远跟着甲方的需求跑，面向客户开发，面向demo开发，这样的话永远不成体系。<br>我们先来看个数据分析的笑话：<br><img src="https://intranetproxy.alipay.com/skylark/lark/0/2021/png/53094/1638965299987-04d1c697-7f85-4dd2-899e-9e5598c647bb.png#clientId=u639c9db5-40a8-4&amp;crop=0&amp;crop=0&amp;crop=1&amp;crop=1&amp;from=paste&amp;height=540&amp;id=u6cfde58f&amp;margin=%5Bobject%20Object%5D&amp;name=image.png&amp;originHeight=540&amp;originWidth=265&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;size=94213&amp;status=done&amp;style=none&amp;taskId=u4976d6b5-803d-43c0-8b9d-d3797de4f4a&amp;title=&amp;width=265" alt="image.png"><br>手里有个锤子，看什么都是钉子，数据分析专业的同学，看到什么都要现象都要分析一把。疫情也要分析一把，强行刷存在感。不过笑归笑，外行看热闹，内行看门道。在这个简短的笑话中，我们看到一些常见的数据分析方法：相关性分析、假设检验、ab测试、z test、数据分布、标准差、显著性水平等。</p>
+<p>那么常见的数据分析方法有哪些呢？这些我们在大学的各个数学课程中都学习过了。首先我们做个分类，按照实现方式，数据分析包括：</p>
+<ul>
+<li>基于统计算法的数据分析。</li>
+<li>基于机器学习的数据分析。</li>
+</ul>
+<p>按照是否需要人工标注，数据分析分为：</p>
+<ul>
+<li>无监督学习，无需人工标注数据，根据已有数据直接分析。</li>
+<li>监督学习，需要标注数据，根据数据标签训练模型，再用于推断未知数据的结论。</li>
+<li>半监督学习，是无监督学习和监督学习的结合。</li>
+</ul>
+<p>接下来将逐个介绍各种方法：</p>
+<h3 id="统计量分析"><a href="#统计量分析" class="headerlink" title="统计量分析"></a>统计量分析</h3><p>统计量用于评估数据的整体状况，统计量使用单一数字来描述数据的分布。例如估计位置信息：</p>
+<ul>
+<li>均值</li>
+<li>中位值</li>
+</ul>
+<p>描述变异性：</p>
+<ul>
+<li>方差</li>
+<li>标准差</li>
+</ul>
+<p>描述性统计量：</p>
+<ul>
+<li>方差/标准差</li>
+<li>离散系数</li>
+<li>峰度</li>
+<li>偏度</li>
+<li>绝对中位差</li>
+<li>中位数</li>
+<li>单调性</li>
+</ul>
+<p>分位统计量：</p>
+<ul>
+<li>最大值</li>
+<li>最小值</li>
+<li>中位值</li>
+<li>25分位</li>
+<li>75分位</li>
+<li>范围</li>
+<li>四分位距</li>
+</ul>
+<p><img src="https://intranetproxy.alipay.com/skylark/lark/0/2021/png/53094/1639967567533-5e587d1b-3db0-4da0-aae2-906309bfd6f3.png#clientId=u7d4aca78-7c86-4&amp;crop=0&amp;crop=0&amp;crop=1&amp;crop=1&amp;from=paste&amp;height=330&amp;id=u12b14ead&amp;margin=%5Bobject%20Object%5D&amp;name=image.png&amp;originHeight=660&amp;originWidth=2158&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;size=120688&amp;status=done&amp;style=none&amp;taskId=ub68bc1d7-9eb0-4ffa-947f-30b7c1a9912&amp;title=&amp;width=1079" alt="image.png"></p>
+<h3 id="数据分布"><a href="#数据分布" class="headerlink" title="数据分布"></a>数据分布</h3><p>数据分布的目标主要是查看数据的分布频率(分布密度)，针对不同的数据采取不同的分析方式，对于连续数据，采取散点图/箱线图(分位统计)描述。在散点图中，把所有的点都打印到图中，密度比较高的地方则说明分布比较多。对于离散数据，采取堆叠图/直方图描述。按照每个不同的类别，分桶后统计计数，然后用直方图绘出。同样的，对于连续数据也可以采取直方图的方式，把连续数据按照固定的桶大小分桶后再计数。<br><img src="https://intranetproxy.alipay.com/skylark/lark/0/2021/png/53094/1639967723187-2fb0e24c-0aba-4dee-940a-5e50cbd882d3.png#clientId=u7d4aca78-7c86-4&amp;crop=0&amp;crop=0&amp;crop=1&amp;crop=1&amp;from=paste&amp;height=310&amp;id=ubfd66406&amp;margin=%5Bobject%20Object%5D&amp;name=image.png&amp;originHeight=620&amp;originWidth=786&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;size=147059&amp;status=done&amp;style=none&amp;taskId=u3e7840c9-f6cd-4f91-a2ad-4dfaeec19fd&amp;title=&amp;width=393" alt="image.png"><img src="https://intranetproxy.alipay.com/skylark/lark/0/2021/png/53094/1639967822622-80a912a7-3c39-45bf-9baf-ebef36fb6c37.png#clientId=u7d4aca78-7c86-4&amp;crop=0&amp;crop=0&amp;crop=1&amp;crop=1&amp;from=paste&amp;height=191&amp;id=ufb021827&amp;margin=%5Bobject%20Object%5D&amp;name=image.png&amp;originHeight=382&amp;originWidth=536&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;size=12183&amp;status=done&amp;style=none&amp;taskId=u21c8b7cd-8c66-446d-8613-a2664ce0158&amp;title=&amp;width=268" alt="image.png"></p>
+<h3 id="相关性"><a href="#相关性" class="headerlink" title="相关性"></a>相关性</h3><p>上文的统计量分析/数据分布分析，是用于分析单变量。 而对于多变量分析，则需要用到相关性分析。探索两个变量之间的相关性。在计算相关性时，主要计算两个数据集合的相关性系数。常见的相关性系数有皮尔逊系数、斯皮尔曼系数等。在计算好相关性系数后，可以绘制出一个相关性表如下：<br><img src="https://intranetproxy.alipay.com/skylark/lark/0/2021/png/53094/1639968277868-cd7f7b87-340f-4814-9470-17abca65d53e.png#clientId=u7d4aca78-7c86-4&amp;crop=0&amp;crop=0&amp;crop=1&amp;crop=1&amp;from=paste&amp;height=473&amp;id=u979db054&amp;margin=%5Bobject%20Object%5D&amp;name=image.png&amp;originHeight=946&amp;originWidth=1200&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;size=762822&amp;status=done&amp;style=none&amp;taskId=uc69e20d7-3afa-46f4-a873-8e2466d8ecf&amp;title=&amp;width=600" alt="image.png"></p>
+<h3 id="抽样分布"><a href="#抽样分布" class="headerlink" title="抽样分布"></a>抽样分布</h3><p>抽样分布是用少量数据估算整体数据的分布情况，用途有三种：第一,可以概括性描述整体分布;第二可以根据整体分布预测未来的新数据；第三，可以利用分布系数来排查异常值。<br>常见的分布有：</p>
+<ul>
+<li>正态分布： 如果确定数据服从正态分布，估算出正态分布的sigma后，我们可以使用3sigma来排除异常值。</li>
+<li>长尾分布：大部分现实数据不是严格匹配正态分布的，数据的中心位置也许符合正态分布，但是在尾部常常有长尾效应。</li>
+<li>T分布</li>
+<li>二项分布</li>
+<li>泊松分布</li>
+<li>指数分布</li>
+</ul>
+<p>柏松分布和指数分布通常用于估算事件发生率，也可用于估算IT系统的故障发生率。或者用于估算系统的上限水位，例如一个IT系统，每分钟的流量是x qps，那么根据泊松分布，可以估算出最大值是多少qps，系统需要准备多少资源。<br>​</p>
+<p>在现实的数据中，可能具备多种形状和类型，在特定场景下，应该首先确定数据集合服从哪种分布，求的分布系数后，再进行下一步的分析。<br>​</p>
+<h3 id="统计实验和假设性检验"><a href="#统计实验和假设性检验" class="headerlink" title="统计实验和假设性检验"></a>统计实验和假设性检验</h3><p>假设检验有个很好的用途，例如我们的营销团队做了个活动，那么如何评估活动是否带来了客流量呢？我们都知道现实的数据可能是有波动的，可能有N天变高，M天变低。所以要评估是否活动的影响，可以使用假设检验来验证。<br>最常见的业务场景，例如A/B测试。两种算法，哪个效果更好，可以通过假设检验来完成。<br>常见的方法有T检验、卡方检验<br>例如<br><img src="https://intranetproxy.alipay.com/skylark/lark/0/2021/png/53094/1639970025835-dc36319c-3779-40d2-8ee3-3666f3c2a277.png#clientId=u7d4aca78-7c86-4&amp;crop=0&amp;crop=0&amp;crop=1&amp;crop=1&amp;from=paste&amp;height=139&amp;id=u65cdb686&amp;margin=%5Bobject%20Object%5D&amp;name=image.png&amp;originHeight=278&amp;originWidth=880&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;size=33267&amp;status=done&amp;style=none&amp;taskId=u9f9321dc-1faf-4c00-ad6b-a8e4ffd963f&amp;title=&amp;width=440" alt="image.png"><br>不同的标题下，有不同的点击率，那么这个点击率是随机造成的，还是标题起到了关键作用呢？可以通过卡方检验，计算皮尔逊残差，结果证明完全是随机作用。<br>​</p>
+<h3 id="回归和预测"><a href="#回归和预测" class="headerlink" title="回归和预测"></a>回归和预测</h3><p>在现实中，我们经常要回答的一个问题是，这两个指标之间是否有关联？如果有关联，是否可以通过其中一个指标预测另外一个指标。预测常见的一个使用场景是：根据预测的结果和实际的结果进行比对，然后判断是否有异常。</p>
+<h3 id="分类-1"><a href="#分类-1" class="headerlink" title="分类"></a>分类</h3><p>在数据分析中，经常要回答一个问题，一个电子邮件是否是钓鱼邮件？一个客户是否会流失？这种情况就需要分类。分类是有监督的学习。<br>常用的分类算法有：</p>
+<ul>
+<li>朴素贝叶斯</li>
+<li>线性判别分析</li>
+<li>KNN</li>
+<li>决策树</li>
+<li>Bagging</li>
+<li>随机森林</li>
+<li>boosting</li>
+<li>SVM</li>
+</ul>
+<h3 id="聚类"><a href="#聚类" class="headerlink" title="聚类"></a>聚类</h3><p>聚类是无监督学习的分类方法，根据算法把数据集合分成几个类。常用的算法有：</p>
+<ul>
+<li>主成因分析</li>
+<li>K-means</li>
+<li>层次聚类</li>
+</ul>
+<h3 id="神经网络"><a href="#神经网络" class="headerlink" title="神经网络"></a>神经网络</h3><p>神经网络是有监督学习，通过标注数据训练出模型，然后推断新的数据结果，篇幅有限，这里不再展开详细介绍。常用的算法有：</p>
+<ul>
+<li>卷积神经网络CNN</li>
+<li>循环神经网络RNN</li>
+<li>深度神经网络DNN</li>
+</ul>
+<h1 id="数据分析工具和数据洞察解决方案"><a href="#数据分析工具和数据洞察解决方案" class="headerlink" title="数据分析工具和数据洞察解决方案"></a>数据分析工具和数据洞察解决方案</h1><p><img src="https://intranetproxy.alipay.com/skylark/lark/0/2021/png/53094/1639971950420-24beef6e-73f9-44c7-9e2b-64ed77900b6e.png#clientId=u7d4aca78-7c86-4&amp;crop=0&amp;crop=0&amp;crop=1&amp;crop=1&amp;from=paste&amp;height=276&amp;id=u03bc74d4&amp;margin=%5Bobject%20Object%5D&amp;name=image.png&amp;originHeight=552&amp;originWidth=1326&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;size=44580&amp;status=done&amp;style=none&amp;taskId=ub621c2c5-d95d-4b25-b106-4d966dd3008&amp;title=&amp;width=663" alt="image.png"><br>上文介紹了很多数据分析的方法算法。这些方法，归根结底是一个个工具，或者说是积木，用户可以使用这些积木组合成解决方案，解决自己特定的问题。市场上有很多系统提供类似的数据分析工具，例如Pandas，R，SQL，Tensorflow等等。 但是这依赖于使用者既要明确自己的分析目标，又要十分精通使用工具。 对于开放式的话题，在分析时需要不断尝试各种各样的手段进行分析，有些分析手段可能是无效的，因此需要不断尝试，在这个过程中浪费了太多的时间。如何能够快速洞察数据呢？<br>有些工具尝试集合数据分析的工具和数据洞察的解决方案，例如tableau，Knime等，而Pandas profiling则是一个纯粹的数据洞察方案。它自动的尝试上文描述的各种手段，把结论呈现给客户，减少了数据探索的时间，能过快速的完成数据洞察。<br>​</p>
+<h1 id="数据洞察工具的价值"><a href="#数据洞察工具的价值" class="headerlink" title="数据洞察工具的价值"></a>数据洞察工具的价值</h1><p>针对开放式的课题，需要投入大量的人工时间在各个方向上探索，这存在几个问题：</p>
+<ul>
+<li>可能以后某些关键路径，例如在分钟级别的数据看不出信息，而秒级别数据才能看出信息。若没有想到该方式，那么将极大延长发现问题的时间。</li>
+<li>需要人工采用各种工具，在多个方向上探索。这无异需要大量的时间。</li>
+</ul>
+<p>因此对于数据洞察工具的诉求就是：能过完全自动化的在各个方向上、尝试多种工具挖掘数据信息，达到最终对数据的insight。<br>​</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://mayunlei.github.io/2021/12/24/数据用途和玩转数据的手段/" data-id="ckxl54wg8000p7j3j2v1nnnc2" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SQL-洞察/">SQL 洞察</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-ClickHouse计算速度是如何做到领跑OLAP类产品的" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2021/01/09/ClickHouse计算速度是如何做到领跑OLAP类产品的/" class="article-date">
+  <time datetime="2021-01-09T10:59:33.000Z" itemprop="datePublished">2021-01-09</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/01/09/ClickHouse计算速度是如何做到领跑OLAP类产品的/">ClickHouse计算速度是如何做到领跑OLAP类产品的</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="数据分析类产品的发展历史"><a href="#数据分析类产品的发展历史" class="headerlink" title="数据分析类产品的发展历史"></a>数据分析类产品的发展历史</h2><p><img src="https://ata2-img.oss-cn-zhangjiakou.aliyuncs.com/431906298a05fa62bd3f3960aae50994.png" alt="image.png"></p>
+<h2 id="单机数据库时代"><a href="#单机数据库时代" class="headerlink" title="单机数据库时代"></a>单机数据库时代</h2><p>关系型数据库是发展了很多年的技术，在单机时代，微软的sql server ,甲骨文的oracle RDBMS，IBM的DB2是商业数据库的霸主。但是商业数据库实在太贵了，后来出现了开源的MySQL。阿里则干脆喊出了去IOE的口号。O就是oracle数据库。</p>
+<p>在数据库上，用户不仅有OLTP的使用需求，也有分析的需求，就是OLAP。但是单机数据库，无论硬件性能还是软件扩展能力，都是有限的。为了应对分析需求，一般采用一些技巧来实现，一般有这几种方式</p>
+<ul>
+<li>构建CUBE，按照要分析的问题，预计算出结果。这种思想在后来的Apache kylin上也有体现。<ul>
+<li>这种方式的缺点在于，<ol>
+<li>维度多的时候数据膨胀会比较厉害；</li>
+<li>需要预先把要分析的维度加入CUBE，不够灵活。</li>
+</ol>
+</li>
+</ul>
+</li>
+<li>分库分表。单表的查询在百万以内还能应付，超过千万级别，性能急剧下降。因此一般会根据某些列拆成多张表，查询时只命中需要的表即可。这种思想类似于数仓中的分区概念。</li>
+</ul>
+<h2 id="MapReduce时代"><a href="#MapReduce时代" class="headerlink" title="MapReduce时代"></a>MapReduce时代</h2><p>2004年，Google发表了MapReduce论文，开启了大数据时代。Google产生的大数据需要分析，传统的数据库依赖单机的性能来提升查询能力，但单机的能力毕竟是有限的，无法支持PB级别的规模，Google则另辟蹊径，通过MapReduce算法，把成千上万的小型机调动起来运行同一个分析程序。</p>
+<p>雅虎支持的开源社区则根据Google论文的思想，开发了Hadoop，成为现代大数据套件的鼻祖。Hadoop包含了MapReduce运行框架和HDFS分布式文件系统。之后的十多年间，围绕Hadoop衍生出了一整套的大数据生态系统，有做资源管理的，有做调度的，有做任务管理的，有做分布式锁的。要在生产环境把hadoop完整的跑起来，需要玩转多个组件，还真不容易。</p>
+<p>MapReduce，解决了对大数据的分析需求。</p>
+<h2 id="SQL-on-hadoop时代"><a href="#SQL-on-hadoop时代" class="headerlink" title="SQL on hadoop时代"></a>SQL on hadoop时代</h2><p>hadoop需要自己编写MapReduce的逻辑，使用门槛非常的高。一个公司内，需要有专门的大数据团队，来给各个业务方写分析程序。严重制约了使用范围。为了降低使用门槛，数据库常用的SQL语言被搬了出来。SQL可以说是数据分析领域受众最广的语言了。hive 就是典型的代表。数据存在在HDFS上，用户输入SQL，程序自动的拆解成MapReduce逻辑。用户不再需要关心底层的数据是怎么分布的，分析程序该如何根据哪个partition拆解MapReduce。大大降低了使用门槛。</p>
+<p>SQL on hadoop的本质，是提供了SQL的interface，但底层还是MapReduce的DAG执行方式。每个任务的执行结果，需要写入磁盘。每个阶段执行完后，下一个阶段才能开始执行。这种方式延时会非常高，跑一个复杂的job，需要几个小时；一个简单的job也需要几分钟。因此通常称为离线任务，放到晚上业务空闲期跑。</p>
+<p>SQL on hadoop 解决了对分析大数据的体验的需求。</p>
+<h2 id="MPP时代"><a href="#MPP时代" class="headerlink" title="MPP时代"></a>MPP时代</h2><p>离线任务能够帮助人们分析大数据，但是由于运行时间长，只能做一些固定模式的报表，每天晚上跑一跑前一天的数据，给领导一个报表。</p>
+<p>需求是无止境的，互联网业务产生了海量的数据，往往要深入挖掘数据的价值，挖掘这个动作本身，就意味着分析存在不确定性，需要反复的探索数据，尝试不同的方式分析数据。用离线任务去分析，一个job几分钟乃至几个小时，黄花菜都凉了。因此大数据挖掘，对快的要求越来越高。</p>
+<p>MapReduce框架代表了在算法层面提升了规模。而另一方面，最近十几年，硬件也在飞速发展。200x年的时候，单机内存有限。今天的服务器，动不动就几百个G，国产化的SSD的单价做到了0.5元/GB。单机几百G的内存，再加几个T的SSD，网卡普遍用上了万兆网卡。单机的硬件性能大大加强。</p>
+<p>于是出现了一批新的运行框架，例如Spark， Presto， 充分利用单机的内存做计算，计算结果通过网络传输给下游节点，而不是写到磁盘，再传给其他机器。这些新的软件，不再采用Hadoop的MapReduce运行框架，而是借鉴MapReduce的思想，自己实现了计算逻辑。</p>
+<p>这些新的计算系统，抛弃了除了HDFS以外的hadoop生态圈。原来跑起来hadoop需要一堆软件协同，现在只需要一个开箱即用的软件即可。当然像Presto,Spark，本身还是需要读写HDFS，也算是SQL on hadoop 的延续。</p>
+<p>DAG vs MPP</p>
+<p>本章节命名MPP不是很恰当，MPP只是其中的一种调度和运行模型。MPP源于并行数据库，每个进程都是一个独立的可运行数据库，有完整的解析，优化，codegen，和资源管理，每个进程只负责一部分数据。除了MPP模型，还有DAG模型，DAG的运行前提是shared storage，比如HDFS，由全局节点解析，优化，分配和协调每个节点的任务。</p>
+<p>基于内存的OLAP引擎，能够在秒级别完成大规模数据的分析，并拿到结果。做到了之前数据库、数仓做不到的性能和延时。在此之前，要在短时间分析大量数据是不可能的，因而不得不采取一些技巧来完成，例如预计算，流计算，把计算结果保存到NoSQL中，用户查询的时候，直接查询NoSQL的结果即可。但这些技巧本身对用户来说非常不灵活，规则的任何变化，都需要把历史数据重跑一遍。基于内存的计算引擎，让真正的OLAP成为可能。用户不再需要做各种预定义的规则。只需要保存原始的数据，在需要的时候，可以立即通过SQL获得结果。</p>
+<p>MPP解决了人们对于快速分析大数据的需求。</p>
+<h2 id="ClickHouse"><a href="#ClickHouse" class="headerlink" title="ClickHouse"></a>ClickHouse</h2><p>Presto是2012年FB研发出来的，目的是为了加速Hive的查询。Presto是基于Java开发的，大部分的大数据套件都是基于Java开发的，Java的开发生态比较丰富，开发门槛比较低。ClickHouse是2016年俄罗斯开源的OLAP系统，由于ClickHouse的年代更近，因而采用了最新的一些技术，用论文里边一句时髦的话叫<code>state of the art</code>，使得ClickHouse的运行速度领先同类OLAP引擎。本文就从代码层面探究ClickHouse的一些优势。</p>
+<h3 id="采用c-17语言"><a href="#采用c-17语言" class="headerlink" title="采用c++ 17语言"></a>采用c++ 17语言</h3><p>ClickHouse的第一个优势是采用c++语言，而且是c++17的标准。能用c++写大型程序的都是好汉。现代软件重要的是协同开发，而不是单打独斗。大数据生态，大多采用java开发，是有道理的。java一次编译，处处运行优势，可以让每一个开发者只负责其中一部分功能，然后以jar包的形式分发，打包成jar包就说明解决了编译问题，而运行时问题则交给jvm，其他开发者只需要引用jar包，就可以完成协同开发，这促进了java丰富的开发生态，基本上需要什么基础轮子，就有对应的jar包，不需要自己重复造轮子。这一点是c++不能比的。c++不同的编译器编译出来的二进制lib，不同的硬件平台上编译出来的lib，都有兼容性问题，这阻碍了基础套件的分发和共享。导致c++代码协同研发必须共享代码，而共享代码在不同编译器上有会遇到各种各样的编译问题。所以很少有基于c++实现的大数据软件。如何提升c++程序的协同开发效率，我会专门开一篇文章介绍LLVM。</p>
+<p>鉴于上述描述的c++协同开发的困难，ClickHouse能够用c++代码来实现，说明老大哥还是非常彪悍的，往年用c++搞出了nginx，现在又用c++码出了ClickHouse，c++代码比JAVA代码，在执行效率上高一些，再加上c++能够利用一些指令级别的优化，因而整体而言，c++程序的运行速度要快于JAVA。</p>
+<p>更难能可贵的是，ClickHouse采用了c++ 17的标准，用clang10编译器，采用了很多新的语言特性，新的语言特性的优势在于：</p>
+<ol>
+<li>编程代码更加简洁，编程效率会更高。例如auto关键字，让c++有了类似脚本语言的快感。</li>
+<li>一些新的特性让性能上更上一层楼。比如std::move通过移动构造函数，避免生成临时对象。 <code>std::unique_ptr</code>智能指针，既能够管理对象内存，又能够像对象一样在函数间传递(相对<code>auto_ptr</code>)，却不用承担shared_ptr锁的开销。</li>
+<li>更加复杂的编译时表达能力。像<code>enable_if</code>,<code>is_same_v</code>等语法，决定编译时的动作，让模板编程能力更加复杂。在以前，编译时动作只有宏编程，c++11之后，这些新的特性，让开发者有更多的选项告诉编译器该怎么做。</li>
+<li>可变长度模板参数列表。模板参数可以像函数的可变长度参数列表一样，支持不定长模板参数列表，快速实例化模板。这个特性会在下文的木版化执行阶段介绍。</li>
+</ol>
+<p>这里无意介绍c++11到c++17所有的特性，只是摘出来ClickHouse用到的一些特性做介绍，对c++11/17感兴趣的同学，网上有很多介绍文章。</p>
+<p>用最新的编译器+最新的语言特性，带来了编程效率和执行效率的提升，让ClickHouse领先同类产品一个段位。这大概就是后发优势吧</p>
+<h3 id="模板化执行代码"><a href="#模板化执行代码" class="headerlink" title="模板化执行代码"></a>模板化执行代码</h3><p>在SQL执行引擎中，逻辑执行计划生成物理执行计划，要根据相应的数据类型，函数名称、参数列表，寻找合适的执行代码。例如 <code>1 + 2.2</code>这个计算，要寻找到一个plus函数，参数类型分别是int和float，即签名是<code>plus(int, float)</code>的函数。实现方式上，会提供不同类型的重载函数。</p>
+<p>一般而言，有几种方式，第一是采用虚函数的方式，在执行时，根据实际类型选择合适的函数入口。但是我们都知道虚函数是通过虚表实现的。运行时查找函数需要经过一跳。如果每一行记录都在运行时做一次虚表跳转，代价是很大的。</p>
+<p>解决方法就是第二种形式，在编译时绑定执行函数。但是还要解决一个泛化的问题，要提供一系列函数，而不止是一个函数。ClickHouse采用的是模板化编程，同一个名字的函数，用模板实现，乃至模板套模板。参数的类型用模板类型表示。并通过可变模板类型参数列表物化出真正的代码，这一过程是在ClickHouse编译时确定的。等到物化执行计划阶段，调用可变模板类型参数列表的函数，逐个匹配各个类型，寻找到合适的类型，就执行对应的函数。<code>可变模板类型列表</code>是一个很重要的概念，ClickHouse依赖它完成泛化代码的编写、代码实例化、运行时多态、</p>
+<p>上边提到的<code>1+2.2</code>可能有点复杂，我们首先以单参数函数为例介绍，比如函数<code>abs(-1)</code>，计算-1的绝对值。首先clickhouse提供了一个模板实现<code>FunctionUnaryArithmetic</code>，囊括了所有的单参数数学函数，参数可以是不同的类型，从uint8到decimal256,也可以是string。<code>abs.cpp</code>，则提供了abs算子的具体实现<code>AbsImpl::apply</code>，当然这个算子也用数据类型作为模板，可以支持不同位数的数字，该算子作为FunctionUnaryArithmetic的模板参数。FunctionUnaryArithmetic要做的，就是在运行时根据传入的参数实际类型，选择不同的执行路径，主要是区分是string还是数字。怎么实现运行时动态参数选择呢？主要是通过上文提到的可变长度的模板参数列表来实现:</p>
+<p>ClickHouse调用castTypeToEither 函数，并且传入实际的数据类型，和回调函数，当匹配到某一个类型时，就执行f这个lambda函数。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">static bool castType(const IDataType * type, F &amp;&amp; f)</span><br><span class="line">&#123;   </span><br><span class="line">    return castTypeToEither&lt;</span><br><span class="line">        DataTypeUInt8,</span><br><span class="line">        DataTypeUInt16,</span><br><span class="line">        DataTypeUInt32,</span><br><span class="line">        DataTypeUInt64,</span><br><span class="line">        DataTypeUInt256,</span><br><span class="line">        DataTypeInt8,</span><br><span class="line">        DataTypeInt16,</span><br><span class="line">        DataTypeInt32,</span><br><span class="line">        DataTypeInt64,</span><br><span class="line">        DataTypeInt128,</span><br><span class="line">        DataTypeInt256,</span><br><span class="line">        DataTypeFloat32,</span><br><span class="line">        DataTypeFloat64,</span><br><span class="line">        DataTypeDecimal&lt;Decimal32&gt;,</span><br><span class="line">        DataTypeDecimal&lt;Decimal64&gt;,</span><br><span class="line">        DataTypeDecimal&lt;Decimal128&gt;,</span><br><span class="line">        DataTypeDecimal&lt;Decimal256&gt;,</span><br><span class="line">        DataTypeFixedString</span><br><span class="line">    &gt;(type, std::forward&lt;F&gt;(f));</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">template &lt;typename... Ts, typename T, typename F&gt;                </span><br><span class="line">static bool castTypeToEither(const T * type, F &amp;&amp; f)             </span><br><span class="line">&#123;                                                                </span><br><span class="line">    /// XXX can&apos;t use &amp;&amp; here because gcc-7 complains about parentheses around &amp;&amp; within ||</span><br><span class="line">    return ((typeid_cast&lt;const Ts *&gt;(type) ? f(*typeid_cast&lt;const Ts *&gt;(type)) : false) || ...);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>castTypeToEither是怎么实现的呢，如上代码样例，模板参数中的Ts是一个可变长度的列表。实现中，为了表达『命中类型就执行f』这个语义，用了短路求值法，但是因为编译器不支持&amp;&amp;这种写法，而用了?:双目运算符。如果检查类型匹配，就以匹配的类型执行，不匹配就检查下一个类型，语法上使用了||…  来表达对每一个模板参数执行相同操作。由于回调函数也是模板，传入实际类型就相当于实例化了对应代码。由于模板函数在编译时有调用才会实例化，不按照这种做法，我们恐怕要在一个地方为每一种类型编写一下调用函数才能实例化。castTypeToEither是非常重要的一个函数，由它实例化出了每一种计算函数的实现。</p>
+<p>看到了单参数的实现，接下来看多参数的实现，以上边提到了<code>1+2.2</code>为例，介绍ClickHouse的实现方式,由于双参数的类型组合比单数更多，相当于N*N个组合，比如int8 + float, int16+float,int32+float, float+float。 一般有个做法是，在具体实现时，只实现同类型的，比如Int8+int8， float+float。语法检查器在检查时，会优先寻找函数名匹配，参数类型也完全匹配的函数实现。 如果其中一个参数不匹配，比如Int32+float，找不到这个组合的实现，语法检查器会挨个检查每个函数实现，是否能够做类型转换，把实际类型转化成函数声明类型而不影响精度，比如针对int32+int32的函数实现，float不能转化成int32，所以不能采用该实现，针对float+float，发现int32能够转化成float，那么就会把语法树变成cast(int32 as float) + float来解决这个问题，虽然两者语义上有一定差别，毕竟int 转float在大数情况下会损失精度，但是好歹在目前情况下实现了该运算。</p>
+<p>按照这种做法，先强制转化类型，把数据拷贝出来一份，生成一份新的数据，再去计算。</p>
+<p>ClickHouse没有这样做，它没有在语法检查阶段添加这种强制类型转换的逻辑。而是用模板实现两个不同类型的计算，然后通过castTypeToEither函数，实例化出不同的组合。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">template &lt;typename F&gt;</span><br><span class="line">static bool castBothTypes(const IDataType * left, const IDataType * right, F &amp;&amp; f)</span><br><span class="line">&#123;    </span><br><span class="line">    return castType(left, [&amp;](const auto &amp; left_) &#123; return castType(right, [&amp;](const auto &amp; right_) &#123; return f(left_, right_); &#125;); &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在castBothTypes函数中，通过castType嵌套castType，获得左右两个函数的实际类型后，用实际类型回调lambda函数f。比如你传入的是int+float,就会实例化出该类型。在ClickHouse的编译阶段(注意，不是SQL的编译阶段)，就会通过上文提到的几个函数，实例化出不同的组合，既有int+float,也有int64+float，更有decimal128+float，还有float+decimal128等等各种组合。</p>
+<p>ClickHouse的这种做法的好处是什么呢？减少了一次类型转换的开销，节省一个算子。</p>
+<p>值得注意的是，模板函数提升的是泛化的能力，总不能给每一种类型都实现一个重载函数吧，在执行效率上，由于是运行时多态，挨个检查每个类型，找到合适的再回调，需要有多次跳转指令，和虚函数也没多大差别，不能充分利用CPU流水线。但是由于ClickHouse采用的是列式方式计算，每一大块数据(几万行数据)只需要执行一次查找即可，不需要每一行数据都做这个检查。但假如你用的是按行处理，那恐怕性能就急剧下降了。</p>
+<h3 id="列式计算"><a href="#列式计算" class="headerlink" title="列式计算"></a>列式计算</h3><p>上文提到了ClickHouse是按列式计算的，按照列式计算有两个好处，</p>
+<p>####1. 更高的存储压缩比<br> 存储时按照列式存储，同一种类型的数据在压缩时会获得一个更好的压缩比，节省存储空间，读取时速度也会更快。</p>
+<p>####2. 利用向量化加速计算<br> 按照列式处理，一次加载一批数据，利用单条指令同时操作多条数据，获得提速效果。一次操作一列数据，可以完全放到CPU缓存中。像Presto这种计算引擎，虽然提供了列式的接口，仅仅利用了存储上列的优势，没有用到计算上的优势。向量化如何提速，会在下文介绍。</p>
+<h3 id="向量化"><a href="#向量化" class="headerlink" title="向量化"></a>向量化</h3><p>向量化主要是利用单条指令操作多条数据，指令称为SIMD指令。在运行时，把满足寄存器大小的数据放到寄存器，CPU一条指令操作寄存器上的多条数据。</p>
+<p>向量化一般有两种方式：</p>
+<h3 id="1-利用编译器自动向量化"><a href="#1-利用编译器自动向量化" class="headerlink" title="1. 利用编译器自动向量化"></a>1. 利用编译器自动向量化</h3><p>在编写程序时，如果是符合一定规范的循环语句，循环语句内部是简单的操作，比如+-*/等，编译器优化器，可以把循环语句折叠成向量化执行。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">static void NO_INLINE vectorVector(const A * __restrict a, const B * __restrict b, ResultType * __restrict c, size_t size)</span><br><span class="line">&#123;   </span><br><span class="line">    for (size_t i = 0; i &lt; size; ++i)</span><br><span class="line">        c[i] = Op::template apply&lt;ResultType&gt;(a[i], b[i]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="2-显式使用SIMD指令"><a href="#2-显式使用SIMD指令" class="headerlink" title="2. 显式使用SIMD指令"></a>2. 显式使用SIMD指令</h4><p>c++ 提供了SIMD指令，可以一次把128bit的数据加载到寄存器，以下边的大小写转换的函数为例，一个字符是8bit，一次把128bit，也就是16个字节的字符串加载到寄存器，通过CPU一条指令操作16个字符，相当于获得了16倍的提速。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">    static void array(const UInt8 * src, const UInt8 * src_end, UInt8 * dst)</span><br><span class="line">    &#123;   </span><br><span class="line">        const auto flip_case_mask = &apos;A&apos; ^ &apos;a&apos;;</span><br><span class="line"></span><br><span class="line">#ifdef __SSE2__</span><br><span class="line">        const auto bytes_sse = sizeof(__m128i);</span><br><span class="line">        const auto src_end_sse = src_end - (src_end - src) % bytes_sse;</span><br><span class="line"></span><br><span class="line">        const auto v_not_case_lower_bound = _mm_set1_epi8(not_case_lower_bound - 1); </span><br><span class="line">        const auto v_not_case_upper_bound = _mm_set1_epi8(not_case_upper_bound + 1); </span><br><span class="line">        const auto v_flip_case_mask = _mm_set1_epi8(flip_case_mask);</span><br><span class="line"></span><br><span class="line">        for (; src &lt; src_end_sse; src += bytes_sse, dst += bytes_sse)</span><br><span class="line">        &#123;   </span><br><span class="line">            /// load 16 sequential 8-bit characters</span><br><span class="line">            const auto chars = _mm_loadu_si128(reinterpret_cast&lt;const __m128i *&gt;(src));</span><br><span class="line"></span><br><span class="line">            /// find which 8-bit sequences belong to range [case_lower_bound, case_upper_bound]</span><br><span class="line">            const auto is_not_case</span><br><span class="line">                = _mm_and_si128(_mm_cmpgt_epi8(chars, v_not_case_lower_bound), _mm_cmplt_epi8(chars, v_not_case_upper_bound));</span><br><span class="line"></span><br><span class="line">            /// keep `flip_case_mask` only where necessary, zero out elsewhere</span><br><span class="line">            const auto xor_mask = _mm_and_si128(v_flip_case_mask, is_not_case);</span><br><span class="line"></span><br><span class="line">            /// flip case by applying calculated mask</span><br><span class="line">            const auto cased_chars = _mm_xor_si128(chars, xor_mask);</span><br><span class="line"></span><br><span class="line">            /// store result back to destination</span><br><span class="line">            _mm_storeu_si128(reinterpret_cast&lt;__m128i *&gt;(dst), cased_chars);</span><br><span class="line">        &#125;   </span><br><span class="line">#endif</span><br><span class="line"></span><br><span class="line">        for (; src &lt; src_end; ++src, ++dst)</span><br><span class="line">            if (*src &gt;= not_case_lower_bound &amp;&amp; *src &lt;= not_case_upper_bound)</span><br><span class="line">                *dst = *src ^ flip_case_mask;</span><br><span class="line">            else</span><br><span class="line">                *dst = *src;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<h3 id="LLVM动态编译执行代码"><a href="#LLVM动态编译执行代码" class="headerlink" title="LLVM动态编译执行代码"></a>LLVM动态编译执行代码</h3><p>上文在介绍模板化编程时指出，CickHouse实现多态的方式是通过在运行时检查不同参数类型，直到找到一个合适的类型，再运行这个类型的实例化计算代码。相当于多条跳转指令才能找到真正的执行代码。虽然采用列式计算，但是如果数据块比较多，这个计算开销也是不小的。 再加上计算时函数套函数，一个很小的操作都需要调用函数完成，实际上完成一行的计算需要多条指令才能做到。为了在这上边提升计算速度，ClickHouse还提供了动态编译和JIT的方法。</p>
+<p>说到c++的动态编译，就离不开LLVM。LLVM是一种现代化的编译器，我会再开一篇文章详细介绍LLVM和JIT技术。 动态编译代码，就是在程序运行时，把SQL的执行计划，编译成可执行的机器指令，并且在当前程序中执行这些指令。动态编译是相对于静态编译而言的。通常静态编译是说，写完代码用g++、clang++等工具编译成二进制文件，然后运行这个二进制文件。动态代码则是程序运行时动态编译的。动态编译和执行称为JIT技术。 </p>
+<p>LLVM 为c++提供了很了不起的JIT技术支持。往常只有java代码才有动态编译一说。c++有了动态编译，才给数据库技术加速计算提供了新的方法。</p>
+<p>以plus函数为例，plus的运算符提供了编译方法，通过llvm实现一个指令，<code>b.CreateAdd</code>完成左右两个参数的加法的指令。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">static inline llvm::Value * compile(llvm::IRBuilder&lt;&gt; &amp; b, llvm::Value * left, llvm::Value * right, bool)</span><br><span class="line">&#123;   </span><br><span class="line">    return left-&gt;getType()-&gt;isIntegerTy() ? b.CreateAdd(left, right) : b.CreateFAdd(left, right);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>使用静态代码执行，需要多层函数嵌套，乃至每一行都需要调用一个函数，开销很大，而在JIT 技术下，一个区块的数据只需要调用一个函数就可以了。</p>
+<p>当然，动态编译代码代价很大。我们经常说，开发者大部人时间就是等待编译器做编译。JIT也一样，动态编译需要时间，编译一次代价很大。因此在编译后要把结果缓存下来复用。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>大数据系统发展了这么多年，数据规模越来越大，速度越来越快。而人们对数据分析的强烈需求是永无止境的。新的编程技术不断涌现，硬件水平也不断发展，每隔几年出现新的、更强大的、更快速的大数据系统。<br>ClickHouse作为比较新的OLAP引擎，在很多场景的benchmark上处于领先地位。本文从代码层面介绍了为什么ClickHouse计算速度快。ClickHouse利用c++17标准，clang11编译器，相当于最新的编程语言；同时利用模板泛化编程，泛化实现大量算子；也利用指令集别的并行计算，加速计算；利用LLVM动态编译代码，优化执行逻辑。</p>
+<p>本文主要探讨为什么计算快，对clickhouse架构方面涉及不多。OLAP引擎一直在发展，新的技术也会不断出现。我们会持续关注，并把最新的技术应用到我们的云计算中。     </p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://mayunlei.github.io/2021/01/09/ClickHouse计算速度是如何做到领跑OLAP类产品的/" data-id="ckxl54wfq00027j3jk2ythjfd" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ClickHouse-OLAP/">ClickHouse OLAP</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-物联网产品现状和未来想象空间" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/12/27/物联网产品现状和未来想象空间/" class="article-date">
+  <time datetime="2020-12-27T07:55:25.000Z" itemprop="datePublished">2020-12-27</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/12/27/物联网产品现状和未来想象空间/">物联网产品现状和未来想象空间</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="现在的物联网现状"><a href="#现在的物联网现状" class="headerlink" title="现在的物联网现状"></a>现在的物联网现状</h2><p>小米生态链为小米提供了丰富的外围产品。各种物联网设备，小米手环，床头灯，智能门锁，智能插座，打印机等等，可以通过手机进行操作。现在，不仅小米的各种物联网设备，其他的厂商也提供了联网功能，洗衣机能联网了，电冰箱也能联网了。各种各样的设备，都能通过手机上进行操作。总结起来，目前的物联网设备提供的功能主要有3点：</p>
+<ol>
+<li>查看设备状态，例如查看开关的开启状态，床头灯的状态。</li>
+<li>设置设备状态，例如开启开关，开启、关闭床头灯。</li>
+<li>通知设备完成一个操作，例如显示信息，振动。</li>
+</ol>
+<p>小米手机通过米家APP提供了管理平台，统一管理小米生态链企业各个物联网设备。而其他的物联网设备，则每个供应商提供了自己的APP，每个供应商都不希望自己的设备给其他的互联网公司添砖加瓦。导致手机上的APP数量越来越多，各家的APP显然是孤立的，互不相同的。即便是米家自己的物联网设备，在APP内部也是按照设备划分功能的，设备之间也不能互联互通。</p>
+<h2 id="苹果手机的崛起之路"><a href="#苹果手机的崛起之路" class="headerlink" title="苹果手机的崛起之路"></a>苹果手机的崛起之路</h2><p>苹果手机开启了智能手机之路，涌现了无数的APP，开启了长达十多年的移动互联网时代，产生了多家独角兽。</p>
+<p>苹果手机之所以称为智能手机，就是可编程这一个能力，允许开发者基于苹果手机提供的API构建各种各样的场景。更重要的是，苹果手机上集成了各种传感器，传感器提供出API，供编程。例如GPS，产生了高德导航；饿了么，美团也可以根据定位，提供外卖服务。在智能手机出现之前，车载导航还需要专门的设备，但是车载导航的GPS没有衍生出更加丰富的使用场景，原因就是没有可编程能力。</p>
+<h2 id="物联网更多想象力"><a href="#物联网更多想象力" class="headerlink" title="物联网更多想象力"></a>物联网更多想象力</h2><p>物联网设备提供了一下内置功能，例如手环，可以检查睡眠，可以有振动闹铃。小米手环提供了闹铃功能，闹铃固定时间的闹铃。手机闹铃也是提供固定时间的闹铃。但是我们平时的生活，有时候可能耽误一会儿晚睡了一会儿，有时候早睡了一会儿。都要在固定时间被闹铃吵醒。因为手机没有能力检测到你的睡眠时间。</p>
+<p>现在好了，手环里边能够检测你的睡眠，就能够根据实际的睡眠时间，设置动态的闹钟，保证每天睡够8小时。</p>
+<p>显然，现在的手环产品经理是没有想到这种场景的，如果手环能够开放API供编程，会有无数的开发者开发出各种各样的使用场景。</p>
+<h2 id="从单一设备可编程，到多设备互联互通-可编程"><a href="#从单一设备可编程，到多设备互联互通-可编程" class="headerlink" title="从单一设备可编程，到多设备互联互通+可编程"></a>从单一设备可编程，到多设备互联互通+可编程</h2><p>我们再延续上边手环的例子，一个手机APP通过手环的API获得了用户的睡眠状态，发现用户醒了，然后再调用自动窗帘的API，自动打开窗帘。然后调用微波炉，面包机的API，自动开始做早餐。这才是智能家居啊。多个设备，通过手机APP，全部串联了起来！</p>
+<h2 id="什么是智能"><a href="#什么是智能" class="headerlink" title="什么是智能"></a>什么是智能</h2><p>很多人经常讲物联网智能，智能家居。说的好像就是家具连上网就突然长了大脑，自动给人类做任何事情。</p>
+<p>其实不是的，设备的任何操作，都是程序固定化下来的操作。所谓的智能，是因为场景非常丰富而显得无所不能。而构建丰富的使用场景，是离不开大量的开发者，大量的产品经理的脑袋想出无数的创意的！</p>
+<p>而要达到这一目标，就需要物联网设备开放API，提供可编程的能力！</p>
+<h2 id="从单打独斗到报团取暖"><a href="#从单打独斗到报团取暖" class="headerlink" title="从单打独斗到报团取暖"></a>从单打独斗到报团取暖</h2><p>现在，任何一个卖物联网设备的公司，基本是单打独斗，自己根据自己的设备创建使用场景，写一个手机APP。</p>
+<p>当你提供了API的可编程能力之后，就能够实现和其他厂商设备的互联互通。就像一个小飞机，搭上了一首航空母舰，瞬间获得强大的销售能力。</p>
+<p>物联网的航空母舰是什么？就是智能手机。</p>
+<p>虽然目前小米生态链企业众多，拥有非常强大的品牌。但不可否认，小米手机仍然没有能力做这样一首航空母舰。因为小米手机没有做到把物联网设备API化。</p>
+<h2 id="windows的崛起之路"><a href="#windows的崛起之路" class="headerlink" title="windows的崛起之路"></a>windows的崛起之路</h2><p>很多人疑问，你吹了这么多，小米手机按照你这样说的做了，能达到什么样的效果？</p>
+<p>平台的垄断能力是无敌的，如果做得好，成为手机界的windows也不为过。</p>
+<p>windows能够横扫PC操作系统，甚至打败Mac，成为多家厂商的操作系统事实标准，原因是什么？有些人说是提供了窗口操作系统。事实上，Windows抄袭Mac口水官司至今牵扯不清。之所以能成为设备厂商的首选，是因为windows提供了大量的驱动，兼容各种各样的外设，甚至非常偏门的供应商的设备驱动，都能过在windows中找到。任何一个电脑厂商，选择windows就就能省心的对接各种外设，如果自研linux，碰到一种外设没有驱动支持，消费者就不买单。这就是生态的力量。</p>
+<p>有了各种驱动支持，相当于无缝对接了各种硬件设备，windows又提供API，供开发者开发出各种各样的软件。造就了丰富window生态。生态是一个很神奇的东西，虽然这个词被梦想窒息搞烂了，但不得不承认，如果你能做好生态，有非常大的可能性获得产品的巨大成功。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>目前来看，小米仍然是很简单的对接各种物联网设备，没有挖掘出物联网世界的潜能，如何做到呢？从给各种物联网设备实现API，提供可编程的能力开始吧！</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://mayunlei.github.io/2020/12/27/物联网产品现状和未来想象空间/" data-id="ckxl54wg6000g7j3jlmq43yc3" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-机器学习和数据挖掘" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/10/27/机器学习和数据挖掘/" class="article-date">
+  <time datetime="2020-10-27T12:46:11.000Z" itemprop="datePublished">2020-10-27</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/10/27/机器学习和数据挖掘/">机器学习和数据挖掘</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p> <img src="https://ucc.alicdn.com/pic/developer-ecology/e21755ede9d140e383ed8e1dc3eed530.png" alt="image.png"></p>
+<p>上图是关于一个数据分析的笑话，就像手里有把锤子，看什么都像钉子。知道些数据分析的技巧，逮着话题就分析。有句话说，只要你拷问数据上百遍，数据总能招供。不过我们可以从里边窥见数据分析的一般性技巧：假设检验，采样，方差分析，相关性分析等等。</p>
+<p>数据分析，或者说数据挖掘，目的是从大数据中寻找到有趣模式和知识。</p>
+<p>数据挖掘，使用到了多种技术，包括统计学，模式识别，可视化，机器学习等等。今天我们来探究一下在数据挖掘领域，有哪些算法可以使用。</p>
+<p><img src="https://ucc.alicdn.com/pic/developer-ecology/0e4f081e3aaa4eb0a67433f116d1625b.png" alt="image.png"></p>
+<h2 id="女士品茶和数据分析"><a href="#女士品茶和数据分析" class="headerlink" title="女士品茶和数据分析"></a>女士品茶和数据分析</h2><p>女式品茶是数据分析领域非常有名且有趣的一个故事。一位女士声称能够品尝出来奶茶是先加奶还是先加茶。然后大家设计了多轮实验来验证。然后一位数据科学家通过分析女士猜中的次数来判定她是否有这种能力。这是一个典型的通过假设检验来验证实时的案例。</p>
+<p>《女式品茶》这本书，介绍了统计理论发展历史的一本书，介绍了数学家们关于统计学的非常有趣的历史，相比一本正经的教科书，比较生动形象。在书中介绍到一个有趣的事情，在二战后，美国人派遣了大量专家前往日本，教日本人学会美国社会是怎么运作的，其中有一位统计学家也在其中。统计学家向日本的汽车行业介绍了如何用抽样检验来保证汽车生产的质量。日本的汽车产业借助于统计理论，实现了生产质量的提升。在云计算领域，稳定性和SLA代表服务质量，如何利用好数据分析，保障稳定性，实现异常的发现，根因的诊断，是一个值得研究的课题。</p>
+<h2 id="统计和假设检验"><a href="#统计和假设检验" class="headerlink" title="统计和假设检验"></a>统计和假设检验</h2><h3 id="数据特征描述"><a href="#数据特征描述" class="headerlink" title="数据特征描述"></a>数据特征描述</h3><p>统计量是用来描数据特征，例如常用的均值，概括了数据的大致水位，还有哪些统计量来描述数据？</p>
+<ul>
+<li><p>位置度量</p>
+<ul>
+<li>均值、加权均值、切尾均值(可以排除尾部极大极小值的干扰)。</li>
+<li>中位数，加权中位数。中位数可以很好的避免极值的干扰。除了中位数，还有百分位数，四分位距，比如99百分位。</li>
+<li>最大，最小，和。</li>
+<li>利群点</li>
+</ul>
+</li>
+<li><p>变异性，变异性代表是数据偏离中心的程度</p>
+<ul>
+<li>偏差，平均绝对偏差，方差，中位数结对偏差，极差</li>
+</ul>
+</li>
+</ul>
+<p><img src="https://ucc.alicdn.com/pic/developer-ecology/44f404491aaf4dec8ff5d44e06fad968.png" alt="image.png"></p>
+<h3 id="探索数据分布"><a href="#探索数据分布" class="headerlink" title="探索数据分布"></a>探索数据分布</h3><p>探索数据分布，可以快速了解数据的大致分布，对整体的情况做一个掌控。</p>
+<ul>
+<li>百分位数/箱线图，百分位是常用的分析数据分布的度量指标，可以了解所有数据在分布情况。<ul>
+<li><img src="https://ucc.alicdn.com/pic/developer-ecology/26731fbcf54a4cffa8cd233251cef0a5.png" alt="image.png"></li>
+</ul>
+</li>
+<li>频数和直方图</li>
+<li>峰度和偏度，峰度代表的是数据集中的程度，偏度代表的是数据偏离中心的程度。</li>
+</ul>
+<h3 id="分类数据描述"><a href="#分类数据描述" class="headerlink" title="分类数据描述"></a>分类数据描述</h3><p>分类数据指的是离散数据，连续数据也可以根据区间分成离散数据。</p>
+<ul>
+<li>众数：出现次数最多的类别和值。</li>
+<li>期望值：根据概率算出期望</li>
+<li>条形图：代表每个类别的频数</li>
+<li>饼图：代表各个分类的占比</li>
+</ul>
+<h3 id="相关性"><a href="#相关性" class="headerlink" title="相关性"></a>相关性</h3><p><img src="https://ucc.alicdn.com/pic/developer-ecology/de431e69ee36439493d9aa50a6d4f489.png" alt="image.png"></p>
+<p>相关性考察的是双因子之间的相关性，可以用相关矩阵来表达，如上图。计算相关系数一般用皮尔逊系数。</p>
+<h3 id="相关性视图"><a href="#相关性视图" class="headerlink" title="相关性视图"></a>相关性视图</h3><p><img src="https://ucc.alicdn.com/pic/developer-ecology/fd62f5b077174d89b14feabdc6f8c36f.png" alt="image.png"></p>
+<p>图形是最直观的表达形式，可以让读者快速看出数据的特征，上图从左到右依次是散点图、六边形图、等势线图，小提琴图。</p>
+<ul>
+<li>散点图，可以用来观察两个指标之间的相关性</li>
+<li>六边形图是对散点图的一种概括，当点比较多时，用六边形来表示，颜色越深，代表数据越多。</li>
+<li>等势线图</li>
+<li>小提琴图：作用类似于百分位图，但可以快速看出数据的分布，越宽的地方，代表数据越多。</li>
+</ul>
+<h3 id="抽样分布和假设检验"><a href="#抽样分布和假设检验" class="headerlink" title="抽样分布和假设检验"></a>抽样分布和假设检验</h3><p>抽样理论是发展了数百年的数学理论，以应对大数据情况下，对大数据的分析。比如如果数据量过大，无法展开人工绘图和检测。</p>
+<h4 id="正态分布"><a href="#正态分布" class="headerlink" title="正态分布"></a>正态分布</h4><p>钟形正态分布是一种常见的分布形态，不过这里介绍一种更加直观的形式，QQ图。QQ图把数据绘制到对角线上，如果和对角线严格匹配，那么代表是标准的正态分布。像右图那样，尾部偏离对角线，则代表有长尾分布。<br><img src="https://ucc.alicdn.com/pic/developer-ecology/d2d3c01923164b4ebad92e04cba1eea6.png" alt="image.png"></p>
+<p>正态分布可以用来做异常检测，比如如果确定数据是遵从正态分布的。那么可以通过3σ来判定异常，如果数据偏离到均值的3σ之外，则认为数据是利群点。但前提是要保证数据是遵从正态分布的。</p>
+<h4 id="T检验"><a href="#T检验" class="headerlink" title="T检验"></a>T检验</h4><p>T检验可以用来对A/B 测试对比，例如下图的案例，改版前后的订单数，如何确定改版确实提升了订单数呢，而不是随机的波动？可以通过T检验来判定。</p>
+<p><img src="https://ucc.alicdn.com/pic/developer-ecology/675d05a45af34935b5963f20c7e3eb5a.png" alt="image.png"></p>
+<h4 id="泊松分布和故障率估计"><a href="#泊松分布和故障率估计" class="headerlink" title="泊松分布和故障率估计"></a>泊松分布和故障率估计</h4><p>这里无意深入数学原理中来介绍二项分布、泊松分布、指数分布。三种是可以相互推倒出来。</p>
+<p>泊松分布，假定事件发生的概率相同，推测最大期望值，例如包子店，每天要准备多少个馒头才能保证既不浪费，又能够充分的供应。根据每天供应的数量，计算出样本均值，近似代表泊松分布的期望值λ，就可以估算出泊松的概率密度函数。寻找出概率密度最大的部分对应的数值。</p>
+<p><img src="https://ucc.alicdn.com/pic/developer-ecology/edb2c524a9e742b4904081b1bd9dfe49.png" alt="image.png"></p>
+<h4 id="统计实验和显著性检验"><a href="#统计实验和显著性检验" class="headerlink" title="统计实验和显著性检验"></a>统计实验和显著性检验</h4><p>统计实验可以用于A/B test中，例如两种价格的购买量，是随机结果吗？是否有显著性差异，可以通过卡方检验来完成。</p>
+<p><img src="https://ucc.alicdn.com/pic/developer-ecology/f5c5f0bc81b14d78ae134d06a1719661.png" alt="image.png"></p>
+<p>卡方检验，可以验证两个因素之间的相关性。在网站分析中可以用于转化率、Bounce Rate等所有比率度量的比较分析。</p>
+<p><img src="https://ucc.alicdn.com/pic/developer-ecology/b5892f229d2c4e838e79b80834e6c4a1.png" alt="image.png"></p>
+<h2 id="机器学习"><a href="#机器学习" class="headerlink" title="机器学习"></a>机器学习</h2><p>机器学习从大的方向上分为：</p>
+<ul>
+<li>基于统计算法的机器学习</li>
+<li>基于神经网络机器学习</li>
+</ul>
+<p>从使用目标上来划分，包括：</p>
+<ul>
+<li>分类</li>
+<li>聚类</li>
+<li>挖掘频繁集、相关性</li>
+<li>用于预测的回归</li>
+<li>离群点分析</li>
+</ul>
+<p><img src="https://ucc.alicdn.com/pic/developer-ecology/838349d846a9403d9ec2fb7c83fa94d2.png" alt="image.png"></p>
+<h3 id="分类算法"><a href="#分类算法" class="headerlink" title="分类算法"></a>分类算法</h3><p>分类算法是一种有监督学习方法，给定一批数据和对应类别（标签），求解未知数据的类别（标签）。</p>
+<h4 id="K近邻算法"><a href="#K近邻算法" class="headerlink" title="K近邻算法"></a>K近邻算法</h4><p>K近邻算法是最简单的有监督学习分类算法，不需要做提前训练模型，在计算未知数据时，查找距离未知数据最近的K个点，然后查看这K个点的类别，出现最多的类别就是未知数据的类别。</p>
+<p><img src="https://ucc.alicdn.com/pic/developer-ecology/9b500ea926f5414bb870b17db147bfad.png" alt="image.png"></p>
+<p>K近邻算法的优势和劣势都是很明显的。 </p>
+<p>优势：</p>
+<ul>
+<li>逻辑简单</li>
+<li>实现简单</li>
+<li>不需要事先训练模型</li>
+</ul>
+<p>劣势：</p>
+<ul>
+<li>针对每个未知点，都需要计算和每个已知数据的距离，存在大量的重复计算。</li>
+</ul>
+<p>K近邻一个案例，如下图，识别手写数字，可以把图片的每个像素，转写成一维向量。有标签的数据会标记图片的实际数字。当要识别一个新的图片的时候，计算新图片和带标签图片的向量距离，判定图片的数字。</p>
+<p><img src="https://ucc.alicdn.com/pic/developer-ecology/a2d78112116f4bfaa88ca049b3c46319.png" alt="image.png"></p>
+<h4 id="决策树"><a href="#决策树" class="headerlink" title="决策树"></a>决策树</h4><p>决策树也是一种分类算法，是一种有监督学习。决策树的好处在于，能够训练出模型，再利用模型推断新数据。</p>
+<p><img src="https://ucc.alicdn.com/pic/developer-ecology/f59fcc34806247b099c7ced01cfc7b3f.png" alt="image.png"></p>
+<p>决策树的构建过程：每轮迭代，选出一个最佳特征，使得按照这个特征分类后，数据的熵最小。熵代表的是数据的混乱程度。</p>
+<p>决策树的优点：</p>
+<ul>
+<li>计算复杂度不高</li>
+<li>分类方法容易理解</li>
+<li>相比其他算法有较高的准确率</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>容易过拟合</li>
+</ul>
+<h4 id="朴素贝叶斯"><a href="#朴素贝叶斯" class="headerlink" title="朴素贝叶斯"></a>朴素贝叶斯</h4><p>朴素贝叶斯是基于条件概率的算法，通过计算条件和标签的条件概率，计算当出现特定条件时，是特定目标的概率。举个例子，一段邮件，要判断是否是垃圾邮件，判断每个词出现的情况下，邮件是垃圾邮件的概率。那么再出现新邮件时，可以根据每个词的频率，判断是否是垃圾邮件。</p>
+<h4 id="Logistic回归"><a href="#Logistic回归" class="headerlink" title="Logistic回归"></a>Logistic回归</h4><p>logistic回归是用回归方法来实现分类目的。</p>
+<p><img src="https://ucc.alicdn.com/pic/developer-ecology/da2b7b1508d44081a976007848553873.png" alt="image.png"></p>
+<p>logistic回归采用的是非线性函数，或者说激活函数，如图，类似一个开关作用，开关可以起到分类的作用。</p>
+<h4 id="支持向量机SVM"><a href="#支持向量机SVM" class="headerlink" title="支持向量机SVM"></a>支持向量机SVM</h4><p><img src="https://ucc.alicdn.com/pic/developer-ecology/29532c94312c401597544f7ca72aa1b8.png" alt="image.png"></p>
+<p>支持向量机是在多个类别中间，寻找一个平面，使得所有的点距离这个平面的距离最远，那么离这个平面最近的点，就是支持向量。如上图所示，右侧的平面距离所有点距离最远。</p>
+<p>上图中，现在对于线性空间才存在这样的一个平面，对于非线性空间怎么处理呢?如下图，一个环形的图形，可以通过<code>核函数</code>把非线性空间转化成线性空间，再寻找支持向量。</p>
+<p><img src="https://ucc.alicdn.com/pic/developer-ecology/3f65f998d2314bd1a2a55e05b19d900c.png" alt="image.png"></p>
+<h4 id="Adaboost"><a href="#Adaboost" class="headerlink" title="Adaboost"></a>Adaboost</h4><p>在上文中，介绍了多种分类算法，那么每一种算法的准确率如何呢？参考下表，可以说大部分算法的错误率较高，很难应用到实际生产中。究其原因，是单算法表达能力不强，无法应对复杂场景，容易在训练时被训练数据带偏，不能处理新的数据。</p>
+<p><img src="https://ucc.alicdn.com/pic/developer-ecology/aece1e1e068f4046912ef1aeddc73b66.png" alt="image.png"></p>
+<p>Adaboost是自适应的分类器，原理借鉴统计学中ada boosting。通过多个弱分类器，组成一个强分类器，每个分类器分配一个权重，在inference的时候，共同决定结果。</p>
+<p><img src="https://ucc.alicdn.com/pic/developer-ecology/884e0db10a454efaa219e6ad881ef89f.png" alt="image.png"></p>
+<h3 id="聚类算法"><a href="#聚类算法" class="headerlink" title="聚类算法"></a>聚类算法</h3><p>聚类和分类的区别：分类是有监督学习，聚类是无监督学习。</p>
+<h4 id="k-means算法"><a href="#k-means算法" class="headerlink" title="k means算法"></a>k means算法</h4><p>把一批数据分成k类，给出每一类的均值。 </p>
+<ol>
+<li>k mean初始时随机分配k个质心，</li>
+<li>计算所有点距离每个质心的距离。</li>
+<li>把每个点分配给距离最近的质心，形成k个族群。</li>
+<li>计算每个族群新的质心。</li>
+<li>重复上述步骤，直到质心的位置不再变化为止。</li>
+</ol>
+<p><img src="https://ucc.alicdn.com/pic/developer-ecology/d097d011bbc0432992a63e107b64919a.png" alt="image.png"></p>
+<h3 id="频繁集"><a href="#频繁集" class="headerlink" title="频繁集"></a>频繁集</h3><p>频繁集是找出频繁出现的模式，子序列，子结构。著名的啤酒和尿布的故事，就是从一堆物品中，寻找高频出现的集合，并做关联销售。在频繁集算法中，常用的有Ariori和FP-growth算法。</p>
+<h3 id="离群点分析"><a href="#离群点分析" class="headerlink" title="离群点分析"></a>离群点分析</h3><p>离群点分析，算是一个数据挖掘目标，实现方法是多种多样的。</p>
+<ul>
+<li>监督学习方法<ul>
+<li>分类方法建模</li>
+</ul>
+</li>
+<li>无监督学习<ul>
+<li>统计方法<ul>
+<li>例如3σ方法</li>
+</ul>
+</li>
+<li>接近度方法：基于密度或者距离来判断</li>
+<li>聚类：属于稀疏类的数据。</li>
+</ul>
+</li>
+</ul>
+<h2 id="深度神经网络"><a href="#深度神经网络" class="headerlink" title="深度神经网络"></a>深度神经网络</h2><p>上边提到的adaboost，是利用多种弱分类器来实现一个强大的分类器。算法本身包含了一层网络结构。深度神经网络是一种更加复杂的网络结构。神经网络，从输入节点到输出节点之间有多层隐藏层，每一层有多个节点，相邻的层次之间1*1全连接。多层节点形成前向反馈网络。在最后一层增加一层损失函数层，损失函数连接最终结果。中间层的每个节点，都会连接一些激活函数，参考前文logistic回归中提到的开关函数，通过这类非线性的开关函数，实现非线性的拟合。『深度神经网络』中的深度，含义就是多层网络。</p>
+<p><img src="https://ucc.alicdn.com/pic/developer-ecology/2cc555f3505a4d348651df7256b0ab4a.png" alt="image.png"></p>
+<p><img src="https://ucc.alicdn.com/pic/developer-ecology/c6bb8217bc364664976dc0bdc5741d8d.png" alt="image.png"></p>
+<h2 id="卷积神经网络CNN"><a href="#卷积神经网络CNN" class="headerlink" title="卷积神经网络CNN"></a>卷积神经网络CNN</h2><p>上文提到的深度神经网络，各层之间是全链接，对于一些复杂的模型，会导致训练的参数非常多，训练十分困难。 卷积神经网络，节点之间不是全链接。相邻层，通过一个公共的卷积来连接。卷积内是全链接，因此大大减少了训练参数。</p>
+<p><img src="https://ucc.alicdn.com/pic/developer-ecology/185e5fa7a1ee4d779d61f21911907c3d.png" alt="image.png"></p>
+<p>一个常见的卷积神经网络如下图所示，通过多层的卷积，池化层、激活函数组成，最后添加一个全连接层，连接到输出。</p>
+<p><img src="https://ucc.alicdn.com/pic/developer-ecology/d710963add5e4d6cbfb987e1f0ac3dad.png" alt="image.png"></p>
+<p>CNN大多应用于图像识别领域。</p>
+<h2 id="循环神经网络"><a href="#循环神经网络" class="headerlink" title="循环神经网络"></a>循环神经网络</h2><p>CNN内部没有状态，单纯从输入到输出。因此无法训练上下相关联的场景，例如时间序列数据。循环神经网络RNN，通过内部保存状态，可以让历史上的信息影响未来的输出。已有的状态+输入 ，映射到新的状态和输出。但是RNN无法保存远期记忆，总是由最近的输入决定输出。 LSTM解决了长程依赖问题，通过一些门开关，选择性的把信息输出到下游。适用于时间序列，文本等上下文相互关联的场景。</p>
+<p><img src="https://ucc.alicdn.com/pic/developer-ecology/95e0c2d6c8f84ea7868aa7a74b790d68.png" alt="image.png"></p>
+<h2 id="强化学习"><a href="#强化学习" class="headerlink" title="强化学习"></a>强化学习</h2><p>深度神经网络、卷积神经网络、循环神经网络，这些都是有监督学习，在大部分应用场景下，要获得大量的有标签的标注数据，这是不现实的。例如无人驾驶，围棋等场景。这种场景可以通过强化学习来完成。强化学习有三要素，分别是：</p>
+<ul>
+<li>环境：例如当前棋盘的状态</li>
+<li>动作：对当前环境的动作，例如下一步的落子</li>
+<li>评分：最终的评分</li>
+</ul>
+<p>通过评分大大小，来判断结果的好坏。并最终训练出最好的模型。</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>上文列出了一些统计和假设检验、以及统计机器学习、神经网络机器学习的方法。统计机器学习属于比较传统的算法范畴，而神经网络属于最近几年比较火的内容，在特定场景下，还需要根据实际场景选择特定的算法。</p>
+<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><p><a href="https://book.douban.com/subject/27087503//" target="_blank" rel="noopener">深度学习</a></p>
+<p><a href="https://book.douban.com/subject/26708119/" target="_blank" rel="noopener">《机器学习》周志华</a></p>
+<p><a href="https://book.douban.com/subject/24703171/" target="_blank" rel="noopener">机器学习实战</a></p>
+<p><a href="https://book.douban.com/subject/26974266/" target="_blank" rel="noopener">TensorFlow实战</a></p>
+<p><a href="https://book.douban.com/subject/26976457/" target="_blank" rel="noopener">Tensorflow：实战Google深度学习框架</a></p>
+<p><a href="https://book.douban.com/subject/30354581/" target="_blank" rel="noopener">面向数据科学家的实用统计学</a></p>
+<p><a href="https://book.douban.com/subject/2038599//" target="_blank" rel="noopener">数据挖掘概念与技术</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://mayunlei.github.io/2020/10/27/机器学习和数据挖掘/" data-id="ckxl54wg6000j7j3jc9wa4mlw" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ML-机器学习-神经网络/">ML 机器学习 神经网络</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-深入理解Presto-Presto的内部架构" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/08/16/深入理解Presto-Presto的内部架构/" class="article-date">
+  <time datetime="2020-08-16T07:31:16.000Z" itemprop="datePublished">2020-08-16</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/08/16/深入理解Presto-Presto的内部架构/">深入理解Presto,Presto的内部架构</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="深入理解Presto"><a href="#深入理解Presto" class="headerlink" title="深入理解Presto"></a>深入理解Presto</h1><p>本文译自英文书籍<code>&lt;Presto: the definitive guide&gt;Presto权威指南</code>第四章，目前该书的中文翻译版尚未出版，本文摘出书中对Presto内部介绍比较深入的第四章，看过本文对全书感兴趣的同学，请购买英文原版，或等待中文翻译版出版。–2020/08/16</p>
+<p>在简单了解过Presto和众多的使用场景、并且安装和开始使用她之后，你现在已经准备好了深入探索更多。</p>
+<p>在本书的第二部分，你会了解到Presto内部的工作机制，并做好准备在生产环境去安装、使用、运行、调优等等。</p>
+<p>我们讨论了关于连接数据源的更多细节，并且使用Presto的SQL语句、运算符、函数等来查询这些数据。</p>
+<h1 id="第四章-Presto架构"><a href="#第四章-Presto架构" class="headerlink" title="第四章 Presto架构"></a>第四章 Presto架构</h1><p>前边的章节，我们简单介绍了Presto，初步安装和使用了Presto。现在我们开始讨论Presto的架构。我们深入了解相关的概念，以使你能够了解更多Presto的查询执行模型、查询方案规划、基于代价的优化器。</p>
+<p>在本章节中，我们首先讨论Presto高层次的架构组件。这很重要，因为会帮助我们大体的理解Presto的工作方式，尤其你准备自己安装和维护Presto的集群(这会在第五章介绍)。 </p>
+<p>在本章后边的部分，我们探讨查询执行模型时，会更加深入了解那些组件。这很重要，假如你需要诊断和调优慢查询(这会在第八章介绍)，或者你准备向Presto开源项目贡献代码。</p>
+<h2 id="Coordinator和Worker两种角色"><a href="#Coordinator和Worker两种角色" class="headerlink" title="Coordinator和Worker两种角色"></a>Coordinator和Worker两种角色</h2><p>当你第一次安装Presto时，你只用了一台机器来运行所有的查询。但是，单机环境是远远达不到理想的规模和性能的。</p>
+<p>Presto是一个分布式的SQL查询引擎，组装了多个并行计算的数据库和查询引擎（这就是MPP模型的定义）。Presto不是依赖单机环境的垂直扩展性。她有能力在水平方向，把所有的处理分布到集群内的各个机器上。这意味着你可以通过添加更多节点来获得更大的处理能力。</p>
+<p>利用这种架构，Presto查询引擎能够并行的在集群的各个机器上，处理大规模数据的SQL查询。Presto在每个节点上都是单进程的服务。多个节点都运行Presto，相互之间通过配置相互协作，组成了一个完整的Presto集群。</p>
+<p>图4-1 展示了从宏观层面概括了Presto的集群组件：1个coordinator，多个worker节点。用户通过客户端连接到coordinator，可以短可以是JDBC驱动或者Presto命令行cli。</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly91Y2MuYWxpY2RuLmNvbS9waWMvZGV2ZWxvcGVyLWVjb2xvZ3kvNTc4Yzc4YzUyNzYxNDZhYjgzMDkyMWEyNWYzOTU5MmUucG5n?x-oss-process=image/format,png" alt="image.png"></p>
+<p>Coordinator是Presto上一个专门的服务，专门用来处理用户的查询请求，管理worker节点以执行查询。</p>
+<p>Worker 节点则负责执行任务和处理数据。</p>
+<p>Discovery服务通常跑在coordinator节点上，允许worker注册到集群信息中。</p>
+<p>客户端、coordinator，worker之间的所有通信，都是用基于REST的HTTP/HTTPS交互。</p>
+<p>图4-2展示了集群内coordinator和worker之间，以及worker和worker之间的通信。coordinator向多个worker通信，用于分配任务，更新状态，获得最终的结果返回用户。worker之间相互通信，向任务的上游节点获取数据。所有的worker都会向数据源读取数据。</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly91Y2MuYWxpY2RuLmNvbS9waWMvZGV2ZWxvcGVyLWVjb2xvZ3kvNzVlMGZmODYxNWM2NGVjNDhmNzkzMWMyZDM1Y2JjMGQucG5n?x-oss-process=image/format,png" alt="image.png"></p>
+<h2 id="Coordinator"><a href="#Coordinator" class="headerlink" title="Coordinator"></a>Coordinator</h2><p>Coordinator的作用是：</p>
+<ul>
+<li>从用户获得SQL语句。</li>
+<li>解析SQL语句。</li>
+<li>规划查询的执行计划。</li>
+<li>管理worker节点状态。</li>
+</ul>
+<p>Coordinator是Presto集群的大脑，并且是负责和客户端沟通。用户通过PrestoCLI、JDBC、ODBC驱动、其他语言工具库等工具和coordinator进行交互。Coordinator从客户端接受SQL语句，例如select语句，才能进行计算。</p>
+<p>每个Presto集群必须有一个coordinator，可以有一个或多个worker。在开发和测试环境中，一个Presto进程可以同时配置成两种角色。</p>
+<p>Coordinator追踪每个worker上的活动，并且协调查询的执行过程。Coordinator给查询创建了一个包含多阶段的逻辑模型，</p>
+<p>图4-3展示了客户端、coordinator，worker之间的通信。</p>
+<p>一旦接受了SQL语句，Coordinator就负责解析、分析、规划、调度查询在多个worker节点上的执行过程，语句被翻译成一系列的任务，跑在多个worker节点上。worker一边处理数据，结果会被coordinator拿走并且放到output缓存区上，暴露给客户端。一旦输出缓冲区被客户完全读取，coordinator会代表客户端向worker读取更多数据。worker节点，和数据源打交道，从数据源获取数据。因此，客户端源源不断的读取数据，数据源源源不断的提供数据，直到查询执行结束。</p>
+<p>Coordinator通过基于HTTP的协议和worker、客户端之间进行通信。</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly91Y2MuYWxpY2RuLmNvbS9waWMvZGV2ZWxvcGVyLWVjb2xvZ3kvYzE1MzE1MmU3ODc2NGNlNGE0MzdhYzA5MGFkM2Q1MDQucG5n?x-oss-process=image/format,png" alt="image.png"></p>
+<p>图4-3 客户端，coordinator，worker通信，处理SQL语句</p>
+<h2 id="Discovery-Service（发现服务）"><a href="#Discovery-Service（发现服务）" class="headerlink" title="Discovery Service（发现服务）"></a>Discovery Service（发现服务）</h2><p>Presto使用Discovery服务来发现集群内的所有节点。每个Presto实例在启动时就向Discovery服务注册，之后，周期性的发送心跳信号。这让coordinator获得一个实时的可用节点列表，并且使用这个列表来调度查询执行过程。</p>
+<p>如果一个worker停止发送心跳信号，discovery服务触发宕机检测，这一个worker就不会调度新的任务了。</p>
+<p>为了简化部署，避免运行额外的服务，Presto coordinator通常运行一个内嵌的discovery服务版本。<br>这个版本和Presto共享HTTP服务，因此使用同一个端口就足够。</p>
+<p>Worker上关于discovery 服务的配置，通常指向coordinator的hostname和端口。</p>
+<h2 id="Workers"><a href="#Workers" class="headerlink" title="Workers"></a>Workers</h2><p>Presto的worker是Presto集群中的一个服务。它负责运行coordinator指派给它的任务，并处理数据。worker节点通过连接器（connector）向数据源获取数据，并且相互之间可以交换数据。最终结果会传递给coordinator。 coordinator负责从worker获取最终结果，并传递给客户端。</p>
+<p>在安装过程中，要把discovery的主机名或IP地址告诉worker。worker启动后，会向discovery广播自己，之后才能在查询中调度任务。</p>
+<p>Workers communicate with other workers and the coordinator by using an HTTP- based protocol.</p>
+<p>Worker之间的通信、worker和coordinator之间的通信采用基于HTTP的协议。</p>
+<p>图4-4展示了多个worker如何从数据源获取数据，并且合作处理数据的流程。直到某一个worker把数据提供给了coordinator。</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly91Y2MuYWxpY2RuLmNvbS9waWMvZGV2ZWxvcGVyLWVjb2xvZ3kvMzQyMWY0NDMyN2Y4NGFiNDkxMDE0OTdhMzIwOTY4YzcucG5n?x-oss-process=image/format,png" alt="image.png"></p>
+<blockquote>
+<blockquote>
+<p>图4-4 一个集群内的worker相互合作处理SQL和数据</p>
+</blockquote>
+</blockquote>
+<h3 id="基于Connector的架构"><a href="#基于Connector的架构" class="headerlink" title="基于Connector的架构"></a>基于Connector的架构</h3><p>Presto计算和存储分离的架构核心，就是基于Connector（连接器)的架构。一个Connector提供了Presto访问任意一个数据源的接口。<br>每个Connector为底层的数据源提供了一层基于表的抽象接口。只要数据能够用表、列、行等形式，用P热宋体支持的数据类型，那么就可以创建出一个连接器，并通过这个连接器处理数据。<br>Presto提供了一套SPI接口，实现Connector就是要实现这些API。通过实现SPI接口，Presto就可以通过标准的操作连接任何数据源，并且在数据源上提供任何操作。这个连接器负责和数据源交互的细节。</p>
+<p>每个Connector需要实现三种类型的API：</p>
+<ul>
+<li>读取表/view/schema的metadata的操作。</li>
+<li>提供逻辑上的数据分区，以方便Presto并行读和写。之所以说是逻辑上的，是因为Presto是计算存储分离的架构，Presto并不实际关心数据的实际存储位置。</li>
+<li>读取的数据源和持久化数据的sink，把元数据从源格式转化成引擎期望的内存格式，或者把引擎的内存格式转化成存储的格式。</li>
+</ul>
+<p>Presto提供了很多系统的连接器，例如HDFS/Hive, MySQL, Post‐ greSQL, MS SQL Server, Kafka, Cassandra, Redis等等。在第6章和第七章你会了解到多个连接器，会有越来越多的连接器出现。请查看Presto的文档，了解最新的连接器。</p>
+<p>另外，Presto 的SPI接口为你提供了创建自定义连接器的能力。如果你需要访问的数据源，没有可用的兼容连接器，那么就需要创建自定义的链接起了。在这种场景下，我们强烈建议你了解更多Presto开源社区，获得我们的帮助，并且向社区贡献你的连接器。如果你在你的组织内有特殊的数据源，那么也需要一个自定义的连接器。这种方式，让Presto用户使用SQL来读取任意数据，实现真正的SQL-on-Anything。</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly91Y2MuYWxpY2RuLmNvbS9waWMvZGV2ZWxvcGVyLWVjb2xvZ3kvOTBiMGM5ZjAwNWY3NDJlY2IzNmFhODdhNGE0ODM0NTAucG5n?x-oss-process=image/format,png" alt="image.png"></p>
+<p>图4-5 展示了Presto SPI包含的coordinator使用的metadata数据源，数据统计，数据位置信息，以及worker使用的数据流API。</p>
+<p>Presto连接器是插件，每个server启动时加载这些插件。通过在catalog属性文件中配置特定参数，会从plugin目录加载。我们会在第六章探索更多相关信息。</p>
+<p>Presto通过基于插件的架构，支持多种功能，除了连接器，插件会提供监听器、访问控制、函数和类型。</p>
+<h2 id="Catalogs（目录），-Schemas（模式-和table-表"><a href="#Catalogs（目录），-Schemas（模式-和table-表" class="headerlink" title="Catalogs（目录）， Schemas（模式)和table(表)"></a>Catalogs（目录）， Schemas（模式)和table(表)</h2><p>Catalog、schema，table是Presto提供的三级数据管理结构。catalog对应连接器，schema对应一个数据源中的数据库，table对应数据库中的表。</p>
+<p>Presto 集群使用基于连接器的架构来处理所有的查询。每个catalog配置使用一个连接器访问一个特定的数据源。数据源再catalog中暴露一个或者多个schema。每个schema包含若干个table(表)，表中的每一行就是多列数据，每一列是不同的类型。在第八章会又更多关于catalog，schema，table的介绍。</p>
+<p>Query Execution Model<br>Now that you understand how any real-world deployment of Presto involves a cluster with a coordinator and many workers, we can look at how an actual SQL query state‐ ment is processed.</p>
+<h2 id="查询执行模型"><a href="#查询执行模型" class="headerlink" title="查询执行模型"></a>查询执行模型</h2><p>现在开始了解一下Presto现实世界中的开发。我们可以看一下一个实际的SQL语句是如何处理的。<br>理解执行模型会帮助你了解能够调优Presto性能的必要的基础知识。回忆一下，coordinator从终端用户那里接收SQL语句，使用方式包括使用ODBC/JDBC驱动的客户端软件。coordinator触发所有的worker去从数据源中读取数据，生成结果集合，并提供给用户。</p>
+<p>首先我们深入一步探索一下coordinator内部发生了什么事情。当一个SQL语句提交给coordinator的时候，是普通的文本模式。coordinator接收文本，解析并且分析这段文本。然后它创建出一个执行计划。这个工作有是图4-6所描述的。查询执行计划从通常意义上概括了处理数据和返回结果的步骤。 </p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly91Y2MuYWxpY2RuLmNvbS9waWMvZGV2ZWxvcGVyLWVjb2xvZ3kvYzRiYjg4NWJmNjBkNDJmYmJiNTg5ODVjNGRjZjJmZjUucG5n?x-oss-process=image/format,png" alt="image.png"></p>
+<p>图4-6 处理SQL语句，创建出一个查询计划</p>
+<p>如图4-7所示，生成查询计划的过程，使用了metadata的SPI接口、数据的统计SPI接口。coordinator使用SPI来收集关于表的信息、链接数据源的信息等等。</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly91Y2MuYWxpY2RuLmNvbS9waWMvZGV2ZWxvcGVyLWVjb2xvZ3kvYWRhMGQ3ZWE3MDA2NGUyMjg5NWZkZjg5MDNhMDJiZjkucG5n?x-oss-process=image/format,png" alt="image.png"></p>
+<p>图4-7 服务提供商接口用于query的规划和调度。</p>
+<p>coordinator使用metadata SPI接口来获取表、列、类型的信息。这些信息用于校验Query的语义是否正确，执行语句的类型检查、安全检查。</p>
+<p>统计SPI接口用于获取关于行数的信息、表大小的信息。这些信息可以在生成执行计划的阶段用来做基于代价的查询优化。</p>
+<p>数据位置的SPI接口在创建分布式执行计划的过程中被用到。这些信息用来生成表的逻辑上的split。split是并行执行时最小的调度单元。</p>
+<p>分布式的执行计划扩展了简单查询计划。简单查询计划包含了一个或者多个stage(阶段)。 简单查询计划会分割成计划段。一个stage描述的就是一个计划段(fragment)在执行时刻，包含了stage的计划段中所有的任务。</p>
+<p>coordinator分割开整个plan，从而有效的利用集群的并行度加速整体查询的速度。由于有多个stage，导致会出现一个依赖树。stage的个数取决于查询的复杂度。例如，查询的表、返回的列。join语句，where条件，group by运算，和其他的SQL语句，都会影响stage的个数。</p>
+<p>图4-8描述了逻辑执行计划是如何转换成分布式查询计划的。</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly91Y2MuYWxpY2RuLmNvbS9waWMvZGV2ZWxvcGVyLWVjb2xvZ3kvNGMzNjU2ZjQ4ZTg3NDZkZmEyZWVlOTU5MjhiNTEyY2IucG5n?x-oss-process=image/format,png" alt="image.png"></p>
+<p>图4-8 查询计划转化成分布式查询计划</p>
+<p>分布式查询计划定义了定义了stage，以及在Presto集群中执行query的方法。coordinator用它来做进一步的规划、调度task到worker节点上。 一个stage包含了一个或多个task。典型的，会引入很多task，每个task处理一小片数据。</p>
+<p>如图4-9所示，coordinator指定task到worker节点上。</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly91Y2MuYWxpY2RuLmNvbS9waWMvZGV2ZWxvcGVyLWVjb2xvZ3kvYTUwZmJhM2I1OGNjNGQ0NGI2MTM0NzFiZmJiMTExOWMucG5n?x-oss-process=image/format,png" alt="image.png"></p>
+<p>图4-9 coordinator所做的任务管理。</p>
+<p>数据处理的单元被称为split。split描述从底层读取和处理的一段数据。split是并行计算的最小单元，是任务分配的单元。连接器能够做的操作依赖于底层的数据源。</p>
+<p>例如，hive连接器用以下信息描述split：文件的路径、所取数据的offset、length。</p>
+<p>数据源阶段的task以page（页）这种格式生成数据。page是以列式格式存储的多行数据集合。page数据通过stage的依赖关系，流向下游的stage。  不同的stage之间通过exchange运算交换数据，这种运算符从上游的stage中读取数据。</p>
+<p>source task使用数据源的SPI来从底层的数据源中获取数据，数据以page的形式流向Presto，流过整个引擎。各个运算符根据自己的语义处理和产生数据。例如filter运算符丢掉一些数据，project运算发产生新的列数据。task内部的运算符之间的顺序成为流水线。流水线上最后一个运算符把他的输出放到ouptut缓存区。下游的exchange 运算符从这个缓冲区获取数据。不同worker之间的运算符是并行执行的。</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly91Y2MuYWxpY2RuLmNvbS9waWMvZGV2ZWxvcGVyLWVjb2xvZ3kvY2U1MDhmZWFiYzVmNDhmYjk3ZTI4Y2M1OGNhNDNkNjMucG5n?x-oss-process=image/format,png" alt="image.png"></p>
+<p>图4-10 不同的split中的数据在task之间交换，在不同的worker上处理。</p>
+<p>所以，task就是计划段（plan fragment）分配给worker运行时的称呼。当一个task创建出来后，它为每一个split初始化一个driver。每个driver初始化一个流水线的operator，然后处理一个split的数据。一个task可能会使用多个driver，取决于Presto的配置。一旦所有的driver都完成了，数据被传递到了下一层split，driver和任务结束了他们的工作，之后被销毁。</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly91Y2MuYWxpY2RuLmNvbS9waWMvZGV2ZWxvcGVyLWVjb2xvZ3kvMGRkNjk5YTczODQ0NDU5MmI5ODk1MzdkODlkNDliZjcucG5n?x-oss-process=image/format,png" alt="image.png"></p>
+<p>图4-11， 一个task中并行的driver，处理输入和输出的split</p>
+<p>一个运算符处理输入的数据，并且向下游的运算符输出数据。常见的运算符包括表扫描运算符，过滤，join，聚合计算。一系列运算符构成operator的流水线。举个例子，一个流水线包含了一个扫描运算符读取数据，然后过滤数据，最后执行局部聚合。</p>
+<p>为了处理一个查询，coordinator通过连接器的metadata创建了一组split。通过这一组split，coordinator开始调度task到机器上来采集数据。在查询执行阶段。coordinator追踪所有的可用split和他们的位置信息。一个task处理完成数据后，会产生更多的下游split。coordinator持续的调度任务，直到没有split需要处理。</p>
+<p>一旦所有的split处理完成，所有的数据都可用，coordinator会把数据结果提供给客户端。</p>
+<h2 id="查询计划"><a href="#查询计划" class="headerlink" title="查询计划"></a>查询计划</h2><p>在深入了解Presto逻辑执行计划生成器和基于代价的优化器如何工作之前，我们先限定一下我们考虑范围。这里提供了一个样例，来帮助我们探索逻辑执行计划的生成过程。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">样例 4-1. Example query to explain query planning</span><br><span class="line">SELECT</span><br><span class="line">(SELECT name FROM region r WHERE regionkey = n.regionkey) AS region_name, n.name AS nation_name,</span><br><span class="line">sum(totalprice) orders_sum</span><br><span class="line">FROM nation n, orders o, customer c WHERE n.nationkey = c.nationkey</span><br><span class="line">AND c.custkey = o.custkey</span><br><span class="line">GROUP BY n.nationkey, regionkey, n.name ORDER BY orders_sum DESC</span><br><span class="line">LIMIT 5;</span><br></pre></td></tr></table></figure>
+<p>先了解一下这个SQL的目的。</p>
+<ul>
+<li>SELECT使用了三个表，隐式定义了一个CROSS join，跨越了三张表格。</li>
+<li>WHERE条件获得满足条件的行。</li>
+<li>group by聚合计算，group by的key是regionKey，nationKey。</li>
+<li>一个子查询，SELECT name FROM region WHERE regionkey = n.regionkey向region表中读取region的名称。请注意这个查询是相关联的。</li>
+<li>一个oder by语句，按照orders_sum 倒序排序。</li>
+<li>limit限制5行，表示返回oders_sum最多的5行返回给用户。</li>
+</ul>
+<h2 id="解析和分析"><a href="#解析和分析" class="headerlink" title="解析和分析"></a>解析和分析</h2><p>在query执行之前，需要先解析和分析。关于SQL的语法相关的规则会在第八章和第九章介绍。presto检验语法规则，然后分析这个查询。</p>
+<ul>
+<li>识别表名称：表在catalog和schema内，所以多个表可以又相同的名称。</li>
+<li>识别列名：一个带限定的列名 <code>orders.totalprice</code> 唯一只想了orders表的totalprice列。但是SQL可以通过只引用列名<code>totalprice</code>，也可以确认是属于哪个表的。Presto通过分析就可以找到列名是属于哪个表。</li>
+<li>识别row列内的字段。字段<code>c.bonus</code> 可以表示c表的bonus列，也可以表示c这一列(row类型)内的bonus字段。Presto的分析器决定应该是哪种情况，一旦有模糊问题，那么优先认为是表中的列名，以避免歧义。分析的时候，需要了解SQL语法的作用于和可见规则。采集到的信息会在之后的planning阶段用到，因此planer无需再次了解查询语言的作用域规则。</li>
+</ul>
+<p>如上文所述，Query分析器有一个非常复杂和交叉剪枝的责任。他的角色是属于技术性的，对于终端用户而言，只要查询语法是对的，就看不到这部分解析的过程。只有查询违反了SQL语言的规则、没有权限等错误情况下，用户才能意思到Query解析器的存在。</p>
+<p>一旦query分析完成，所有的符号都解析出来，Presto会进入下一步，就是planning(生成逻辑执行计划）</p>
+<h2 id="初步的查询执行计划"><a href="#初步的查询执行计划" class="headerlink" title="初步的查询执行计划"></a>初步的查询执行计划</h2><p>查询执行计划可以看成是一个程序，这个程序可以产出查询结果。SQL是一种声明式语言，用户写一个SQL来指定要查询的数据。和命令式程序不同，用户不必指定怎么处理数据才能获得结果。Query的计划器和优化器可以决定处理数据的过程。</p>
+<p>处理数据的步骤的顺序就是查询逻辑执行计划。理论上，有很多种逻辑执行计划可以产生相同的查询结果，但是不同的逻辑执行计划的性能是非常不同的。所以就需要逻辑计划生成器和优化器来决定一个最佳的逻辑执行计划。可以产生相同结果的执行计划可以称为等同执行计划。</p>
+<p>我们来看一下样例4-1中的查询。最直接的逻辑执行计划就是直接翻译SQL的语法结构。解析出来的执行计划如样例4-2所示。逻辑执行计划是一个树结构，执行时从叶子节点开始，逐层向上处理树结构。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">样例4-2 手工生成的，非常直接的逻辑执行计划</span><br><span class="line">- Limit[5]</span><br><span class="line">- Sort[orders_sum DESC]</span><br><span class="line">- LateralJoin[2]</span><br><span class="line">- Aggregate[by nationkey...; orders_sum := sum(totalprice)]</span><br><span class="line">- Filter[c.nationkey = n.nationkey AND c.custkey = o.custkey] - CrossJoin</span><br><span class="line">- CrossJoin</span><br><span class="line">- TableScan[nation] - TableScan[orders]</span><br><span class="line">- TableScan[customer]</span><br><span class="line">- EnforceSingleRow[region_name := r.name]</span><br><span class="line">- Filter[r.regionkey = n.regionkey] - TableScan[region]</span><br></pre></td></tr></table></figure>
+<p>逻辑执行计划中的每个元素都可以直接的，用命令式的风格来实现。例如TableScan访问底层的表，返回表中的所有的行。过滤器接收行，应用一个过滤条件，只保留满足条件的行。Cross join操作两个数据集，生成两个数据集的组合。或许可以把某个数据集保存在内存中，这样不必多次访问底层的存储系统。</p>
+<p>接下来我们看一下这个查询逻辑执行计划的计算复杂度。如果不知道所有实现的细节，就没办法评估复杂度。但是，我们可以假定，最小的复杂度就是数据集的大小。因此我们用O表示法。如果N,O,C，R代表nation，orders，customer，region的表的行数。这样我们可以观察到下边的内容：</p>
+<ol>
+<li>TableScan[orders]读取orders表，返回O行，所以复杂度是Ω(O)。类似的其他的两个tableScan的复杂度是 Ω(N)，Ω(C)。</li>
+<li>TableScan[nation]和TableScan[orders]上的CrossJoin综合了nation和orders的数据，所以复杂度是 Ω(N × O)。</li>
+<li>再上层的CrosssJoin，两个数据集的大小分别是N*O和C，所以复杂度是Ω(N × O × C)。</li>
+<li>底层的TableScan[region]复杂度是Ω(R)。但是，由于后续的Join，这个tableScan被调用了N次，N是从聚合计算中返回的行数。所以这个运算复杂度是 Ω(R × N) 。</li>
+<li>Sort运算符需要对N行进行排序，所以他的时间复杂度最小是N*log(N)</li>
+</ol>
+<p>上述运算符是代价最大的，所以在这里先忽略其他的运算符。这里的总的代价最小是Ω[N + O + C + (N × O) + (N × O × C) + (R × N) + (N × log(N))]，无需直到表的相对大小，这个公式可以简化成Ω[(N × O × C) + (R × N) + (N × log(N))].假设region是最小的表，nation是第二小的表，我们可以忽略第二部分和第三部分，获得一个简化的结果Ω(N × O × C)。</p>
+<p>关系代数的公式到此为止，接下来我们看看这在实际应用中的意义。举个例子，假如一个热门的购物网站有1000万客户，分布在200个国家，总共下单了10亿次订单。两个表的Cross Join需要物化20,000,000,000,000,000,000行数据。对于一个中等的100个节点的集群，每个节点处理速度是100万行/秒，则需要63个世纪才能处理完所有的数据。</p>
+<p>当然，Presto不会去傻乎乎的处理这样一个图样图森破的执行计划。但是这样一个图样图森破的执行计划有他的用处。初始化的执行计划扮演了一个桥梁的作用，连接起SQL语法及其所代表的语义规则，和查询优化。查询优化的作用就是把这样一个原生的执行计划转化成一个效果对等的计划，但是执行上尽可能的快，至少能用有限的Presto资源在可接受的时间延时内完成。 接下来我们探讨一下查询优化器是如何获得这样一个优化目标的。</p>
+<h2 id="逻辑执行计划优化的规则"><a href="#逻辑执行计划优化的规则" class="headerlink" title="逻辑执行计划优化的规则"></a>逻辑执行计划优化的规则</h2><p>在这一章节，我们来看一下Presto用到的优化规则。</p>
+<h3 id="1-谓词下推"><a href="#1-谓词下推" class="headerlink" title="1.谓词下推"></a>1.谓词下推</h3><p>谓词下推可能是唯一最重要的优化规则和最容易理解的规则。他的目标就是把过滤条件下推到离数据源越近越好。因此，数据的规模会在更早的执行阶段完成。在我们的案例中，过滤会转换成一个简单过滤和内连接，之下是同样的CrossJoin条件。变化后的执行计划如下所示4-3。没有发生变化的部分在这里忽略调。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">样例4-3，CrossJoin和Filter变成一个InnerJoin</span><br><span class="line">...</span><br><span class="line">- Aggregate[by nationkey...; orders_sum := sum(totalprice)]</span><br><span class="line">  - Filter[c.nationkey = n.nationkey AND c.custkey = o.custkey] // original filter</span><br><span class="line">    - CrossJoin</span><br><span class="line">      - CrossJoin</span><br><span class="line">         - TableScan[nation]</span><br><span class="line">         - TableScan[orders]</span><br><span class="line">      - TableScan[customer]</span><br><span class="line">- Aggregate[by nationkey...; orders_sum := sum(totalprice)]</span><br><span class="line"> - Filter[c.nationkey = n.nationkey]  // 变成简单的filter</span><br><span class="line">    - InnerJoin[o.custkey = c.custkey]  // 添加一个内连接InnerJoin</span><br><span class="line">        - CrossJoin</span><br><span class="line">            - TableScan[nation] </span><br><span class="line">            - TableScan[orders]</span><br><span class="line">        - TableScan[customer]</span><br></pre></td></tr></table></figure>
+<p>原来更大的Join变成了一个InnerJoin，保持相同的条件。我们暂时不深入细节，假设这样一个Join可以在分布式系统中高效的执行，计算复杂度等同于处理的行数。这意味着谓词下推至少把Ω(N × O × C) CrossJoin 实现变成了一个Θ(N × O)。</p>
+<p>但是，谓词下推不能优化nation和orders表之间的CrossJoin，因为两个表之间没有直接的条件关联。这正是消除CrossJoin方法能发挥作用的地方。</p>
+<h3 id="2-消除CrossJoin"><a href="#2-消除CrossJoin" class="headerlink" title="2. 消除CrossJoin"></a>2. 消除CrossJoin</h3><p>在没有CBO（基于代价的优化器），Presto 根据表出现在select中的顺序来进行join。一个重要的例外是，要join的表没有任何关联条件，这就是Cross Joinn。在实际案例中，crossjoin并不符合需求，Join出来的大部分行在之后都会过滤掉。但是cross join有太多的工作以至于可能完不成。</p>
+<p>消除Cross join把要join的表的顺序进行重排，目的是减少cross join的数量，最好是减少到0。在没有表的相对大小信息情况下，处理Cross join消除， table重排也可以做，所以用户可以掌控这一切。所以消除Cross Join的案例参考样例4-4. 现在两个Join都是inner  join，促使Query的整体代价变成Θ(C + O) = Θ(O).其他部分没有发生变化，所以整体的查询计算代价是Ω[O + (R × N) + (N × log(N))]。当然O所代表orders表的行数是决定性因素。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">Example 4-4. 重排join消除cross join</span><br><span class="line">...[i]</span><br><span class="line"> - Aggregate[by nationkey...; orders_sum := sum(totalprice)]</span><br><span class="line"> - Filter[c.nationkey = n.nationkey] 按照nationKey过滤</span><br><span class="line">    - InnerJoin[o.custkey = c.custkey] 按照cutKey inner join</span><br><span class="line">      - CrossJoin</span><br><span class="line">         - TableScan[nation]</span><br><span class="line">         - TableScan[orders]</span><br><span class="line">		- TableScan[customer]</span><br><span class="line">...</span><br><span class="line">...</span><br><span class="line">...</span><br><span class="line">- Aggregate[by nationkey...; orders_sum := sum(totalprice)]</span><br><span class="line">	- InnerJoin[c.custkey = o.custkey]</span><br><span class="line">     - InnerJoin[n.nationkey = c.nationkey]</span><br><span class="line">       - TableScan[nation]</span><br><span class="line">       - TableScan[customer]</span><br><span class="line">     - TableScan[orders]</span><br></pre></td></tr></table></figure>
+<h3 id="3-TopN"><a href="#3-TopN" class="headerlink" title="3. TopN"></a>3. TopN</h3><p>通常， 如果一个query包含了limit语句，那么前边必然跟着一个order  by语句。否则，如果没有order by排序，那么SQL返回的结果是随机的，你多次查询，结果会不同。带上order by ，则会保证查询的顺序和结果。</p>
+<p>当执行一个查询是，Presto可以对所有的行进行排序，然后取最前边的几行。这种做法的复杂度是Θ(row_count ×log(row_count))，内存复杂度是Θ(row_count)。 这种排序整个结果，而只取部分结果的做法，明显非常浪费，不是最佳做法。因此，一个优化规则把order by 和limit联合语句优化成了TopN逻辑计划节点。在query执行阶段，TopN在一个堆结构中保存一定数目的行数，当流式读取数据时，更新这个堆结构。这让时间复杂度降低到了Θ(row_count × log(limit)) ,内存复杂度降低到了Θ(limit)。 整体的查询复杂度是Ω[O + (R × N) + N]。</p>
+<h3 id="4-局部聚合"><a href="#4-局部聚合" class="headerlink" title="4. 局部聚合"></a>4. 局部聚合</h3><p>Presto没必要把orders表所有的行都传递给join，因为我们不是对每个单独的订单感兴趣。我们的样例查询，计算的聚合是堆每个nation计算totalprice的sum值，所以可以先预聚合，如样例4-5所示。我们通过聚合数据，减少了流入下游Join节点的行数。结果不是完整的，这也是为何被成为预聚合。但是数据的规模有可能被降低，显著的提升查询性能。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">- Aggregate[by nationkey...; orders_sum := sum(totalprice)] </span><br><span class="line">  - InnerJoin[c.custkey = o.custkey]</span><br><span class="line">    - InnerJoin[n.nationkey = c.nationkey] </span><br><span class="line">      - TableScan[nation]</span><br><span class="line">      - TableScan[customer]</span><br><span class="line">    - Aggregate[by custkey; totalprice := sum(totalprice)] </span><br><span class="line">       - TableScan[orders]</span><br></pre></td></tr></table></figure>
+<p>对于并行计算，预聚合可以以不同方式完成，也称为『局部聚合』。下文我们展示一个简化的执行计划，当然和实际的EPLAIN计划相比，有一些不同。</p>
+<h2 id="实现规则"><a href="#实现规则" class="headerlink" title="实现规则"></a>实现规则</h2><p>上文提到的规则是优化规则，规则的目标是减少查询处理时间，内存用量，网络交换的数据量。但是，即使是我们的样例查询，初始的逻辑执行计划还包含一些尚未实现的操作: lateral join。 在下一章节，我们看一下Presto怎么实现这种类型的操作。</p>
+<h3 id="1-lateral-join解耦"><a href="#1-lateral-join解耦" class="headerlink" title="1. lateral join解耦"></a>1. lateral join解耦</h3><p>lateral join可以实现成一个for-each循环,遍历一个数据集的每一行数据，然后执行另一个查询。这样的实现是有可能实现的，但这不是Presto处理的方式。其实，Presto解耦这样的子查询，上拉所有的相关条件，组成一个left join。在SQL语义中，这对应下边的查询转换。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">SELECT</span><br><span class="line">(SELECT name FROM region r WHERE regionkey = n.regionkey)</span><br><span class="line">AS region_name, n.name AS nation_name</span><br><span class="line">FROM nation n</span><br></pre></td></tr></table></figure>
+<p>上述查询转化成：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">SELECT</span><br><span class="line">r.name AS region_name, n.name AS nation_name</span><br><span class="line">FROM nation n LEFT OUTER JOIN region r ON r.regionkey = n.regionkey</span><br></pre></td></tr></table></figure>
+<p>尽管我们可以这样交换规则，但是谨慎的、堆SQL语义非常了解的读者知道，上边的两个语句不是完全对等。如果region表中有regionkey重复的条目，第一个查询会失败，第二个查询不会失败。第二个查询虽然不会失败，但是会产生更多的结果。基于这个理由，lateral join解耦使用join之外的两个元素。第一，给原表的行编码，以使他们可区分。第二，join之后，检查一下是否有任何行是重复的。如样例4-6所示。如果检测到重复，查询会失败，以保护原始的查询语义。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">样例4-6 lateral join解耦需要额外的检测</span><br><span class="line">- TopN[5; orders_sum DESC] </span><br><span class="line">  - MarkDistinct &amp; Check</span><br><span class="line">    - LeftJoin[n.regionkey = r.regionkey] </span><br><span class="line">     - AssignUniqueId</span><br><span class="line">         - Aggregate[by nationkey...; orders_sum := sum(totalprice)] </span><br><span class="line">           - ...</span><br><span class="line">      - TableScan[region]</span><br></pre></td></tr></table></figure>
+<h3 id="2-Semi-Join-In-解耦"><a href="#2-Semi-Join-In-解耦" class="headerlink" title="2. Semi-Join(In)解耦"></a>2. Semi-Join(In)解耦</h3><p>一个子查询不仅可以用来获取信息(如上边lateral join样例)，也可以用IN谓词来过滤行。实际上，IN谓词可以用来在filter中(WHERE 语句)， 或者在一个projection中(SELECT 语句）,当你在projection中用一个in语句的时候，他不仅仅是一个简单的bool 判断的运算符，例如exists。实际上，in谓词可以判定成true，false，null。</p>
+<p>让我们考虑一个查询场景，找到那些顾客和物品供应商来自同一个国家的订单，如样例4-7所示。这样的订单可能存在，例如，我们想节省物流费用，减少物流环境的影响，可以直接把物品从供应商处寄给顾客，省略掉分拣中心。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">SELECT DISTINCT </span><br><span class="line">FROM lineitem l </span><br><span class="line">  JOIN orders o ON o.orderkey = l.orderkey</span><br><span class="line">  JOIN customer c ON o.custkey = c.custkey </span><br><span class="line">WHERE c.nationkey IN (</span><br><span class="line"> -- subquery invoked multiple times</span><br><span class="line">   SELECT s.nationkey FROM part p</span><br><span class="line">   JOIN partsupp ps ON p.partkey = ps.partkey</span><br><span class="line">    JOIN supplier s ON ps.suppkey = s.suppkey WHERE p.partkey = l.partkey</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<p>当然，上述需求可以通过lateral join实现，可以实现成一个循环，遍历外层查询的每一行，然后子查询获得所有的供应商的所有的国家，多次调用即可。</p>
+<p>但是我们有更好的做法，Presto解耦子查询，去除关联条件后，子查询计算一次，然后回来和外层的查询通过关联条件进行join。棘手的地方在于join要保证不能产生多行结果（所以要用到去重的聚合）。这种转换正确的保留了in谓词的三值逻辑。</p>
+<p>在这个案例中，去重的聚合计算使用了和join相同的分区，所以可以以流式的方式执行。不需要在网络上交换数据，同时使用了最少的内存。</p>
+<h2 id="本文总结"><a href="#本文总结" class="headerlink" title="本文总结"></a>本文总结</h2><p>以上介绍了Presto的一些基础处理操作，在下一篇文章中，我们将介绍一些高端话题：基于代价的优化器(CBO).</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://mayunlei.github.io/2020/08/16/深入理解Presto-Presto的内部架构/" data-id="ckxl54wg8000m7j3jzaltrat6" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Presto-任务调度：-任务分配到哪里" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/05/30/Presto-任务调度：-任务分配到哪里/" class="article-date">
+  <time datetime="2020-05-30T14:12:41.000Z" itemprop="datePublished">2020-05-30</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/05/30/Presto-任务调度：-任务分配到哪里/">Presto 任务调度： 任务分配到哪里</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在调度任务时，有几个决策点，第一：分配多少个任务，第二：每个任务分配到哪些机器上。</p>
+<p>要回答这个问题，首先把计算任务做一下分类，在presto内部有4种计算类型的节点：</p>
+<ol>
+<li>source节点，读源数据的节点，负责读取数据、Map阶段的计算任务。分配的个数由SplitManager根据数据决定。</li>
+<li>fixed节点，shuffle节点，用于处理reduce任务。比如group by计算，source阶段的数据按照hash发送到fixed节点。分配的个数由<code>hash_partition_count</code>这个session参数决定，由于是固定个数，所以对于不同的数据规模采用同样的个数也不是很合适，这也是需要改进的点。</li>
+<li>single节点，单节点计算任务，某些计算需要在单一节点计算，比如MergeReduce，output等，需要分配一个节点。</li>
+<li>coordinator only，只在coordinator节点计算的任务，一般是meta类操作。</li>
+</ol>
+<p><img src="https://ata2-img.oss-cn-zhangjiakou.aliyuncs.com/78ff9393e5c396a123bccfb532552f4d.png" alt="image.png"></p>
+<p>Presto是一个计算引擎，采用计算和存储分离的架构。所以，理论上来讲，上边回答清楚每个阶段分配多少个计算任务，然后按照随机的原则把task分配到每台机器上，并注意机器之间的负载均衡就足够了。</p>
+<p>但是这样性能并不是最佳的。我们都知道，大规模的数据迁移是一件非常耗时的事情。在计算机硬件中，CPU、内存、磁盘、网卡，这些硬件中，网卡的性能提升是最慢的，在整个分布式系统中也是性能最差的。<br>因此在调度上presto提供了一种基于拓扑的调度算法(Topology Aware schedule),以使source节点尽量靠近数据。</p>
+<h2 id="拓扑调度算法Topology-Aware-Scheduling-strategy"><a href="#拓扑调度算法Topology-Aware-Scheduling-strategy" class="headerlink" title="拓扑调度算法Topology Aware Scheduling strategy"></a>拓扑调度算法Topology Aware Scheduling strategy</h2><p><img src="https://ata2-img.oss-cn-zhangjiakou.aliyuncs.com/c922f1f4738940e0c9254d22991bfff6.png" alt="image.png"></p>
+<p>Presto把集群资源划分成两级结构(Machine,集群)(包含机架的三级结构是我们的实现方式，不是presto原生的算法)。</p>
+<p>分配算法如下：</p>
+<ol>
+<li>当分配一个split时候，会给定split的一个地址，这个地址代表期望的分配地址。</li>
+<li>从Machine层开始查找，首先查看Machine上已经分配的split个数是否已满，若未满则分配该机器，</li>
+<li>若Machine资源池已满，然后查看机架级别的资源池。多个机器组成一个机架。然后在同一个机架找出一台机器，这台机器的资源池小于75%，则分配这台机器。</li>
+<li>如果在机架级别找不到可用机器，则到集群级别找一台机器，这台机器的资源池使用量小于50%，则分配这台机器。否则分配失败。</li>
+</ol>
+<p>presto代码提供了Machine/集群的两级拓扑结构，但是架构上提供一个基础的多级分配策略，因此我们增加了机架级别的资源调度。我们知道，同一个机架内机器在一个交换机下，网络速度要快于跨机架传输。</p>
+<h2 id="Presto调度上的其他优化点"><a href="#Presto调度上的其他优化点" class="headerlink" title="Presto调度上的其他优化点"></a>Presto调度上的其他优化点</h2><p>presto提供了基础的调度能力，这个调度策略是很简单的，如果要实现精细化的调度，还有很多工作可以做。例如：</p>
+<ol>
+<li>上文提到的Fix Count Scheduler，对所有的计算采用固定的节点个数。这个可以通过CBO，衡量不同数据源的大小，以及计算的复杂度，分配不同的节点个数。</li>
+<li>上文提到的机架级别调度。</li>
+<li>在资源池的管理上，简单以split的个数来衡量，但是我们知道每个split对应的数据量和计算复杂度是不一样的。因此更加精细化的策略是根据统计数据预估split消耗的内存/cpu。</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://mayunlei.github.io/2020/05/30/Presto-任务调度：-任务分配到哪里/" data-id="ckxl54wg7000l7j3j0dht3su9" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Procella-Youtube-把计算加速玩到极致的实时计算引擎" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/05/20/Procella-Youtube-把计算加速玩到极致的实时计算引擎/" class="article-date">
+  <time datetime="2020-05-20T13:20:48.000Z" itemprop="datePublished">2020-05-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/05/20/Procella-Youtube-把计算加速玩到极致的实时计算引擎/">Procella@Youtube 把计算加速玩到极致的实时计算引擎</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Procella-Youtube-把计算加速玩到极值的实时计算引擎"><a href="#Procella-Youtube-把计算加速玩到极值的实时计算引擎" class="headerlink" title="Procella@Youtube 把计算加速玩到极值的实时计算引擎"></a>Procella@Youtube 把计算加速玩到极值的实时计算引擎</h1><h2 id="Procella的应用场景"><a href="#Procella的应用场景" class="headerlink" title="Procella的应用场景"></a>Procella的应用场景</h2><p>在youtue内部，在数据分析领域有4个方面的应用场景：</p>
+<ul>
+<li>报表和大盘：1000亿数据/天，要求在10ms的延时内完成近实时的计算，主要的计算类型过滤/聚合/set/join</li>
+<li>内嵌的统计指标，例如视频的浏览人数等等，特点是数据不停的变化，每秒上百万次查询。</li>
+<li>时序数据监控：特点是query固定，数据量小，可以下采样，旧数据过期，以及一些特有的查询例如估算函数和时序函数。</li>
+<li>Ad hoc查询：提供给数据科学家，BI分析师等使用的，特点是query比较复杂，且不可预测，要求延时在秒级别处理一万亿行数据。</li>
+</ul>
+<h2 id="老的解决方案和挑战"><a href="#老的解决方案和挑战" class="headerlink" title="老的解决方案和挑战"></a>老的解决方案和挑战</h2><p>针对以上需求，在Youtube内部原来有这几种解决方案：</p>
+<p><img src="https://ata2-img.cn-hangzhou.oss-pub.aliyun-inc.com/0cb24797144f6600025960c0f6348791.png" alt="image.png"></p>
+<p>采用以上方案，有以下挑战：</p>
+<ul>
+<li>数据需要在多个系统之间流转，复杂度高。</li>
+<li>ETL打开的维护开销。</li>
+<li>不同系统之间的数据一致性和数据质量差别。</li>
+<li>不同系统都有学习成本，有些系统不支持SQL全集。</li>
+<li>一些底层组件性能查，可用性和扩展性无法满足需求。</li>
+</ul>
+<h2 id="Procella的特点"><a href="#Procella的特点" class="headerlink" title="Procella的特点"></a>Procella的特点</h2><p>为了解决上述挑战，Youtube引入了Procella， Procella有如下特点：</p>
+<ol>
+<li>支持标准SQL，并且做了一些扩展，支持估算函数、嵌套类型、UDF等。</li>
+<li>高扩展性，计算和存储解耦，两者都可以无限扩展。</li>
+<li>高性能，引用最新的计算计算，支持百万qps，毫秒级别响应。</li>
+<li>数据freshness，支持batch和stream两种写入模式，原生支持lambda架构。</li>
+</ol>
+<h2 id="Procella的性能"><a href="#Procella的性能" class="headerlink" title="Procella的性能"></a>Procella的性能</h2><p><img src="https://ata2-img.cn-hangzhou.oss-pub.aliyun-inc.com/3bd0777221b2b866ca21fdf43bbb1b07.png" alt="image.png"></p>
+<p>Procella 15亿查询/天，一条扫描8E16行数据/天，返回1000亿行/天</p>
+<p><img src="https://ata2-img.cn-hangzhou.oss-pub.aliyun-inc.com/8655d1514e2c81a921ed02713d6c373a.png" alt="image.png"></p>
+<p>延时的中位数是25毫秒，p999为 2.8秒，也就是说99.9%的查询在2.8秒内查询完成。</p>
+<p>在毫秒级别晚上大规模数据的计算，Procella是如何做到的呢？下文将来揭秘。</p>
+<h2 id="Procella的架构"><a href="#Procella的架构" class="headerlink" title="Procella的架构"></a>Procella的架构</h2><p><img src="https://ata2-img.cn-hangzhou.oss-pub.aliyun-inc.com/58595988bb9485f462b7a345ebffd2b6.png" alt="image.png"></p>
+<p>Procella采用计算和存储解耦的架构：</p>
+<ul>
+<li><p>数据存储在分布式文件系统Colossus上，类似hdfs/盘古。</p>
+</li>
+<li><p>计算任务跑在由borg维护的机器上。</p>
+</li>
+</ul>
+<h3 id="数据写入"><a href="#数据写入" class="headerlink" title="数据写入"></a>数据写入</h3><p>Procella数据写入有两条链路：</p>
+<ul>
+<li>右侧的realtime数据，写入Ingestion Server，Ingestion Server把数据存储在Collossus上，与此同时，会把数据写一份到DataServer上（为啥呢？ DataServer是负责计算的，发送到DS是为了做缓存，更有效的利用内存数据，因为Youbute的查询大部分依赖最近的数据，下文在查询加速上会提到该点）</li>
+<li>批量导入节点，采用离线的方式，离线通过MapReduce任务生成满足格式要求的文件，把文件写到Colossus上，然后再把文件信息注册到RegistrationServer上，这样避免了突然导入大量数据对系统的负载。</li>
+</ul>
+<h3 id="数据模型"><a href="#数据模型" class="headerlink" title="数据模型"></a>数据模型</h3><p>Procella的数据分成两部分，分别是Data和metadata。</p>
+<p>Procella采用的是表模型，存储格式是Artus的列式格式，数据存储在分布式文件系统Colossus。计算由DataServer完成，由于计算和存储是解耦的，所以同一份数据可以由多个DataServer来做计算。</p>
+<p>MetaData包含了用于辅助计算的一些结构，称为secondary structure。包括zonemap(min,max等信息), bitmap(倒排索引), bloom filter, 分区， 排序键等。 metadata从列存储的文件头中读取，或者ds在计算query时生成。 metadata和data存储位置不同，是存储在bigtable或spanner上的。</p>
+<p>通过DDL的形式管理表，DDL发送到Root Server（query入口）,管理表的机制有分区、排序、constraint, 写入方式等。对于实时表，还支持生命周期管理，下采样，compact。</p>
+<p>在compaction阶段，允许通过使用user defined sql 来处理数据，例如过滤，聚合，生命周期管理等。相当于在compaction阶段来做etl。</p>
+<h2 id="查询"><a href="#查询" class="headerlink" title="查询"></a>查询</h2><p>好了，到了最关键的查询阶段， 首先看一下查询的流程。</p>
+<p>在上文的架构图中，可以看到Procella的查询流程。 </p>
+<ol>
+<li>client发起query，到达RootServer。 </li>
+<li>RootServer解析sql, 优化plan</li>
+<li>分配计算任务到DataServer上。</li>
+<li>DataServer读取数据(大部分在内存中, 少量读远程分布式存储)，计算。</li>
+<li>最终结果通过。</li>
+</ol>
+<p>在整个查询，例如语法解析，plan 优化，计算，都是常见的流程。 而Procella的亮点在于做了相当多的优化手段，以加速计算，实现毫秒级别的响应。下文介绍具体有哪些优化手段。</p>
+<h2 id="查询优化"><a href="#查询优化" class="headerlink" title="查询优化"></a>查询优化</h2><h3 id="DataServer端的优化"><a href="#DataServer端的优化" class="headerlink" title="DataServer端的优化"></a>DataServer端的优化</h3><ol>
+<li>读取数据时，数据有三种来源，local  mem，缓存在本地内存中的数据；remote file，存储在分布式存储系统上的文件，remote  memory，通过RDMA技术读取远程DataServer内存中的内容。RDMA 技术可以比RPC/http技术更快的从其他机器内存中读取数据。</li>
+<li>尽可能的把计算任务下推到数据节点，例如filter，agg，project，join，能下推到最底层就下推到最底层，这样可以最大限度的减少数据的读取量，以及计算量。</li>
+<li>在计算时，以encoding-native的方式读取，什么是encoding-native呢？就是算法感知编码格式，例如dictionary编码，在filter时，先从字典中filter出来要的key id，再到数据编码中找对应的id。</li>
+<li>数据交换用stubby(一种grpc协议), shuffle用RDMA协议。</li>
+</ol>
+<h3 id="Cache"><a href="#Cache" class="headerlink" title="Cache"></a>Cache</h3><p>上文的架构图中提到，Procella是一种计算和存储分离的架构，这种数据和计算分离的方式，虽然能带来规模上的扩展性，但是也给单次查询带来了overhead。Procella时怎么做的呢？Procella通过大量的使用缓存来达到加速的目的，避免从远程读取数据。</p>
+<ol>
+<li>file metadata cache：数据存储在分布式存储上，每次读取文件，首先要向master获取文件真实存储的机器，然后再取对应的机器上读取数据。每次调用必然带来开销，因此在内存中维护了block -&gt; file的handle信息。这样就比不要每次都从远程读取了，节省了rpc的开销。</li>
+<li>header cache， 列存文件的header中记录了文件的meta，每次读取这些meta要打开文件。IO的开销很大，因此在内存中采用lru来缓存这些header。</li>
+<li>Data Cache， 部分数据缓存在内存中，以加速计算，前文提到，实时数据流会有一份发送到内存中。<ol start="4">
+<li>在内存中的数据格式，和磁盘上是一样的。这意味着，数据以encoding的模式放在内存中，不会反序列化，在计算时也直接操作encoded数据。这样节省了反序列化的开销。</li>
+<li>一些计算复杂的output，也会缓存下来，还有一些metadata，例如bloom filter也会缓存下来。</li>
+</ol>
+</li>
+<li>metadata的缓存，上文提到的各种secondary structure，都会缓存在内存中。</li>
+<li>亲缘调度，由于大量的使用了缓存，也就意味着，在调度时，跟这份数据相关的，都需要尽量调度到同一个机器上，避免调度上颠簸，提高缓存命中率。</li>
+<li>由于缓存技术以及很高的缓存命中率，使得procella在使用上彻底变成了一个内存数据，2%的数据保存在内存中，换取了99%的file handle命中率和90%的data 命中率。当然这个命中率可能是跟youtube特有的使用模式相关的，在youtube有大量的计算最新数据的需求。</li>
+<li>对于metadata的缓存，从存储load到内存时，会编码成encoding模式，减少内存的使用率。</li>
+</ol>
+<h3 id="特有的列式格式Artus-启发式的encoding"><a href="#特有的列式格式Artus-启发式的encoding" class="headerlink" title="特有的列式格式Artus,启发式的encoding"></a>特有的列式格式Artus,启发式的encoding</h3><p>youtube在设计列式存储时，需求有两个，分别是</p>
+<ol>
+<li>lookup，随机seek某些行数据。</li>
+<li>range scan， 扫描大块的数据。</li>
+</ol>
+<p>存储上采用各种encoding 模式，不用压缩数据。这意味着读取时，也不用解压缩。<br>同时在计算时，直接在encoding模式智商进行，避免了反序列化。<br>encoding之后的数据大小和压缩后的大小基本接近，也就是说在存储空间上不是问题。</p>
+<p>procella采用启发式的编码方式，根据数据特征进行特殊编码</p>
+<ol>
+<li>在编码时进行多次扫描数据，第一次扫描采集轻量级信息，例如distinct value,min,max, sort order， 根据这些信息决定最佳的encoding模式。</li>
+<li>encoding模式包括dictionary encoding, rle， delta等。</li>
+<li>如何动态的选择编码格式呢？ 根据上边采集的信息，同时也会评估每一种encoding的压缩率和速度，决定最终的编码方式。</li>
+<li>在查询时，可以实现O(logn)级别的搜索，O(1)seek到具体行。当然对于变长类型(例如字符串), 可以给每一段数据记录skip block信息，方便查找时快速跳过某些block。</li>
+<li>file和column  header中记录了多种meta，例如sorting, min,max,encoding,bloom filter等用于剪枝，减少不必要的IO。例如通过pk来分文件，减少文件的读取次数。</li>
+<li>通过倒排索引来加速in类计算。通常in类操作，可以变成join计算，或者逐个比较每个值，这种处理方式的性能是很差的，join计算是SQL里边的老大难题了，而逐个比较，时间复杂度在O(m*n)级别。而通过倒排索引，可以直接在O(1)级别知道是否存在对应的数据。</li>
+<li>在数据摄入时，存储过程会针对计算做一些优化，比如分配partition， 部分aggregation预计算，sort key， 热数据放到ssd上等。</li>
+</ol>
+<h3 id="计算引擎"><a href="#计算引擎" class="headerlink" title="计算引擎"></a>计算引擎</h3><ul>
+<li>静态codegen<ul>
+<li>对于大多数的分布式计算系统，都喜欢用llvm来动态生成执行代码，以减少虚函数调用和分支跳转的开销。 但是llvm是有代价的，动态生成代码会带来毫秒级别的开销，对于Procella这样的系统，要求在几十毫秒内完成计算，动态codegen的overhead是不可接受的。同时由于他们的计算系统有个特点是大部分的query是固定的，比如前端显示的视频uv，pv等等。因此他们采用了静态编译的方式，通过c++ template来静态codegen，相当于枚举了所有的可能的operator。也算是一个特色吧。</li>
+<li>这种方式缺点也很明显，静态codegen需要在编译时刻把所有代码编译出来，估计编出来binary会非常大，放到内存里边也会占用大量内存，还需要防止换出到swap。</li>
+</ul>
+</li>
+<li>以block为单元进行计算，block的大小不超过L1 cache，充分利用CPU的高速缓存。</li>
+<li>代码上保证能够自动的向量化处理（simd)。 </li>
+<li>计算以encoding-native operator来计算。保证充分利用每一种encoding的计算优势，也避免数据反序列化的开销，同时也节省了内存使用。但是估计每个operator要是适配每一个encoding，代码工程量会不少。</li>
+<li>谓词下推，减少scan的数据量，算是古老的加速手段了。</li>
+<li>metadata server 利用partitioning减少读取的文件，相当于谓词下推在partition上应用一层，过滤出只需要扫描的partition。</li>
+<li>利用metadata的计算。<ul>
+<li>利用bloom filter &amp; max/min信息 &amp; 倒排索引以及其他的mta减少读盘计算。比如知道一个block的min/max之后，就可以根据filter条件确定是否要读取这个block。 </li>
+</ul>
+</li>
+</ul>
+<h3 id="Join"><a href="#Join" class="headerlink" title="Join"></a>Join</h3><p>Join算是SQL里边的老大难题了，有很多算法来优化join的性能，比如RBO，CBO<br>Processla支持的join类型有</p>
+<ul>
+<li>broadcastjoin，广播式join，在大表join小表的场景，把小表复制到大表所在的每一个机器上，这样避免大表的复制。</li>
+<li>Co-partitioned join，左右表具有相同的partition信息，那么只把partition相同的数据hash到相同的机器，避免全量数据计算hash和跨机器拷贝。</li>
+<li>shuffle join, 左右表分别计算hash，hash值相同的数据shuffle到同一个机器上进行join，算是最慢的</li>
+<li>Pipelined join，如果右表是一个复杂的子查询，但是结果集合很小，那么倾向于先算出右表的结果，然后再按照broad cast join的方式。</li>
+<li>Remote Lookup ，如果dim table比较大，这个时候就不适合hash或者broadcast了，由于procella的存储格式支持高效的lookup,O(1)或O(logn)级别，因此可以通过rpc发起远程的lookup来完成join。</li>
+</ul>
+<h3 id="长尾query"><a href="#长尾query" class="headerlink" title="长尾query"></a>长尾query</h3><p>在SQL/MapReduce任务中，最常见的一个难题是长尾query，由于局部计算过热导致影响整体的查询延时。</p>
+<p>Procella提出了这些优化：</p>
+<ul>
+<li>Backup 策略<ul>
+<li>对于每一个data server上的计算都会统计其响应延时，并且汇总成分位，对于远大于均值的请求，认为是利群点，这个时候，启动备份的data  server来重新计算这个任务。</li>
+</ul>
+</li>
+<li>限制发送到同一个ds的请求速度，前文讲过，processla是计算存储解耦的架构，但是为了充分利用缓存，又倾向于把同一份数据的计算调度到同一个机器上，因此这台机器又会成为热点。因此需要对发送到同一个ds的请求做资源限制。</li>
+<li>Smaller query具有高的优先级。 smaller query可以快速跑完，让出资源，因此procella倾向于让小query先跑。这和presto是相反的逻辑。presto倾向于让大query先跑，否则大query就饿死了。</li>
+</ul>
+<h3 id="Intermediate-Merging"><a href="#Intermediate-Merging" class="headerlink" title="Intermediate Merging"></a>Intermediate Merging</h3><p>在merge节点，有些merge操作是单点的，因此会成为计算的瓶颈点。Procella采集一些统计信息，如果发现merge节点一段时间还未完成计算，那么就开启一些前置的线程进行分布式计算。预聚合的结果发送给merge算子。前置线程是在同一台机器上的，也避免了数据交换。</p>
+<h2 id="Query-优化器"><a href="#Query-优化器" class="headerlink" title="Query 优化器"></a>Query 优化器</h2><h3 id="静态优化器"><a href="#静态优化器" class="headerlink" title="静态优化器"></a>静态优化器</h3><p>静态优化器是指在plan阶段执行的优化逻辑，包括RBO，CBO。procella支持了RBO， filter pushdown， subquery decorrelation, constant folding等。</p>
+<h3 id="启发式优化器"><a href="#启发式优化器" class="headerlink" title="启发式优化器"></a>启发式优化器</h3><p>Procella的一个特点就在于这个启发式的优化器，相对静态优化器而言，启发式优化器是在运行时执行的。启发式优化器通过采集计算的状态统计，例如统计数据，基数，distinct count，分位信息等。启发式优化器甚至可以在执行时修改物理执行计划。我们知道通常而言，SQL在plan阶段生成逻辑执行计划，经过优化后，再生成物理执行计划，物理执行计划下发到机器上后，就不再修改了。Procella做到了动态的修改plan。</p>
+<p>主要又这几个优化点：</p>
+<ol>
+<li>决定reduce的个数，例如，计算group by时，下游分配多少个节点是跟group by的key的基数相关的，因此可以统计基数信息，动态决定分配多少个reduce节点，甚至可以运行时取消部分reduce任务。</li>
+<li>启发式agg：正式运行之前，在一份小的数据聚合上运行一下，获得结果和统计数据，评估输出的行数，决定分配多少个reduce节点。</li>
+<li>启发是join：也是根据采样的数据评估哪种join方式比较合适。</li>
+<li>启发式sort：sort避免不了全局排序，在全局做排序是非常消耗内存和CPU的事情，procella采集数据的分布信息，把全量数据分配到n个桶里边，Map阶段按照分位shuffle到下游节点，实现了桶排序。</li>
+</ol>
+<p>当然启发式优化器是有代价的，需要先在采样的数据上跑一次，才能决定正式的执行计划。因此会带来一些overhead。procella提供了开关，可以关闭启发式优化器。不过对于用户而言，是非常乐意通过少量的overhead来换取很大的性能提升的。</p>
+<h2 id="Youtube内嵌statistics"><a href="#Youtube内嵌statistics" class="headerlink" title="Youtube内嵌statistics"></a>Youtube内嵌statistics</h2><p>内嵌指标就是我们通常在视频网站上看到的一些指标，比如视频多少人观看，多少人点赞等等。</p>
+<p>针对这部分计算的需求有：</p>
+<ol>
+<li>数据更新快。</li>
+<li>请求的qps高。</li>
+<li>查询要求毫秒级别。</li>
+</ol>
+<p>为了应对上述需求，procella做了以下优化：</p>
+<ol>
+<li>新数据写入存储的同时，也会写入ds内存中，以保证查询时命中内存。</li>
+<li>MDS作为ds的模块，以减少rpc调用。因为获取一些meta信息会向mds请求。而rpc的开销至少也是毫秒级别。</li>
+<li>metadata 预加载 &amp; 异步增量同步，保证meta数据都在内存中。</li>
+<li>plan缓存在内存中。通常词法/语法解析，以及各种plan优化也会带来开销。针对内嵌场景，大量的query都是重复的，因此缓存下来可以节省不少CPU和延时。</li>
+<li>RPC合并发送。不同的server之间交互的时候，把rpc合并起来发送，以减少网络开销。</li>
+<li>监控RS，DS的错误率，一旦达到阈值，把机器下线。</li>
+<li>禁用启发式优化器，前边提到启发式优化器会带来一些开销，针对内嵌指标场景其实是没必要的。</li>
+</ol>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>总结下来，procella做了很多方面的优化，以保证计算在毫秒级别完成，总体而言，这些优化手段可以归结为：</p>
+<ol>
+<li>通过metadata减少读取磁盘的次数和大小。</li>
+<li>通过encoding-native的方式让计算靠近数据，减少反序列化开销，也让encoding加速计算。</li>
+<li>大量内存缓存的使用，使得procella完全变成了一个内存计算引擎。</li>
+<li>启发式的优化器，动态优化执行计划。</li>
+</ol>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p>procella <a href="http://www.vldb.org/pvldb/vol12/p2022-chattopadhyay.pdf" target="_blank" rel="noopener">论文</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://mayunlei.github.io/2020/05/20/Procella-Youtube-把计算加速玩到极致的实时计算引擎/" data-id="ckxl54wg100097j3jd7zqcynd" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Presto-Coordinator分布式改造" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/11/26/Presto-Coordinator分布式改造/" class="article-date">
+  <time datetime="2019-11-26T08:27:24.000Z" itemprop="datePublished">2019-11-26</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/11/26/Presto-Coordinator分布式改造/">Presto Coordinator分布式改造</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>自从上线SQL功能以来，经过两年的时间，随着sls业务的不断增长，每天处理1亿次query，扫描1000,000,000,000,000行日志(没错1000万亿行日志)。业务的增长也给系统带来无形的压力，如何保障在低延时的前提下提供这么大的负载是一个巨大的挑战。</p>
+<p>挑战之一就是单master架构。在之前的<a href="https://blog.csdn.net/sjtuyunlei/article/details/78219029" target="_blank" rel="noopener">文章</a>中，我介绍过了presto的架构。coordinator是presto中负责query解析，任务调度，结果汇总的，集群监控的节点。其他的worker节点只负责接收单个task进行计算即可。coordinator的任务可谓是多而广，在整个集群中起到了不可替代的作用。一旦该节点出问题，整个集群不可用。</p>
+<p>上图为集群平均cpu，下图第一个为coordinator的cpu，可见coordinator的负载一直处于高位，且明显高于普通的worker。<br><img src="https://ata2-img.cn-hangzhou.oss-pub.aliyun-inc.com/17c9e09fbc9034a36062a04df78511e8.png" alt="image.png"></p>
+<p>随着业务的上升，coordinator的几点瓶颈愈发凸显：</p>
+<ol>
+<li>负责query的解析和任务分发，负载比较重，且随着业务增加，负载线性增加。而单机的性能有上限，无法横向扩展。</li>
+<li>单coordinator节点无容灾，一旦宕机，恢复时间比较长。</li>
+</ol>
+<p>为了解决以上问题，我下决心把coordinator改造成分布式。</p>
+<h1 id="coordinator主要工作内容"><a href="#coordinator主要工作内容" class="headerlink" title="coordinator主要工作内容"></a>coordinator主要工作内容</h1><p>coordinator主要有几个功能：</p>
+<ol>
+<li>query的解析，任务调度，任务监控。</li>
+<li>集群内存监控。</li>
+<li>机器状态监控。</li>
+</ol>
+<h2 id="query任务流"><a href="#query任务流" class="headerlink" title="query任务流"></a>query任务流</h2><p><img src="https://ata2-img.cn-hangzhou.oss-pub.aliyun-inc.com/53e9b9c700072e729d5ec67a23b8a0e1.png" alt="image.png"></p>
+<p>query从提交到coordinator，到query执行完成，由coordinator负责管理，一个qeuery的具体流程包括:</p>
+<ol>
+<li>队列排队，获取运行许可。</li>
+<li>词法解析和语法解析，把SQL转换成抽象语法树。</li>
+<li>语法优化，语法检查。利用预定义规则对语法数进行优化，例如剪枝优化。还有把单机plan改造成并行式plan。</li>
+<li>对plan划分出不同的stage，并且按照并行度的需求，为每个stage生成多个task，每个task指定一台机器。形成最终的逻辑执行计划。</li>
+<li>stage代表的任务的上下游，task代表一个stage内的并行执行。一个stage内的task执行相同的任务，只是接收的数据不一样。</li>
+<li>每个task调度到一个worker上，并且coordinator为每个task启动一个任务追踪，即TaskInfoFetcher，周期性轮训task的状态。</li>
+<li>当轮训到task的状态发生改变时，回调改变stage-&gt; query的状态，最终直到query的所有task都结束。</li>
+</ol>
+<p>整个任务流中，像query解析，调度，监控等都可以在任意节点执行，不需要非得在全局唯一节点执行。 只有queue涉及到全局队列，需要在单点执行。</p>
+<h2 id="集群控制流"><a href="#集群控制流" class="headerlink" title="集群控制流"></a>集群控制流</h2><p>Presto集群控制只要有两方面内容：</p>
+<ol>
+<li>集群状态控制<ol start="2">
+<li>检查每台机器的状态，判断是ALIVE、SHUTDOWN中的哪个状态。</li>
+<li>检查每台机器的各个内存池分配状态，终止超限query，以及提升大query的优先级。</li>
+</ol>
+</li>
+<li>Query状态控制<ol>
+<li>轮询每个task的状态，通过状态机管理query状态。</li>
+</ol>
+</li>
+</ol>
+<p><img src="https://ata2-img.cn-hangzhou.oss-pub.aliyun-inc.com/328d49e08d5a95951b3f6bf65763c5c3.png" alt="image.png"></p>
+<h2 id="集群内存管理"><a href="#集群内存管理" class="headerlink" title="集群内存管理"></a>集群内存管理</h2><p>Presto采用逻辑的内存池，来管理不同类型的内存需求。</p>
+<p>Presto把整个内存划分成三个内存池，分别是System Pool ,Reserved Pool, General Pool。</p>
+<p><img src="http://ata2-img.cn-hangzhou.img-pub.aliyun-inc.com/f2a0b04d61e5ca4b90242d5d0137e7d9.png" alt></p>
+<ul>
+<li>System Pool 是用来保留给系统使用的，默认为40%的内存空间留给系统使用。</li>
+<li>Reserved Pool和General Pool 是用来分配query运行时内存的。</li>
+<li>其中大部分的query使用general Pool。 而最大的一个query，使用Reserved Pool， 所以Reserved Pool的空间等同于一个query在一个机器上运行使用的最大空间大小，默认是10%的空间。</li>
+<li>General则享有除了System Pool和General Pool之外的其他内存空间。</li>
+</ul>
+<p><img src="http://ata2-img.cn-hangzhou.img-pub.aliyun-inc.com/9f49f578848c4f28c27bab8712964f8b.png" alt></p>
+<p>Presto内存管理，分两部分：</p>
+<ul>
+<li>query内存管理<ul>
+<li>query划分成很多task， 每个task会有一个线程循环获取task的状态，包括task所用内存。汇总成query所用内存。</li>
+<li>如果query的汇总内存超过一定大小，则强制终止该query。</li>
+</ul>
+</li>
+<li>机器内存管理<ul>
+<li>coordinator有一个线程，定时的轮训每台机器，查看当前的机器内存状态。</li>
+<li>当query内存和机器内存汇总之后，coordinator会挑选出一个内存使用最大的query，分配给Reserved Pool。</li>
+</ul>
+</li>
+</ul>
+<p>内存管理是由coordinator来管理的， coordinator每秒钟做一次判断，指定某个query在所有的机器上都能使用reserved 内存。那么问题来了，如果某台机器上，，没有运行该query，那岂不是该机器预留的内存浪费了？为什么不在单台机器上挑出来一个最大的task执行。原因还是死锁，假如query，在其他机器上享有reserved内存，很快执行结束。但是在某一台机器上不是最大的task，一直得不到运行，导致该query无法结束。</p>
+<h2 id="Coordinator分布式改造"><a href="#Coordinator分布式改造" class="headerlink" title="Coordinator分布式改造"></a>Coordinator分布式改造</h2><p>从上边的介绍中，我们可以看出，只能在集群唯一节点进行的操作有：</p>
+<ol>
+<li>全局队列。</li>
+<li>机器状态监控。</li>
+<li>集群内存状态管理。</li>
+</ol>
+<p>二coordinator上负载最重的操作是query的task状态管理。一个query会分配若干个task，这个膨胀是很大的。每个task都要轮询状态信息。这部分逻辑是可以分布式搞得，不必放在全局唯一节点进行。</p>
+<p><img src="https://ata2-img.cn-hangzhou.oss-pub.aliyun-inc.com/18e9153c9f29f2d12a53a24000d8cca9.png" alt="image.png"></p>
+<p>coordinator改造方案，就是把一些不是全局性的操作，都拆分到不同节点去做。而把全局性的操作放到一个节点。所以原来的coordinator会变成两个角色,watch tower和新coordinator：</p>
+<p><img src="https://ata2-img.cn-hangzhou.oss-pub.aliyun-inc.com/066b825ea45dea34cb12d498b8981687.png" alt="image.png"></p>
+<h3 id="Watch-tower"><a href="#Watch-tower" class="headerlink" title="Watch tower:"></a>Watch tower:</h3><p>只负责集群的监控，不负责跟query相关的工作。</p>
+<ul>
+<li>集群内存管理，周期性轮询每台机器的内存分配状态，把最大的query提升导reserved memory pool。</li>
+<li>机器状态管理，周期性轮询每台机器状态，是否ALIVE、SHUTDOWN。</li>
+</ul>
+<p>由于coordinator需要知道每台机器的状态、内存，因此在coordinate向每台机器同步信息时，会同时把相关状态同步给coordinator。</p>
+<p><img src="https://ata2-img.cn-hangzhou.oss-pub.aliyun-inc.com/6b504ed115bcae435655e6f3e151255f.png" alt="image.png"></p>
+<h3 id="Coordinator"><a href="#Coordinator" class="headerlink" title="Coordinator:"></a>Coordinator:</h3><p>coordinator只专心做query相关的工作，接受请求，解析、调度、监控所有的task。</p>
+<h4 id="队列处理"><a href="#队列处理" class="headerlink" title="队列处理"></a>队列处理</h4><p>presto的队列模型，可以设置query运行的最大并发度和最大排队数。这些参数可以时用户级别，也可以是整个集群的级别。</p>
+<p>在官方的presto中，由于只有一个coordinator节点，可以很容易在单点控制整个集群的执行并发度。分拆成多个coordinator并发执行之后，控制整个集群的并发度变得比较困难。因而我们选择在单个coordinator上控制运行在本机的并发度。</p>
+<h3 id="客户端"><a href="#客户端" class="headerlink" title="客户端"></a>客户端</h3><p><img src="https://ata2-img.cn-hangzhou.oss-pub.aliyun-inc.com/64a1027341118ef55468e52607da4817.png" alt="image.png"></p>
+<p>改造成并发coordinator后，client端从Discovery获取到所有的coordinator(coordiantor向discovery回报心跳时，增加了标识coordinator)。并且把coordinator按照地址排序，保证所有的client获取到的都是同样的顺序。</p>
+<p>当接收到SQL请求后，client按照user的hash值，选择一个coordinator发送。这样就可以保证同一个用户的SQL只发送导一个coordinator，从而控制并发度。当然如果coordinator发生扩容缩容，在短时间内，coordinate的顺序会发生改变，影响队列。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>在完成分布式改造后， coordinator可以做到水平扩展，解决了coordinator的单点问题。改造后的效果：</p>
+<p><img src="https://ata2-img.cn-hangzhou.oss-pub.aliyun-inc.com/582cb9c822365f930db3cf444af70081.png" alt="image.png"></p>
+<p>CPU消耗比较高的Coordinator经过分布式改造后，有3个coordinator，可以看出每个coordinator的CPU仍然很高。这是由于coordinator上负责整个query的运行监控，如果一个query分配的task非常多，那么是需要启动很多后台任务轮询task状态，这对coordinator的负载压力是很大的。虽然我们可以做到水平扩展coordinator，但是由于单个coordinator的最大并发有限，也影响了整个集群的性能。接下来我们也会继续对这部分逻辑进行改造，期望能够优化coordinator的性能。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://mayunlei.github.io/2019/11/26/Presto-Coordinator分布式改造/" data-id="ckxl54wfp00017j3jq9ndx8hr" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Presto内存泄露问题调查" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/09/02/Presto内存泄露问题调查/" class="article-date">
+  <time datetime="2019-09-02T12:23:11.000Z" itemprop="datePublished">2019-09-02</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/09/02/Presto内存泄露问题调查/">Presto内存泄露问题调查</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Presto内存泄露问题调查</p>
+<h2 id="问题背景："><a href="#问题背景：" class="headerlink" title="问题背景："></a>问题背景：</h2><p>sls的线上流量越来越大，S1几乎增长了100%。在杭州region，每隔一段时间，一部分机器Presto就会开始频繁的Full GC，重启后稳定一段时间，然后过一段时间又开始频繁Full GC。Full GC达到一定次数的时候，就发生OOM，进程直接crash。由于Full GC时间长，影响线上的可用性，因此开始投入精力进行调查。</p>
+<h2 id="查看GC-文件"><a href="#查看GC-文件" class="headerlink" title="查看GC 文件"></a>查看GC 文件</h2><p>当频繁发生GC时，会在gc文件中打出下边的内容，表示GC发生的类型(Full GC(Allocation Failure））， 在发生full gc之前，堆用了19.9G；GC后，还是19.8G，也就是说GC发生后，只释放了0.1G的空间。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">2019-08-28T15:58:46.140+0800: 2414974.134: [Full GC (Allocation Failure)  19G-&gt;19G(20G), 25.4147570 secs]   </span><br><span class="line">   [Eden: 0.0B(1024.0M)-&gt;0.0B(1024.0M) Survivors: 0.0B-&gt;0.0B Heap: 19.9G(20.0G)-&gt;19.8G(20.0G)], [Metaspace: 13</span><br><span class="line">9463K-&gt;139463K(1267712K)]</span><br><span class="line"> [Times: user=40.66 sys=0.00, real=25.42 secs]</span><br></pre></td></tr></table></figure>
+<p>由于没有足够的可用内存，于是Presto很快再次Full GC，知道最终一点内存都没有了，发生了OOM 异常，程序crash。</p>
+<blockquote>
+<blockquote>
+<p>注：GC文件怎么打：</p>
+</blockquote>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">-XX:+UseGCLogFileRotation</span><br><span class="line">-XX:NumberOfGCLogFiles=5</span><br><span class="line">-XX:GCLogFileSize=5M</span><br><span class="line">-XX:+PrintGCDetails</span><br><span class="line">-XX:+PrintGCDateStamps</span><br></pre></td></tr></table></figure>
+<h2 id="监控内存的变化趋势"><a href="#监控内存的变化趋势" class="headerlink" title="监控内存的变化趋势"></a>监控内存的变化趋势</h2><p>从外部看进程的内存使用率，如下图所示，是看不出任何信息的。因为java进程内部维护了内存的分配。<br><img src="https://ata2-img.cn-hangzhou.oss-pub.aliyun-inc.com/7b22f6c0807d92f04fbc41fffbcaf4bf.png" alt="image.png"> </p>
+<p>于是我通过jmx监控去查看Presto进程内部的内存分布。 java进程把内存分成几个部分：年轻区，幸存区，老年区。不同的内存依据生命周期的长短放在不同的区域内。通常，内存是在年轻代分配，当年龄达到一定大小时，会移动老年区（这里简化了模型，实际还有幸存区的作用）。</p>
+<p>在jmx中，存在如下的监控项目，分别表示老年代(Old Gen)和年轻代(Eden Space)已经使用的内存。通过jmx接口周期性的读取这两个属性，接入到神农监控。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">java.lang:type=MemoryPool,name=G1 Old Gen/Usage/used (Long) = 1182129304</span><br><span class="line">java.lang:type=MemoryPool,name=G1 Eden Space/Usage/used (Long) = 251658240</span><br></pre></td></tr></table></figure>
+<p>我们把时间周期拉长了看，可以看到老年代（红色线）的内存趋势一致处于缓慢上涨状态。</p>
+<p><img src="https://ata2-img.cn-hangzhou.oss-pub.aliyun-inc.com/ffd67e07228eb822890c26a686e7f989.png" alt="image.png"></p>
+<h2 id="通过智能算法查找原因"><a href="#通过智能算法查找原因" class="headerlink" title="通过智能算法查找原因"></a>通过智能算法查找原因</h2><p>由于内存趋势的规律性，首先怀疑的是由于某些用户的访问上涨，因此通过相似性算法，查找哪个用户的访问趋势和这个内存曲线相似。很遗憾的是，没有找到类似的用户趋势。</p>
+<p>接下来日志聚类查看有哪些日志pattern，日志聚类能够把相似日志聚合成一个pattern，帮助我们快速浏览大量的日志。 我们注意到了下图中的这个pattern:这个pattern虽然不能说明和内存问题直接相关，但是这个pattern给我们留下了印象，接下来的一系列调查也证明内存问题和这个pattern相关。</p>
+<p><img src="https://ata2-img.cn-hangzhou.oss-pub.aliyun-inc.com/5bd9337be52651fc447db20452a9b0a4.png" alt="image.png"></p>
+<h2 id="通过heapdump查看内存泄露的原因"><a href="#通过heapdump查看内存泄露的原因" class="headerlink" title="通过heapdump查看内存泄露的原因"></a>通过heapdump查看内存泄露的原因</h2><p>智能算法没有找到特定的用户，没有办法，只能老老实实的去分析内存。</p>
+<p>java 自带的工具jmap，可以打印出当前内存的object分布，也可以把内存写到磁盘上。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">打印内存直方图，:live表示在打印前执行一次full gc</span><br><span class="line">jmap -histo:live `pid of java` &gt; /tmp/jmap00</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">dump堆文件</span><br><span class="line">jmap -dump:format=b,file=heap.dump `pid of java`</span><br></pre></td></tr></table></figure>
+<p>直方图能够看到内存的分配，但是信息太粗，只能到object级别，看不出具体的对象，也看不到reference。</p>
+<p>dump heap会让程序停顿，为了避免对线上访问造成影响，先把这台机器的心跳摘掉，移除流量。再执行上述的dump命令。 获取到dump文件后，可以用jhat打开，也可以用jvisualVM 打开。不过用jhat打开时，遇到OOM的问题。最终用jvisualVM打开后，看到如下的大量对象PendingRead。再查看reference，可以确定是SqlTask 下的内存泄露了。</p>
+<p>从reference中可以看到一个taskId，一个偶然的机会,在presto的http-request.log文件中，找到了线索，</p>
+<p><img src="https://ata2-img.cn-hangzhou.oss-pub.aliyun-inc.com/8b1725ac0b132577938bcaf98a933a96.png" alt="image.png"></p>
+<p>通过sls查看presto的http请求。最近15分钟，一些task持续运行了大约15分钟。从task命名上可以看到，22号的task仍然在执行。</p>
+<p>通过task的api，获取task当前的状态：可以发现task仍然处于running状态。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">curl 11.194.214.145:10008/v1/task/20190816_183242_49436_pwzkn.2.5</span><br><span class="line">&#123;&quot;taskStatus&quot;:&#123;&quot;taskId&quot;:&quot;20190816_183242_49436_pwzkn.2.5&quot;,&quot;taskInstanceId&quot;:&quot;1ae02d83-f024-4d45-997b-96dea741b04e&quot;,&quot;version&quot;:1768082,&quot;state&quot;:&quot;RUNNING&quot;,&quot;self&quot;:&quot;http://h51c07359.cloud.et91:10008/v1/task/20190816_183242_49436_pwzkn.2.5&quot;,&quot;failures&quot;:[],&quot;queuedPartitionedDrivers&quot;:0,&quot;runningPartitionedDrivers&quot;:0,&quot;memoryReservation&quot;:&quot;0B&quot;&#125;,&quot;lastHeartbeat&quot;:&quot;2019-08-27T01:34:56.905Z&quot;,&quot;outputBuffers&quot;:&#123;&quot;type&quot;:&quot;UNINITIALIZED&quot;,&quot;state&quot;:&quot;OPEN&quot;,&quot;canAddBuffers&quot;:true,&quot;canAddPages&quot;:true,&quot;totalBufferedBytes&quot;:0,&quot;totalBufferedPages&quot;:0,&quot;totalRowsSent&quot;:0,&quot;totalPagesSent&quot;:0,&quot;buffers&quot;:[]&#125;,&quot;noMoreSplits&quot;:[],&quot;stats&quot;:&#123;&quot;createTime&quot;:&quot;2019-08-24T12:42:07.748Z&quot;,&quot;elapsedTime&quot;:&quot;0.00ms&quot;,&quot;queuedTime&quot;:&quot;0.00ms&quot;,&quot;totalDrivers&quot;:0,&quot;queuedDrivers&quot;:0,&quot;queuedPartitionedDrivers&quot;:0,&quot;runningDrivers&quot;:0,&quot;runningPartitionedDrivers&quot;:0,&quot;completedDrivers&quot;:0,&quot;cumulativeMemory&quot;:0.0,&quot;memoryReservation&quot;:&quot;0B&quot;,&quot;systemMemoryReservation&quot;:&quot;0B&quot;,&quot;totalScheduledTime&quot;:&quot;0.00ms&quot;,&quot;totalCpuTime&quot;:&quot;0.00ms&quot;,&quot;totalUserTime&quot;:&quot;0.00ms&quot;,&quot;totalBlockedTime&quot;:&quot;0.00ms&quot;,&quot;fullyBlocked&quot;:false,&quot;blockedReasons&quot;:[],&quot;rawInputDataSize&quot;:&quot;0B&quot;,&quot;rawInputPositions&quot;:0,&quot;processedInputDataSize&quot;:&quot;0B&quot;,&quot;processedInputPositions&quot;:0,&quot;outputDataSize&quot;:&quot;0B&quot;,&quot;outputPositions&quot;:0,&quot;pipelines&quot;:[]&#125;,&quot;needsPlan&quot;:true,&quot;complete&quot;:false&#125;</span><br></pre></td></tr></table></figure>
+<p>从taskid获取queryid : 20190816_183242_49436_pwzkn，从运行日志中获取该query的执行结果：发现query在16号的时候发生了运行时错误。</p>
+<p><img src="https://ata2-img.cn-hangzhou.oss-pub.aliyun-inc.com/5b736a38d4b1fd4a2e78bb889b5106db.png" alt="image.png"></p>
+<p>既然整个query已经确认fail了，但是task处于running状态，那么我可以强制通过task的delete api，把任务给清理掉。在清理过后，task的状态变成了ABORT状态，表示任务失败了。但是调用过后， task的请求并未终止，仍然在继续执行，过了大约15分钟，再次去查看task的状态，又变成了RUNNING状态。</p>
+<h2 id="内存泄露的原因"><a href="#内存泄露的原因" class="headerlink" title="内存泄露的原因"></a>内存泄露的原因</h2><p>已经从上述调查中，知道了内存泄露的位置。通过阅读代码和推演，大致理清楚了内存泄露的原因。</p>
+<p>query执行的流程如下：在正常情况下，coordinator调度split到每个机器上，生成对应的task， 然后下游的task生成轮训任务，向上游task读取计算结果。如果任何一个task发生了错误，那么coordinator会把所有的task终止掉。</p>
+<p><img src="https://ata2-img.cn-hangzhou.oss-pub.aliyun-inc.com/3578107bc097cf30c9d206720e3019ff.png" alt="image.png"></p>
+<p>但是在某些情况下，某一台机器发生了调度延迟，Task 2首先调度，并且开始了计算，但是由于遇到了计算错误，于是终止了task。 接下来这个时候task1才开始调度，然后生成了向task2轮训的任务。由于task2是异常终止的，内存中的标志位都是没有清空，导致认为task2还在读数据，因此轮训任务一直终止不了。每次轮训，都生成一个PendingRead放到内存中。日积月累，就造成了内存泄露。</p>
+<h2 id="验证内存泄露的原因"><a href="#验证内存泄露的原因" class="headerlink" title="验证内存泄露的原因"></a>验证内存泄露的原因</h2><p>计算task一直不能终止，那么如果我强行通过API DELETE掉task，内存理论上可以被删除掉。</p>
+<p>通过curl删除task的http请求，<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl 11.223.196.92:10008/v1/task/20190822_163910_94499_pwzkn.2.4 -X DELETE</span><br></pre></td></tr></table></figure></p>
+<p>删除后的状态<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&#123;&quot;taskStatus&quot;:&#123;&quot;taskId&quot;:&quot;20190822_163910_94499_pwzkn.2.4&quot;,&quot;taskInstanceId&quot;:&quot;71f71c85-5073-4cf9-852b-16bf9c49496f&quot;,&quot;version&quot;:3239316,&quot;state&quot;:&quot;ABORTED&quot;,&quot;self&quot;:&quot;</span><br><span class="line">http://g24h09288.cloud.et91:10008/v1/task/20190822_163910_94499_pwzkn.2.4&quot;,&quot;failures&quot;:[],&quot;queuedPartitionedDrivers&quot;:0,&quot;runningPartitionedDrivers&quot;:0,&quot;memoryRes</span><br><span class="line">ervation&quot;:&quot;0B&quot;&#125;,&quot;lastHeartbeat&quot;:&quot;2019-08-27T01:32:46.223Z&quot;,&quot;outputBuffers&quot;:&#123;&quot;type&quot;:&quot;UNINITIALIZED&quot;,&quot;state&quot;:&quot;OPEN&quot;,&quot;canAddBuffers&quot;:true,&quot;canAddPages&quot;:true,&quot;tot</span><br><span class="line">alBufferedBytes&quot;:0,&quot;totalBufferedPages&quot;:0,&quot;totalRowsSent&quot;:0,&quot;totalPagesSent&quot;:0,&quot;buffers&quot;:[]&#125;,&quot;noMoreSplits&quot;:[],&quot;stats&quot;:&#123;&quot;createTime&quot;:&quot;2019-08-23T02:17:55.766Z</span><br><span class="line">&quot;,&quot;endTime&quot;:&quot;2019-08-27T01:32:47.296Z&quot;,&quot;elapsedTime&quot;:&quot;0.00ms&quot;,&quot;queuedTime&quot;:&quot;0.00ms&quot;,&quot;totalDrivers&quot;:0,&quot;queuedDrivers&quot;:0,&quot;queuedPartitionedDrivers&quot;:0,&quot;runningDr</span><br><span class="line">ivers&quot;:0,&quot;runningPartitionedDrivers&quot;:0,&quot;completedDrivers&quot;:0,&quot;cumulativeMemory&quot;:0.0,&quot;memoryReservation&quot;:&quot;0B&quot;,&quot;systemMemoryReservation&quot;:&quot;0B&quot;,&quot;totalScheduledTime</span><br><span class="line">&quot;:&quot;0.00ms&quot;,&quot;totalCpuTime&quot;:&quot;0.00ms&quot;,&quot;totalUserTime&quot;:&quot;0.00ms&quot;,&quot;totalBlockedTime&quot;:&quot;0.00ms&quot;,&quot;fullyBlocked&quot;:false,&quot;blockedReasons&quot;:[],&quot;rawInputDataSize&quot;:&quot;0B&quot;,&quot;rawI</span><br><span class="line">nputPositions&quot;:0,&quot;processedInputDataSize&quot;:&quot;0B&quot;,&quot;processedInputPositions&quot;:0,&quot;outputDataSize&quot;:&quot;0B&quot;,&quot;outputPositions&quot;:0,&quot;pipelines&quot;:[]&#125;,&quot;needsPlan&quot;:true,&quot;complet</span><br><span class="line">e&quot;:true&#125;</span><br></pre></td></tr></table></figure></p>
+<p>删除后等待15分钟，task会从内存中删除：可以看到内存发生了大幅下跌。</p>
+<p><img src="https://ata2-img.cn-hangzhou.oss-pub.aliyun-inc.com/d06829babd50e4e34eb823265a0b4b28.png" alt="image.png"></p>
+<p>过几天后再去看内存，又在持续的增长，这是因为我们只是清理了内存，但是轮训任务并没有被清理掉.</p>
+<p><img src="https://ata2-img.cn-hangzhou.oss-pub.aliyun-inc.com/00f422d9c12151eb9928bd3068c0abf9.png" alt="image.png"></p>
+<h2 id="构造case复现"><a href="#构造case复现" class="headerlink" title="构造case复现"></a>构造case复现</h2><p>从采样到的几个内存泄漏点，我们可以看到明显的特征，就是query遇到错误的数据，执行失败，然后才有概率遇到调度异常。因此我们可以构造一些非法数据，让source节点快速的fail掉。通过检查http-request.log中task的运行时长，可以确认是否发生了内存泄露。</p>
+<h2 id="修复内存泄露"><a href="#修复内存泄露" class="headerlink" title="修复内存泄露"></a>修复内存泄露</h2><p>从上述验证过程也可以看出，要想修复内存泄露，必须让泄露的轮训任务终止掉。有几种修复方案：</p>
+<ol>
+<li>上游判断，如果stat是terminal(结束或失败)状态，返回空结果和结束标志。</li>
+<li>下游判断，如果query是结束状态，那么不生成轮训task。</li>
+<li>下游判断，如果task处于close状态，那么生成轮训task，但是进入清理阶段，清理掉上游的内存后退出。</li>
+</ol>
+<p>综合考虑每种方案，以及测试结果，最终采用了第三种方案，可以把内存清理干净，避免一些遗留问题。</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="https://downloads.plumbr.io/Plumbr%20Handbook%20Java%20Garbage%20Collection.pdf" target="_blank" rel="noopener">java垃圾回收完全手册</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://mayunlei.github.io/2019/09/02/Presto内存泄露问题调查/" data-id="ckxl54wfy00057j3jh15jzsd8" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Presto-coordinator的CPU持续上涨，原因竟然是这样" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/05/20/Presto-coordinator的CPU持续上涨，原因竟然是这样/" class="article-date">
+  <time datetime="2019-05-20T01:52:09.000Z" itemprop="datePublished">2019-05-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/05/20/Presto-coordinator的CPU持续上涨，原因竟然是这样/">Presto coordinator的CPU持续上涨，原因竟然是这样</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="问题背景"><a href="#问题背景" class="headerlink" title="问题背景"></a>问题背景</h2><p>之前介绍过<a href="https://mayunlei.github.io/2017/10/12/presto-1-infrastructure/">presto的架构</a>， coordinator是Presto架构中负责调度的master节点。在实际部署中，为了减少该节点的负载，指定<code>node-scheduler.include-coordinator=false</code>，避免把计算任务调度到coordinator节点上。</p>
+<p>由于Presto进程是常驻进程，而且需要实时的提供在线服务。通常只有在需要升级时，才会通过热升级手段重启进程。于是我们在一个大集群上发现了这个现象，coordinator的CPU随着时间不短增长。最高达到了3000%+ 。见下图是连续一个月的持续上涨。<br><img src="https://ata2-img.cn-hangzhou.oss-pub.aliyun-inc.com/ade1f0a32898a86f03e7b33391a70270.png" alt="image.png"></p>
+<p>如果任由CPU这样上涨下去，整个集群将不可控，也会影响计算能力。于是我开始了一系列的调查。</p>
+<h2 id="是json的原因吗？"><a href="#是json的原因吗？" class="headerlink" title="是json的原因吗？"></a>是json的原因吗？</h2><p>首先，通过jstack命令打印Presto进程的栈。在栈中最常见的调用栈，是json的反序列化操作。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">at com.fasterxml.jackson.core.json.UTF8StreamJsonParser.parseMediumName2(UTF8StreamJsonParser.java:1836)</span><br><span class="line">at com.fasterxml.jackson.core.json.UTF8StreamJsonParser.parseMediumName(UTF8StreamJsonParser.java:1793)</span><br><span class="line">at com.fasterxml.jackson.core.json.UTF8StreamJsonParser._parseName(UTF8StreamJsonParser.java:1728)</span><br><span class="line">at com.fasterxml.jackson.core.json.UTF8StreamJsonParser.nextToken(UTF8StreamJsonParser.java:776)</span><br><span class="line">at com.fasterxml.jackson.databind.deser.BeanDeserializer._deserializeUsingPropertyBased(BeanDeserializer.java:389)</span><br><span class="line">at com.fasterxml.jackson.databind.deser.BeanDeserializerBase.deserializeFromObjectUsingNonDefault(BeanDeserializerBase.java:1194)</span><br><span class="line">at com.fasterxml.jackson.databind.deser.BeanDeserializer.deserializeFromObject(BeanDeserializer.java:314)</span><br><span class="line">at com.fasterxml.jackson.databind.deser.BeanDeserializer.deserialize(BeanDeserializer.java:148)</span><br><span class="line">at com.fasterxml.jackson.databind.ObjectMapper._readMapAndClose(ObjectMapper.java:3789)</span><br><span class="line">at com.fasterxml.jackson.databind.ObjectMapper.readValue(ObjectMapper.java:2950)</span><br><span class="line">at io.airlift.json.JsonCodec.fromJson(JsonCodec.java:198)</span><br><span class="line">at io.airlift.http.client.FullJsonResponseHandler$JsonResponse.&lt;init&gt;(FullJsonResponseHandler.java:118)</span><br><span class="line">at io.airlift.http.client.FullJsonResponseHandler.handle(FullJsonResponseHandler.java:68)</span><br><span class="line">at io.airlift.http.client.FullJsonResponseHandler.handle(FullJsonResponseHandler.java:37)</span><br><span class="line">at io.airlift.http.client.jetty.JettyHttpClient$JettyResponseFuture.processResponse(JettyHttpClient.java:857)</span><br><span class="line">at io.airlift.http.client.jetty.JettyHttpClient$JettyResponseFuture.completed(JettyHttpClient.java:834)</span><br><span class="line">at io.airlift.http.client.jetty.JettyHttpClient$BufferingResponseListener.onComplete(JettyHttpClient.java:1119)</span><br></pre></td></tr></table></figure>
+<p>这个栈是一个http请求的callback，在callback中把response把json反序列化成对象。http的callback线程时包括了200个线程，而我经常能在stack中看到超过180个线程在做json反序列化。从栈总看不出是属于什么http请求。但是我们能从代码中找到coordinator发出的这几类请求。</p>
+<p><img src="https://ata2-img.cn-hangzhou.oss-pub.aliyun-inc.com/d0fae569617369cfd5605f6fefe514d7.png" alt="image.png"></p>
+<ol>
+<li>task任务状态的fetcher，循环的获取task的状态，直到task结束。这其中其中有两类fetch操作:<ol start="2">
+<li>一个获取taskStatus，只包含task状态,循环获取，前一次获取结束后，立马启动下一次</li>
+<li>一个获取taskInfo。包含task的详细信息，每3秒获取一次。</li>
+</ol>
+</li>
+<li>Memory管理，coordinator定期向每台机器获取机器的内存使用状况。</li>
+<li>fail detect 请求有两类：<ol start="4">
+<li>一类是head请求，没有response</li>
+<li>另一类是/v1/info/state请求，是worker的状态，返回类似于”ACTIVE”或者”SHUTDOWN”之类的状态。 </li>
+</ol>
+</li>
+</ol>
+<p>由于内存同步和心跳检查是跟机器数据相关，而task同步则跟query数目相关。于是我怀疑是同时运行的query太多，有1000多个query在同时运行，每个query生成上百个task。 coordinator每分钟要发起几十万次读取task状态的请求。jackson库的反序列化效率不高，导致coordinator的CPU很高。 这可以解释CPU高的原因，但不能解释CPU持续上涨的原因。不管怎么样，我还是决定把jackson改成性能更佳的fastjson。 </p>
+<p>改成fastjson上线后，过段时间发现，CPU仍然在缓慢的持续上涨，不得不再重新寻找新的证据。</p>
+<h2 id="是不停的分配新的线程吗？"><a href="#是不停的分配新的线程吗？" class="headerlink" title="是不停的分配新的线程吗？"></a>是不停的分配新的线程吗？</h2><p>我们在jstack栈中，能清楚地看到很多线程同时在做json反序列化操作。证明是和json反序列化相关的操作。于是再去阅读源码。发现task status fetcher使用的线程池是一个可变的线程池<code>newCachedThreadPool</code>。 </p>
+<p>具体操作是：任何请求，都是放入队列中，然后由线程池处理。如果队列满，则线程池会新分配一个线程。</p>
+<p>于是我怀疑是负载太高，导致不停的分配新的线程，于是CPU越来越高。怎么解决这个问题？我改造了coordinator，由原来的单节点，变成了多节点，以均分coordinator的压力。</p>
+<h2 id="把coordinator改造成分布式能解决问题吗？"><a href="#把coordinator改造成分布式能解决问题吗？" class="headerlink" title="把coordinator改造成分布式能解决问题吗？"></a>把coordinator改造成分布式能解决问题吗？</h2><p>Presto原生的coordinator由于依赖单节点进行内存监控，如果强行部署成多coordinator的话，会造成内存管理的混乱，有可能让某些大query死锁。因此改造成分布式还颇费一番功夫。我会另起一个话题，讲述如何把coordinator改造成分布式。</p>
+<p>简单的说，改造完成后，有3个coordinator。原来的coordinator，负责内存管理和worker failover管理，同时处理1/3的query。而另外两个coordinator，只分别负责管理另外1/3的query。同时把内存管理的心跳间隔调整到了5s。</p>
+<p>过了一段时间，发现了新的情况。中心coordinator的CPU仍然在缓慢持续上涨，但是CPU并不是一直很高，而是每隔5s飙升一次。新增的两个coordinator则没有变化。于是我从所有的配置中找跟5s相关的参数，从这里开始意思到似乎和内存管理的心跳有关。</p>
+<p>从jstack能看到跟json反序列化有关， 内存管理的http response也需要反序列化json。虽然之前把jackson改造成了fastjson，但只是改造了task心跳部分，没有改造内存管理部分。</p>
+<p>coordinator每5s向每个worker发送一次请求，获取worker的内存使用，这个请求量是恒定的。理论上，除非我们增加机器，负载才会增加。于是我去检查了presto的http-request.log。 我把日志采集到阿里云日志服务，通过日志分析，检查http请求的变化趋势。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">v1/memory | select date_trunc(&apos;day&apos;,__time__) as t, count(1) as pv, sum(response_size) as res from log group by t order by t</span><br></pre></td></tr></table></figure>
+<p><img src="https://ata2-img.cn-hangzhou.oss-pub.aliyun-inc.com/d89fdc380ff859cfaef6f560703a5352.png" alt="image.png"><br>左Y轴是PV，右Y轴是response size的一天累加值。我们可以看到PV基本上没有大的变化。而response size则不断增长。20天内从最低7.6G/day增长到了237G/day。平均每个response达到149k。 这个截图是我写文章时截取的。在当时调查问题时，看到了600k的response。</p>
+<p>response增加 -&gt; json反序列化负载增加 -&gt; CPU不断增加。看起来符合逻辑，接下来只有去找为什么response不断增加了。</p>
+<h2 id="tcp抓包"><a href="#tcp抓包" class="headerlink" title="tcp抓包"></a>tcp抓包</h2><p>为了查看response这么大的原因，我用tcpdump抓取presto的流量。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo tcpdump  port 10000 -s 0 -w /tmp/netstat</span><br></pre></td></tr></table></figure>
+<p>在/v1/memory的响应结果中，会包含general , reserved， 和system 三个pool分别总的大小以及使用大小，和目前占用对应内存池的queryId。结构是这样：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;totalNodeMemory&quot;: &quot;12884901888B&quot;,</span><br><span class="line">  &quot;pools&quot;: &#123;</span><br><span class="line">    &quot;reserved&quot;: &#123;</span><br><span class="line">      &quot;maxBytes&quot;: 3221225472,</span><br><span class="line">      &quot;freeBytes&quot;: 3221225472,</span><br><span class="line">      &quot;queryMemoryReservations&quot;: &#123;</span><br><span class="line">        </span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    &quot;general&quot;: &#123;</span><br><span class="line">      &quot;maxBytes&quot;: 9663676416,</span><br><span class="line">      &quot;freeBytes&quot;: 9663676416,</span><br><span class="line">      &quot;queryMemoryReservations&quot;: &#123;</span><br><span class="line">        </span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    &quot;system&quot;: &#123;</span><br><span class="line">      &quot;maxBytes&quot;: 8589934592,</span><br><span class="line">      &quot;freeBytes&quot;: 8589934592,</span><br><span class="line">      &quot;queryMemoryReservations&quot;: &#123;</span><br><span class="line">        &quot;20190509_113603_03920_25e2h&quot;,</span><br><span class="line">        &quot;20190509_113608_02758_rdy5b&quot;,</span><br><span class="line">        ...</span><br><span class="line">        ...</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>其中system -&gt; queryMemoryReservations 这个节点下的内容非常的多，甚至包含几天前的queryId。这意味着某些query占用了system内存池，结束后没有正常释放。接下来就需要查找什么地方存在内存泄露。</p>
+<h2 id="查找内存泄漏点"><a href="#查找内存泄漏点" class="headerlink" title="查找内存泄漏点"></a>查找内存泄漏点</h2><p>query使用的内存，都会记录在context中，因此我专门写了个程序，向coordinator轮训已经完成的query，获取这些query的描述信息。查看到底是哪个环节的内存使用有问题。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&quot;tasks&quot; : [ &#123;          </span><br><span class="line">	&quot;stats&quot; : &#123;</span><br><span class="line">		&quot;systemMemoryReservation&quot; : &quot;712B&quot;,</span><br><span class="line">       &quot;pipelines&quot; : [ &#123;           </span><br><span class="line">            &quot;systemMemoryReservation&quot; : &quot;712B&quot;, </span><br><span class="line">            &quot;operatorSummaries&quot; : [ &#123;                                                                                                                             </span><br><span class="line">            		&quot;systemMemoryReservation&quot; : &quot;0B&quot;,</span><br></pre></td></tr></table></figure>
+<p>抓取到的多个query的stat信息，都具备相同的特征：</p>
+<ol>
+<li>某一个task的systemMemoryReservation 不为0。</li>
+<li>task的第一层pipeline不为0。</li>
+<li>pipeline的Operator都是ExchangeOperator和LocalExchangeSinkOperator，但是operator内部的systemMeoryReservation为0。</li>
+</ol>
+<p>system内存是在计算过程中，使用的系统内存，例如两个worker之间传递数据，使用的就是system mem pool</p>
+<p>Operator信息表明，这个节点是从前一层节点接收数据，放在内存中，供下层pipeline计算。</p>
+<p><img src="https://ata2-img.cn-hangzhou.oss-pub.aliyun-inc.com/2d6ed0982d3266b6ffe8d6ac3b0eb54f.png" alt="image.png"></p>
+<p>task -&gt; pipeline -&gt; driver -&gt; operator 构成了一层层结构。由于数据显示pipeline这一层发生了泄露，我只好去看pipeline分配内存的逻辑。</p>
+<p><img src="https://ata2-img.cn-hangzhou.oss-pub.aliyun-inc.com/ff4bf8d06279e968cda7d4b2e4b91c48.png" alt="image.png"></p>
+<p>Driver和ExchangeClient在分配内存时，都会调用Pipeline的内存分配逻辑。由于数据显示跟Exchange有关，于是我重点检查了这ExchangeOperator分配内存的逻辑，初看之下，每一层都能做到自平衡，也就是在某一层结束的时候，调用close，自己把尚未释放的内存释放掉。</p>
+<p>但是，我也发现了在多线程场景下，由于执行时序不同，会导致出现内存泄露情况。</p>
+<h2 id="多线程时序问题"><a href="#多线程时序问题" class="headerlink" title="多线程时序问题"></a>多线程时序问题</h2><p>在ExchangeClient中，就存在多种场景。</p>
+<p>第一种场景，ExchangeClient是一个生产者和消费者模型，后台线程从远端拿到数据后，由callback线程把数据放入队列，然后才分配内存。 消费者线程从队列中poll到数据后，再释放内存。</p>
+<p><img src="https://ata2-img.cn-hangzhou.oss-pub.aliyun-inc.com/36a907cc024a816567ee727155400d67.png" alt="image.png"></p>
+<p>假如事件发生的顺序是这样的 P1 C1 C2 P2 ， 那么会先释放内存，在C2释放内存时，由于出错而分配失败。接下来在P2再去分配内存就会出错。确保不会出错的顺序是把P1和P2对调顺序。</p>
+<p>如果上边的假设成立，那么会在日志中看到<code>tried to free more memory than is reserved</code>的错误。没有从日志中发现上边的错误，于是这种假设被排除了。</p>
+<p>第二种场景， C2在释放内存是，会先判断closed变量。如果生产者在C2之前就设置了closed变量，那么就不会进入释放的逻辑。我加了一些日志，证明发生内存泄露时，closed变量确实被设置了。</p>
+<p>设置closed变量的方式如下代码，在代码中只设置了closed变量，而没有做内存清理：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">if (!closed.get() &amp;&amp; pageBuffer.peek() == NO_MORE_PAGES) &#123;</span><br><span class="line">    closed.set(true);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>由于我使用的presto代码比较老，是176版本，和master head版本进行对比，发现最新代码已经改成了<code>close()</code>， 调用<code>close()</code>函数，会提前清理内存，能够避免内存泄露的问题。<br>git blame的结果:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">e3535bbfeca (Dain Sundstrom     2017-02-24 10:04:37 -0800 289)                 close();</span><br></pre></td></tr></table></figure>
+<p>根据commit id找到对应的信息：<code>https://github.com/prestodb/presto/commit/e3535bbfeca</code></p>
+<p><img src="https://ata2-img.cn-hangzhou.oss-pub.aliyun-inc.com/6530cf137e74fb75dd0b7750041d4a63.png" alt="image.png"></p>
+<p>内存泄露的原因已经解决了，我用的版本已经太老了。但是由于我对presto内核做了很多改动，想要merge到HEAD版本恐怕要花费不少时间。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>在ExchangeClient中，向上游节点拉取数据时，有一定概率导致内存泄露，上游节点越多，概率越大。</p>
+<p>当内存发生泄露时，内存池忠实的记录了每一个queryId。这导致随着时间推移，queryId的list越来越多。</p>
+<p>coordinator会定时向每台机器获取内存池的使用情况。因此response越来越大，而json反序列化的CPU使用率越来越高，几乎占满了http callback的线程池。最终反映到监控图上，就是coordinator随着时间推移，CPU Usage直线上涨。</p>
+<h2 id="One-More-Thing"><a href="#One-More-Thing" class="headerlink" title="One More Thing"></a>One More Thing</h2><p>把ExchangeClient内存泄露的问题解决后，再去验证。由ExchangeClient造成的内存泄露已经解决了，但是发现ScanFilterAndProjectOperator在很小的场景下，会出现内存泄露。这是一个SourceOperator的派生类，会调用plugin实现的ConnectorSource，方便ConnectorSource使用系统内存。内存泄露的原因还待分析。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://mayunlei.github.io/2019/05/20/Presto-coordinator的CPU持续上涨，原因竟然是这样/" data-id="ckxl54wg9000q7j3jqul1r1zp" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+
+
+  <nav id="page-nav">
+    
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
+  </nav>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/ClickHouse-OLAP/">ClickHouse OLAP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ML-机器学习-神经网络/">ML 机器学习 神经网络</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SQL-洞察/">SQL 洞察</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/presto/">presto</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/string-cow/">string cow</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/ClickHouse-OLAP/" style="font-size: 10px;">ClickHouse OLAP</a> <a href="/tags/ML-机器学习-神经网络/" style="font-size: 10px;">ML 机器学习 神经网络</a> <a href="/tags/SQL-洞察/" style="font-size: 10px;">SQL 洞察</a> <a href="/tags/presto/" style="font-size: 20px;">presto</a> <a href="/tags/string-cow/" style="font-size: 10px;">string cow</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/12/">December 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">January 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">August 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">November 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/06/">June 2013</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/12/24/数据用途和玩转数据的手段/">数据用途和玩转数据的手段</a>
+          </li>
+        
+          <li>
+            <a href="/2021/01/09/ClickHouse计算速度是如何做到领跑OLAP类产品的/">ClickHouse计算速度是如何做到领跑OLAP类产品的</a>
+          </li>
+        
+          <li>
+            <a href="/2020/12/27/物联网产品现状和未来想象空间/">物联网产品现状和未来想象空间</a>
+          </li>
+        
+          <li>
+            <a href="/2020/10/27/机器学习和数据挖掘/">机器学习和数据挖掘</a>
+          </li>
+        
+          <li>
+            <a href="/2020/08/16/深入理解Presto-Presto的内部架构/">深入理解Presto,Presto的内部架构</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2021 马云雷<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+  <script> var _hmt = _hmt || []; (function() { var hm = document.createElement("script"); hm.src = "https://hm.baidu.com/hm.js?561f64275a5d4dab256b033830fecc5a"; var s = document.getElementsByTagName("script")[0]; s.parentNode.insertBefore(hm, s); })(); </script>
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-55656402-2"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+          gtag('config', 'UA-55656402-2');
+          </script>
+
+</body>
+</html>
