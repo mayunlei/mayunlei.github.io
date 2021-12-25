@@ -64,59 +64,10 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2021/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/" class="article-date">
-  <time datetime="2021-12-25T02:02:23.000Z" itemprop="datePublished">2021-12-25</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/">Petabytes scale log analysis at Alibaba:intrastructure/challenge/optimization</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>2021年3月25日凌晨0：00，我参加了PrestoCon2021全球技术峰会，在会上直播分享了阿里云SLS使用Presto构建交互式分析产品的挑战和优化。本文是演讲稿全文。PrestoCon2021日程：<a href="https://prestoconday2021.sched.com/?iframe=no" target="_blank" rel="noopener">https://prestoconday2021.sched.com/?iframe=no</a>，直播视频已经上传到B站<a href="https://www.bilibili.com/video/BV1hK4y1m7qe/" target="_blank" rel="noopener">https://www.bilibili.com/video/BV1hK4y1m7qe/</a>，B站还包括其他演讲视频。<br><img src="/2021/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617422880023-8b0bcbe0-5016-48be-9ef6-09d33a8e28b8.png"><br>hello everyone my name is yunlei. I work at Alibaba Cloud log service team. Today I will share petabytes scale log data analysis at Alibaba group, I will share our experience with presto, the challenges we faced and the optimizations we did for presto.<br>​<img src="/2021/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617424047759-aef063ca-f536-46ca-bcde-d672f868ea96.png"><br>So today, I will first give an introduction about our team and talk about the motivation why we provide analysis service for logging data. And then I will talk about the challenges we face. And after that I will share our architecture to achieve scalability. And also share some ways to achieve low latency and high qps or high concurrency. And after that I will talk about some additional work based on the scalable framework of presto. And finally, I will talk about the future roadmap.<br>​<img src="/2021/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617424064586-453cf25f-6bff-4dab-a258-572163bc29b2.png"><br>​</p>
-<p>First let me introduce my team, this may help you have a better understanding of the background, and the motivation of my we provide analysis service for logging data. And we are log service team, we are providing the infrastructure of all kinds of logging data inside Alibaba group., for example linux server, web page, mobile phone, or kubernetes.. and all these data from different kinds of platforms are collected to our clusters in real time. And then, consumers can consume streaming data in real time, without worrying about different platforms.<br>And after that, we wanted to provide service just like what engineers can do on their linux servers. For example, we found that engineers often use the command grep to search some key word from their log file. So, in order to provide the real time interactive search, we build inverted index for logging data. By using inverted index, people can search large amount data with very low latency.<br>And after that we notices that in this era of data explosion, even the searching result may contain thousands to millions, even to billions of rows. That is a very large number, even thousands of data is large amount of data for human being’s eye, it is not easy to fully understand what is really appending inside the large amount data. But If, we can summarize the data, do aggregation on data, take web access log as an example, if we can calculate the average response time or max response time, we can better understand the whole data. That is the motivation my we provide analysis service for logging data. And we also have a visualization service, to visualize the interactive query result, which is helpful for understanding the data trend.<br>So, in summary, our team provide multi-tenant, interactive analysis for petabytes scale real time logging data.<br><img src="/2021/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617424085479-947ee0dd-7136-446c-9eb3-7d19e6fddb44.png"><br>What are the challenges we faced? The first challenge is the high QPS and high concurrency. Every day, we process about 400 millions queries, at the peak hour there are about 10000 queries running concurrently. Second, every day presto process over 1 quadrillion rows. Which is huge amount of data. But we can deliver the interactive query with very low latency. The average latency is only about 500 ms. So, how do we deal with those challenges, and how to achieve that low latency? In the latter slides, I will talk about some techniques we used.<br><img src="/2021/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617424102038-4ac1684f-5525-4932-940e-8f27480897da.png"><br>​</p>
-<p>In order to provide the interactive log analysis. The first thing we did is introducing presto into our system. Many people ask me the question that, why did we choose presto in the first day. Well, I think the first and most import reason is that, presto is really really fast, very flexible for interactive query. It suits our use case.  Second reason, presto has a scalable framework. We can develop our own connector/function/optimization rule which makes it very easy to integrate presto with our own storage. Last, the architecture and coding style Is very elegant. The architecture is simple, it doesn’t rely on any external components for deployment. The coding style is also very simple, it is easy for us to learn its internal implementation, also easy for us to do some modification for optimization. That is the reason why we choose presto in the first day.<br>​</p>
-<img src="/2021/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617424115235-59d335b5-b076-4de5-a717-aedbec1d7399.png">
-<p>In order to deal with the large amount of data ingested every day. We design our architecture like this. This is simplified architecture, only analysis related components are included. Data from different kinds of platforms are collected to our cluster, in the backend, the index worker keeps building inverted index and column format data for logging data. And then all the data are stored in the distributed file system, which is called pangu. This is the flow of data ingestion. When submitting query, users can send their query by sdk or jdbc client through our front api server, to one coordinator. We support distributed coordinators, and I will talk more detail about the design. In the backend, presto server read inverted index for filtering and column data for computing. This is the flow of querying. And presto play a key role in this architecture.<br>​<img src="/2021/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617424157805-b6df2168-c7a5-47bf-b034-2d38641b6127.png"><br>How to support querying large amount of data? Every day we process about 1quadrillinon rows. Fortunately, presto is a pure computing engine, so it is easy to decouple computing and storage separately. So that we can scale presto horizontally. Also, log data has a feature that it is immutable after ingested. And in the backend, we keep compacting small file into larger file, when the file is large enough, the file will become immutable. One immutable file contains tens of millions rows.so, each time we schedule a file, we schedule each immutable file to one presto server. And by this way, we can use a lot of presto server for one query. And thus, we can query large amount of data in one query. And the performance is also significant. If we run a simple group by query on 200 billions rows, it only takes about 20 seconds. That is a large amount of data and the latency is acceptable.<br>​<img src="/2021/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617424171251-5420046d-4e6c-4607-9891-cf6d2e64329c.png"><br>So, how to achieve low latency? There are a few techniques we used. The first technique we used is column format storage. In the backend, we keep building column format data. We all know that column storage is helpful for reducing data size to read from disk, and also helpful for vectorized execution, thus it will makes query faster.<br>​</p>
-<p>Another technique we used is data locality. We all know that, network speed inside cluster is much faster than network between clusters. So, we deploy storage and computing engine in same shared cluster. When scheduling task, we choose a free node by the order of machine, rack, cluster.<br>​</p>
-<p>There are some other techniques we used, for example cache, inverted index. I will talk more detail about that.<br>​<img src="/2021/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617424190608-a0d8d74d-5925-4f0a-a13d-280d1ee25ea8.png"><br>We all know that cache can make query faster, it can also help us removing some duplicated computation. And in order to take advantage of cache, the scheduling algorithm has to remember scheduling history in memory. Every time we schedule a file, we schedule each immutable file to the same node it has been scheduled before, unless the workload of specified node is much too high. In that case, we will choose another free node.<br>So there are three layers of cache, from the bottom up, there are raw data cache, intermediate result cache, and final result cache. The raw data cache and final result cache are common solutions. But the intermediate cache is a very rare solution. So, I’d like to talk more detail about the intermediate cache. As I mentioned earlier, file is immutable. So, every time we schedule a file, we schedule each mapper with exactly one immutable file. Then after finishing the partial aggregation operator, we store the result of partial aggregation operator in memory. And next time when we run exactly the same partial aggregation operator on exactly the same immutable file, we can just read the result from the memory, and send the intermediate result to final aggregation operator directly, without reading data from disk and recomputing the partial aggregation operator. We all know that partial aggregation operator deals with large amount of data, and only generate small amount of data. So, most of the computation happens in the partial aggregation operator. By using intermediate cache, we can achieve a faster query and also save a lot of cpu and IO resource.<br>​</p>
-<img src="/2021/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617424208162-f254d8cb-b03a-45a8-8175-129bb878d88c.png">
-<p>What about the performance of cache? Every day, there are more than about 100 millions query hitting final result cache. The average latency when hitting final result cache is only about 6 milliseconds. So, it is really fast. What’s more, final result cache can help us prevent a lot of duplicated computations and save us a lot of resource. What about the performance of intermediate cache?  For 1 billion rows.  It only takes about 1.3 second when hitting intermediate cache, but it will take 6 seconds when not hitting intermediate cache. So, the comparation of two latency is impressive.<br>​</p>
-<img src="/2021/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617424220492-9a72f5a5-99f4-489a-993f-4556faf5c06c.png">
-<p>Another technique we used is inverted index. In the first day, we use inverted index for searching data. After introducing presto into our system. I push down predicate from presto to storage system, and then use the inverted index to first calculate the matched row id, and use the matched row id to read matched rows, and then send only matched data to presto. This strategy is very effective if we can use inverted index to skip some file or only read small part of file. If you run a query select count(*), that will be extremely fast by using only index!.<br>​<img src="/2021/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617424234433-bf57b216-ed16-4155-a7ca-11de19da5c25.png"><br>Every day we are processing more than 400 million queries. And the main challenge is on coordinator. This picture was taken about 2 years ago. And at that time there was only one single coordinator. This picture shows the top 4 nodes with highest CPU usage of presto, the fist picture is coordinator. You may notice that the CPU usage of coordinator is much higher than normal workers. In our cluster, one single coordinator can process 1000 queries concurrently at most. So, the single coordinator is the bottleneck of the cluster. It has the problem of both scalability and availability. In order to improve the performance of coordinator, I did a few optimizations. The first optimization is supporting distributed scalable coordinators. The second optimization is transferring data from output stage to client directly, without worrying coordinator.<br>​<img src="/2021/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617424953423-4a63a842-e655-4d43-953a-46ef4363b76f.png"><br>Let us look at the detailed design of distributed coordinators. I design the distributed coordinators for scalability. And there are two kinds of roles in this design: the global coordinator, and the distributed coordinators. The global coordinator has only one instance. It is responsible for cluster management. For example, detect node state, replicate all the node state to other coordinators, track memory usage, assign largest query to reserved pool.  The distributed coordinators are responsible for query management. For example, parse query, create logical plan, optimize logical plan, schedule task, track task state. It is also responsible for a user queue. Every time submitting a query, user send his query to one coordinator based on the hashing of user name, in this way, all the queries belonging to one user can always be found in one coordinator. This design is not 100 percent perfect, because the global queue is not supported. But it is enough for our scenario. It helps us to scale coordinators horizontally for much higher concurrency.<br>​<img src="/2021/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617424969227-e65a0a3a-fc14-4284-b618-f064b17db078.png"><br>Another thing we did is optimizing the data transfer flow. In the original design, the coordinator transfers query result from output stage to client. So, the coordinator has to serialize query result into json format. We all know that json serialization is very slow. What if coordinator transfers large amount of data? For example, 1 gigabytes data. That will take a lot of CPU usage of coordinator. In order to optimize the performance of coordinator, here is my solution. The coordinator will tell the client all the addresses of the output stage. Because there may more than one node in the output stage. And then client will use the addresses to talk to output stage to directly fetch data with protobuf format. By this way we can make query faster and save a lot of cpu usage of coordinator.<br>​</p>
-<img src="/2021/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617425009217-0057e623-4495-447f-9a49-dcd24d6d8c56.png">
-<p>Here is the final performance. We can process 400 million queries every day by supporting distributed coordinator and optimizing data transfer. And by decoupling computing and storage, we can support processing over 1 quadrillion rows every day. By taking advantage of column storage, data locality, cache, inverted index, we can provide interactive query with very low latency, the average latency is only about 500 milliseconds.<br>​<img src="/2021/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617425021490-e42b4c38-9d1f-4c5a-8f4c-3c3c28939708.png"><br>Besides those optimizations, we also did a few additional works based on the scalable framework of presto. The first thing we did is machine learning library for time series data. We also noticed that only logging data is not enough for analysis. Sometimes, we need to join logging data with some external data. So, I developed a connector to read object file on OSS storage.  We also use presto as a federated SQL engine.<br>​<img src="/2021/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617425034418-771bd915-8711-455d-ab40-a88ffe74e48e.png"><br>In the future, there are still a lot of things to do. The biggest challenge is still on coordinator. We will keep optimizing coordinator. Another thing we want to do is increase the availability of discovery, by now, discovery has only one instance. We also want to improve the performance of data exchange by using rpc protocol, which will make it faster to shuffling large amount of data.<br><img src="/2021/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617425122280-6c261c3d-0b80-4e09-8eb4-a794ee80092c.png"><br>If you are interested in data analysis engine or OLAP engine, don’t hesitate connect me,  our team are hiring OLAP engineers, let us work together to make data easy to understand!<br>​</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://mayunlei.github.io/2021/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/" data-id="ckxl6ip0900012t3jqu7p94ss" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
     <article id="post-数据用途和玩转数据的手段" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2021/12/24/数据用途和玩转数据的手段/" class="article-date">
-  <time datetime="2021-12-24T09:48:25.000Z" itemprop="datePublished">2021-12-24</time>
+    <a href="/2021/12/25/数据用途和玩转数据的手段/" class="article-date">
+  <time datetime="2021-12-25T02:08:08.000Z" itemprop="datePublished">2021-12-25</time>
 </a>
     
   </div>
@@ -127,7 +78,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2021/12/24/数据用途和玩转数据的手段/">数据用途和玩转数据的手段</a>
+      <a class="article-title" href="/2021/12/25/数据用途和玩转数据的手段/">数据用途和玩转数据的手段</a>
     </h1>
   
 
@@ -135,7 +86,8 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="数据用途和玩转数据的手段"><a href="#数据用途和玩转数据的手段" class="headerlink" title="数据用途和玩转数据的手段"></a>数据用途和玩转数据的手段</h2><p><img src="https://intranetproxy.alipay.com/skylark/lark/0/2021/png/53094/1639895690262-2b65cf5f-0853-488a-aa1c-136d2d79be11.png#clientId=uf51e320b-0c66-4&amp;crop=0&amp;crop=0&amp;crop=1&amp;crop=1&amp;from=paste&amp;height=281&amp;id=ub6b3a640&amp;margin=%5Bobject%20Object%5D&amp;name=image.png&amp;originHeight=562&amp;originWidth=1124&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;size=64856&amp;status=done&amp;style=none&amp;taskId=uf566c090-0173-4fb7-89bd-68da6955326&amp;title=&amp;width=562" alt="image.png"><br>数据分析通常用于商业决策，一般在大公司中，会养一个专门的商业分析部门，专门采集各种数据用于辅助董事会/CEO等决策层做核心的商业决策。但是，数据分析的需求无处不在，在各个业务线中也有对于数据分析的诉求，例如运营部分，一个运营活动的好坏、应该向哪个渠道投放资源，不能靠拍脑袋决定，要分析具体数据。同样对于开发运维也一样，线上系统是否稳定，各个模块指标怎么样，都需要数据得到反馈。对于董事会，可以养一个专门的机构搞数据分析；而对于普通的业务线，那只能自助分析了。今天我们就来总结一下数据分析的方法，如何洞察数据中的有效信息。<br>数据分析首先得有数据，从各个地方采集数据。所谓巧妇难为无米之炊，没有数据更谈不上数据洞察。有些公司，成立商业分析部门，干的活却是窃取其他公司的商业核心数据，愣是把一个高上大的技术名词搞成了间谍。20世纪上半叶，数学上的统计学在各行各业流行开来，数学家们，利用很少的数据，再加上统计学理论，推断一个结论。如经典的”女士品茶”这个故事，通过数据判定女士到底有没有某个超能力。至于把商业分析干成商业间谍的人，大概是不懂得需要如何合法的采集数据，以及分析数据的手段吧。<br>数据存储无需多讨论，要分析数据，首先要把数据存储下来，无论是存储在云端也好，还是excel也好，只有存储下来，才能方便后续的计算和分析。<br>数据有哪些使用方式呢？这里列举了四种用法，例如report，monitoring，analysis，exploration/mining。我们可以按照两个维度来划分，需求是否明确，分析方式是否成熟。<br><img src="https://intranetproxy.alipay.com/skylark/lark/0/2021/png/53094/1639914240796-aa90d9c9-0521-4741-825f-248664cbe39d.png#clientId=u53c0c54b-c9b3-4&amp;crop=0&amp;crop=0&amp;crop=1&amp;crop=1&amp;from=paste&amp;height=313&amp;id=uc907114b&amp;margin=%5Bobject%20Object%5D&amp;name=image.png&amp;originHeight=626&amp;originWidth=916&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;size=46589&amp;status=done&amp;style=none&amp;taskId=uf4cf91d8-6d80-4d5f-ada6-d8777a28388&amp;title=&amp;width=458" alt="image.png"><br>有些需求场景是明确的，例如老板需要每天看几个关键的业务指标，那么就需要每天跑个固定的脚本，生成报告。在这个过程中分析方法也是固定的，即运行固定的计算逻辑。有些需求需要经过一番分析，例如某天业务量降低了，要分析下原因是什么，就需要从多种指标里边去探索。<br>还有些需求场景是不明确的，给你一份数据，我们知道数据里边有金矿，关键是怎么把数据中的核心信息捞出来，也需要探索才能找到，但是探索的目标不确定。这就是个开放式的话题了，也就是探索式数据分析：有数据，尝试找信息。应该沿着怎么样的一条路是探索呢？我认为有两种方式：</p>
+        <h2 id="数据用途和玩转数据的手段"><a href="#数据用途和玩转数据的手段" class="headerlink" title="数据用途和玩转数据的手段"></a>数据用途和玩转数据的手段</h2><img src="/2021/12/25/数据用途和玩转数据的手段/1639895690262-2b65cf5f-0853-488a-aa1c-136d2d79be11.png" title="image.png">
+<p>数据分析通常用于商业决策，一般在大公司中，会养一个专门的商业分析部门，专门采集各种数据用于辅助董事会/CEO等决策层做核心的商业决策。但是，数据分析的需求无处不在，在各个业务线中也有对于数据分析的诉求，例如运营部分，一个运营活动的好坏、应该向哪个渠道投放资源，不能靠拍脑袋决定，要分析具体数据。同样对于开发运维也一样，线上系统是否稳定，各个模块指标怎么样，都需要数据得到反馈。对于董事会，可以养一个专门的机构搞数据分析；而对于普通的业务线，那只能自助分析了。今天我们就来总结一下数据分析的方法，如何洞察数据中的有效信息。<br>数据分析首先得有数据，从各个地方采集数据。所谓巧妇难为无米之炊，没有数据更谈不上数据洞察。有些公司，成立商业分析部门，干的活却是窃取其他公司的商业核心数据，愣是把一个高上大的技术名词搞成了间谍。20世纪上半叶，数学上的统计学在各行各业流行开来，数学家们，利用很少的数据，再加上统计学理论，推断一个结论。如经典的”女士品茶”这个故事，通过数据判定女士到底有没有某个超能力。至于把商业分析干成商业间谍的人，大概是不懂得需要如何合法的采集数据，以及分析数据的手段吧。<br>数据存储无需多讨论，要分析数据，首先要把数据存储下来，无论是存储在云端也好，还是excel也好，只有存储下来，才能方便后续的计算和分析。<br>数据有哪些使用方式呢？这里列举了四种用法，例如report，monitoring，analysis，exploration/mining。我们可以按照两个维度来划分，需求是否明确，分析方式是否成熟。<br><img src="/2021/12/25/数据用途和玩转数据的手段/1639914240796-aa90d9c9-0521-4741-825f-248664cbe39d.png" title="image.png"><br>有些需求场景是明确的，例如老板需要每天看几个关键的业务指标，那么就需要每天跑个固定的脚本，生成报告。在这个过程中分析方法也是固定的，即运行固定的计算逻辑。有些需求需要经过一番分析，例如某天业务量降低了，要分析下原因是什么，就需要从多种指标里边去探索。<br>还有些需求场景是不明确的，给你一份数据，我们知道数据里边有金矿，关键是怎么把数据中的核心信息捞出来，也需要探索才能找到，但是探索的目标不确定。这就是个开放式的话题了，也就是探索式数据分析：有数据，尝试找信息。应该沿着怎么样的一条路是探索呢？我认为有两种方式：</p>
 <ul>
 <li>尝试不同的分析方法，例如统计方法/机器学习方，挨个尝试，看能得到什么结果。有哪些分析方法，会在下文列一下常用的手段。</li>
 <li>尝试不同的目标，比如，首先用一句话描述数据的总体分布，然后找出其中的一些异常点，最后通过拟合数据做未来预测等等，有哪些分析目标，也会在下文列出一下常用的。</li>
@@ -146,7 +98,7 @@
 <h3 id="验证假设"><a href="#验证假设" class="headerlink" title="验证假设"></a>验证假设</h3><p>首先给出一个假设，通过数据给出证明。</p>
 <h3 id="预测"><a href="#预测" class="headerlink" title="预测"></a>预测</h3><p>拟合已有的数据，根据模型预测未来数据。<br>​</p>
 <p>无论哪种目标，最终都是需要能过帮助完成决策，只有完成决策，才算完沉了闭环，否则就是无意义的数据分析。</p>
-<h2 id="洞察数据的方法"><a href="#洞察数据的方法" class="headerlink" title="洞察数据的方法"></a>洞察数据的方法</h2><p>一个优秀的软件，必定是有灵魂的，他的灵魂就是背后的方法论。Saas的本质，就是输出管理的理念和方法论，并且提供解决方案的工具。具体到数据分析工具而言，一个优秀的数据分析工具一定以数据分析方法论的为基础的，融合集合常见的数据分析方法。而不是东一榔头、西一棒槌追加分析函数，永远跟着甲方的需求跑，面向客户开发，面向demo开发，这样的话永远不成体系。<br>我们先来看个数据分析的笑话：<br><img src="https://intranetproxy.alipay.com/skylark/lark/0/2021/png/53094/1638965299987-04d1c697-7f85-4dd2-899e-9e5598c647bb.png#clientId=u639c9db5-40a8-4&amp;crop=0&amp;crop=0&amp;crop=1&amp;crop=1&amp;from=paste&amp;height=540&amp;id=u6cfde58f&amp;margin=%5Bobject%20Object%5D&amp;name=image.png&amp;originHeight=540&amp;originWidth=265&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;size=94213&amp;status=done&amp;style=none&amp;taskId=u4976d6b5-803d-43c0-8b9d-d3797de4f4a&amp;title=&amp;width=265" alt="image.png"><br>手里有个锤子，看什么都是钉子，数据分析专业的同学，看到什么都要现象都要分析一把。疫情也要分析一把，强行刷存在感。不过笑归笑，外行看热闹，内行看门道。在这个简短的笑话中，我们看到一些常见的数据分析方法：相关性分析、假设检验、ab测试、z test、数据分布、标准差、显著性水平等。</p>
+<h2 id="洞察数据的方法"><a href="#洞察数据的方法" class="headerlink" title="洞察数据的方法"></a>洞察数据的方法</h2><p>一个优秀的软件，必定是有灵魂的，他的灵魂就是背后的方法论。Saas的本质，就是输出管理的理念和方法论，并且提供解决方案的工具。具体到数据分析工具而言，一个优秀的数据分析工具一定以数据分析方法论的为基础的，融合集合常见的数据分析方法。而不是东一榔头、西一棒槌追加分析函数，永远跟着甲方的需求跑，面向客户开发，面向demo开发，这样的话永远不成体系。<br>我们先来看个数据分析的笑话：<br><img src="/2021/12/25/数据用途和玩转数据的手段/1638965299987-04d1c697-7f85-4dd2-899e-9e5598c647bb.png" title="image.png"><br>手里有个锤子，看什么都是钉子，数据分析专业的同学，看到什么都要现象都要分析一把。疫情也要分析一把，强行刷存在感。不过笑归笑，外行看热闹，内行看门道。在这个简短的笑话中，我们看到一些常见的数据分析方法：相关性分析、假设检验、ab测试、z test、数据分布、标准差、显著性水平等。</p>
 <p>那么常见的数据分析方法有哪些呢？这些我们在大学的各个数学课程中都学习过了。首先我们做个分类，按照实现方式，数据分析包括：</p>
 <ul>
 <li>基于统计算法的数据分析。</li>
@@ -189,9 +141,9 @@
 <li>范围</li>
 <li>四分位距</li>
 </ul>
-<p><img src="https://intranetproxy.alipay.com/skylark/lark/0/2021/png/53094/1639967567533-5e587d1b-3db0-4da0-aae2-906309bfd6f3.png#clientId=u7d4aca78-7c86-4&amp;crop=0&amp;crop=0&amp;crop=1&amp;crop=1&amp;from=paste&amp;height=330&amp;id=u12b14ead&amp;margin=%5Bobject%20Object%5D&amp;name=image.png&amp;originHeight=660&amp;originWidth=2158&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;size=120688&amp;status=done&amp;style=none&amp;taskId=ub68bc1d7-9eb0-4ffa-947f-30b7c1a9912&amp;title=&amp;width=1079" alt="image.png"></p>
-<h3 id="数据分布"><a href="#数据分布" class="headerlink" title="数据分布"></a>数据分布</h3><p>数据分布的目标主要是查看数据的分布频率(分布密度)，针对不同的数据采取不同的分析方式，对于连续数据，采取散点图/箱线图(分位统计)描述。在散点图中，把所有的点都打印到图中，密度比较高的地方则说明分布比较多。对于离散数据，采取堆叠图/直方图描述。按照每个不同的类别，分桶后统计计数，然后用直方图绘出。同样的，对于连续数据也可以采取直方图的方式，把连续数据按照固定的桶大小分桶后再计数。<br><img src="https://intranetproxy.alipay.com/skylark/lark/0/2021/png/53094/1639967723187-2fb0e24c-0aba-4dee-940a-5e50cbd882d3.png#clientId=u7d4aca78-7c86-4&amp;crop=0&amp;crop=0&amp;crop=1&amp;crop=1&amp;from=paste&amp;height=310&amp;id=ubfd66406&amp;margin=%5Bobject%20Object%5D&amp;name=image.png&amp;originHeight=620&amp;originWidth=786&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;size=147059&amp;status=done&amp;style=none&amp;taskId=u3e7840c9-f6cd-4f91-a2ad-4dfaeec19fd&amp;title=&amp;width=393" alt="image.png"><img src="https://intranetproxy.alipay.com/skylark/lark/0/2021/png/53094/1639967822622-80a912a7-3c39-45bf-9baf-ebef36fb6c37.png#clientId=u7d4aca78-7c86-4&amp;crop=0&amp;crop=0&amp;crop=1&amp;crop=1&amp;from=paste&amp;height=191&amp;id=ufb021827&amp;margin=%5Bobject%20Object%5D&amp;name=image.png&amp;originHeight=382&amp;originWidth=536&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;size=12183&amp;status=done&amp;style=none&amp;taskId=u21c8b7cd-8c66-446d-8613-a2664ce0158&amp;title=&amp;width=268" alt="image.png"></p>
-<h3 id="相关性"><a href="#相关性" class="headerlink" title="相关性"></a>相关性</h3><p>上文的统计量分析/数据分布分析，是用于分析单变量。 而对于多变量分析，则需要用到相关性分析。探索两个变量之间的相关性。在计算相关性时，主要计算两个数据集合的相关性系数。常见的相关性系数有皮尔逊系数、斯皮尔曼系数等。在计算好相关性系数后，可以绘制出一个相关性表如下：<br><img src="https://intranetproxy.alipay.com/skylark/lark/0/2021/png/53094/1639968277868-cd7f7b87-340f-4814-9470-17abca65d53e.png#clientId=u7d4aca78-7c86-4&amp;crop=0&amp;crop=0&amp;crop=1&amp;crop=1&amp;from=paste&amp;height=473&amp;id=u979db054&amp;margin=%5Bobject%20Object%5D&amp;name=image.png&amp;originHeight=946&amp;originWidth=1200&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;size=762822&amp;status=done&amp;style=none&amp;taskId=uc69e20d7-3afa-46f4-a873-8e2466d8ecf&amp;title=&amp;width=600" alt="image.png"></p>
+<img src="/2021/12/25/数据用途和玩转数据的手段/1639967567533-5e587d1b-3db0-4da0-aae2-906309bfd6f3.png" title="image.png">
+<h3 id="数据分布"><a href="#数据分布" class="headerlink" title="数据分布"></a>数据分布</h3><p>数据分布的目标主要是查看数据的分布频率(分布密度)，针对不同的数据采取不同的分析方式，对于连续数据，采取散点图/箱线图(分位统计)描述。在散点图中，把所有的点都打印到图中，密度比较高的地方则说明分布比较多。对于离散数据，采取堆叠图/直方图描述。按照每个不同的类别，分桶后统计计数，然后用直方图绘出。同样的，对于连续数据也可以采取直方图的方式，把连续数据按照固定的桶大小分桶后再计数。<br><img src="数据用途和玩转数据的手段/1639967723187-2fb0e24c-0aba-4dee-940a-5e50cbd882d3.png" alt="image.png"><img src="数据用途和玩转数据的手段/1639967822622-80a912a7-3c39-45bf-9baf-ebef36fb6c37.png" alt="image.png"></p>
+<h3 id="相关性"><a href="#相关性" class="headerlink" title="相关性"></a>相关性</h3><p>上文的统计量分析/数据分布分析，是用于分析单变量。 而对于多变量分析，则需要用到相关性分析。探索两个变量之间的相关性。在计算相关性时，主要计算两个数据集合的相关性系数。常见的相关性系数有皮尔逊系数、斯皮尔曼系数等。在计算好相关性系数后，可以绘制出一个相关性表如下：<br><img src="/2021/12/25/数据用途和玩转数据的手段/1639968277868-cd7f7b87-340f-4814-9470-17abca65d53e.png" title="image.png"></p>
 <h3 id="抽样分布"><a href="#抽样分布" class="headerlink" title="抽样分布"></a>抽样分布</h3><p>抽样分布是用少量数据估算整体数据的分布情况，用途有三种：第一,可以概括性描述整体分布;第二可以根据整体分布预测未来的新数据；第三，可以利用分布系数来排查异常值。<br>常见的分布有：</p>
 <ul>
 <li>正态分布： 如果确定数据服从正态分布，估算出正态分布的sigma后，我们可以使用3sigma来排除异常值。</li>
@@ -203,7 +155,7 @@
 </ul>
 <p>柏松分布和指数分布通常用于估算事件发生率，也可用于估算IT系统的故障发生率。或者用于估算系统的上限水位，例如一个IT系统，每分钟的流量是x qps，那么根据泊松分布，可以估算出最大值是多少qps，系统需要准备多少资源。<br>​</p>
 <p>在现实的数据中，可能具备多种形状和类型，在特定场景下，应该首先确定数据集合服从哪种分布，求的分布系数后，再进行下一步的分析。<br>​</p>
-<h3 id="统计实验和假设性检验"><a href="#统计实验和假设性检验" class="headerlink" title="统计实验和假设性检验"></a>统计实验和假设性检验</h3><p>假设检验有个很好的用途，例如我们的营销团队做了个活动，那么如何评估活动是否带来了客流量呢？我们都知道现实的数据可能是有波动的，可能有N天变高，M天变低。所以要评估是否活动的影响，可以使用假设检验来验证。<br>最常见的业务场景，例如A/B测试。两种算法，哪个效果更好，可以通过假设检验来完成。<br>常见的方法有T检验、卡方检验<br>例如<br><img src="https://intranetproxy.alipay.com/skylark/lark/0/2021/png/53094/1639970025835-dc36319c-3779-40d2-8ee3-3666f3c2a277.png#clientId=u7d4aca78-7c86-4&amp;crop=0&amp;crop=0&amp;crop=1&amp;crop=1&amp;from=paste&amp;height=139&amp;id=u65cdb686&amp;margin=%5Bobject%20Object%5D&amp;name=image.png&amp;originHeight=278&amp;originWidth=880&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;size=33267&amp;status=done&amp;style=none&amp;taskId=u9f9321dc-1faf-4c00-ad6b-a8e4ffd963f&amp;title=&amp;width=440" alt="image.png"><br>不同的标题下，有不同的点击率，那么这个点击率是随机造成的，还是标题起到了关键作用呢？可以通过卡方检验，计算皮尔逊残差，结果证明完全是随机作用。<br>​</p>
+<h3 id="统计实验和假设性检验"><a href="#统计实验和假设性检验" class="headerlink" title="统计实验和假设性检验"></a>统计实验和假设性检验</h3><p>假设检验有个很好的用途，例如我们的营销团队做了个活动，那么如何评估活动是否带来了客流量呢？我们都知道现实的数据可能是有波动的，可能有N天变高，M天变低。所以要评估是否活动的影响，可以使用假设检验来验证。<br>最常见的业务场景，例如A/B测试。两种算法，哪个效果更好，可以通过假设检验来完成。<br>常见的方法有T检验、卡方检验<br>例如<br><img src="/2021/12/25/数据用途和玩转数据的手段/1639970025835-dc36319c-3779-40d2-8ee3-3666f3c2a277.png" title="image.png"><br>不同的标题下，有不同的点击率，那么这个点击率是随机造成的，还是标题起到了关键作用呢？可以通过卡方检验，计算皮尔逊残差，结果证明完全是随机作用。<br>​</p>
 <h3 id="回归和预测"><a href="#回归和预测" class="headerlink" title="回归和预测"></a>回归和预测</h3><p>在现实中，我们经常要回答的一个问题是，这两个指标之间是否有关联？如果有关联，是否可以通过其中一个指标预测另外一个指标。预测常见的一个使用场景是：根据预测的结果和实际的结果进行比对，然后判断是否有异常。</p>
 <h3 id="分类-1"><a href="#分类-1" class="headerlink" title="分类"></a>分类</h3><p>在数据分析中，经常要回答一个问题，一个电子邮件是否是钓鱼邮件？一个客户是否会流失？这种情况就需要分类。分类是有监督的学习。<br>常用的分类算法有：</p>
 <ul>
@@ -228,7 +180,8 @@
 <li>循环神经网络RNN</li>
 <li>深度神经网络DNN</li>
 </ul>
-<h1 id="数据分析工具和数据洞察解决方案"><a href="#数据分析工具和数据洞察解决方案" class="headerlink" title="数据分析工具和数据洞察解决方案"></a>数据分析工具和数据洞察解决方案</h1><p><img src="https://intranetproxy.alipay.com/skylark/lark/0/2021/png/53094/1639971950420-24beef6e-73f9-44c7-9e2b-64ed77900b6e.png#clientId=u7d4aca78-7c86-4&amp;crop=0&amp;crop=0&amp;crop=1&amp;crop=1&amp;from=paste&amp;height=276&amp;id=u03bc74d4&amp;margin=%5Bobject%20Object%5D&amp;name=image.png&amp;originHeight=552&amp;originWidth=1326&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;size=44580&amp;status=done&amp;style=none&amp;taskId=ub621c2c5-d95d-4b25-b106-4d966dd3008&amp;title=&amp;width=663" alt="image.png"><br>上文介紹了很多数据分析的方法算法。这些方法，归根结底是一个个工具，或者说是积木，用户可以使用这些积木组合成解决方案，解决自己特定的问题。市场上有很多系统提供类似的数据分析工具，例如Pandas，R，SQL，Tensorflow等等。 但是这依赖于使用者既要明确自己的分析目标，又要十分精通使用工具。 对于开放式的话题，在分析时需要不断尝试各种各样的手段进行分析，有些分析手段可能是无效的，因此需要不断尝试，在这个过程中浪费了太多的时间。如何能够快速洞察数据呢？<br>有些工具尝试集合数据分析的工具和数据洞察的解决方案，例如tableau，Knime等，而Pandas profiling则是一个纯粹的数据洞察方案。它自动的尝试上文描述的各种手段，把结论呈现给客户，减少了数据探索的时间，能过快速的完成数据洞察。<br>​</p>
+<h1 id="数据分析工具和数据洞察解决方案"><a href="#数据分析工具和数据洞察解决方案" class="headerlink" title="数据分析工具和数据洞察解决方案"></a>数据分析工具和数据洞察解决方案</h1><img src="/2021/12/25/数据用途和玩转数据的手段/1639971950420-24beef6e-73f9-44c7-9e2b-64ed77900b6e.png" title="image.png">
+<p>上文介紹了很多数据分析的方法算法。这些方法，归根结底是一个个工具，或者说是积木，用户可以使用这些积木组合成解决方案，解决自己特定的问题。市场上有很多系统提供类似的数据分析工具，例如Pandas，R，SQL，Tensorflow等等。 但是这依赖于使用者既要明确自己的分析目标，又要十分精通使用工具。 对于开放式的话题，在分析时需要不断尝试各种各样的手段进行分析，有些分析手段可能是无效的，因此需要不断尝试，在这个过程中浪费了太多的时间。如何能够快速洞察数据呢？<br>有些工具尝试集合数据分析的工具和数据洞察的解决方案，例如tableau，Knime等，而Pandas profiling则是一个纯粹的数据洞察方案。它自动的尝试上文描述的各种手段，把结论呈现给客户，减少了数据探索的时间，能过快速的完成数据洞察。<br>​</p>
 <h1 id="数据洞察工具的价值"><a href="#数据洞察工具的价值" class="headerlink" title="数据洞察工具的价值"></a>数据洞察工具的价值</h1><p>针对开放式的课题，需要投入大量的人工时间在各个方向上探索，这存在几个问题：</p>
 <ul>
 <li>可能以后某些关键路径，例如在分钟级别的数据看不出信息，而秒级别数据才能看出信息。若没有想到该方式，那么将极大延长发现问题的时间。</li>
@@ -239,11 +192,58 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://mayunlei.github.io/2021/12/24/数据用途和玩转数据的手段/" data-id="ckxl6ip0k000n2t3j5noml12l" class="article-share-link">Share</a>
+      <a data-url="http://mayunlei.github.io/2021/12/25/数据用途和玩转数据的手段/" data-id="ckxl6wmmu000dc63jx8uofl4c" class="article-share-link">Share</a>
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SQL-洞察/">SQL 洞察</a></li></ul>
+    </footer>
+  </div>
+  
+</article>
 
+
+  
+    <article id="post-Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2021/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/" class="article-date">
+  <time datetime="2021-12-25T02:02:23.000Z" itemprop="datePublished">2021-12-25</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/">Petabytes scale log analysis at Alibaba:intrastructure/challenge/optimization</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>2021年3月25日凌晨0：00，我参加了PrestoCon2021全球技术峰会，在会上直播分享了阿里云SLS使用Presto构建交互式分析产品的挑战和优化。本文是演讲稿全文。PrestoCon2021日程：<a href="https://prestoconday2021.sched.com/?iframe=no" target="_blank" rel="noopener">https://prestoconday2021.sched.com/?iframe=no</a>，直播视频已经上传到B站<a href="https://www.bilibili.com/video/BV1hK4y1m7qe/" target="_blank" rel="noopener">https://www.bilibili.com/video/BV1hK4y1m7qe/</a>，B站还包括其他演讲视频。<br><img src="/2021/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617422880023-8b0bcbe0-5016-48be-9ef6-09d33a8e28b8.png"><br>hello everyone my name is yunlei. I work at Alibaba Cloud log service team. Today I will share petabytes scale log data analysis at Alibaba group, I will share our experience with presto, the challenges we faced and the optimizations we did for presto.<br>​<img src="/2021/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617424047759-aef063ca-f536-46ca-bcde-d672f868ea96.png"><br>So today, I will first give an introduction about our team and talk about the motivation why we provide analysis service for logging data. And then I will talk about the challenges we face. And after that I will share our architecture to achieve scalability. And also share some ways to achieve low latency and high qps or high concurrency. And after that I will talk about some additional work based on the scalable framework of presto. And finally, I will talk about the future roadmap.<br>​<img src="/2021/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617424064586-453cf25f-6bff-4dab-a258-572163bc29b2.png"><br>​</p>
+<p>First let me introduce my team, this may help you have a better understanding of the background, and the motivation of my we provide analysis service for logging data. And we are log service team, we are providing the infrastructure of all kinds of logging data inside Alibaba group., for example linux server, web page, mobile phone, or kubernetes.. and all these data from different kinds of platforms are collected to our clusters in real time. And then, consumers can consume streaming data in real time, without worrying about different platforms.<br>And after that, we wanted to provide service just like what engineers can do on their linux servers. For example, we found that engineers often use the command grep to search some key word from their log file. So, in order to provide the real time interactive search, we build inverted index for logging data. By using inverted index, people can search large amount data with very low latency.<br>And after that we notices that in this era of data explosion, even the searching result may contain thousands to millions, even to billions of rows. That is a very large number, even thousands of data is large amount of data for human being’s eye, it is not easy to fully understand what is really appending inside the large amount data. But If, we can summarize the data, do aggregation on data, take web access log as an example, if we can calculate the average response time or max response time, we can better understand the whole data. That is the motivation my we provide analysis service for logging data. And we also have a visualization service, to visualize the interactive query result, which is helpful for understanding the data trend.<br>So, in summary, our team provide multi-tenant, interactive analysis for petabytes scale real time logging data.<br><img src="/2021/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617424085479-947ee0dd-7136-446c-9eb3-7d19e6fddb44.png"><br>What are the challenges we faced? The first challenge is the high QPS and high concurrency. Every day, we process about 400 millions queries, at the peak hour there are about 10000 queries running concurrently. Second, every day presto process over 1 quadrillion rows. Which is huge amount of data. But we can deliver the interactive query with very low latency. The average latency is only about 500 ms. So, how do we deal with those challenges, and how to achieve that low latency? In the latter slides, I will talk about some techniques we used.<br><img src="/2021/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617424102038-4ac1684f-5525-4932-940e-8f27480897da.png"><br>​</p>
+<p>In order to provide the interactive log analysis. The first thing we did is introducing presto into our system. Many people ask me the question that, why did we choose presto in the first day. Well, I think the first and most import reason is that, presto is really really fast, very flexible for interactive query. It suits our use case.  Second reason, presto has a scalable framework. We can develop our own connector/function/optimization rule which makes it very easy to integrate presto with our own storage. Last, the architecture and coding style Is very elegant. The architecture is simple, it doesn’t rely on any external components for deployment. The coding style is also very simple, it is easy for us to learn its internal implementation, also easy for us to do some modification for optimization. That is the reason why we choose presto in the first day.<br>​</p>
+<img src="/2021/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617424115235-59d335b5-b076-4de5-a717-aedbec1d7399.png">
+<p>In order to deal with the large amount of data ingested every day. We design our architecture like this. This is simplified architecture, only analysis related components are included. Data from different kinds of platforms are collected to our cluster, in the backend, the index worker keeps building inverted index and column format data for logging data. And then all the data are stored in the distributed file system, which is called pangu. This is the flow of data ingestion. When submitting query, users can send their query by sdk or jdbc client through our front api server, to one coordinator. We support distributed coordinators, and I will talk more detail about the design. In the backend, presto server read inverted index for filtering and column data for computing. This is the flow of querying. And presto play a key role in this architecture.<br>​<img src="/2021/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617424157805-b6df2168-c7a5-47bf-b034-2d38641b6127.png"><br>How to support querying large amount of data? Every day we process about 1quadrillinon rows. Fortunately, presto is a pure computing engine, so it is easy to decouple computing and storage separately. So that we can scale presto horizontally. Also, log data has a feature that it is immutable after ingested. And in the backend, we keep compacting small file into larger file, when the file is large enough, the file will become immutable. One immutable file contains tens of millions rows.so, each time we schedule a file, we schedule each immutable file to one presto server. And by this way, we can use a lot of presto server for one query. And thus, we can query large amount of data in one query. And the performance is also significant. If we run a simple group by query on 200 billions rows, it only takes about 20 seconds. That is a large amount of data and the latency is acceptable.<br>​<img src="/2021/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617424171251-5420046d-4e6c-4607-9891-cf6d2e64329c.png"><br>So, how to achieve low latency? There are a few techniques we used. The first technique we used is column format storage. In the backend, we keep building column format data. We all know that column storage is helpful for reducing data size to read from disk, and also helpful for vectorized execution, thus it will makes query faster.<br>​</p>
+<p>Another technique we used is data locality. We all know that, network speed inside cluster is much faster than network between clusters. So, we deploy storage and computing engine in same shared cluster. When scheduling task, we choose a free node by the order of machine, rack, cluster.<br>​</p>
+<p>There are some other techniques we used, for example cache, inverted index. I will talk more detail about that.<br>​<img src="/2021/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617424190608-a0d8d74d-5925-4f0a-a13d-280d1ee25ea8.png"><br>We all know that cache can make query faster, it can also help us removing some duplicated computation. And in order to take advantage of cache, the scheduling algorithm has to remember scheduling history in memory. Every time we schedule a file, we schedule each immutable file to the same node it has been scheduled before, unless the workload of specified node is much too high. In that case, we will choose another free node.<br>So there are three layers of cache, from the bottom up, there are raw data cache, intermediate result cache, and final result cache. The raw data cache and final result cache are common solutions. But the intermediate cache is a very rare solution. So, I’d like to talk more detail about the intermediate cache. As I mentioned earlier, file is immutable. So, every time we schedule a file, we schedule each mapper with exactly one immutable file. Then after finishing the partial aggregation operator, we store the result of partial aggregation operator in memory. And next time when we run exactly the same partial aggregation operator on exactly the same immutable file, we can just read the result from the memory, and send the intermediate result to final aggregation operator directly, without reading data from disk and recomputing the partial aggregation operator. We all know that partial aggregation operator deals with large amount of data, and only generate small amount of data. So, most of the computation happens in the partial aggregation operator. By using intermediate cache, we can achieve a faster query and also save a lot of cpu and IO resource.<br>​</p>
+<img src="/2021/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617424208162-f254d8cb-b03a-45a8-8175-129bb878d88c.png">
+<p>What about the performance of cache? Every day, there are more than about 100 millions query hitting final result cache. The average latency when hitting final result cache is only about 6 milliseconds. So, it is really fast. What’s more, final result cache can help us prevent a lot of duplicated computations and save us a lot of resource. What about the performance of intermediate cache?  For 1 billion rows.  It only takes about 1.3 second when hitting intermediate cache, but it will take 6 seconds when not hitting intermediate cache. So, the comparation of two latency is impressive.<br>​</p>
+<img src="/2021/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617424220492-9a72f5a5-99f4-489a-993f-4556faf5c06c.png">
+<p>Another technique we used is inverted index. In the first day, we use inverted index for searching data. After introducing presto into our system. I push down predicate from presto to storage system, and then use the inverted index to first calculate the matched row id, and use the matched row id to read matched rows, and then send only matched data to presto. This strategy is very effective if we can use inverted index to skip some file or only read small part of file. If you run a query select count(*), that will be extremely fast by using only index!.<br>​<img src="/2021/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617424234433-bf57b216-ed16-4155-a7ca-11de19da5c25.png"><br>Every day we are processing more than 400 million queries. And the main challenge is on coordinator. This picture was taken about 2 years ago. And at that time there was only one single coordinator. This picture shows the top 4 nodes with highest CPU usage of presto, the fist picture is coordinator. You may notice that the CPU usage of coordinator is much higher than normal workers. In our cluster, one single coordinator can process 1000 queries concurrently at most. So, the single coordinator is the bottleneck of the cluster. It has the problem of both scalability and availability. In order to improve the performance of coordinator, I did a few optimizations. The first optimization is supporting distributed scalable coordinators. The second optimization is transferring data from output stage to client directly, without worrying coordinator.<br>​<img src="/2021/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617424953423-4a63a842-e655-4d43-953a-46ef4363b76f.png"><br>Let us look at the detailed design of distributed coordinators. I design the distributed coordinators for scalability. And there are two kinds of roles in this design: the global coordinator, and the distributed coordinators. The global coordinator has only one instance. It is responsible for cluster management. For example, detect node state, replicate all the node state to other coordinators, track memory usage, assign largest query to reserved pool.  The distributed coordinators are responsible for query management. For example, parse query, create logical plan, optimize logical plan, schedule task, track task state. It is also responsible for a user queue. Every time submitting a query, user send his query to one coordinator based on the hashing of user name, in this way, all the queries belonging to one user can always be found in one coordinator. This design is not 100 percent perfect, because the global queue is not supported. But it is enough for our scenario. It helps us to scale coordinators horizontally for much higher concurrency.<br>​<img src="/2021/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617424969227-e65a0a3a-fc14-4284-b618-f064b17db078.png"><br>Another thing we did is optimizing the data transfer flow. In the original design, the coordinator transfers query result from output stage to client. So, the coordinator has to serialize query result into json format. We all know that json serialization is very slow. What if coordinator transfers large amount of data? For example, 1 gigabytes data. That will take a lot of CPU usage of coordinator. In order to optimize the performance of coordinator, here is my solution. The coordinator will tell the client all the addresses of the output stage. Because there may more than one node in the output stage. And then client will use the addresses to talk to output stage to directly fetch data with protobuf format. By this way we can make query faster and save a lot of cpu usage of coordinator.<br>​</p>
+<img src="/2021/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617425009217-0057e623-4495-447f-9a49-dcd24d6d8c56.png">
+<p>Here is the final performance. We can process 400 million queries every day by supporting distributed coordinator and optimizing data transfer. And by decoupling computing and storage, we can support processing over 1 quadrillion rows every day. By taking advantage of column storage, data locality, cache, inverted index, we can provide interactive query with very low latency, the average latency is only about 500 milliseconds.<br>​<img src="/2021/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617425021490-e42b4c38-9d1f-4c5a-8f4c-3c3c28939708.png"><br>Besides those optimizations, we also did a few additional works based on the scalable framework of presto. The first thing we did is machine learning library for time series data. We also noticed that only logging data is not enough for analysis. Sometimes, we need to join logging data with some external data. So, I developed a connector to read object file on OSS storage.  We also use presto as a federated SQL engine.<br>​<img src="/2021/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617425034418-771bd915-8711-455d-ab40-a88ffe74e48e.png"><br>In the future, there are still a lot of things to do. The biggest challenge is still on coordinator. We will keep optimizing coordinator. Another thing we want to do is increase the availability of discovery, by now, discovery has only one instance. We also want to improve the performance of data exchange by using rpc protocol, which will make it faster to shuffling large amount of data.<br><img src="/2021/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617425122280-6c261c3d-0b80-4e09-8eb4-a794ee80092c.png"><br>If you are interested in data analysis engine or OLAP engine, don’t hesitate connect me,  our team are hiring OLAP engineers, let us work together to make data easy to understand!<br>​</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://mayunlei.github.io/2021/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/" data-id="ckxl6wmmk0000c63jxuh4tz73" class="article-share-link">Share</a>
+      
+      
     </footer>
   </div>
   
@@ -351,7 +351,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://mayunlei.github.io/2021/01/09/ClickHouse计算速度是如何做到领跑OLAP类产品的/" data-id="ckxl6ip0700002t3jt9ns0zyc" class="article-share-link">Share</a>
+      <a data-url="http://mayunlei.github.io/2021/01/09/ClickHouse计算速度是如何做到领跑OLAP类产品的/" data-id="ckxl6wmmo0003c63jy3qjs5rn" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ClickHouse-OLAP/">ClickHouse OLAP</a></li></ul>
@@ -414,7 +414,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://mayunlei.github.io/2020/12/27/物联网产品现状和未来想象空间/" data-id="ckxl6ip0j000i2t3jigj3kthd" class="article-share-link">Share</a>
+      <a data-url="http://mayunlei.github.io/2020/12/27/物联网产品现状和未来想象空间/" data-id="ckxl6wmn6000tc63jkevvqn1q" class="article-share-link">Share</a>
       
       
     </footer>
@@ -619,7 +619,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://mayunlei.github.io/2020/10/27/机器学习和数据挖掘/" data-id="ckxl6ip0j000l2t3j9nwel1q8" class="article-share-link">Share</a>
+      <a data-url="http://mayunlei.github.io/2020/10/27/机器学习和数据挖掘/" data-id="ckxl6wmmv000gc63j6t4ehzb8" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ML-机器学习-神经网络/">ML 机器学习 神经网络</a></li></ul>
@@ -814,7 +814,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://mayunlei.github.io/2020/08/16/深入理解Presto-Presto的内部架构/" data-id="ckxl6ip0k000o2t3j3etlfevj" class="article-share-link">Share</a>
+      <a data-url="http://mayunlei.github.io/2020/08/16/深入理解Presto-Presto的内部架构/" data-id="ckxl6wmmv000ic63j1nodo3u0" class="article-share-link">Share</a>
       
       
     </footer>
@@ -877,7 +877,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://mayunlei.github.io/2020/05/30/Presto-任务调度：-任务分配到哪里/" data-id="ckxl6ip0c00072t3jes9q6pv3" class="article-share-link">Share</a>
+      <a data-url="http://mayunlei.github.io/2020/05/30/Presto-任务调度：-任务分配到哪里/" data-id="ckxl6wmmp0004c63jx11gw96y" class="article-share-link">Share</a>
       
       
     </footer>
@@ -1076,7 +1076,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://mayunlei.github.io/2020/05/20/Procella-Youtube-把计算加速玩到极致的实时计算引擎/" data-id="ckxl6ip0d00092t3jlse9qhct" class="article-share-link">Share</a>
+      <a data-url="http://mayunlei.github.io/2020/05/20/Procella-Youtube-把计算加速玩到极致的实时计算引擎/" data-id="ckxl6wmmq0006c63j60b38cv0" class="article-share-link">Share</a>
       
       
     </footer>
@@ -1202,7 +1202,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://mayunlei.github.io/2019/11/26/Presto-Coordinator分布式改造/" data-id="ckxl6ip0a00032t3jymi9l4zq" class="article-share-link">Share</a>
+      <a data-url="http://mayunlei.github.io/2019/11/26/Presto-Coordinator分布式改造/" data-id="ckxl6wmmm0001c63jxvuw533c" class="article-share-link">Share</a>
       
       
     </footer>
@@ -1292,7 +1292,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://mayunlei.github.io/2019/09/02/Presto内存泄露问题调查/" data-id="ckxl6ip0b00052t3j6ii9lq2g" class="article-share-link">Share</a>
+      <a data-url="http://mayunlei.github.io/2019/09/02/Presto内存泄露问题调查/" data-id="ckxl6wmmy000lc63jk7wekgf5" class="article-share-link">Share</a>
       
       
     </footer>
@@ -1320,7 +1320,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/ClickHouse-OLAP/">ClickHouse OLAP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ML-机器学习-神经网络/">ML 机器学习 神经网络</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SQL-洞察/">SQL 洞察</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/presto/">presto</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/string-cow/">string cow</a></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/ClickHouse-OLAP/">ClickHouse OLAP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ML-机器学习-神经网络/">ML 机器学习 神经网络</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/presto/">presto</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/string-cow/">string cow</a></li></ul>
     </div>
   </div>
 
@@ -1330,7 +1330,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/ClickHouse-OLAP/" style="font-size: 10px;">ClickHouse OLAP</a> <a href="/tags/ML-机器学习-神经网络/" style="font-size: 10px;">ML 机器学习 神经网络</a> <a href="/tags/SQL-洞察/" style="font-size: 10px;">SQL 洞察</a> <a href="/tags/presto/" style="font-size: 20px;">presto</a> <a href="/tags/string-cow/" style="font-size: 10px;">string cow</a>
+      <a href="/tags/ClickHouse-OLAP/" style="font-size: 10px;">ClickHouse OLAP</a> <a href="/tags/ML-机器学习-神经网络/" style="font-size: 10px;">ML 机器学习 神经网络</a> <a href="/tags/presto/" style="font-size: 20px;">presto</a> <a href="/tags/string-cow/" style="font-size: 10px;">string cow</a>
     </div>
   </div>
 
@@ -1352,11 +1352,11 @@
       <ul>
         
           <li>
-            <a href="/2021/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/">Petabytes scale log analysis at Alibaba:intrastructure/challenge/optimization</a>
+            <a href="/2021/12/25/数据用途和玩转数据的手段/">数据用途和玩转数据的手段</a>
           </li>
         
           <li>
-            <a href="/2021/12/24/数据用途和玩转数据的手段/">数据用途和玩转数据的手段</a>
+            <a href="/2021/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/">Petabytes scale log analysis at Alibaba:intrastructure/challenge/optimization</a>
           </li>
         
           <li>
