@@ -8,6 +8,7 @@
   <title>数据用途和玩转数据的手段 | 马云雷的技术博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="数据用途和玩转数据的手段 数据分析通常用于商业决策，一般在大公司中，会养一个专门的商业分析部门，专门采集各种数据用于辅助董事会/CEO等决策层做核心的商业决策。但是，数据分析的需求无处不在，在各个业务线中也有对于数据分析的诉求，例如运营部分，一个运营活动的好坏、应该向哪个渠道投放资源，不能靠拍脑袋决定，要分析具体数据。同样对于开发运维也一样，线上系统是否稳定，各个模块指标怎么样，都需要数据得到反馈">
+<meta name="keywords" content="SQL洞察">
 <meta property="og:type" content="article">
 <meta property="og:title" content="数据用途和玩转数据的手段">
 <meta property="og:url" content="http://mayunlei.github.io/2021/12/25/数据用途和玩转数据的手段/index.html">
@@ -18,12 +19,12 @@
 <meta property="og:image" content="http://mayunlei.github.io/2021/12/25/数据用途和玩转数据的手段/1639914240796-aa90d9c9-0521-4741-825f-248664cbe39d.png">
 <meta property="og:image" content="http://mayunlei.github.io/2021/12/25/数据用途和玩转数据的手段/1638965299987-04d1c697-7f85-4dd2-899e-9e5598c647bb.png">
 <meta property="og:image" content="http://mayunlei.github.io/2021/12/25/数据用途和玩转数据的手段/1639967567533-5e587d1b-3db0-4da0-aae2-906309bfd6f3.png">
-<meta property="og:image" content="http://mayunlei.github.io/2021/12/25/数据用途和玩转数据的手段/数据用途和玩转数据的手段/1639967723187-2fb0e24c-0aba-4dee-940a-5e50cbd882d3.png">
-<meta property="og:image" content="http://mayunlei.github.io/2021/12/25/数据用途和玩转数据的手段/数据用途和玩转数据的手段/1639967822622-80a912a7-3c39-45bf-9baf-ebef36fb6c37.png">
+<meta property="og:image" content="http://mayunlei.github.io/2021/12/25/数据用途和玩转数据的手段/1639967723187-2fb0e24c-0aba-4dee-940a-5e50cbd882d3.png">
+<meta property="og:image" content="http://mayunlei.github.io/2021/12/25/数据用途和玩转数据的手段/1639967822622-80a912a7-3c39-45bf-9baf-ebef36fb6c37.png">
 <meta property="og:image" content="http://mayunlei.github.io/2021/12/25/数据用途和玩转数据的手段/1639968277868-cd7f7b87-340f-4814-9470-17abca65d53e.png">
 <meta property="og:image" content="http://mayunlei.github.io/2021/12/25/数据用途和玩转数据的手段/1639970025835-dc36319c-3779-40d2-8ee3-3666f3c2a277.png">
 <meta property="og:image" content="http://mayunlei.github.io/2021/12/25/数据用途和玩转数据的手段/1639971950420-24beef6e-73f9-44c7-9e2b-64ed77900b6e.png">
-<meta property="og:updated_time" content="2021-12-25T02:14:26.104Z">
+<meta property="og:updated_time" content="2021-12-25T02:24:27.556Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="数据用途和玩转数据的手段">
 <meta name="twitter:description" content="数据用途和玩转数据的手段 数据分析通常用于商业决策，一般在大公司中，会养一个专门的商业分析部门，专门采集各种数据用于辅助董事会/CEO等决策层做核心的商业决策。但是，数据分析的需求无处不在，在各个业务线中也有对于数据分析的诉求，例如运营部分，一个运营活动的好坏、应该向哪个渠道投放资源，不能靠拍脑袋决定，要分析具体数据。同样对于开发运维也一样，线上系统是否稳定，各个模块指标怎么样，都需要数据得到反馈">
@@ -154,7 +155,8 @@
 <li>四分位距</li>
 </ul>
 <img src="/2021/12/25/数据用途和玩转数据的手段/1639967567533-5e587d1b-3db0-4da0-aae2-906309bfd6f3.png" title="image.png">
-<h3 id="数据分布"><a href="#数据分布" class="headerlink" title="数据分布"></a>数据分布</h3><p>数据分布的目标主要是查看数据的分布频率(分布密度)，针对不同的数据采取不同的分析方式，对于连续数据，采取散点图/箱线图(分位统计)描述。在散点图中，把所有的点都打印到图中，密度比较高的地方则说明分布比较多。对于离散数据，采取堆叠图/直方图描述。按照每个不同的类别，分桶后统计计数，然后用直方图绘出。同样的，对于连续数据也可以采取直方图的方式，把连续数据按照固定的桶大小分桶后再计数。<br><img src="数据用途和玩转数据的手段/1639967723187-2fb0e24c-0aba-4dee-940a-5e50cbd882d3.png" alt="image.png"><img src="数据用途和玩转数据的手段/1639967822622-80a912a7-3c39-45bf-9baf-ebef36fb6c37.png" alt="image.png"></p>
+<h3 id="数据分布"><a href="#数据分布" class="headerlink" title="数据分布"></a>数据分布</h3><p>数据分布的目标主要是查看数据的分布频率(分布密度)，针对不同的数据采取不同的分析方式，对于连续数据，采取散点图/箱线图(分位统计)描述。在散点图中，把所有的点都打印到图中，密度比较高的地方则说明分布比较多。对于离散数据，采取堆叠图/直方图描述。按照每个不同的类别，分桶后统计计数，然后用直方图绘出。同样的，对于连续数据也可以采取直方图的方式，把连续数据按照固定的桶大小分桶后再计数。<br><img src="/2021/12/25/数据用途和玩转数据的手段/1639967723187-2fb0e24c-0aba-4dee-940a-5e50cbd882d3.png" title="image.png"></p>
+<img src="/2021/12/25/数据用途和玩转数据的手段/1639967822622-80a912a7-3c39-45bf-9baf-ebef36fb6c37.png" title="image.png">
 <h3 id="相关性"><a href="#相关性" class="headerlink" title="相关性"></a>相关性</h3><p>上文的统计量分析/数据分布分析，是用于分析单变量。 而对于多变量分析，则需要用到相关性分析。探索两个变量之间的相关性。在计算相关性时，主要计算两个数据集合的相关性系数。常见的相关性系数有皮尔逊系数、斯皮尔曼系数等。在计算好相关性系数后，可以绘制出一个相关性表如下：<br><img src="/2021/12/25/数据用途和玩转数据的手段/1639968277868-cd7f7b87-340f-4814-9470-17abca65d53e.png" title="image.png"></p>
 <h3 id="抽样分布"><a href="#抽样分布" class="headerlink" title="抽样分布"></a>抽样分布</h3><p>抽样分布是用少量数据估算整体数据的分布情况，用途有三种：第一,可以概括性描述整体分布;第二可以根据整体分布预测未来的新数据；第三，可以利用分布系数来排查异常值。<br>常见的分布有：</p>
 <ul>
@@ -204,9 +206,11 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://mayunlei.github.io/2021/12/25/数据用途和玩转数据的手段/" data-id="ckxl6wmmu000dc63jx8uofl4c" class="article-share-link">Share</a>
+      <a data-url="http://mayunlei.github.io/2021/12/25/数据用途和玩转数据的手段/" data-id="ckxl76svn000bir3jjugbq8nv" class="article-share-link">Share</a>
       
       
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SQL洞察/">SQL洞察</a></li></ul>
+
     </footer>
   </div>
   
@@ -235,7 +239,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/ClickHouse-OLAP/">ClickHouse OLAP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ML-机器学习-神经网络/">ML 机器学习 神经网络</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/presto/">presto</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/string-cow/">string cow</a></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/ClickHouse-OLAP/">ClickHouse OLAP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ML-机器学习-神经网络/">ML 机器学习 神经网络</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SQL洞察/">SQL洞察</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/presto/">presto</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/string-cow/">string cow</a></li></ul>
     </div>
   </div>
 
@@ -245,7 +249,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/ClickHouse-OLAP/" style="font-size: 10px;">ClickHouse OLAP</a> <a href="/tags/ML-机器学习-神经网络/" style="font-size: 10px;">ML 机器学习 神经网络</a> <a href="/tags/presto/" style="font-size: 20px;">presto</a> <a href="/tags/string-cow/" style="font-size: 10px;">string cow</a>
+      <a href="/tags/ClickHouse-OLAP/" style="font-size: 10px;">ClickHouse OLAP</a> <a href="/tags/ML-机器学习-神经网络/" style="font-size: 10px;">ML 机器学习 神经网络</a> <a href="/tags/SQL洞察/" style="font-size: 10px;">SQL洞察</a> <a href="/tags/presto/" style="font-size: 20px;">presto</a> <a href="/tags/string-cow/" style="font-size: 10px;">string cow</a>
     </div>
   </div>
 
