@@ -64,6 +64,326 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-深入浅出向量化技术" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/06/16/深入浅出向量化技术/" class="article-date">
+  <time datetime="2022-06-16T09:30:29.326Z" itemprop="datePublished">2022-06-16</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="深入向量化计算技术"><a href="#深入向量化计算技术" class="headerlink" title="深入向量化计算技术"></a>深入向量化计算技术</h1><h2 id="计算加速的技术"><a href="#计算加速的技术" class="headerlink" title="计算加速的技术"></a>计算加速的技术</h2><p>计算加速可以从多个方面入手。软件加速/硬件加速。从软件上来讲，尽可能的榨干硬件的性能；从硬件上讲，尽可能的提高主频。从方向上讲，可以横向扩展，使用更高的并发处理能力；或者在纵向上提高单点的性能。并发处理能力，从粒度上区分，从到小有机器级别的并发，堆机器做同样的事情；或者线程级别的并发，利用多线程多核并发计算；或者指令级别的并发，在一个指令上操作多个数据。</p>
+<p>其他并发处理方式比较常见，那么指令级并发怎么理解呢？冯诺依曼式架构是CPU从存储系统中加载指令和数据，完成指令并把结果保存到存储系统。通常一个指令操作一个数据，生成一份结果。而SIMD(Single Instruction Multiple Data)指令是一类特殊的CPU指令类型，这种指令可以在一条指令中，同时操作多个数据。</p>
+<p>SIMD指令的作用是向量化执行(Vectorized Execution)，中文通常翻译成向量化，但是这个词并不是很好，更好的翻译是数组化执行，表示一次指令操作数组中的多个数据，而不是一次处理一个数据；向量则代表有数值和方向，显然在这里的意义用数组更能准确的表达。在操作SIMD指令时，一次性把多条数据从内存加载到宽寄存器中，通过一条并行指令同时完成多条数据的计算。例如一个操作32字节(256位)的指令，可以同时操作8个int类型，获得8倍的加速。同时利用SIMD减少循环次数，大大减少了循环跳转指令，也能获得加速。SIMD指令可以有0个参数、1个数组参数、2个数组参数。如果有一个数组参数，指令计算完数组中的每个元素后，分别把结果写入对应位置；如果是有两个参数，则两个参数对应的位置分别完成指定操作，写入到对应位置。</p>
+<p>编译器通过SIMD加速的原理是：通过把循环语句展开，减少循环次数，循环展开的作用是减少循环时的跳转语句，跳转会破坏流水线；而流水线可以预先加载指令，减少CPU停顿时间，因此减少跳转指令可以提升流水线的效率。</p>
+<p><img src="深入浅出向量化技术/image-20220618152317363.png" alt="image-20220618152317363" style="zoom:50%;"></p>
+<p>图：SIMD指令同时操作A和B中4对数字，产生4个结果存放到C中</p>
+<p>以如下代码为例，对4个float计算平方：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">squre</span><span class="params">( <span class="keyword">float</span>* ptr )</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">		<span class="keyword">for</span>( <span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">4</span>; i++ )</span><br><span class="line">   	&#123;</span><br><span class="line">			<span class="keyword">const</span> <span class="keyword">float</span> f = ptr[ i ];</span><br><span class="line">    	ptr[ i ] = f * f;</span><br><span class="line">		&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上述代码转写成SIMD指令，则可以删除循环，用三条指令即可完成计算，分别是加载到寄存器，计算平方，结果写回内存:</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">squre</span><span class="params">(<span class="keyword">float</span> * ptr)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	  __m128 f = _mm_loadu_ps( ptr ); </span><br><span class="line">	  f = _mm_mul_ps( f, f ); </span><br><span class="line">     _mm_storeu_ps( ptr, f );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>理论上，各种数据类型和指令宽度下的加速比如下表，在最好的情况，对char类型可实现64倍提速。</p>
+<table>
+<thead>
+<tr>
+<th>数据类型/指令宽度</th>
+<th>128位指令</th>
+<th>256位指令</th>
+<th>256位指令</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>char(1byte)</td>
+<td>16</td>
+<td>32</td>
+<td>64</td>
+</tr>
+<tr>
+<td>int(4 byte)</td>
+<td>4</td>
+<td>8</td>
+<td>16</td>
+</tr>
+<tr>
+<td>long(8 byte)</td>
+<td>2</td>
+<td>4</td>
+<td>8</td>
+</tr>
+<tr>
+<td>float(4 byte)</td>
+<td>4</td>
+<td>8</td>
+<td>16</td>
+</tr>
+<tr>
+<td>double(8 byte)</td>
+<td>2</td>
+<td>4</td>
+<td>8</td>
+</tr>
+</tbody>
+</table>
+<h2 id="SIMD扩展指令集"><a href="#SIMD扩展指令集" class="headerlink" title="SIMD扩展指令集"></a>SIMD扩展指令集</h2><p>SIMD指令的运行方式时，把一组数据加载到宽寄存器(128位、256位、512位）中，然后生成结果放到另一个宽寄存器中。</p>
+<p>SIMD指令需要硬件支持MMX系列，SSE(Streaming SIMD Extensions)系列、AVX(Advanced Vector Extensions)系列扩展指令集。SSE1、SSE2、SSE3、SSE4.1、SSE4.2操作的是16字节寄存器，AVX、AVX2引入了32字节寄存器，AVX512引入了64字节寄存器。目前大部分CPU都支持AVX2，只有最新的CPU才支持AVX512。</p>
+<p>指令集需要CPU硬件支持，下标列出了支持各个指令集的CPU。</p>
+<p><img src="深入浅出向量化技术/image-20220618163034294.png" alt="image-20220618163034294" style="zoom:50%;"></p>
+<p>ARM也引入了SIMD扩展指令。典型的SIMD操作包括算术运算(+-*/)以及abs、sqrt等，完整的指令集合请参考英特尔提供的使用文档<a href="https://software.intel.com/sites/landingpage/IntrinsicsGuide/#" target="_blank" rel="noopener">https://software.intel.com/sites/landingpage/IntrinsicsGuide/#</a></p>
+<p>那么如何生成SIMD指令呢？有几种方式：</p>
+<ol>
+<li>编译器自动向量化：<ol>
+<li>静态编译。</li>
+<li>即时编译（JIT）。</li>
+</ol>
+</li>
+<li>可以手写SIMD指令。</li>
+</ol>
+<h2 id="编译器静态自动向量化："><a href="#编译器静态自动向量化：" class="headerlink" title="编译器静态自动向量化："></a>编译器静态自动向量化：</h2><p>对于编译器自动向量化，需要有几个条件：</p>
+<ol>
+<li>代码满足一定的范式。后续会详细展开介绍各种case。</li>
+<li>对于常用的编译器入gcc和clang，在编译选项上加上-O3的选项，开启向量化。</li>
+</ol>
+<h3 id="编译器选择和选项"><a href="#编译器选择和选项" class="headerlink" title="编译器选择和选项"></a>编译器选择和选项</h3><p>在编译时，编译选项中加上-O3或者 -mavx2 -march=native -ftree-vectorize，可以开启向量化。</p>
+<p>只有高版本的编译器才能实现向量化，gcc 4.9.2及以下测试不支持向量化。gcc 9.2.1支持。gcc对向量化的支持更加友好，而clang对某些代码无法转化成向量化。而有些情况下，clang生成的向量化代码性能比gcc更好（采用更宽的寄存器指令导致的）。不一而足。因此，建议编写符合规范的代码，然后分别测试两种编译器的性能。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">res[i] = tmpBitPtr[i] &amp; opBitPtr[i];   <span class="comment">//使用下标访问地址，clang和gcc都支持</span></span><br><span class="line">*(res + i) = *(tmpBitPtr + i) &amp; *(opBitPtr + i);  <span class="comment">//使用地址运算访问内存，clang不支持，gcc支持</span></span><br></pre></td></tr></table></figure>
+<h2 id="如何写出可向量化的代码："><a href="#如何写出可向量化的代码：" class="headerlink" title="如何写出可向量化的代码："></a>如何写出可向量化的代码：</h2><p>为了更好的引导编译器给你的代码生成向量化代码，编程上有一些最佳实践。</p>
+<h3 id="1-循环的次数要是可计数的"><a href="#1-循环的次数要是可计数的" class="headerlink" title="1 循环的次数要是可计数的"></a>1 循环的次数要是可计数的</h3><p>循环的变量初始值和结束值要固定，例如</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>;i &lt; n ;++i ) <span class="comment">//总的次数是可以计数的,这种写法可以向量化</span></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>;i != n;++i) <span class="comment">//总的次数不可计数，这种写法无法向量</span></span><br></pre></td></tr></table></figure>
+<h3 id="2-简单直接的计算，不包含函数调用"><a href="#2-简单直接的计算，不包含函数调用" class="headerlink" title="2 简单直接的计算，不包含函数调用"></a>2 简单直接的计算，不包含函数调用</h3><p>计算只包含简单的加减乘除等数学运算、与或非等逻辑运算。不要包含switch，if，return等语句。</p>
+<p>此处有一些例外是，部分三角函数(sin,cos等)或者算术函数(pow,log等)因为lib提供了内置的向量化实现，是可以自动向量化的。</p>
+<h3 id="3-在循环的最内层"><a href="#3-在循环的最内层" class="headerlink" title="3 在循环的最内层"></a>3 在循环的最内层</h3><p>只有最内层的循环可以向量化</p>
+<h3 id="4-访问连续的内存空间"><a href="#4-访问连续的内存空间" class="headerlink" title="4 访问连续的内存空间"></a>4 访问连续的内存空间</h3><p>也就是函数的计算参数和结果必须存放在连续空间中，通过一条simd指令从内存加载到寄存器。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">0</span>; i&lt;SIZE; i+=<span class="number">2</span>) b[i] += a[i] * x[i];   <span class="comment">//访问连续空间，可以向量化</span></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">0</span>; i&lt;SIZE; i+=<span class="number">2</span>) b[i] += a[i] * x[index[i]] <span class="comment">//访问非连续空间，不能向量化</span></span><br></pre></td></tr></table></figure>
+<h3 id="5-数据无依赖"><a href="#5-数据无依赖" class="headerlink" title="5 数据无依赖"></a>5 数据无依赖</h3><p>这是最重要的一条，因为是并行计算，属于同一条并行指令的多个独立指令所操作的数字，之间不能有关联，否则就不能并行化处理，只能串行计算。</p>
+<p>数据依赖有几种场景：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (j=<span class="number">1</span>; j&lt;MAX; j++) A[j]=A[j<span class="number">-1</span>]+<span class="number">1</span>;<span class="comment">// case 1 先写后读，不能向量化</span></span><br><span class="line"><span class="keyword">for</span> (j=<span class="number">1</span>; j&lt;MAX; j++) A[j<span class="number">-1</span>]=A[j]+<span class="number">1</span>;<span class="comment">// case 2 先读后写，不能向量化</span></span><br><span class="line"><span class="keyword">for</span> (j=<span class="number">1</span>; j&lt;MAX; j++) A[j<span class="number">-4</span>]=A[j]+<span class="number">1</span>;<span class="comment">// case 3 虽然是先读后写，但假如4组数据组成一个向量，那么同一组数据内无依赖的，因而可以向量化</span></span><br><span class="line">                                     <span class="comment">// case 4 先写后写，无法向量化（此处无案例）</span></span><br><span class="line"><span class="keyword">for</span> (j=<span class="number">1</span>; j&lt;MAX; j++) B[j]=A[j]+A[j<span class="number">-1</span>]+<span class="number">1</span>;<span class="comment">//case 5 先读后读，因为没有写操作，不影响向量化</span></span><br><span class="line"><span class="keyword">for</span> (j=<span class="number">1</span>; j&lt;MAX; j++) sum = sum + A[j]*B[j] <span class="comment">//case 6 这种可以向量化，虽然每次都会读同一个变量，再写一个变量，因为可以先用一个宽寄存器表示sum，分别累加每一路数据，循环结束后再累加宽寄存器中的值。</span></span><br><span class="line"> <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; size; i++) &#123;</span><br><span class="line"> 		c[i] = a[i] * b[i];</span><br><span class="line"> &#125;<span class="comment">// case 7这种要确认c的内存空间和a/b的内存空间十分有交集。如果c是a或者b的别名，比如c=a+1，那么c[i] = a[i+1]，那a和c就有内存交集了。</span></span><br></pre></td></tr></table></figure>
+<p>上述几个例子中，case 3、5、6是可以向量化的，这些case属于比较特殊的case，正常而言建议还是写出明确无任何依赖问题的代码。如果确定有依赖，仍想使用向量化，可以手动编写SIMD代码。</p>
+<h3 id="6-使用数组而不是指针"><a href="#6-使用数组而不是指针" class="headerlink" title="6 使用数组而不是指针"></a>6 使用数组而不是指针</h3><p>尽管使用指针可以达到数组类似的效果，但是使用数组，可以减少出现意外依赖的可能。而使用指针的时候，有些场景下连编译器也无法确认是否可以向量化。使用数组则没有这种担忧，编译器可以很容易的向量化。</p>
+<h3 id="7-使用循环的计数器作为数组的下标"><a href="#7-使用循环的计数器作为数组的下标" class="headerlink" title="7 使用循环的计数器作为数组的下标"></a>7 使用循环的计数器作为数组的下标</h3><p>直接使用循环的计数器作为数组的下标访问，可以简化编译器的理解。如果额外的使用其他值作为下标，则很难确认能否向量化。例如</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>;i &lt; <span class="number">10</span>;i++)  a[i] = b[i] <span class="comment">//这种较好</span></span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i =<span class="number">0</span>,index=<span class="number">0</span>;i &lt; <span class="number">10</span>;i++)  a[index++]=b[index] <span class="comment">//这种无法向量化</span></span><br></pre></td></tr></table></figure>
+<h3 id="8-使用更高效的内存布局"><a href="#8-使用更高效的内存布局" class="headerlink" title="8 使用更高效的内存布局"></a>8 使用更高效的内存布局</h3><p>数据最好以16字节或者32字节对齐。数组的元素最好是基础类型，而不是结构体或类。如果是一个复杂结构，那么同一个数组中每个对象的相同元素并不是相邻存储的。</p>
+<h3 id="9-循环次数并不需要是指令宽度的整数倍。"><a href="#9-循环次数并不需要是指令宽度的整数倍。" class="headerlink" title="9 循环次数并不需要是指令宽度的整数倍。"></a>9 循环次数并不需要是指令宽度的整数倍。</h3><p>在一些老的编译器中，循环的次数需要是指令宽度的整数倍，例如128位指令，操作4字节的int类型，可以同时操作4个int类型，那么就要求循环次数是4的整数倍。因此写代码时，需要写成两个循环，第一部分是4的整数倍循环；第二部分是末尾多出来的少量数据。</p>
+<p>而最新的编译器以及能够自动化的处理这种情况，编写代码按照正常逻辑写就行，无需拆分成两部分。编译器生成的代码会自动生成两部分逻辑。</p>
+<h2 id="手写SIMD-代码"><a href="#手写SIMD-代码" class="headerlink" title="手写SIMD 代码"></a>手写SIMD 代码</h2><p>编译器能把直接了当的逻辑转换为SIMD指令，并且需要我们认真的考虑代码风格，避免阻碍向量化。但是有些比较复杂的逻辑，编译器是无法自动向量化的，而我们人类知道这里边的逻辑是每个操作数分别计算，互不干扰，可以使用向量化。这种情况，我们可以手写SIMD代码。举一个典型的例子，把一个字符串转成全小写。</p>
+<h3 id="SIMD代码例子和不同编译器性能对比"><a href="#SIMD代码例子和不同编译器性能对比" class="headerlink" title="SIMD代码例子和不同编译器性能对比"></a>SIMD代码例子和不同编译器性能对比</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="keyword">static</span> <span class="keyword">char</span> not_case_lower_bound = <span class="string">'A'</span>;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">static</span> <span class="keyword">char</span> not_case_upper_bound= <span class="string">'Z'</span>;</span><br><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">lowerStrWithSIMD</span><span class="params">(<span class="keyword">const</span> <span class="keyword">char</span> * src, <span class="keyword">const</span> <span class="keyword">char</span> * src_end, <span class="keyword">char</span> * dst)</span></span></span><br><span class="line"><span class="function"></span>&#123;   </span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">auto</span> flip_case_mask = <span class="string">'A'</span> ^ <span class="string">'a'</span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifdef</span> __SSE2__</span></span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">auto</span> bytes_sse = <span class="keyword">sizeof</span>(__m128i);</span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">auto</span> * src_end_sse = src_end - (src_end - src) % bytes_sse;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">auto</span> v_not_case_lower_bound = _mm_set1_epi8(not_case_lower_bound - <span class="number">1</span>);</span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">auto</span> v_not_case_upper_bound = _mm_set1_epi8(not_case_upper_bound + <span class="number">1</span>);</span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">auto</span> v_flip_case_mask = _mm_set1_epi8(flip_case_mask);</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span> (; src &lt; src_end_sse; src += bytes_sse, dst += bytes_sse)</span><br><span class="line">    &#123;   </span><br><span class="line">        <span class="comment">/// load 16 sequential 8-bit characters</span></span><br><span class="line">        <span class="keyword">const</span> <span class="keyword">auto</span> chars = _mm_loadu_si128(<span class="keyword">reinterpret_cast</span>&lt;<span class="keyword">const</span> __m128i *&gt;(src));</span><br><span class="line">        </span><br><span class="line">        <span class="comment">/// find which 8-bit sequences belong to range [case_lower_bound, case_upper_bound]</span></span><br><span class="line">        <span class="keyword">const</span> <span class="keyword">auto</span> is_not_case</span><br><span class="line">            = _mm_and_si128(_mm_cmpgt_epi8(chars, v_not_case_lower_bound), _mm_cmplt_epi8(chars, v_not_case_upper_bound));</span><br><span class="line">        </span><br><span class="line">        <span class="comment">/// keep lip_case_mask _mm_and_si128(v_flip_case_mask, is_not_case);</span></span><br><span class="line">        </span><br><span class="line">        <span class="comment">/// flip case by applying calculated mask</span></span><br><span class="line">         <span class="keyword">const</span> <span class="keyword">auto</span> xor_mask = _mm_and_si128(v_flip_case_mask, is_not_case);</span><br><span class="line">        <span class="keyword">const</span> <span class="keyword">auto</span> cased_chars = _mm_xor_si128(chars, xor_mask);</span><br><span class="line">        </span><br><span class="line">        <span class="comment">/// store result back to destination</span></span><br><span class="line">        _mm_storeu_si128(<span class="keyword">reinterpret_cast</span>&lt;__m128i *&gt;(dst), cased_chars);</span><br><span class="line">    &#125;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span> (; src &lt; src_end; ++src, ++dst)</span><br><span class="line">        <span class="keyword">if</span> (*src &gt;= not_case_lower_bound &amp;&amp; *src &lt;= not_case_upper_bound)</span><br><span class="line">            *dst = *src ^ flip_case_mask;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            *dst = *src;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">lowerStr</span><span class="params">(<span class="keyword">const</span> <span class="keyword">char</span> * src, <span class="keyword">const</span> <span class="keyword">char</span> * src_end, <span class="keyword">char</span> * dst)</span></span></span><br><span class="line"><span class="function"></span>&#123;   </span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">auto</span> flip_case_mask = <span class="string">'A'</span> ^ <span class="string">'a'</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (; src &lt; src_end; ++src, ++dst)</span><br><span class="line">        <span class="keyword">if</span> (*src &gt;= not_case_lower_bound &amp;&amp; *src &lt;= not_case_upper_bound)</span><br><span class="line">            *dst = *src ^ flip_case_mask;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            *dst = *src;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上述两个函数用于把字符串中的大写字母转换成小写字母，第一个函数采用了SIMD实现（采用128位指令），第二个函数采用了普通的做法。由于第一个是128位指令（16字节），理论上相比非向量化指令，加速比是16倍。但是由于第二个代码在结构上是很清晰的，也可以自动向量化，在这里我们测试下不同编译器的编译性能,g++版本9.3.0,clang++12.0.0</p>
+<table>
+<thead>
+<tr>
+<th>编译选项</th>
+<th>SIMD/normal 延时比较</th>
+<th>解读(延时比小于1则SIMD占有，大于1则后者的自动向量化占有))</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>g++ -O3 -mavx2 -march=native -ftree-vectorize</td>
+<td>1.9</td>
+<td>编译器自动向量化生成了256的指令，相比128位性能加倍</td>
+</tr>
+<tr>
+<td>g++ -O3</td>
+<td>0.99</td>
+<td>两者近似，编译器自动向量化生成了128位指令</td>
+</tr>
+<tr>
+<td>g++ -O2</td>
+<td>0.09</td>
+<td>-O2无法自动向量化</td>
+</tr>
+<tr>
+<td>clang++   -O3 -mavx2 -march=native -ftree-vectorize</td>
+<td>3.1</td>
+<td>自动向量化生成了512位指令，相比128位性能3倍多</td>
+</tr>
+<tr>
+<td>clang++ -O3</td>
+<td>1.6</td>
+<td>编译器自动向量化生成了256位指令</td>
+</tr>
+<tr>
+<td>clang++ -O2</td>
+<td>0.93</td>
+<td>编译器自动生成了128位指令</td>
+</tr>
+<tr>
+<td>clang++ -O1</td>
+<td>0.09</td>
+<td>-O1无法向量化</td>
+</tr>
+</tbody>
+</table>
+<p>结论：在相同的优化级别下，clang生成更宽的指令，性能更好。</p>
+<h3 id="解读SIMD指令"><a href="#解读SIMD指令" class="headerlink" title="解读SIMD指令"></a>解读SIMD指令</h3><p>最简单的SIMD指令，实现两个数字的加法:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">const __m128i dst = _mm_add_epi32(left,right);</span><br></pre></td></tr></table></figure>
+<p>这条指令把4组int类型数字相加，填写到结果中。__m128i代表是128位宽寄存器，存放的是int类型（4字节32位），可以存放4个int类型。<code>_mm_and_epi32</code>是一个simd指令，<code>_mm</code>开头表示128寄存器，add表示相加,epi32表示32位整数。SIMD指令的命名规范：在SIMD指令中，需要表达三个含义，分别是寄存器宽度、操作类型、和参数宽度。</p>
+<p>各种类型对应到各种宽度的寄存器上的写法：</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>16字节</th>
+<th>32字节</th>
+<th>64字节</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>32位float</td>
+<td>__m128</td>
+<td>__m256</td>
+<td>__m512</td>
+</tr>
+<tr>
+<td>64位float</td>
+<td>__m128d</td>
+<td>__m256d</td>
+<td>__m512d</td>
+</tr>
+<tr>
+<td>整型数</td>
+<td>__m128i</td>
+<td>__m256i</td>
+<td>__m512i</td>
+</tr>
+</tbody>
+</table>
+<p>寄存器宽度，例如128位寄存器以_mm开头,参考如下表格映射关系：</p>
+<table>
+<thead>
+<tr>
+<th>指令前缀</th>
+<th>寄存器位数</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>_mm</td>
+<td>128</td>
+</tr>
+<tr>
+<td>_mm256</td>
+<td>256</td>
+</tr>
+<tr>
+<td>_mm512</td>
+<td>512</td>
+</tr>
+</tbody>
+</table>
+<p>操作类型，例如xor、and、intersect等操作。</p>
+<p>参数宽度：参数中单条数据的位数，在指令的后缀中包含该信息，例如浮点数是32位，双精度浮点数是64位，那么在128位寄存器上，可以输入4个浮点数或者2个双精度浮点数。有些指令没有输入参数，则没有参数宽度信息。例如epi16代表16位int，详细的信息参考如下表格:</p>
+<table>
+<thead>
+<tr>
+<th>指令后缀</th>
+<th>单条数据位数</th>
+<th>数据类型</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>epi8</td>
+<td>8</td>
+<td>int</td>
+</tr>
+<tr>
+<td>epi16</td>
+<td>16</td>
+<td>int</td>
+</tr>
+<tr>
+<td>pi16</td>
+<td>16</td>
+<td>int</td>
+</tr>
+<tr>
+<td>epi32</td>
+<td>32</td>
+<td>int</td>
+</tr>
+<tr>
+<td>pi32</td>
+<td>32</td>
+<td>int</td>
+</tr>
+<tr>
+<td>epi64</td>
+<td>64</td>
+<td>int</td>
+</tr>
+<tr>
+<td>pu8</td>
+<td>8</td>
+<td>unsigned int</td>
+</tr>
+<tr>
+<td>epu8</td>
+<td>8</td>
+<td>unsigned int</td>
+</tr>
+<tr>
+<td>epu16</td>
+<td>16</td>
+<td>unsigned int</td>
+</tr>
+<tr>
+<td>epu32</td>
+<td>32</td>
+<td>unsigned int</td>
+</tr>
+<tr>
+<td>ps</td>
+<td>32</td>
+<td>float</td>
+</tr>
+<tr>
+<td>pd</td>
+<td>64</td>
+<td>double</td>
+</tr>
+</tbody>
+</table>
+<p>例如函数<code>__m128 _mm_div_ps (__m128 a, __m128 b</code>)，根据指令名称__mm开头，代表寄存器是128位，div表示除法，ps结尾代表操作的参数是32位浮点数。即同时加载两个数组，每个数组包含了4个32位单精度浮点数，完成两个数组对应位置数字的除法运算，返回4个除法结果.</p>
+<p>通常，指令的结果宽度是和参数的宽度是保持一致的，但也有例外。</p>
+<p>通常，两个向量执行SIMD指令，是两个向量的对应位置的数据分别执行操作。但也有些例外，比如同一个向量的相邻数据执行操作，称为水平操作，例如指令<code>__m128i _mm_hadd_epi16 (__m128i a, __m128i b)</code>，指令中的h代表horizontal，依次把a和b相邻的数据想加，如果a值为[1,2,3,4]，b值为[5,6,7,8]，那么结果为[1+2,3+4,5+6,7+8]。</p>
+<p>通常，两个向量的所有数据都参与计算，但也有例外，通过掩码控制部分数据参与计算，掩码的第几位为1，则代表第几个数字参与计算。例如函数<code>__m128i _mm_mask_add_epi16 (__m128i src, __mmask8 k, __m128i a, __m128i b)</code>，用k作为掩码，第几位为1，则返回a和b对应位数的和；如果为0，则返回src对应位置的数。</p>
+<p>SIMD 指令集合中包含的功能有：算术、比较、加密、位运算、逻辑运算、统计和概率、位移、内存加载和存储、shuffle。</p>
+<h4 id="1-SIMD内存操作"><a href="#1-SIMD内存操作" class="headerlink" title="1)SIMD内存操作"></a>1)SIMD内存操作</h4><p>SIMD内存操作把数据加载到寄存器，并且返回对应SIMD类型。加载16位数据指令<code>_mm_load_si128</code>，加载64位数据指令：<code>_mm256_load_ps</code>，这两个指令要求数据是对齐的。如果是非对齐的数据，则采用<code>_mm_loadu_si128</code>和<code>_mm256_loadu_ps</code>。</p>
+<h4 id="2-SIMD初始化寄存器指令"><a href="#2-SIMD初始化寄存器指令" class="headerlink" title="2)SIMD初始化寄存器指令"></a>2)SIMD初始化寄存器指令</h4><p>初始化为0的指令。<code>_mm_setzero_ps</code>和<code>_mm256_setzero_si256</code>把寄存器初始化为0，初始化操作没有任何依赖。</p>
+<p>  初始化为特定值。<code>_mm[256]_set_XXX</code>把每一个点初始化不同的值，<code>_mm[256]_set1_XXX</code> 把每一个点初始化相同的值。[256]代表是否出现256，如果出现256。<code>_mm_set_epi32(1,2,3,4)</code>表示按照顺序初始化为整型数[1,2,3,4]。如果时倒序初始化，则使用<code>_mm_setr_epi32(1,2,3,4)</code>。</p>
+<h4 id="3-位运算指令"><a href="#3-位运算指令" class="headerlink" title="3)位运算指令"></a>3)位运算指令</h4><p>Float和int有很多位运算指令，包括AND、OR、XOR。如果要执行NOT指令，则最快的方式就是和全1做XOR，而获得全1的最快方式就是把两个0做相等比较。如下代码样例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">__m128i bitwiseNot(__m128i x)</span><br><span class="line">&#123;</span><br><span class="line">	const __m128i zero = _mm_setzero_si128();</span><br><span class="line">	const __128i one = _mm_cmpeq_epi32(zero, zero);</span><br><span class="line">	return _mm_xor_si128(x, one);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="4-浮点数指令"><a href="#4-浮点数指令" class="headerlink" title="4)浮点数指令"></a>4)浮点数指令</h4><p>浮点数指令支持基础的运算+-*/，和扩展的运算sqrt。一些比较有用的函数有<code>_mm_min_ss(a,b)</code>， 对于32位浮点数，如果要完成<img src="深入浅出向量化技术/clip_image002.png" alt="img">，对应的SIMD指令是<code>_mm_rcp_ps</code>，而<img src="深入浅出向量化技术/clip_image004.png" alt="img">对应的SIMD指令是<code>_mm_rsqrt_ps</code>，采用SIMD指令可以在一条指令内完成，速度更快。</p>
+<p>  如果想加两个数组，例如[a,b,c,d]+[e,f,g,h]=[a+e,b+f,c+g,d+h]，对应的SIMD指令是<code>_mm_hadd_ps</code>，<code>_mm_hadd_pd</code>，<code>_mm256_hadd_pd</code>，<code>_mm256_hadd_ps</code></p>
+<h4 id="5-非并行指令，却能做到加速效果"><a href="#5-非并行指令，却能做到加速效果" class="headerlink" title="5)非并行指令，却能做到加速效果"></a>5)非并行指令，却能做到加速效果</h4><p>有些指令，在一条数据中只能操作一条数据，但是也能达到加速的效果。例如<code>_mm_min_ss</code>指令，表示取两个浮点数的最小值，该指令可以用一条指令完成计算，避免跳转，避免通过分支指令跳转。同理，取最大值的指令是<code>_mm_max_sd</code>。</p>
+<h3 id="手写SIMD指令的缺点"><a href="#手写SIMD指令的缺点" class="headerlink" title="手写SIMD指令的缺点"></a>手写SIMD指令的缺点</h3><p>虽然手写SIMD指令看起来很酷，但是存在一个很大的问题是可移植性不强，如果你手写一个512位宽的指令，却在一个不支持avx指令集的机器上运行，那就会出问题。所以最好的方案还是编写符合编译器向量化规范的代码，把向量化这件事情交给编译器好了！最新的编译器会帮助我们解决这些事情。</p>
+<h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><p>最新的编译器已经足够智能，能够自动化的实现向量化。而飞天长期使用4.1.2的编译器，最近一年才改到4.9.2，和最新的9.x编译器对比起性能，仍有比较大的差距。这种差距过于明显，是明显的代差，能够相差几倍。试想一下，代码不变的情况下，仅仅提升下编译器版本就能实现几倍的性能提升，这种结果过于震撼。因此提升编译器版本势在必行。</p>
+<p>除了提升编译器版本，也需要提高开发者编写代码的能力，能够尽可能的编写出符合上文定义的几种规范，然后让编译器帮助我们生成高效的执行代码。</p>
+<p>遗留问题：</p>
+<p>c++ vector类型能否向量化。</p>
+<p>foreach能否向量化</p>
+<p>寄存器类型和数量</p>
+<p>寄存器、内存体系结构。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://mayunlei.github.io/2022/06/16/深入浅出向量化技术/" data-id="clbc6m1z3000hdv3jk040qzql" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-探索无人驾驶载货小飞机：航模技术研究" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2022/05/04/探索无人驾驶载货小飞机：航模技术研究/" class="article-date">
@@ -141,7 +461,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://mayunlei.github.io/2022/05/04/探索无人驾驶载货小飞机：航模技术研究/" data-id="cl373d45s000h6i3j5bwdvu8o" class="article-share-link">Share</a>
+      <a data-url="http://mayunlei.github.io/2022/05/04/探索无人驾驶载货小飞机：航模技术研究/" data-id="clbc6m1z5000mdv3jltwyxlac" class="article-share-link">Share</a>
       
       
     </footer>
@@ -280,7 +600,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://mayunlei.github.io/2021/12/25/从数据分析到数据洞察/" data-id="cl373d45v000r6i3jqocwa019" class="article-share-link">Share</a>
+      <a data-url="http://mayunlei.github.io/2021/12/25/从数据分析到数据洞察/" data-id="clbc6m1z5000ndv3jsrd4pf5l" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SQL洞察/">SQL洞察</a></li></ul>
@@ -331,7 +651,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://mayunlei.github.io/2021/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/" data-id="cl373d45h00036i3j11h2u16f" class="article-share-link">Share</a>
+      <a data-url="http://mayunlei.github.io/2021/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/" data-id="clbc6m1yp0001dv3jq2xsf0va" class="article-share-link">Share</a>
       
       
     </footer>
@@ -441,7 +761,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://mayunlei.github.io/2021/01/09/ClickHouse计算速度是如何做到领跑OLAP类产品的/" data-id="cl373d45g00026i3jerhjdfp7" class="article-share-link">Share</a>
+      <a data-url="http://mayunlei.github.io/2021/01/09/ClickHouse计算速度是如何做到领跑OLAP类产品的/" data-id="clbc6m1yn0000dv3jwotf16rv" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ClickHouse-OLAP/">ClickHouse OLAP</a></li></ul>
@@ -504,7 +824,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://mayunlei.github.io/2020/12/27/物联网产品现状和未来想象空间/" data-id="cl373d45u000n6i3j6s1v1ehg" class="article-share-link">Share</a>
+      <a data-url="http://mayunlei.github.io/2020/12/27/物联网产品现状和未来想象空间/" data-id="clbc6m1z6000rdv3j9m9kdq6l" class="article-share-link">Share</a>
       
       
     </footer>
@@ -709,7 +1029,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://mayunlei.github.io/2020/10/27/机器学习和数据挖掘/" data-id="cl373d45v000q6i3jxt07f10y" class="article-share-link">Share</a>
+      <a data-url="http://mayunlei.github.io/2020/10/27/机器学习和数据挖掘/" data-id="clbc6m1z4000jdv3jpiyyf9cn" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ML-机器学习-神经网络/">ML 机器学习 神经网络</a></li></ul>
@@ -904,7 +1224,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://mayunlei.github.io/2020/08/16/深入理解Presto-Presto的内部架构/" data-id="cl373d45u000l6i3jhe14hj1r" class="article-share-link">Share</a>
+      <a data-url="http://mayunlei.github.io/2020/08/16/深入理解Presto-Presto的内部架构/" data-id="clbc6m1z5000qdv3jil7iolcr" class="article-share-link">Share</a>
       
       
     </footer>
@@ -967,7 +1287,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://mayunlei.github.io/2020/05/30/Presto-任务调度：-任务分配到哪里/" data-id="cl373d45o00076i3jbu280xad" class="article-share-link">Share</a>
+      <a data-url="http://mayunlei.github.io/2020/05/30/Presto-任务调度：-任务分配到哪里/" data-id="clbc6m1yr0003dv3j1qlnnm9c" class="article-share-link">Share</a>
       
       
     </footer>
@@ -1166,133 +1486,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://mayunlei.github.io/2020/05/20/Procella-Youtube-把计算加速玩到极致的实时计算引擎/" data-id="cl373d45r000e6i3j3obeqsyu" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-Presto-Coordinator分布式改造" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2019/11/26/Presto-Coordinator分布式改造/" class="article-date">
-  <time datetime="2019-11-26T08:27:24.000Z" itemprop="datePublished">2019-11-26</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/11/26/Presto-Coordinator分布式改造/">Presto Coordinator分布式改造</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>自从上线SQL功能以来，经过两年的时间，随着sls业务的不断增长，每天处理1亿次query，扫描1000,000,000,000,000行日志(没错1000万亿行日志)。业务的增长也给系统带来无形的压力，如何保障在低延时的前提下提供这么大的负载是一个巨大的挑战。</p>
-<p>挑战之一就是单master架构。在之前的<a href="https://blog.csdn.net/sjtuyunlei/article/details/78219029" target="_blank" rel="noopener">文章</a>中，我介绍过了presto的架构。coordinator是presto中负责query解析，任务调度，结果汇总的，集群监控的节点。其他的worker节点只负责接收单个task进行计算即可。coordinator的任务可谓是多而广，在整个集群中起到了不可替代的作用。一旦该节点出问题，整个集群不可用。</p>
-<p>上图为集群平均cpu，下图第一个为coordinator的cpu，可见coordinator的负载一直处于高位，且明显高于普通的worker。<br><img src="https://ata2-img.cn-hangzhou.oss-pub.aliyun-inc.com/17c9e09fbc9034a36062a04df78511e8.png" alt="image.png"></p>
-<p>随着业务的上升，coordinator的几点瓶颈愈发凸显：</p>
-<ol>
-<li>负责query的解析和任务分发，负载比较重，且随着业务增加，负载线性增加。而单机的性能有上限，无法横向扩展。</li>
-<li>单coordinator节点无容灾，一旦宕机，恢复时间比较长。</li>
-</ol>
-<p>为了解决以上问题，我下决心把coordinator改造成分布式。</p>
-<h1 id="coordinator主要工作内容"><a href="#coordinator主要工作内容" class="headerlink" title="coordinator主要工作内容"></a>coordinator主要工作内容</h1><p>coordinator主要有几个功能：</p>
-<ol>
-<li>query的解析，任务调度，任务监控。</li>
-<li>集群内存监控。</li>
-<li>机器状态监控。</li>
-</ol>
-<h2 id="query任务流"><a href="#query任务流" class="headerlink" title="query任务流"></a>query任务流</h2><p><img src="https://ata2-img.cn-hangzhou.oss-pub.aliyun-inc.com/53e9b9c700072e729d5ec67a23b8a0e1.png" alt="image.png"></p>
-<p>query从提交到coordinator，到query执行完成，由coordinator负责管理，一个qeuery的具体流程包括:</p>
-<ol>
-<li>队列排队，获取运行许可。</li>
-<li>词法解析和语法解析，把SQL转换成抽象语法树。</li>
-<li>语法优化，语法检查。利用预定义规则对语法数进行优化，例如剪枝优化。还有把单机plan改造成并行式plan。</li>
-<li>对plan划分出不同的stage，并且按照并行度的需求，为每个stage生成多个task，每个task指定一台机器。形成最终的逻辑执行计划。</li>
-<li>stage代表的任务的上下游，task代表一个stage内的并行执行。一个stage内的task执行相同的任务，只是接收的数据不一样。</li>
-<li>每个task调度到一个worker上，并且coordinator为每个task启动一个任务追踪，即TaskInfoFetcher，周期性轮训task的状态。</li>
-<li>当轮训到task的状态发生改变时，回调改变stage-&gt; query的状态，最终直到query的所有task都结束。</li>
-</ol>
-<p>整个任务流中，像query解析，调度，监控等都可以在任意节点执行，不需要非得在全局唯一节点执行。 只有queue涉及到全局队列，需要在单点执行。</p>
-<h2 id="集群控制流"><a href="#集群控制流" class="headerlink" title="集群控制流"></a>集群控制流</h2><p>Presto集群控制只要有两方面内容：</p>
-<ol>
-<li>集群状态控制<ol start="2">
-<li>检查每台机器的状态，判断是ALIVE、SHUTDOWN中的哪个状态。</li>
-<li>检查每台机器的各个内存池分配状态，终止超限query，以及提升大query的优先级。</li>
-</ol>
-</li>
-<li>Query状态控制<ol>
-<li>轮询每个task的状态，通过状态机管理query状态。</li>
-</ol>
-</li>
-</ol>
-<p><img src="https://ata2-img.cn-hangzhou.oss-pub.aliyun-inc.com/328d49e08d5a95951b3f6bf65763c5c3.png" alt="image.png"></p>
-<h2 id="集群内存管理"><a href="#集群内存管理" class="headerlink" title="集群内存管理"></a>集群内存管理</h2><p>Presto采用逻辑的内存池，来管理不同类型的内存需求。</p>
-<p>Presto把整个内存划分成三个内存池，分别是System Pool ,Reserved Pool, General Pool。</p>
-<p><img src="http://ata2-img.cn-hangzhou.img-pub.aliyun-inc.com/f2a0b04d61e5ca4b90242d5d0137e7d9.png" alt></p>
-<ul>
-<li>System Pool 是用来保留给系统使用的，默认为40%的内存空间留给系统使用。</li>
-<li>Reserved Pool和General Pool 是用来分配query运行时内存的。</li>
-<li>其中大部分的query使用general Pool。 而最大的一个query，使用Reserved Pool， 所以Reserved Pool的空间等同于一个query在一个机器上运行使用的最大空间大小，默认是10%的空间。</li>
-<li>General则享有除了System Pool和General Pool之外的其他内存空间。</li>
-</ul>
-<p><img src="http://ata2-img.cn-hangzhou.img-pub.aliyun-inc.com/9f49f578848c4f28c27bab8712964f8b.png" alt></p>
-<p>Presto内存管理，分两部分：</p>
-<ul>
-<li>query内存管理<ul>
-<li>query划分成很多task， 每个task会有一个线程循环获取task的状态，包括task所用内存。汇总成query所用内存。</li>
-<li>如果query的汇总内存超过一定大小，则强制终止该query。</li>
-</ul>
-</li>
-<li>机器内存管理<ul>
-<li>coordinator有一个线程，定时的轮训每台机器，查看当前的机器内存状态。</li>
-<li>当query内存和机器内存汇总之后，coordinator会挑选出一个内存使用最大的query，分配给Reserved Pool。</li>
-</ul>
-</li>
-</ul>
-<p>内存管理是由coordinator来管理的， coordinator每秒钟做一次判断，指定某个query在所有的机器上都能使用reserved 内存。那么问题来了，如果某台机器上，，没有运行该query，那岂不是该机器预留的内存浪费了？为什么不在单台机器上挑出来一个最大的task执行。原因还是死锁，假如query，在其他机器上享有reserved内存，很快执行结束。但是在某一台机器上不是最大的task，一直得不到运行，导致该query无法结束。</p>
-<h2 id="Coordinator分布式改造"><a href="#Coordinator分布式改造" class="headerlink" title="Coordinator分布式改造"></a>Coordinator分布式改造</h2><p>从上边的介绍中，我们可以看出，只能在集群唯一节点进行的操作有：</p>
-<ol>
-<li>全局队列。</li>
-<li>机器状态监控。</li>
-<li>集群内存状态管理。</li>
-</ol>
-<p>二coordinator上负载最重的操作是query的task状态管理。一个query会分配若干个task，这个膨胀是很大的。每个task都要轮询状态信息。这部分逻辑是可以分布式搞得，不必放在全局唯一节点进行。</p>
-<p><img src="https://ata2-img.cn-hangzhou.oss-pub.aliyun-inc.com/18e9153c9f29f2d12a53a24000d8cca9.png" alt="image.png"></p>
-<p>coordinator改造方案，就是把一些不是全局性的操作，都拆分到不同节点去做。而把全局性的操作放到一个节点。所以原来的coordinator会变成两个角色,watch tower和新coordinator：</p>
-<p><img src="https://ata2-img.cn-hangzhou.oss-pub.aliyun-inc.com/066b825ea45dea34cb12d498b8981687.png" alt="image.png"></p>
-<h3 id="Watch-tower"><a href="#Watch-tower" class="headerlink" title="Watch tower:"></a>Watch tower:</h3><p>只负责集群的监控，不负责跟query相关的工作。</p>
-<ul>
-<li>集群内存管理，周期性轮询每台机器的内存分配状态，把最大的query提升导reserved memory pool。</li>
-<li>机器状态管理，周期性轮询每台机器状态，是否ALIVE、SHUTDOWN。</li>
-</ul>
-<p>由于coordinator需要知道每台机器的状态、内存，因此在coordinate向每台机器同步信息时，会同时把相关状态同步给coordinator。</p>
-<p><img src="https://ata2-img.cn-hangzhou.oss-pub.aliyun-inc.com/6b504ed115bcae435655e6f3e151255f.png" alt="image.png"></p>
-<h3 id="Coordinator"><a href="#Coordinator" class="headerlink" title="Coordinator:"></a>Coordinator:</h3><p>coordinator只专心做query相关的工作，接受请求，解析、调度、监控所有的task。</p>
-<h4 id="队列处理"><a href="#队列处理" class="headerlink" title="队列处理"></a>队列处理</h4><p>presto的队列模型，可以设置query运行的最大并发度和最大排队数。这些参数可以时用户级别，也可以是整个集群的级别。</p>
-<p>在官方的presto中，由于只有一个coordinator节点，可以很容易在单点控制整个集群的执行并发度。分拆成多个coordinator并发执行之后，控制整个集群的并发度变得比较困难。因而我们选择在单个coordinator上控制运行在本机的并发度。</p>
-<h3 id="客户端"><a href="#客户端" class="headerlink" title="客户端"></a>客户端</h3><p><img src="https://ata2-img.cn-hangzhou.oss-pub.aliyun-inc.com/64a1027341118ef55468e52607da4817.png" alt="image.png"></p>
-<p>改造成并发coordinator后，client端从Discovery获取到所有的coordinator(coordiantor向discovery回报心跳时，增加了标识coordinator)。并且把coordinator按照地址排序，保证所有的client获取到的都是同样的顺序。</p>
-<p>当接收到SQL请求后，client按照user的hash值，选择一个coordinator发送。这样就可以保证同一个用户的SQL只发送导一个coordinator，从而控制并发度。当然如果coordinator发生扩容缩容，在短时间内，coordinate的顺序会发生改变，影响队列。</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>在完成分布式改造后， coordinator可以做到水平扩展，解决了coordinator的单点问题。改造后的效果：</p>
-<p><img src="https://ata2-img.cn-hangzhou.oss-pub.aliyun-inc.com/582cb9c822365f930db3cf444af70081.png" alt="image.png"></p>
-<p>CPU消耗比较高的Coordinator经过分布式改造后，有3个coordinator，可以看出每个coordinator的CPU仍然很高。这是由于coordinator上负责整个query的运行监控，如果一个query分配的task非常多，那么是需要启动很多后台任务轮询task状态，这对coordinator的负载压力是很大的。虽然我们可以做到水平扩展coordinator，但是由于单个coordinator的最大并发有限，也影响了整个集群的性能。接下来我们也会继续对这部分逻辑进行改造，期望能够优化coordinator的性能。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://mayunlei.github.io/2019/11/26/Presto-Coordinator分布式改造/" data-id="cl373d45e00016i3jh2d30o6x" class="article-share-link">Share</a>
+      <a data-url="http://mayunlei.github.io/2020/05/20/Procella-Youtube-把计算加速玩到极致的实时计算引擎/" data-id="clbc6m1yy0008dv3jva8li4wa" class="article-share-link">Share</a>
       
       
     </footer>
@@ -1339,7 +1533,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/05/">May 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/12/">December 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">January 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">August 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">November 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/06/">June 2013</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/06/">June 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/05/">May 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/12/">December 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">January 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">August 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">November 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/06/">June 2013</a></li></ul>
     </div>
   </div>
 
@@ -1350,6 +1544,10 @@
     <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2022/06/16/深入浅出向量化技术/">(no title)</a>
+          </li>
         
           <li>
             <a href="/2022/05/04/探索无人驾驶载货小飞机：航模技术研究/">探索无人驾驶载货小飞机：航模技术研究</a>
@@ -1365,10 +1563,6 @@
         
           <li>
             <a href="/2021/01/09/ClickHouse计算速度是如何做到领跑OLAP类产品的/">ClickHouse计算速度是如何做到领跑OLAP类产品的</a>
-          </li>
-        
-          <li>
-            <a href="/2020/12/27/物联网产品现状和未来想象空间/">物联网产品现状和未来想象空间</a>
           </li>
         
       </ul>
