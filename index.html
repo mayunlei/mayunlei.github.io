@@ -64,399 +64,10 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-探索无人驾驶载货小飞机：航模技术研究" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2022/05/04/探索无人驾驶载货小飞机：航模技术研究/" class="article-date">
-  <time datetime="2022-05-04T14:39:22.000Z" itemprop="datePublished">2022-05-04</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/05/04/探索无人驾驶载货小飞机：航模技术研究/">探索无人驾驶载货小飞机：航模技术研究</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>上海突然封城，造成了物资紧张。大人还好办，好赖能充饥就行。但是小孩的物资是很挑剔的，奶粉和尿不湿是必需品。因此我就考虑了怎么才能远距离把紧急物资投送到家里。正好在B站看了一些航模的介绍，于是就做了下航模的调研，看能否用来载货。 </p>
-<h2 id="无人机的分类"><a href="#无人机的分类" class="headerlink" title="无人机的分类"></a>无人机的分类</h2><p>大众常见的无人机类型包括：</p>
-<h3 id="固定翼"><a href="#固定翼" class="headerlink" title="固定翼"></a>固定翼</h3><p>固定翼是最传统的航空模型，主要由飞手使用遥控器目视飞行。固定翼是最传统的航空模型，主要由飞手使用遥控器目视飞行。固定翼也是最接近真实飞机的，各种组件以及飞行原理，和真实飞机类似。多旋翼依靠发动机实现向前的推力，有了速度后，通过机翼实现向上的升力。固定翼的好处在于，能够达到一个很低的推重比，在空中的姿态有更多的可玩性，同时因为推力在水平方向上，可以达到很高的速度。固定翼的劣势在于，起降需要借助跑道，需要严格关注空中的姿态，操作不当就会炸机，非常考验操作者的观察能力和操作能力，因此更具备挑战性，更烧钱。鉴于固定翼飞机能够达到一个很低的推重比，相同的发动机下，固定翼可以载货更多，因此本文主要介绍固定翼飞机的原理。</p>
-<img src="/2022/05/04/探索无人驾驶载货小飞机：航模技术研究/1651389558708-b8852d80-ccbe-481c-a973-f15aaad23154.png" title="image.png">
-<h3 id="多旋翼"><a href="#多旋翼" class="headerlink" title="多旋翼"></a>多旋翼</h3><p>多旋翼的典型参考大疆的无人机。多旋翼和单旋翼一样，通过发动机的推力维持。多旋翼可以实现空中悬停，不需要跑道就能起降，因此门槛较低。但是多旋翼完全依靠电机的推力实现载重，推重比需要达到1以上才能起飞，所谓大力飞砖就是说只要推力足够大，火箭也能升上天。而发动机是制造成本里边占比最高的组件了，因此成本也很高。不过多旋翼的优势在于可以垂直起降，并且可以稳定在空中，因此操作成本较低，不会轻易炸机，玩家受众多。<br><img src="/2022/05/04/探索无人驾驶载货小飞机：航模技术研究/1651390240486-4c2862fb-287d-424b-84b8-ca926e3ee3b9.png" title="image.png"><br>固定翼和多旋翼是我们常见的两种无人机，还有其它一些衍生的无人机，这里不再一一介绍，本文的目标是介绍固定翼飞机的原理和入门，介绍这两种无人机只是方便对无人机有一个简单的认知。航模界的玩家一般是把一些商用大飞机或者战斗机，等比例缩小，制作成模型飞机，再配上一些关键的组件，完成空中的飞行。</p>
-<h2 id="固定翼结构和核心组件"><a href="#固定翼结构和核心组件" class="headerlink" title="固定翼结构和核心组件"></a>固定翼结构和核心组件</h2><h3 id="主体结构"><a href="#主体结构" class="headerlink" title="主体结构"></a>主体结构</h3><ol>
-<li>从主体结构上，飞机由前后的机身和左右的机翼构成主体结构。</li>
-<li>在机身的头部可以安装发动机和螺旋桨，当然发动机和螺旋桨也可以安装到机翼上。</li>
-<li>在机身的尾部是尾翼，分为水平尾翼和垂直尾翼，水平尾翼上有可以调整水平方向的升降舵，可控制机头的抬起和下降。垂直尾翼上有方向舵，可控制飞机左右调整方向。</li>
-<li>在机翼上附着的组件有襟翼和副翼。襟翼靠近内侧，距离重心较近，因此他不会用来调整方向，而是提供升力。襟翼只能向下运动，向下运动后，襟翼的受力会转化成升力。</li>
-<li>副翼是机翼上离中心较远的组件，由于离重心较远，受力可通过杠杆作用放大，用于实现飞机的滚转。在同一时刻，左右副翼的运动是相反的。也就是同一时刻，左右副翼的受力正好相反，但达到的效果是相同的，要么顺时针受力，要么逆时针受力，以此实现滚转。</li>
-<li>起落架，起飞和降落时需要起落架。</li>
-</ol>
-<img src="/2022/05/04/探索无人驾驶载货小飞机：航模技术研究/1651672552344-143aa623-b95b-429f-9cc5-f37013913cc3.png" title="image.png">
-<p>在原理上可以区分襟翼和副翼，但是在机身上，襟翼和副翼可以实现混控，也就是机身组件是同一套，但是通过舵机实现不同的效果，当同向运动时，是襟翼；当向相反方向运动时，是副翼。</p>
-<h3 id="控制组件"><a href="#控制组件" class="headerlink" title="控制组件"></a>控制组件</h3><p>上边这些结构是飞机上能看到的核心组件，还有一些控制组件，用于控制飞机的飞行。</p>
-<ol>
-<li>发动机需要能源，能源可以是燃油也可以是电池，一般藏在机身内部，重心附近。</li>
-<li>襟翼、尾翼、方向舵、升降舵的动作也需要动力来源，动力来自舵机。由舵机控制四个组件运动。舵机通过钢丝线拉动舵面运动。</li>
-<li>遥控器和接收机，遥控器是地面人员用于控制飞机速度和姿态的，接收机安装在机身内，用于接受遥控器的无线电信号。</li>
-<li>发动机的速度变化，需要通过调节电流来达到控制速度变化的目的。电调就是控制电流变化的组件。在遥控器上调节油门时，电调就可以调整电流的大小，进而达到控制发动机速度的。在选择电调时，要注意最大工作电流，需要大于电机的最大工作电流。<br>## <h3 id="电池介绍"><a href="#电池介绍" class="headerlink" title="电池介绍"></a>电池介绍</h3>航模一般使用锂电池，电池涉及到一些基本参数，比如4S 2200maH，2200mAh代表电池的容量，表示可以以2200mA持续放电1小时，4S指的是串联电芯数，也就是4块电芯，每块电芯的标准电压是3.7V，充满电是4.2V。4S的标准电压也就是14.8V，充满电是16.8V。也有并联的电池，3S4P代表3串4并，并联可以提升电流，一般不需要并联电池。此外还有最大放电倍率和最大充电倍率，最大放电倍率35C，代表最大可以是标准电流的35倍放电，最大充电倍率5C代表以标准充电电流的5倍充电，其中标准电流就是上边是2200mA，也就是2.2A。锂电池要注意保养，不能长时间低于3.7V工作，可以通过安装BB响，针对低电压告警。</li>
-</ol>
-<h3 id="电机介绍"><a href="#电机介绍" class="headerlink" title="电机介绍"></a>电机介绍</h3><p>根据动力系统的不同，航模可分为电动、油动、涡轮喷气、火箭助推和无动力滑翔这几类。电机靠带动螺旋桨旋转，窝喷靠喷推动。电机的动力比不上窝喷。但是电机比较便宜，涡喷发动机比较贵。对于新入门而言，电机是更主流的选择，安装调试和保养都比较简单。电动机也可以模仿喷气式飞机，电机外围包裹<strong>涵道</strong>，在内部安装多片直径较小的螺旋桨。包裹在<strong>涵道</strong>内的螺旋桨可以产生更大的推力，但相比窝喷仍然是比较低的。<br>电机的核心参数是KV值。KV值指的是电机的压每升高1V，转速就提高一个KV值的数目，转速越高，电机输出扭力越小，反之亦然。遥控器通过控制电调调整电流大小，进而改变电机的转速。<br>一般来说，高KV值电机搭配小直径的螺旋桨，低KV值电机则搭配较大的螺旋桨。<br>在航模领域，常用的电机是新西达电机，性价比高。</p>
-<h3 id="螺旋桨"><a href="#螺旋桨" class="headerlink" title="螺旋桨"></a>螺旋桨</h3><p>螺旋桨主要关注桨的尺寸，和电机的功率要匹配，注意电机到地面的距离。</p>
-<h3 id="遥控器"><a href="#遥控器" class="headerlink" title="遥控器"></a>遥控器</h3><p>遥控器发射信号，机身上的接收机接受信号，并传递给对应组件。遥控器分为左手油门和右手油门，顾名思义，油门分别在左侧或者右侧。真实的飞机，油门在左侧，因此推荐左手油门。 以左手油门为例，左侧摇杆上下控制油门，左右控制方向舵；右手摇杆上下控制升降，左右控制副翼。<br>除了油门，还有多个通道，每个通道控制一个舵机的运动。通道当然越多越好，但是越多肯定越贵，一般旋转6通道就足够了。<br>此外，还要关注，遥控器的距离，至少需要500米到1000米。如果太短，飞机飞出遥控距离容易失控；而太长了，人也看不清飞机的姿态，也容易失控。<br>入门级遥控器，有富斯i6价位在200多,MC6C价位在100多。遥控器不同于其他组件，其他组件飞上天可能会摔坏，但是遥控器是可以长期使用的，不建议买太差的。<br><img src="/2022/05/04/探索无人驾驶载货小飞机：航模技术研究/1651669325811-7d8496ac-4b91-4f1c-8a93-3a49690505fb.png" title="image.png"></p>
-<h3 id><a href="#" class="headerlink" title></a><img src="/2022/05/04/探索无人驾驶载货小飞机：航模技术研究/1651669778547-02afd493-b5c2-418f-884b-bc11dee782ec.png" title="image.png"></h3><h3 id="接收机"><a href="#接收机" class="headerlink" title="接收机"></a>接收机</h3><img src="/2022/05/04/探索无人驾驶载货小飞机：航模技术研究/1651669262307-6df48767-2453-4445-8c77-cb79d99ee09e.png" title="image.png">
-<p>接收机每个通道分别有正极、负极、信号孔，执行设备通过排线连接接收机。接收机可通过电调供电，插入任意一个通道即可。<br>操作各个通道，飞机各个部分的动作如下：<br><img src="/2022/05/04/探索无人驾驶载货小飞机：航模技术研究/1651670374663-745ee6be-469a-482a-8725-9872390f2f98.gif" title="May-04-2022 21-17-38.gif"></p>
-<h2 id="固定翼飞行原理"><a href="#固定翼飞行原理" class="headerlink" title="固定翼飞行原理"></a>固定翼飞行原理</h2><h3 id="升力原理"><a href="#升力原理" class="headerlink" title="升力原理"></a>升力原理</h3><img src="/2022/05/04/探索无人驾驶载货小飞机：航模技术研究/1651635253722-5dabbda4-63b1-438d-b67e-b7f89a05330d.png" title="image.png">
-<img src="/2022/05/04/探索无人驾驶载货小飞机：航模技术研究/1651569996870-0654253e-a44c-48d1-9a34-37b1b02edf2d.png" title="image.png">
-<p>固定翼飞机是如何升上天空的呢？特殊构造的机翼表面，下方接近扁平，而上方则有凸起。发动机提供了向前的速度，当气流流过机翼表面时，上方的气流压强较小，下方气流压强较大。上下的压强差提供了向上的升力。当升力大于重力时，飞机上升高度。升力翼形和翼展相关。</p>
-<h3 id="舵机"><a href="#舵机" class="headerlink" title="舵机"></a>舵机</h3><p>舵机有金属齿和塑料齿。前者更重一些，但是不容易扫齿，更耐用。舵机上也会注明扭矩，也就是力量。一般来说，尺寸大的，扭矩更大。</p>
-<h3 id="控制方式"><a href="#控制方式" class="headerlink" title="控制方式"></a>控制方式</h3><p>通过电机的转速可以改变飞行速度。<br>而飞机的姿态、方向的变化，则通过方向舵、升降舵、副翼来完成。这三个结构的特点是离重心比较远，受力后通过杠杆作用放大；围绕重心两侧，一侧受力，一侧不受力，受力不均衡就会产生偏斜，以此达到改变姿态的效果。<br>襟翼，位于重心附近，而且重心两侧的受力是一样的，因此不会改变飞行姿态，但是会增加阻力，把一部分阻力转化为升力。</p>
-<h3 id="反扭力"><a href="#反扭力" class="headerlink" title="反扭力"></a>反扭力</h3><p>如果发动机安装到机头，螺旋桨向一个方向转动时，形成的空气漩涡会撞击到机尾的垂直尾翼上，导致尾翼受到一个同方向的力。由于尾翼远离重心，收到的力叠加杠杆作用，会导致尾部向受力方向偏转。由于机尾和机头位于重心的两端，所以相当于机头受到了一个反方向的力，也就是和旋转方向相反的力，这就是反扭力。因此单发飞机会出现偏航。<br>要克服反扭力，在安装发动机时，可以适当偏斜一点，以抵消反扭力。<br>另一种办法是安装双发动机，分别位于机翼的两侧，两个发动机按照相反方向运动，互相抵消反扭力。</p>
-<h2 id="模拟器"><a href="#模拟器" class="headerlink" title="模拟器"></a>模拟器</h2><p>好了，硬件装备介绍完了，那么怎么才能让飞机升天呢？人在地面遥控飞机，和坐在飞机里驾驶飞机，感觉是完全不一样的。坐在驾驶舱，有各种仪表设备显示飞机的各项指标，能清楚的感知飞机的姿态和状态。而在地面遥控飞机，首先看不清飞机姿态，其次，地面视角还要转化成飞行员视角，这是很难的。而稍微操作不当。而稍微操作不当，导致飞机掉下来，把硬件摔坏，损失就太大了。机身或者零件摔坏，就得重新花钱买，因此玩航模的成本极高。为了避免炸机，最好的办法是在模拟器上训练好在上天，能做到从地面视角理解飞行员视角。最重要的是，即便是在模拟器中摔掉100架飞机，你也不会损失一分钱。</p>
-<p>模拟器是安装在电脑上的软件，遥控器通过加密狗接入电脑，可以控制模拟器飞机的运动。<br><img src="/2022/05/04/探索无人驾驶载货小飞机：航模技术研究/1651647442585-f0c5123e-769b-45c1-b49f-b72159ceec61.png" title="image.png"><br>新手入门，最简单的是练习无边航线，通过无边航线训练起飞，转弯，降落等重要的操作。</p>
-<h2 id="飞机常见动作"><a href="#飞机常见动作" class="headerlink" title="飞机常见动作"></a>飞机常见动作</h2><h3 id="起飞"><a href="#起飞" class="headerlink" title="起飞"></a>起飞</h3><p>飞机在跑道上达到足够的速度后，通过让升降舵向上抬起，升降舵受到向下的力，相当于机头受到一个向上的力，进而飞机抬头上升。机头抬起时，容易失速，应该注意速度。</p>
-<h3 id="上升"><a href="#上升" class="headerlink" title="上升"></a>上升</h3><p>上升过程类似起飞，也是让机头抬起。</p>
-<h3 id="下降"><a href="#下降" class="headerlink" title="下降"></a>下降</h3><p>下降时，通过让升降舵下压。让机尾收到向上的力，相当于机头受到向下的力。进而飞机向下俯冲。飞机向下俯冲时，叠加重力因素，飞机会加速。</p>
-<h3 id="降落"><a href="#降落" class="headerlink" title="降落"></a>降落</h3><p>降落，则是初学飞行时最难掌握的本领。降落分为欧式降落或俄式降落。<br>在降落时，飞机飞行的高度、俯冲的角度和接地时的速度都需要精确操控，而且不同的飞机在降落阶段的特性也各不相同，必须逐个细心掌握。概括起来说，降落包括3个环节：首先降低飞行高度，低空通过场地并保持航线；然后调整油门，进一步降低高度；当飞机距离地面一米左右时，持续拉一点升降舵，使飞机轻微仰头，让起落架平稳地接触地面。<br>欧式降落，保持机头向上，通过降低速度，不断降低高度，后起落架先着地，由于重心在前后起落架中间，速度向前，因此后起落架先着地的冲击力比较小。由于速度和升力相关，如果速度过低，会导致升力不足而失速。因此在下降时，需要时刻关注飞行姿态。如果降落发生问题，无法落地，复飞也会因为速度不足而受影响。<br>俄式降落，是向下俯冲，下降过程速度不降低，直到快落地时才调整机头向上。这种做法比较有挑战。</p>
-<h3 id="滚转"><a href="#滚转" class="headerlink" title="滚转"></a>滚转</h3><p>滚转通过控制副翼的上下运动来实现，两侧副翼相向运动，使一侧受到向上的力，机翼上升；另一侧收到向下的力，机翼下降，在回正前，会持续圆周运动，也就是发生滚转。<br><img src="/2022/05/04/探索无人驾驶载货小飞机：航模技术研究/1651647533503-c5a3cc47-c0dd-4bb1-a96c-a5e2487ec9fb.png" title="image.png"></p>
-<h3 id="偏航"><a href="#偏航" class="headerlink" title="偏航"></a>偏航</h3><p>飞机的偏航由垂直方向舵控制，需要向哪边转就向对应方向打方向舵。偏航只用于微调运动方向。不适用于转弯。<br><img src="/2022/05/04/探索无人驾驶载货小飞机：航模技术研究/1651647810740-9520afd1-68b4-428b-82ed-ac3205f19a45.png" title="image.png"></p>
-<h3 id="转弯"><a href="#转弯" class="headerlink" title="转弯"></a>转弯</h3><p>转弯需要副翼和升降舵配合使用。首先，利用副翼将机翼向要转的方向滚转，然后将副翼操纵杆“回中”(回归零位，以便下次操作），以使机翼不再进一步倾斜。此时立即拉升降舵，直到飞机转向到合适位置，再将升降舵操纵杆回中，以停止转弯。然后向相反方向打副翼，使机翼恢复水平状态。最后，在机翼恢复水平状态的那一刹，将副翼回中。</p>
-<h2 id="实操"><a href="#实操" class="headerlink" title="实操"></a>实操</h2><p>一般玩航模，上边说的那些控制组件，可以分别购买。机身可以购买空的机身或者用3D打印自己打印机身。机身因为负载比较轻，一般是泡沫材料。</p>
-<h3 id="入门机型"><a href="#入门机型" class="headerlink" title="入门机型"></a>入门机型</h3><p>新手入门采用的机型有：赛斯纳，冲浪者。赛斯纳是一款真私人飞机的微缩版，冲浪者没有原型。两者的区别在于，赛斯纳有起落架，螺旋桨在最前方，因而速度更高；冲浪者螺旋桨没有起落架，螺旋桨在翼后方。因此在炸机时，赛斯纳的螺旋桨更容易损坏，而冲浪者的螺旋桨可以受到保护。但是赛斯纳可以训练起飞和降落，而冲浪者因没有起落架而无法训练起飞和降落。</p>
-<img src="/2022/05/04/探索无人驾驶载货小飞机：航模技术研究/1651650141737-54091b88-8b38-4f31-9f37-898fd8be7be3.png" title="image.png">
-<img src="/2022/05/04/探索无人驾驶载货小飞机：航模技术研究/1651650213336-ab583bdf-75c6-4fcc-9e9c-fe344de9ed86.png" title="image.png">
-<h3 id="炸机常见问题"><a href="#炸机常见问题" class="headerlink" title="炸机常见问题"></a>炸机常见问题</h3><p>航模炸机的主要原因：看不清飞机姿态；飞机失速。其实这些问题都可以用自动驾驶来解决。在飞机上安装陀螺仪和GPS。通过陀螺仪判断飞机的姿态，上下左右是否平衡。通过GPS判断位置和计算速度。采集的信息传递到机载芯片上，对姿态做一下判断，然后做一下对应的操作应对。如果是失速，则应该立即下压机头，俯冲提速。如果向左或者向右倾斜，则打副翼让姿态回正。一些玩具厂家就是通过内在陀螺仪，自动纠正错误姿态，避免炸机。通过这种程序化的处理，是可以减少炸机的概率的。同时通过无人驾驶，设定好GPS航路坐标后，可以脱离遥控器飞得更远。如果加上物联网卡，则可以实现远程的控制。</p>
-<h2 id="搭载货物"><a href="#搭载货物" class="headerlink" title="搭载货物"></a>搭载货物</h2><p>搭载货物意味着提升了重力，需要更大的升力。对于多旋翼飞机，推重比至少得是1。而固定翼飞机，推重比能够低到0.2。 也就是相同的发动机，固定翼的载货量可以达到多旋翼的5倍以上。固定翼飞机的速度，升力，转弯的灵活度等，都是相互关联的性能因素，可以通过调整参数结构，尽可能的牺牲其他性能，尽可能的提升载重量。通过设计机翼，采用高升阻比的低速翼型，机翼平面形状做大。不过载重提升后，对机翼的结构强度要求比较高。从一些航模比赛中获得的数据，大概可以承受自重的5到6倍以上。</p>
-<h2 id="成本估算"><a href="#成本估算" class="headerlink" title="成本估算"></a>成本估算</h2><p>最便宜的入门遥控器MC6C 200+<br>最便宜的一套控制配件 100<br>赛斯纳空机 100+<br>充电器100+<br>总体而言需要500+的入门费用。<br>此外模拟机需要用windows电脑。<br>如果炸机，则需要更换损坏的机身或者配件。航模真是个烧钱并且劝退的兴趣。 </p>
-<h2 id="资料库"><a href="#资料库" class="headerlink" title="资料库"></a>资料库</h2><p>Flite Test 提供航模的资料和图纸。</p>
-<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="https://max.book118.com/html/2019/0405/6044052152002021.shtm" target="_blank" rel="noopener">固定翼飞机的结构及飞行原理.ppt</a><br><a href="https://www.docin.com/p-2311183982.html" target="_blank" rel="noopener">固定翼无人机的结构及飞行原理 </a><br><a href="https://zhuanlan.zhihu.com/p/145581790" target="_blank" rel="noopener">【机型知识】固定翼飞机的飞行原理简介（一）</a><br><a href="http://hudongkepu.com/wap.php?action=article&amp;id=31818" target="_blank" rel="noopener">航模飞空(上)</a><br><a href="http://www.hudongkepu.com/m/view.php?aid=31819" target="_blank" rel="noopener">航模飞空(下）</a><br><a href="https://www.bilibili.com/video/BV1Ft4y127Th/?spm_id_from=333.788.recommend_more_video.-1" target="_blank" rel="noopener">【航模制作入门】5分钟了解航模电子设备</a><br><a href="https://www.bilibili.com/video/BV1BE411R7JR/?spm_id_from=autoNext" target="_blank" rel="noopener">如何用最低的价格，买一套入门航模设备</a><br><a href="https://www.bilibili.com/video/BV1eh411y7cw/?spm_id_from=333.788.recommend_more_video.1" target="_blank" rel="noopener">【固定翼飞手1】航模入门教程•必要设备介绍</a><br><a href="https://www.bilibili.com/video/BV1Er4y1K74V" target="_blank" rel="noopener">固定翼飞手2】航模入门教程•怎样购买空机与航模装备 最便宜？高性价比？</a><br><a href="https://www.ncnynl.com/archives/201608/713.html" target="_blank" rel="noopener">无人机基础知识-组成-航模电机</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://mayunlei.github.io/2022/05/04/探索无人驾驶载货小飞机：航模技术研究/" data-id="clbc6yc0d000sm23j0hnh20hd" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-从数据分析到数据洞察" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2021/12/25/从数据分析到数据洞察/" class="article-date">
-  <time datetime="2021-12-25T02:08:08.000Z" itemprop="datePublished">2021-12-25</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/12/25/从数据分析到数据洞察/">从数据分析到数据洞察</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="数据用途和玩转数据的手段"><a href="#数据用途和玩转数据的手段" class="headerlink" title="数据用途和玩转数据的手段"></a>数据用途和玩转数据的手段</h2><img src="/2021/12/25/从数据分析到数据洞察/1639895690262-2b65cf5f-0853-488a-aa1c-136d2d79be11.png" title="image.png">
-<p>数据分析通常用于商业决策，一般在大公司中，会养一个专门的商业分析部门，专门采集各种数据用于辅助董事会/CEO等决策层做核心的商业决策。但是，数据分析的需求无处不在，在各个业务线中也有对于数据分析的诉求，例如运营部分，一个运营活动的好坏、应该向哪个渠道投放资源，不能靠拍脑袋决定，要分析具体数据。同样对于开发运维也一样，线上系统是否稳定，各个模块指标怎么样，都需要数据得到反馈。对于董事会，可以养一个专门的机构搞数据分析；而对于普通的业务线，那只能自助分析了。今天我们就来总结一下数据分析的方法，如何洞察数据中的有效信息。<br>数据分析首先得有数据，从各个地方采集数据。所谓巧妇难为无米之炊，没有数据更谈不上数据洞察。有些公司，成立商业分析部门，干的活却是窃取其他公司的商业核心数据，愣是把一个高上大的技术名词搞成了间谍。20世纪上半叶，数学上的统计学在各行各业流行开来，数学家们，利用很少的数据，再加上统计学理论，推断一个结论。如经典的”女士品茶”这个故事，通过数据判定女士到底有没有某个超能力。至于把商业分析干成商业间谍的人，大概是不懂得需要如何合法的采集数据，以及分析数据的手段吧。<br>数据存储无需多讨论，要分析数据，首先要把数据存储下来，无论是存储在云端也好，还是excel也好，只有存储下来，才能方便后续的计算和分析。<br>数据有哪些使用方式呢？这里列举了四种用法，例如report，monitoring，analysis，exploration/mining。我们可以按照两个维度来划分，需求是否明确，分析方式是否成熟。<br><img src="/2021/12/25/从数据分析到数据洞察/1639914240796-aa90d9c9-0521-4741-825f-248664cbe39d.png" title="image.png"><br>有些需求场景是明确的，例如老板需要每天看几个关键的业务指标，那么就需要每天跑个固定的脚本，生成报告。在这个过程中分析方法也是固定的，即运行固定的计算逻辑。有些需求需要经过一番分析，例如某天业务量降低了，要分析下原因是什么，就需要从多种指标里边去探索。<br>还有些需求场景是不明确的，给你一份数据，我们知道数据里边有金矿，关键是怎么把数据中的核心信息捞出来，也需要探索才能找到，但是探索的目标不确定。这就是个开放式的话题了，也就是探索式数据分析：有数据，尝试找信息。应该沿着怎么样的一条路是探索呢？我认为有两种方式：</p>
-<ul>
-<li>尝试不同的分析方法，例如统计方法/机器学习方，挨个尝试，看能得到什么结果。有哪些分析方法，会在下文列一下常用的手段。</li>
-<li>尝试不同的目标，比如，首先用一句话描述数据的总体分布，然后找出其中的一些异常点，最后通过拟合数据做未来预测等等，有哪些分析目标，也会在下文列出一下常用的。</li>
-</ul>
-<h2 id="洞察数据的目标"><a href="#洞察数据的目标" class="headerlink" title="洞察数据的目标"></a>洞察数据的目标</h2><h3 id="寻找common-pattern"><a href="#寻找common-pattern" class="headerlink" title="寻找common pattern"></a>寻找common pattern</h3><p>common pattern是数据中出现频率最高的特征，可用于概括行描述一个数据集的总体信息。<br>​</p>
-<h3 id="寻找outlier"><a href="#寻找outlier" class="headerlink" title="寻找outlier"></a>寻找outlier</h3><p>outlier是离群点，即数据集合中某个偏离common pattern的数据。在一些异常监控中经常用到。<br>​</p>
-<h3 id="分类"><a href="#分类" class="headerlink" title="分类"></a>分类</h3><p>把一个数据集合分成不同的子集合，分成不同的类别。<br>​</p>
-<h3 id="验证假设"><a href="#验证假设" class="headerlink" title="验证假设"></a>验证假设</h3><p>首先给出一个假设，通过数据给出证明。</p>
-<h3 id="预测"><a href="#预测" class="headerlink" title="预测"></a>预测</h3><p>拟合已有的数据，根据模型预测未来数据。<br>​</p>
-<p>无论哪种目标，最终都是需要能过帮助完成决策，只有完成决策，才算完沉了闭环，否则就是无意义的数据分析。</p>
-<h2 id="洞察数据的方法"><a href="#洞察数据的方法" class="headerlink" title="洞察数据的方法"></a>洞察数据的方法</h2><p>一个优秀的软件，必定是有灵魂的，他的灵魂就是背后的方法论。Saas的本质，就是输出管理的理念和方法论，并且提供解决方案的工具。具体到数据分析工具而言，一个优秀的数据分析工具一定以数据分析方法论的为基础的，融合集合常见的数据分析方法。而不是东一榔头、西一棒槌追加分析函数，永远跟着甲方的需求跑，面向客户开发，面向demo开发，这样的话永远不成体系。<br>我们先来看个数据分析的笑话：<br><img src="/2021/12/25/从数据分析到数据洞察/1638965299987-04d1c697-7f85-4dd2-899e-9e5598c647bb.png" title="image.png"><br>手里有个锤子，看什么都是钉子，数据分析专业的同学，看到什么都要现象都要分析一把。疫情也要分析一把，强行刷存在感。不过笑归笑，外行看热闹，内行看门道。在这个简短的笑话中，我们看到一些常见的数据分析方法：相关性分析、假设检验、ab测试、z test、数据分布、标准差、显著性水平等。</p>
-<p>那么常见的数据分析方法有哪些呢？这些我们在大学的各个数学课程中都学习过了。首先我们做个分类，按照实现方式，数据分析包括：</p>
-<ul>
-<li>基于统计算法的数据分析。</li>
-<li>基于机器学习的数据分析。</li>
-</ul>
-<p>按照是否需要人工标注，数据分析分为：</p>
-<ul>
-<li>无监督学习，无需人工标注数据，根据已有数据直接分析。</li>
-<li>监督学习，需要标注数据，根据数据标签训练模型，再用于推断未知数据的结论。</li>
-<li>半监督学习，是无监督学习和监督学习的结合。</li>
-</ul>
-<p>接下来将逐个介绍各种方法：</p>
-<h3 id="统计量分析"><a href="#统计量分析" class="headerlink" title="统计量分析"></a>统计量分析</h3><p>统计量用于评估数据的整体状况，统计量使用单一数字来描述数据的分布。例如估计位置信息：</p>
-<ul>
-<li>均值</li>
-<li>中位值</li>
-</ul>
-<p>描述变异性：</p>
-<ul>
-<li>方差</li>
-<li>标准差</li>
-</ul>
-<p>描述性统计量：</p>
-<ul>
-<li>方差/标准差</li>
-<li>离散系数</li>
-<li>峰度</li>
-<li>偏度</li>
-<li>绝对中位差</li>
-<li>中位数</li>
-<li>单调性</li>
-</ul>
-<p>分位统计量：</p>
-<ul>
-<li>最大值</li>
-<li>最小值</li>
-<li>中位值</li>
-<li>25分位</li>
-<li>75分位</li>
-<li>范围</li>
-<li>四分位距</li>
-</ul>
-<img src="/2021/12/25/从数据分析到数据洞察/1639967567533-5e587d1b-3db0-4da0-aae2-906309bfd6f3.png" title="image.png">
-<h3 id="数据分布"><a href="#数据分布" class="headerlink" title="数据分布"></a>数据分布</h3><p>数据分布的目标主要是查看数据的分布频率(分布密度)，针对不同的数据采取不同的分析方式，对于连续数据，采取散点图/箱线图(分位统计)描述。在散点图中，把所有的点都打印到图中，密度比较高的地方则说明分布比较多。对于离散数据，采取堆叠图/直方图描述。按照每个不同的类别，分桶后统计计数，然后用直方图绘出。同样的，对于连续数据也可以采取直方图的方式，把连续数据按照固定的桶大小分桶后再计数。<br><img src="/2021/12/25/从数据分析到数据洞察/1639967723187-2fb0e24c-0aba-4dee-940a-5e50cbd882d3.png" title="image.png"></p>
-<img src="/2021/12/25/从数据分析到数据洞察/1639967822622-80a912a7-3c39-45bf-9baf-ebef36fb6c37.png" title="image.png">
-<h3 id="相关性"><a href="#相关性" class="headerlink" title="相关性"></a>相关性</h3><p>上文的统计量分析/数据分布分析，是用于分析单变量。 而对于多变量分析，则需要用到相关性分析。探索两个变量之间的相关性。在计算相关性时，主要计算两个数据集合的相关性系数。常见的相关性系数有皮尔逊系数、斯皮尔曼系数等。在计算好相关性系数后，可以绘制出一个相关性表如下：<br><img src="/2021/12/25/从数据分析到数据洞察/1639968277868-cd7f7b87-340f-4814-9470-17abca65d53e.png" title="image.png"></p>
-<h3 id="抽样分布"><a href="#抽样分布" class="headerlink" title="抽样分布"></a>抽样分布</h3><p>抽样分布是用少量数据估算整体数据的分布情况，用途有三种：第一,可以概括性描述整体分布;第二可以根据整体分布预测未来的新数据；第三，可以利用分布系数来排查异常值。<br>常见的分布有：</p>
-<ul>
-<li>正态分布： 如果确定数据服从正态分布，估算出正态分布的sigma后，我们可以使用3sigma来排除异常值。</li>
-<li>长尾分布：大部分现实数据不是严格匹配正态分布的，数据的中心位置也许符合正态分布，但是在尾部常常有长尾效应。</li>
-<li>T分布</li>
-<li>二项分布</li>
-<li>泊松分布</li>
-<li>指数分布</li>
-</ul>
-<p>柏松分布和指数分布通常用于估算事件发生率，也可用于估算IT系统的故障发生率。或者用于估算系统的上限水位，例如一个IT系统，每分钟的流量是x qps，那么根据泊松分布，可以估算出最大值是多少qps，系统需要准备多少资源。<br>​</p>
-<p>在现实的数据中，可能具备多种形状和类型，在特定场景下，应该首先确定数据集合服从哪种分布，求的分布系数后，再进行下一步的分析。<br>​</p>
-<h3 id="统计实验和假设性检验"><a href="#统计实验和假设性检验" class="headerlink" title="统计实验和假设性检验"></a>统计实验和假设性检验</h3><p>假设检验有个很好的用途，例如我们的营销团队做了个活动，那么如何评估活动是否带来了客流量呢？我们都知道现实的数据可能是有波动的，可能有N天变高，M天变低。所以要评估是否活动的影响，可以使用假设检验来验证。<br>最常见的业务场景，例如A/B测试。两种算法，哪个效果更好，可以通过假设检验来完成。<br>常见的方法有T检验、卡方检验<br>例如<br><img src="/2021/12/25/从数据分析到数据洞察/1639970025835-dc36319c-3779-40d2-8ee3-3666f3c2a277.png" title="image.png"><br>不同的标题下，有不同的点击率，那么这个点击率是随机造成的，还是标题起到了关键作用呢？可以通过卡方检验，计算皮尔逊残差，结果证明完全是随机作用。<br>​</p>
-<h3 id="回归和预测"><a href="#回归和预测" class="headerlink" title="回归和预测"></a>回归和预测</h3><p>在现实中，我们经常要回答的一个问题是，这两个指标之间是否有关联？如果有关联，是否可以通过其中一个指标预测另外一个指标。预测常见的一个使用场景是：根据预测的结果和实际的结果进行比对，然后判断是否有异常。</p>
-<h3 id="分类-1"><a href="#分类-1" class="headerlink" title="分类"></a>分类</h3><p>在数据分析中，经常要回答一个问题，一个电子邮件是否是钓鱼邮件？一个客户是否会流失？这种情况就需要分类。分类是有监督的学习。<br>常用的分类算法有：</p>
-<ul>
-<li>朴素贝叶斯</li>
-<li>线性判别分析</li>
-<li>KNN</li>
-<li>决策树</li>
-<li>Bagging</li>
-<li>随机森林</li>
-<li>boosting</li>
-<li>SVM</li>
-</ul>
-<h3 id="聚类"><a href="#聚类" class="headerlink" title="聚类"></a>聚类</h3><p>聚类是无监督学习的分类方法，根据算法把数据集合分成几个类。常用的算法有：</p>
-<ul>
-<li>主成因分析</li>
-<li>K-means</li>
-<li>层次聚类</li>
-</ul>
-<h3 id="神经网络"><a href="#神经网络" class="headerlink" title="神经网络"></a>神经网络</h3><p>神经网络是有监督学习，通过标注数据训练出模型，然后推断新的数据结果，篇幅有限，这里不再展开详细介绍。常用的算法有：</p>
-<ul>
-<li>卷积神经网络CNN</li>
-<li>循环神经网络RNN</li>
-<li>深度神经网络DNN</li>
-</ul>
-<h1 id="数据分析工具和数据洞察解决方案"><a href="#数据分析工具和数据洞察解决方案" class="headerlink" title="数据分析工具和数据洞察解决方案"></a>数据分析工具和数据洞察解决方案</h1><img src="/2021/12/25/从数据分析到数据洞察/1639971950420-24beef6e-73f9-44c7-9e2b-64ed77900b6e.png" title="image.png">
-<p>上文介紹了很多数据分析的方法算法。这些方法，归根结底是一个个工具，或者说是积木，用户可以使用这些积木组合成解决方案，解决自己特定的问题。市场上有很多系统提供类似的数据分析工具，例如Pandas，R，SQL，Tensorflow等等。 但是这依赖于使用者既要明确自己的分析目标，又要十分精通使用工具。 对于开放式的话题，在分析时需要不断尝试各种各样的手段进行分析，有些分析手段可能是无效的，因此需要不断尝试，在这个过程中浪费了太多的时间。如何能够快速洞察数据呢？<br>有些工具尝试集合数据分析的工具和数据洞察的解决方案，例如tableau，Knime等，而Pandas profiling则是一个纯粹的数据洞察方案。它自动的尝试上文描述的各种手段，把结论呈现给客户，减少了数据探索的时间，能过快速的完成数据洞察。<br>​</p>
-<h1 id="数据洞察工具的价值"><a href="#数据洞察工具的价值" class="headerlink" title="数据洞察工具的价值"></a>数据洞察工具的价值</h1><p>针对开放式的课题，需要投入大量的人工时间在各个方向上探索，这存在几个问题：</p>
-<ul>
-<li>可能以后某些关键路径，例如在分钟级别的数据看不出信息，而秒级别数据才能看出信息。若没有想到该方式，那么将极大延长发现问题的时间。</li>
-<li>需要人工采用各种工具，在多个方向上探索。这无异需要大量的时间。</li>
-</ul>
-<p>因此对于数据洞察工具的诉求就是：能过完全自动化的在各个方向上、尝试多种工具挖掘数据信息，达到最终对数据的insight。<br>​</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://mayunlei.github.io/2021/12/25/从数据分析到数据洞察/" data-id="clbc6yc0c000rm23j775nx9kq" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SQL洞察/">SQL洞察</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2021/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/" class="article-date">
-  <time datetime="2021-12-25T02:02:23.000Z" itemprop="datePublished">2021-12-25</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/">Petabytes scale log analysis at Alibaba:intrastructure/challenge/optimization</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>2021年3月25日凌晨0：00，我参加了PrestoCon2021全球技术峰会，在会上直播分享了阿里云SLS使用Presto构建交互式分析产品的挑战和优化。本文是演讲稿全文。PrestoCon2021日程：<a href="https://prestoconday2021.sched.com/?iframe=no" target="_blank" rel="noopener">https://prestoconday2021.sched.com/?iframe=no</a>，直播视频已经上传到B站<a href="https://www.bilibili.com/video/BV1hK4y1m7qe/" target="_blank" rel="noopener">https://www.bilibili.com/video/BV1hK4y1m7qe/</a>，B站还包括其他演讲视频。<br><img src="/2021/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617422880023-8b0bcbe0-5016-48be-9ef6-09d33a8e28b8.png"><br>hello everyone my name is yunlei. I work at Alibaba Cloud log service team. Today I will share petabytes scale log data analysis at Alibaba group, I will share our experience with presto, the challenges we faced and the optimizations we did for presto.<br>​<img src="/2021/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617424047759-aef063ca-f536-46ca-bcde-d672f868ea96.png"><br>So today, I will first give an introduction about our team and talk about the motivation why we provide analysis service for logging data. And then I will talk about the challenges we face. And after that I will share our architecture to achieve scalability. And also share some ways to achieve low latency and high qps or high concurrency. And after that I will talk about some additional work based on the scalable framework of presto. And finally, I will talk about the future roadmap.<br>​<img src="/2021/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617424064586-453cf25f-6bff-4dab-a258-572163bc29b2.png"><br>​</p>
-<p>First let me introduce my team, this may help you have a better understanding of the background, and the motivation of my we provide analysis service for logging data. And we are log service team, we are providing the infrastructure of all kinds of logging data inside Alibaba group., for example linux server, web page, mobile phone, or kubernetes.. and all these data from different kinds of platforms are collected to our clusters in real time. And then, consumers can consume streaming data in real time, without worrying about different platforms.<br>And after that, we wanted to provide service just like what engineers can do on their linux servers. For example, we found that engineers often use the command grep to search some key word from their log file. So, in order to provide the real time interactive search, we build inverted index for logging data. By using inverted index, people can search large amount data with very low latency.<br>And after that we notices that in this era of data explosion, even the searching result may contain thousands to millions, even to billions of rows. That is a very large number, even thousands of data is large amount of data for human being’s eye, it is not easy to fully understand what is really appending inside the large amount data. But If, we can summarize the data, do aggregation on data, take web access log as an example, if we can calculate the average response time or max response time, we can better understand the whole data. That is the motivation my we provide analysis service for logging data. And we also have a visualization service, to visualize the interactive query result, which is helpful for understanding the data trend.<br>So, in summary, our team provide multi-tenant, interactive analysis for petabytes scale real time logging data.<br><img src="/2021/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617424085479-947ee0dd-7136-446c-9eb3-7d19e6fddb44.png"><br>What are the challenges we faced? The first challenge is the high QPS and high concurrency. Every day, we process about 400 millions queries, at the peak hour there are about 10000 queries running concurrently. Second, every day presto process over 1 quadrillion rows. Which is huge amount of data. But we can deliver the interactive query with very low latency. The average latency is only about 500 ms. So, how do we deal with those challenges, and how to achieve that low latency? In the latter slides, I will talk about some techniques we used.<br><img src="/2021/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617424102038-4ac1684f-5525-4932-940e-8f27480897da.png"><br>​</p>
-<p>In order to provide the interactive log analysis. The first thing we did is introducing presto into our system. Many people ask me the question that, why did we choose presto in the first day. Well, I think the first and most import reason is that, presto is really really fast, very flexible for interactive query. It suits our use case.  Second reason, presto has a scalable framework. We can develop our own connector/function/optimization rule which makes it very easy to integrate presto with our own storage. Last, the architecture and coding style Is very elegant. The architecture is simple, it doesn’t rely on any external components for deployment. The coding style is also very simple, it is easy for us to learn its internal implementation, also easy for us to do some modification for optimization. That is the reason why we choose presto in the first day.<br>​</p>
-<img src="/2021/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617424115235-59d335b5-b076-4de5-a717-aedbec1d7399.png">
-<p>In order to deal with the large amount of data ingested every day. We design our architecture like this. This is simplified architecture, only analysis related components are included. Data from different kinds of platforms are collected to our cluster, in the backend, the index worker keeps building inverted index and column format data for logging data. And then all the data are stored in the distributed file system, which is called pangu. This is the flow of data ingestion. When submitting query, users can send their query by sdk or jdbc client through our front api server, to one coordinator. We support distributed coordinators, and I will talk more detail about the design. In the backend, presto server read inverted index for filtering and column data for computing. This is the flow of querying. And presto play a key role in this architecture.<br>​<img src="/2021/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617424157805-b6df2168-c7a5-47bf-b034-2d38641b6127.png"><br>How to support querying large amount of data? Every day we process about 1quadrillinon rows. Fortunately, presto is a pure computing engine, so it is easy to decouple computing and storage separately. So that we can scale presto horizontally. Also, log data has a feature that it is immutable after ingested. And in the backend, we keep compacting small file into larger file, when the file is large enough, the file will become immutable. One immutable file contains tens of millions rows.so, each time we schedule a file, we schedule each immutable file to one presto server. And by this way, we can use a lot of presto server for one query. And thus, we can query large amount of data in one query. And the performance is also significant. If we run a simple group by query on 200 billions rows, it only takes about 20 seconds. That is a large amount of data and the latency is acceptable.<br>​<img src="/2021/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617424171251-5420046d-4e6c-4607-9891-cf6d2e64329c.png"><br>So, how to achieve low latency? There are a few techniques we used. The first technique we used is column format storage. In the backend, we keep building column format data. We all know that column storage is helpful for reducing data size to read from disk, and also helpful for vectorized execution, thus it will makes query faster.<br>​</p>
-<p>Another technique we used is data locality. We all know that, network speed inside cluster is much faster than network between clusters. So, we deploy storage and computing engine in same shared cluster. When scheduling task, we choose a free node by the order of machine, rack, cluster.<br>​</p>
-<p>There are some other techniques we used, for example cache, inverted index. I will talk more detail about that.<br>​<img src="/2021/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617424190608-a0d8d74d-5925-4f0a-a13d-280d1ee25ea8.png"><br>We all know that cache can make query faster, it can also help us removing some duplicated computation. And in order to take advantage of cache, the scheduling algorithm has to remember scheduling history in memory. Every time we schedule a file, we schedule each immutable file to the same node it has been scheduled before, unless the workload of specified node is much too high. In that case, we will choose another free node.<br>So there are three layers of cache, from the bottom up, there are raw data cache, intermediate result cache, and final result cache. The raw data cache and final result cache are common solutions. But the intermediate cache is a very rare solution. So, I’d like to talk more detail about the intermediate cache. As I mentioned earlier, file is immutable. So, every time we schedule a file, we schedule each mapper with exactly one immutable file. Then after finishing the partial aggregation operator, we store the result of partial aggregation operator in memory. And next time when we run exactly the same partial aggregation operator on exactly the same immutable file, we can just read the result from the memory, and send the intermediate result to final aggregation operator directly, without reading data from disk and recomputing the partial aggregation operator. We all know that partial aggregation operator deals with large amount of data, and only generate small amount of data. So, most of the computation happens in the partial aggregation operator. By using intermediate cache, we can achieve a faster query and also save a lot of cpu and IO resource.<br>​</p>
-<img src="/2021/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617424208162-f254d8cb-b03a-45a8-8175-129bb878d88c.png">
-<p>What about the performance of cache? Every day, there are more than about 100 millions query hitting final result cache. The average latency when hitting final result cache is only about 6 milliseconds. So, it is really fast. What’s more, final result cache can help us prevent a lot of duplicated computations and save us a lot of resource. What about the performance of intermediate cache?  For 1 billion rows.  It only takes about 1.3 second when hitting intermediate cache, but it will take 6 seconds when not hitting intermediate cache. So, the comparation of two latency is impressive.<br>​</p>
-<img src="/2021/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617424220492-9a72f5a5-99f4-489a-993f-4556faf5c06c.png">
-<p>Another technique we used is inverted index. In the first day, we use inverted index for searching data. After introducing presto into our system. I push down predicate from presto to storage system, and then use the inverted index to first calculate the matched row id, and use the matched row id to read matched rows, and then send only matched data to presto. This strategy is very effective if we can use inverted index to skip some file or only read small part of file. If you run a query select count(*), that will be extremely fast by using only index!.<br>​<img src="/2021/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617424234433-bf57b216-ed16-4155-a7ca-11de19da5c25.png"><br>Every day we are processing more than 400 million queries. And the main challenge is on coordinator. This picture was taken about 2 years ago. And at that time there was only one single coordinator. This picture shows the top 4 nodes with highest CPU usage of presto, the fist picture is coordinator. You may notice that the CPU usage of coordinator is much higher than normal workers. In our cluster, one single coordinator can process 1000 queries concurrently at most. So, the single coordinator is the bottleneck of the cluster. It has the problem of both scalability and availability. In order to improve the performance of coordinator, I did a few optimizations. The first optimization is supporting distributed scalable coordinators. The second optimization is transferring data from output stage to client directly, without worrying coordinator.<br>​<img src="/2021/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617424953423-4a63a842-e655-4d43-953a-46ef4363b76f.png"><br>Let us look at the detailed design of distributed coordinators. I design the distributed coordinators for scalability. And there are two kinds of roles in this design: the global coordinator, and the distributed coordinators. The global coordinator has only one instance. It is responsible for cluster management. For example, detect node state, replicate all the node state to other coordinators, track memory usage, assign largest query to reserved pool.  The distributed coordinators are responsible for query management. For example, parse query, create logical plan, optimize logical plan, schedule task, track task state. It is also responsible for a user queue. Every time submitting a query, user send his query to one coordinator based on the hashing of user name, in this way, all the queries belonging to one user can always be found in one coordinator. This design is not 100 percent perfect, because the global queue is not supported. But it is enough for our scenario. It helps us to scale coordinators horizontally for much higher concurrency.<br>​<img src="/2021/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617424969227-e65a0a3a-fc14-4284-b618-f064b17db078.png"><br>Another thing we did is optimizing the data transfer flow. In the original design, the coordinator transfers query result from output stage to client. So, the coordinator has to serialize query result into json format. We all know that json serialization is very slow. What if coordinator transfers large amount of data? For example, 1 gigabytes data. That will take a lot of CPU usage of coordinator. In order to optimize the performance of coordinator, here is my solution. The coordinator will tell the client all the addresses of the output stage. Because there may more than one node in the output stage. And then client will use the addresses to talk to output stage to directly fetch data with protobuf format. By this way we can make query faster and save a lot of cpu usage of coordinator.<br>​</p>
-<img src="/2021/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617425009217-0057e623-4495-447f-9a49-dcd24d6d8c56.png">
-<p>Here is the final performance. We can process 400 million queries every day by supporting distributed coordinator and optimizing data transfer. And by decoupling computing and storage, we can support processing over 1 quadrillion rows every day. By taking advantage of column storage, data locality, cache, inverted index, we can provide interactive query with very low latency, the average latency is only about 500 milliseconds.<br>​<img src="/2021/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617425021490-e42b4c38-9d1f-4c5a-8f4c-3c3c28939708.png"><br>Besides those optimizations, we also did a few additional works based on the scalable framework of presto. The first thing we did is machine learning library for time series data. We also noticed that only logging data is not enough for analysis. Sometimes, we need to join logging data with some external data. So, I developed a connector to read object file on OSS storage.  We also use presto as a federated SQL engine.<br>​<img src="/2021/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617425034418-771bd915-8711-455d-ab40-a88ffe74e48e.png"><br>In the future, there are still a lot of things to do. The biggest challenge is still on coordinator. We will keep optimizing coordinator. Another thing we want to do is increase the availability of discovery, by now, discovery has only one instance. We also want to improve the performance of data exchange by using rpc protocol, which will make it faster to shuffling large amount of data.<br><img src="/2021/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617425122280-6c261c3d-0b80-4e09-8eb4-a794ee80092c.png"><br>If you are interested in data analysis engine or OLAP engine, don’t hesitate connect me,  our team are hiring OLAP engineers, let us work together to make data easy to understand!<br>​</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://mayunlei.github.io/2021/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/" data-id="clbc6yc020003m23jz6d9v0j5" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-ClickHouse计算速度是如何做到领跑OLAP类产品的" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2021/01/09/ClickHouse计算速度是如何做到领跑OLAP类产品的/" class="article-date">
-  <time datetime="2021-01-09T10:59:33.000Z" itemprop="datePublished">2021-01-09</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/01/09/ClickHouse计算速度是如何做到领跑OLAP类产品的/">ClickHouse计算速度是如何做到领跑OLAP类产品的</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="数据分析类产品的发展历史"><a href="#数据分析类产品的发展历史" class="headerlink" title="数据分析类产品的发展历史"></a>数据分析类产品的发展历史</h2><p><img src="https://ata2-img.oss-cn-zhangjiakou.aliyuncs.com/431906298a05fa62bd3f3960aae50994.png" alt="image.png"></p>
-<h2 id="单机数据库时代"><a href="#单机数据库时代" class="headerlink" title="单机数据库时代"></a>单机数据库时代</h2><p>关系型数据库是发展了很多年的技术，在单机时代，微软的sql server ,甲骨文的oracle RDBMS，IBM的DB2是商业数据库的霸主。但是商业数据库实在太贵了，后来出现了开源的MySQL。阿里则干脆喊出了去IOE的口号。O就是oracle数据库。</p>
-<p>在数据库上，用户不仅有OLTP的使用需求，也有分析的需求，就是OLAP。但是单机数据库，无论硬件性能还是软件扩展能力，都是有限的。为了应对分析需求，一般采用一些技巧来实现，一般有这几种方式</p>
-<ul>
-<li>构建CUBE，按照要分析的问题，预计算出结果。这种思想在后来的Apache kylin上也有体现。<ul>
-<li>这种方式的缺点在于，<ol>
-<li>维度多的时候数据膨胀会比较厉害；</li>
-<li>需要预先把要分析的维度加入CUBE，不够灵活。</li>
-</ol>
-</li>
-</ul>
-</li>
-<li>分库分表。单表的查询在百万以内还能应付，超过千万级别，性能急剧下降。因此一般会根据某些列拆成多张表，查询时只命中需要的表即可。这种思想类似于数仓中的分区概念。</li>
-</ul>
-<h2 id="MapReduce时代"><a href="#MapReduce时代" class="headerlink" title="MapReduce时代"></a>MapReduce时代</h2><p>2004年，Google发表了MapReduce论文，开启了大数据时代。Google产生的大数据需要分析，传统的数据库依赖单机的性能来提升查询能力，但单机的能力毕竟是有限的，无法支持PB级别的规模，Google则另辟蹊径，通过MapReduce算法，把成千上万的小型机调动起来运行同一个分析程序。</p>
-<p>雅虎支持的开源社区则根据Google论文的思想，开发了Hadoop，成为现代大数据套件的鼻祖。Hadoop包含了MapReduce运行框架和HDFS分布式文件系统。之后的十多年间，围绕Hadoop衍生出了一整套的大数据生态系统，有做资源管理的，有做调度的，有做任务管理的，有做分布式锁的。要在生产环境把hadoop完整的跑起来，需要玩转多个组件，还真不容易。</p>
-<p>MapReduce，解决了对大数据的分析需求。</p>
-<h2 id="SQL-on-hadoop时代"><a href="#SQL-on-hadoop时代" class="headerlink" title="SQL on hadoop时代"></a>SQL on hadoop时代</h2><p>hadoop需要自己编写MapReduce的逻辑，使用门槛非常的高。一个公司内，需要有专门的大数据团队，来给各个业务方写分析程序。严重制约了使用范围。为了降低使用门槛，数据库常用的SQL语言被搬了出来。SQL可以说是数据分析领域受众最广的语言了。hive 就是典型的代表。数据存在在HDFS上，用户输入SQL，程序自动的拆解成MapReduce逻辑。用户不再需要关心底层的数据是怎么分布的，分析程序该如何根据哪个partition拆解MapReduce。大大降低了使用门槛。</p>
-<p>SQL on hadoop的本质，是提供了SQL的interface，但底层还是MapReduce的DAG执行方式。每个任务的执行结果，需要写入磁盘。每个阶段执行完后，下一个阶段才能开始执行。这种方式延时会非常高，跑一个复杂的job，需要几个小时；一个简单的job也需要几分钟。因此通常称为离线任务，放到晚上业务空闲期跑。</p>
-<p>SQL on hadoop 解决了对分析大数据的体验的需求。</p>
-<h2 id="MPP时代"><a href="#MPP时代" class="headerlink" title="MPP时代"></a>MPP时代</h2><p>离线任务能够帮助人们分析大数据，但是由于运行时间长，只能做一些固定模式的报表，每天晚上跑一跑前一天的数据，给领导一个报表。</p>
-<p>需求是无止境的，互联网业务产生了海量的数据，往往要深入挖掘数据的价值，挖掘这个动作本身，就意味着分析存在不确定性，需要反复的探索数据，尝试不同的方式分析数据。用离线任务去分析，一个job几分钟乃至几个小时，黄花菜都凉了。因此大数据挖掘，对快的要求越来越高。</p>
-<p>MapReduce框架代表了在算法层面提升了规模。而另一方面，最近十几年，硬件也在飞速发展。200x年的时候，单机内存有限。今天的服务器，动不动就几百个G，国产化的SSD的单价做到了0.5元/GB。单机几百G的内存，再加几个T的SSD，网卡普遍用上了万兆网卡。单机的硬件性能大大加强。</p>
-<p>于是出现了一批新的运行框架，例如Spark， Presto， 充分利用单机的内存做计算，计算结果通过网络传输给下游节点，而不是写到磁盘，再传给其他机器。这些新的软件，不再采用Hadoop的MapReduce运行框架，而是借鉴MapReduce的思想，自己实现了计算逻辑。</p>
-<p>这些新的计算系统，抛弃了除了HDFS以外的hadoop生态圈。原来跑起来hadoop需要一堆软件协同，现在只需要一个开箱即用的软件即可。当然像Presto,Spark，本身还是需要读写HDFS，也算是SQL on hadoop 的延续。</p>
-<p>DAG vs MPP</p>
-<p>本章节命名MPP不是很恰当，MPP只是其中的一种调度和运行模型。MPP源于并行数据库，每个进程都是一个独立的可运行数据库，有完整的解析，优化，codegen，和资源管理，每个进程只负责一部分数据。除了MPP模型，还有DAG模型，DAG的运行前提是shared storage，比如HDFS，由全局节点解析，优化，分配和协调每个节点的任务。</p>
-<p>基于内存的OLAP引擎，能够在秒级别完成大规模数据的分析，并拿到结果。做到了之前数据库、数仓做不到的性能和延时。在此之前，要在短时间分析大量数据是不可能的，因而不得不采取一些技巧来完成，例如预计算，流计算，把计算结果保存到NoSQL中，用户查询的时候，直接查询NoSQL的结果即可。但这些技巧本身对用户来说非常不灵活，规则的任何变化，都需要把历史数据重跑一遍。基于内存的计算引擎，让真正的OLAP成为可能。用户不再需要做各种预定义的规则。只需要保存原始的数据，在需要的时候，可以立即通过SQL获得结果。</p>
-<p>MPP解决了人们对于快速分析大数据的需求。</p>
-<h2 id="ClickHouse"><a href="#ClickHouse" class="headerlink" title="ClickHouse"></a>ClickHouse</h2><p>Presto是2012年FB研发出来的，目的是为了加速Hive的查询。Presto是基于Java开发的，大部分的大数据套件都是基于Java开发的，Java的开发生态比较丰富，开发门槛比较低。ClickHouse是2016年俄罗斯开源的OLAP系统，由于ClickHouse的年代更近，因而采用了最新的一些技术，用论文里边一句时髦的话叫<code>state of the art</code>，使得ClickHouse的运行速度领先同类OLAP引擎。本文就从代码层面探究ClickHouse的一些优势。</p>
-<h3 id="采用c-17语言"><a href="#采用c-17语言" class="headerlink" title="采用c++ 17语言"></a>采用c++ 17语言</h3><p>ClickHouse的第一个优势是采用c++语言，而且是c++17的标准。能用c++写大型程序的都是好汉。现代软件重要的是协同开发，而不是单打独斗。大数据生态，大多采用java开发，是有道理的。java一次编译，处处运行优势，可以让每一个开发者只负责其中一部分功能，然后以jar包的形式分发，打包成jar包就说明解决了编译问题，而运行时问题则交给jvm，其他开发者只需要引用jar包，就可以完成协同开发，这促进了java丰富的开发生态，基本上需要什么基础轮子，就有对应的jar包，不需要自己重复造轮子。这一点是c++不能比的。c++不同的编译器编译出来的二进制lib，不同的硬件平台上编译出来的lib，都有兼容性问题，这阻碍了基础套件的分发和共享。导致c++代码协同研发必须共享代码，而共享代码在不同编译器上有会遇到各种各样的编译问题。所以很少有基于c++实现的大数据软件。如何提升c++程序的协同开发效率，我会专门开一篇文章介绍LLVM。</p>
-<p>鉴于上述描述的c++协同开发的困难，ClickHouse能够用c++代码来实现，说明老大哥还是非常彪悍的，往年用c++搞出了nginx，现在又用c++码出了ClickHouse，c++代码比JAVA代码，在执行效率上高一些，再加上c++能够利用一些指令级别的优化，因而整体而言，c++程序的运行速度要快于JAVA。</p>
-<p>更难能可贵的是，ClickHouse采用了c++ 17的标准，用clang10编译器，采用了很多新的语言特性，新的语言特性的优势在于：</p>
-<ol>
-<li>编程代码更加简洁，编程效率会更高。例如auto关键字，让c++有了类似脚本语言的快感。</li>
-<li>一些新的特性让性能上更上一层楼。比如std::move通过移动构造函数，避免生成临时对象。 <code>std::unique_ptr</code>智能指针，既能够管理对象内存，又能够像对象一样在函数间传递(相对<code>auto_ptr</code>)，却不用承担shared_ptr锁的开销。</li>
-<li>更加复杂的编译时表达能力。像<code>enable_if</code>,<code>is_same_v</code>等语法，决定编译时的动作，让模板编程能力更加复杂。在以前，编译时动作只有宏编程，c++11之后，这些新的特性，让开发者有更多的选项告诉编译器该怎么做。</li>
-<li>可变长度模板参数列表。模板参数可以像函数的可变长度参数列表一样，支持不定长模板参数列表，快速实例化模板。这个特性会在下文的木版化执行阶段介绍。</li>
-</ol>
-<p>这里无意介绍c++11到c++17所有的特性，只是摘出来ClickHouse用到的一些特性做介绍，对c++11/17感兴趣的同学，网上有很多介绍文章。</p>
-<p>用最新的编译器+最新的语言特性，带来了编程效率和执行效率的提升，让ClickHouse领先同类产品一个段位。这大概就是后发优势吧</p>
-<h3 id="模板化执行代码"><a href="#模板化执行代码" class="headerlink" title="模板化执行代码"></a>模板化执行代码</h3><p>在SQL执行引擎中，逻辑执行计划生成物理执行计划，要根据相应的数据类型，函数名称、参数列表，寻找合适的执行代码。例如 <code>1 + 2.2</code>这个计算，要寻找到一个plus函数，参数类型分别是int和float，即签名是<code>plus(int, float)</code>的函数。实现方式上，会提供不同类型的重载函数。</p>
-<p>一般而言，有几种方式，第一是采用虚函数的方式，在执行时，根据实际类型选择合适的函数入口。但是我们都知道虚函数是通过虚表实现的。运行时查找函数需要经过一跳。如果每一行记录都在运行时做一次虚表跳转，代价是很大的。</p>
-<p>解决方法就是第二种形式，在编译时绑定执行函数。但是还要解决一个泛化的问题，要提供一系列函数，而不止是一个函数。ClickHouse采用的是模板化编程，同一个名字的函数，用模板实现，乃至模板套模板。参数的类型用模板类型表示。并通过可变模板类型参数列表物化出真正的代码，这一过程是在ClickHouse编译时确定的。等到物化执行计划阶段，调用可变模板类型参数列表的函数，逐个匹配各个类型，寻找到合适的类型，就执行对应的函数。<code>可变模板类型列表</code>是一个很重要的概念，ClickHouse依赖它完成泛化代码的编写、代码实例化、运行时多态、</p>
-<p>上边提到的<code>1+2.2</code>可能有点复杂，我们首先以单参数函数为例介绍，比如函数<code>abs(-1)</code>，计算-1的绝对值。首先clickhouse提供了一个模板实现<code>FunctionUnaryArithmetic</code>，囊括了所有的单参数数学函数，参数可以是不同的类型，从uint8到decimal256,也可以是string。<code>abs.cpp</code>，则提供了abs算子的具体实现<code>AbsImpl::apply</code>，当然这个算子也用数据类型作为模板，可以支持不同位数的数字，该算子作为FunctionUnaryArithmetic的模板参数。FunctionUnaryArithmetic要做的，就是在运行时根据传入的参数实际类型，选择不同的执行路径，主要是区分是string还是数字。怎么实现运行时动态参数选择呢？主要是通过上文提到的可变长度的模板参数列表来实现:</p>
-<p>ClickHouse调用castTypeToEither 函数，并且传入实际的数据类型，和回调函数，当匹配到某一个类型时，就执行f这个lambda函数。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">static bool castType(const IDataType * type, F &amp;&amp; f)</span><br><span class="line">&#123;   </span><br><span class="line">    return castTypeToEither&lt;</span><br><span class="line">        DataTypeUInt8,</span><br><span class="line">        DataTypeUInt16,</span><br><span class="line">        DataTypeUInt32,</span><br><span class="line">        DataTypeUInt64,</span><br><span class="line">        DataTypeUInt256,</span><br><span class="line">        DataTypeInt8,</span><br><span class="line">        DataTypeInt16,</span><br><span class="line">        DataTypeInt32,</span><br><span class="line">        DataTypeInt64,</span><br><span class="line">        DataTypeInt128,</span><br><span class="line">        DataTypeInt256,</span><br><span class="line">        DataTypeFloat32,</span><br><span class="line">        DataTypeFloat64,</span><br><span class="line">        DataTypeDecimal&lt;Decimal32&gt;,</span><br><span class="line">        DataTypeDecimal&lt;Decimal64&gt;,</span><br><span class="line">        DataTypeDecimal&lt;Decimal128&gt;,</span><br><span class="line">        DataTypeDecimal&lt;Decimal256&gt;,</span><br><span class="line">        DataTypeFixedString</span><br><span class="line">    &gt;(type, std::forward&lt;F&gt;(f));</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">template &lt;typename... Ts, typename T, typename F&gt;                </span><br><span class="line">static bool castTypeToEither(const T * type, F &amp;&amp; f)             </span><br><span class="line">&#123;                                                                </span><br><span class="line">    /// XXX can&apos;t use &amp;&amp; here because gcc-7 complains about parentheses around &amp;&amp; within ||</span><br><span class="line">    return ((typeid_cast&lt;const Ts *&gt;(type) ? f(*typeid_cast&lt;const Ts *&gt;(type)) : false) || ...);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>castTypeToEither是怎么实现的呢，如上代码样例，模板参数中的Ts是一个可变长度的列表。实现中，为了表达『命中类型就执行f』这个语义，用了短路求值法，但是因为编译器不支持&amp;&amp;这种写法，而用了?:双目运算符。如果检查类型匹配，就以匹配的类型执行，不匹配就检查下一个类型，语法上使用了||…  来表达对每一个模板参数执行相同操作。由于回调函数也是模板，传入实际类型就相当于实例化了对应代码。由于模板函数在编译时有调用才会实例化，不按照这种做法，我们恐怕要在一个地方为每一种类型编写一下调用函数才能实例化。castTypeToEither是非常重要的一个函数，由它实例化出了每一种计算函数的实现。</p>
-<p>看到了单参数的实现，接下来看多参数的实现，以上边提到了<code>1+2.2</code>为例，介绍ClickHouse的实现方式,由于双参数的类型组合比单数更多，相当于N*N个组合，比如int8 + float, int16+float,int32+float, float+float。 一般有个做法是，在具体实现时，只实现同类型的，比如Int8+int8， float+float。语法检查器在检查时，会优先寻找函数名匹配，参数类型也完全匹配的函数实现。 如果其中一个参数不匹配，比如Int32+float，找不到这个组合的实现，语法检查器会挨个检查每个函数实现，是否能够做类型转换，把实际类型转化成函数声明类型而不影响精度，比如针对int32+int32的函数实现，float不能转化成int32，所以不能采用该实现，针对float+float，发现int32能够转化成float，那么就会把语法树变成cast(int32 as float) + float来解决这个问题，虽然两者语义上有一定差别，毕竟int 转float在大数情况下会损失精度，但是好歹在目前情况下实现了该运算。</p>
-<p>按照这种做法，先强制转化类型，把数据拷贝出来一份，生成一份新的数据，再去计算。</p>
-<p>ClickHouse没有这样做，它没有在语法检查阶段添加这种强制类型转换的逻辑。而是用模板实现两个不同类型的计算，然后通过castTypeToEither函数，实例化出不同的组合。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">template &lt;typename F&gt;</span><br><span class="line">static bool castBothTypes(const IDataType * left, const IDataType * right, F &amp;&amp; f)</span><br><span class="line">&#123;    </span><br><span class="line">    return castType(left, [&amp;](const auto &amp; left_) &#123; return castType(right, [&amp;](const auto &amp; right_) &#123; return f(left_, right_); &#125;); &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>在castBothTypes函数中，通过castType嵌套castType，获得左右两个函数的实际类型后，用实际类型回调lambda函数f。比如你传入的是int+float,就会实例化出该类型。在ClickHouse的编译阶段(注意，不是SQL的编译阶段)，就会通过上文提到的几个函数，实例化出不同的组合，既有int+float,也有int64+float，更有decimal128+float，还有float+decimal128等等各种组合。</p>
-<p>ClickHouse的这种做法的好处是什么呢？减少了一次类型转换的开销，节省一个算子。</p>
-<p>值得注意的是，模板函数提升的是泛化的能力，总不能给每一种类型都实现一个重载函数吧，在执行效率上，由于是运行时多态，挨个检查每个类型，找到合适的再回调，需要有多次跳转指令，和虚函数也没多大差别，不能充分利用CPU流水线。但是由于ClickHouse采用的是列式方式计算，每一大块数据(几万行数据)只需要执行一次查找即可，不需要每一行数据都做这个检查。但假如你用的是按行处理，那恐怕性能就急剧下降了。</p>
-<h3 id="列式计算"><a href="#列式计算" class="headerlink" title="列式计算"></a>列式计算</h3><p>上文提到了ClickHouse是按列式计算的，按照列式计算有两个好处，</p>
-<p>####1. 更高的存储压缩比<br> 存储时按照列式存储，同一种类型的数据在压缩时会获得一个更好的压缩比，节省存储空间，读取时速度也会更快。</p>
-<p>####2. 利用向量化加速计算<br> 按照列式处理，一次加载一批数据，利用单条指令同时操作多条数据，获得提速效果。一次操作一列数据，可以完全放到CPU缓存中。像Presto这种计算引擎，虽然提供了列式的接口，仅仅利用了存储上列的优势，没有用到计算上的优势。向量化如何提速，会在下文介绍。</p>
-<h3 id="向量化"><a href="#向量化" class="headerlink" title="向量化"></a>向量化</h3><p>向量化主要是利用单条指令操作多条数据，指令称为SIMD指令。在运行时，把满足寄存器大小的数据放到寄存器，CPU一条指令操作寄存器上的多条数据。</p>
-<p>向量化一般有两种方式：</p>
-<h3 id="1-利用编译器自动向量化"><a href="#1-利用编译器自动向量化" class="headerlink" title="1. 利用编译器自动向量化"></a>1. 利用编译器自动向量化</h3><p>在编写程序时，如果是符合一定规范的循环语句，循环语句内部是简单的操作，比如+-*/等，编译器优化器，可以把循环语句折叠成向量化执行。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">static void NO_INLINE vectorVector(const A * __restrict a, const B * __restrict b, ResultType * __restrict c, size_t size)</span><br><span class="line">&#123;   </span><br><span class="line">    for (size_t i = 0; i &lt; size; ++i)</span><br><span class="line">        c[i] = Op::template apply&lt;ResultType&gt;(a[i], b[i]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="2-显式使用SIMD指令"><a href="#2-显式使用SIMD指令" class="headerlink" title="2. 显式使用SIMD指令"></a>2. 显式使用SIMD指令</h4><p>c++ 提供了SIMD指令，可以一次把128bit的数据加载到寄存器，以下边的大小写转换的函数为例，一个字符是8bit，一次把128bit，也就是16个字节的字符串加载到寄存器，通过CPU一条指令操作16个字符，相当于获得了16倍的提速。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">    static void array(const UInt8 * src, const UInt8 * src_end, UInt8 * dst)</span><br><span class="line">    &#123;   </span><br><span class="line">        const auto flip_case_mask = &apos;A&apos; ^ &apos;a&apos;;</span><br><span class="line"></span><br><span class="line">#ifdef __SSE2__</span><br><span class="line">        const auto bytes_sse = sizeof(__m128i);</span><br><span class="line">        const auto src_end_sse = src_end - (src_end - src) % bytes_sse;</span><br><span class="line"></span><br><span class="line">        const auto v_not_case_lower_bound = _mm_set1_epi8(not_case_lower_bound - 1); </span><br><span class="line">        const auto v_not_case_upper_bound = _mm_set1_epi8(not_case_upper_bound + 1); </span><br><span class="line">        const auto v_flip_case_mask = _mm_set1_epi8(flip_case_mask);</span><br><span class="line"></span><br><span class="line">        for (; src &lt; src_end_sse; src += bytes_sse, dst += bytes_sse)</span><br><span class="line">        &#123;   </span><br><span class="line">            /// load 16 sequential 8-bit characters</span><br><span class="line">            const auto chars = _mm_loadu_si128(reinterpret_cast&lt;const __m128i *&gt;(src));</span><br><span class="line"></span><br><span class="line">            /// find which 8-bit sequences belong to range [case_lower_bound, case_upper_bound]</span><br><span class="line">            const auto is_not_case</span><br><span class="line">                = _mm_and_si128(_mm_cmpgt_epi8(chars, v_not_case_lower_bound), _mm_cmplt_epi8(chars, v_not_case_upper_bound));</span><br><span class="line"></span><br><span class="line">            /// keep `flip_case_mask` only where necessary, zero out elsewhere</span><br><span class="line">            const auto xor_mask = _mm_and_si128(v_flip_case_mask, is_not_case);</span><br><span class="line"></span><br><span class="line">            /// flip case by applying calculated mask</span><br><span class="line">            const auto cased_chars = _mm_xor_si128(chars, xor_mask);</span><br><span class="line"></span><br><span class="line">            /// store result back to destination</span><br><span class="line">            _mm_storeu_si128(reinterpret_cast&lt;__m128i *&gt;(dst), cased_chars);</span><br><span class="line">        &#125;   </span><br><span class="line">#endif</span><br><span class="line"></span><br><span class="line">        for (; src &lt; src_end; ++src, ++dst)</span><br><span class="line">            if (*src &gt;= not_case_lower_bound &amp;&amp; *src &lt;= not_case_upper_bound)</span><br><span class="line">                *dst = *src ^ flip_case_mask;</span><br><span class="line">            else</span><br><span class="line">                *dst = *src;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-<h3 id="LLVM动态编译执行代码"><a href="#LLVM动态编译执行代码" class="headerlink" title="LLVM动态编译执行代码"></a>LLVM动态编译执行代码</h3><p>上文在介绍模板化编程时指出，CickHouse实现多态的方式是通过在运行时检查不同参数类型，直到找到一个合适的类型，再运行这个类型的实例化计算代码。相当于多条跳转指令才能找到真正的执行代码。虽然采用列式计算，但是如果数据块比较多，这个计算开销也是不小的。 再加上计算时函数套函数，一个很小的操作都需要调用函数完成，实际上完成一行的计算需要多条指令才能做到。为了在这上边提升计算速度，ClickHouse还提供了动态编译和JIT的方法。</p>
-<p>说到c++的动态编译，就离不开LLVM。LLVM是一种现代化的编译器，我会再开一篇文章详细介绍LLVM和JIT技术。 动态编译代码，就是在程序运行时，把SQL的执行计划，编译成可执行的机器指令，并且在当前程序中执行这些指令。动态编译是相对于静态编译而言的。通常静态编译是说，写完代码用g++、clang++等工具编译成二进制文件，然后运行这个二进制文件。动态代码则是程序运行时动态编译的。动态编译和执行称为JIT技术。 </p>
-<p>LLVM 为c++提供了很了不起的JIT技术支持。往常只有java代码才有动态编译一说。c++有了动态编译，才给数据库技术加速计算提供了新的方法。</p>
-<p>以plus函数为例，plus的运算符提供了编译方法，通过llvm实现一个指令，<code>b.CreateAdd</code>完成左右两个参数的加法的指令。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">static inline llvm::Value * compile(llvm::IRBuilder&lt;&gt; &amp; b, llvm::Value * left, llvm::Value * right, bool)</span><br><span class="line">&#123;   </span><br><span class="line">    return left-&gt;getType()-&gt;isIntegerTy() ? b.CreateAdd(left, right) : b.CreateFAdd(left, right);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>使用静态代码执行，需要多层函数嵌套，乃至每一行都需要调用一个函数，开销很大，而在JIT 技术下，一个区块的数据只需要调用一个函数就可以了。</p>
-<p>当然，动态编译代码代价很大。我们经常说，开发者大部人时间就是等待编译器做编译。JIT也一样，动态编译需要时间，编译一次代价很大。因此在编译后要把结果缓存下来复用。</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>大数据系统发展了这么多年，数据规模越来越大，速度越来越快。而人们对数据分析的强烈需求是永无止境的。新的编程技术不断涌现，硬件水平也不断发展，每隔几年出现新的、更强大的、更快速的大数据系统。<br>ClickHouse作为比较新的OLAP引擎，在很多场景的benchmark上处于领先地位。本文从代码层面介绍了为什么ClickHouse计算速度快。ClickHouse利用c++17标准，clang11编译器，相当于最新的编程语言；同时利用模板泛化编程，泛化实现大量算子；也利用指令集别的并行计算，加速计算；利用LLVM动态编译代码，优化执行逻辑。</p>
-<p>本文主要探讨为什么计算快，对clickhouse架构方面涉及不多。OLAP引擎一直在发展，新的技术也会不断出现。我们会持续关注，并把最新的技术应用到我们的云计算中。     </p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://mayunlei.github.io/2021/01/09/ClickHouse计算速度是如何做到领跑OLAP类产品的/" data-id="clbc6yc030004m23jo3agk3we" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ClickHouse-OLAP/">ClickHouse OLAP</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
     <article id="post-深入浅出向量化技术" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2021/01/09/深入浅出向量化技术/" class="article-date">
-  <time datetime="2021-01-09T10:59:33.000Z" itemprop="datePublished">2021-01-09</time>
+    <a href="/2022/06/16/深入浅出向量化技术/" class="article-date">
+  <time datetime="2022-06-16T10:59:33.000Z" itemprop="datePublished">2022-06-16</time>
 </a>
     
   </div>
@@ -467,7 +78,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2021/01/09/深入浅出向量化技术/">深入向量化计算技术</a>
+      <a class="article-title" href="/2022/06/16/深入浅出向量化技术/">深入向量化计算技术</a>
     </h1>
   
 
@@ -479,7 +90,7 @@
 <p>其他并发处理方式比较常见，那么指令级并发怎么理解呢？冯诺依曼式架构是CPU从存储系统中加载指令和数据，完成指令并把结果保存到存储系统。通常一个指令操作一个数据，生成一份结果。而SIMD(Single Instruction Multiple Data)指令是一类特殊的CPU指令类型，这种指令可以在一条指令中，同时操作多个数据。</p>
 <p>SIMD指令的作用是向量化执行(Vectorized Execution)，中文通常翻译成向量化，但是这个词并不是很好，更好的翻译是数组化执行，表示一次指令操作数组中的多个数据，而不是一次处理一个数据；向量则代表有数值和方向，显然在这里的意义用数组更能准确的表达。在操作SIMD指令时，一次性把多条数据从内存加载到宽寄存器中，通过一条并行指令同时完成多条数据的计算。例如一个操作32字节(256位)的指令，可以同时操作8个int类型，获得8倍的加速。同时利用SIMD减少循环次数，大大减少了循环跳转指令，也能获得加速。SIMD指令可以有0个参数、1个数组参数、2个数组参数。如果有一个数组参数，指令计算完数组中的每个元素后，分别把结果写入对应位置；如果是有两个参数，则两个参数对应的位置分别完成指定操作，写入到对应位置。</p>
 <p>编译器通过SIMD加速的原理是：通过把循环语句展开，减少循环次数，循环展开的作用是减少循环时的跳转语句，跳转会破坏流水线；而流水线可以预先加载指令，减少CPU停顿时间，因此减少跳转指令可以提升流水线的效率。</p>
-<p><img src="/2021/01/09/深入浅出向量化技术/image-20221207094652357.png" alt="image-20221207094652357" style="zoom:50%;"></p>
+<p><img src="/2022/06/16/深入浅出向量化技术/image-20221207094652357.png" alt="image-20221207094652357" style="zoom:50%;"></p>
 <p>图：SIMD指令同时操作A和B中4对数字，产生4个结果存放到C中</p>
 <p>以如下代码为例，对4个float计算平方：</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">squre</span><span class="params">( <span class="keyword">float</span>* ptr )</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">		<span class="keyword">for</span>( <span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">4</span>; i++ )</span><br><span class="line">   	&#123;</span><br><span class="line">			<span class="keyword">const</span> <span class="keyword">float</span> f = ptr[ i ];</span><br><span class="line">    	ptr[ i ] = f * f;</span><br><span class="line">		&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -531,7 +142,7 @@
 <h2 id="SIMD扩展指令集"><a href="#SIMD扩展指令集" class="headerlink" title="SIMD扩展指令集"></a>SIMD扩展指令集</h2><p>SIMD指令的运行方式时，把一组数据加载到宽寄存器(128位、256位、512位）中，然后生成结果放到另一个宽寄存器中。</p>
 <p>SIMD指令需要硬件支持MMX系列，SSE(Streaming SIMD Extensions)系列、AVX(Advanced Vector Extensions)系列扩展指令集。SSE1、SSE2、SSE3、SSE4.1、SSE4.2操作的是16字节寄存器，AVX、AVX2引入了32字节寄存器，AVX512引入了64字节寄存器。目前大部分CPU都支持AVX2，只有最新的CPU才支持AVX512。</p>
 <p>指令集需要CPU硬件支持，下标列出了支持各个指令集的CPU。</p>
-<p><img src="/2021/01/09/深入浅出向量化技术/image-20220618163034294.png" alt="image-20220618163034294" style="zoom:50%;"></p>
+<p><img src="/2022/06/16/深入浅出向量化技术/image-20220618163034294.png" alt="image-20220618163034294" style="zoom:50%;"></p>
 <p>ARM也引入了SIMD扩展指令。典型的SIMD操作包括算术运算(+-*/)以及abs、sqrt等，完整的指令集合请参考英特尔提供的使用文档<a href="https://software.intel.com/sites/landingpage/IntrinsicsGuide/#" target="_blank" rel="noopener">https://software.intel.com/sites/landingpage/IntrinsicsGuide/#</a></p>
 <p>那么如何生成SIMD指令呢？有几种方式：</p>
 <ol>
@@ -758,7 +369,7 @@
 <p>  初始化为特定值。<code>_mm[256]_set_XXX</code>把每一个点初始化不同的值，<code>_mm[256]_set1_XXX</code> 把每一个点初始化相同的值。[256]代表是否出现256，如果出现256。<code>_mm_set_epi32(1,2,3,4)</code>表示按照顺序初始化为整型数[1,2,3,4]。如果时倒序初始化，则使用<code>_mm_setr_epi32(1,2,3,4)</code>。</p>
 <h4 id="3-位运算指令"><a href="#3-位运算指令" class="headerlink" title="3)位运算指令"></a>3)位运算指令</h4><p>Float和int有很多位运算指令，包括AND、OR、XOR。如果要执行NOT指令，则最快的方式就是和全1做XOR，而获得全1的最快方式就是把两个0做相等比较。如下代码样例：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">__m128i bitwiseNot(__m128i x)</span><br><span class="line">&#123;</span><br><span class="line">	const __m128i zero = _mm_setzero_si128();</span><br><span class="line">	const __128i one = _mm_cmpeq_epi32(zero, zero);</span><br><span class="line">	return _mm_xor_si128(x, one);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="4-浮点数指令"><a href="#4-浮点数指令" class="headerlink" title="4)浮点数指令"></a>4)浮点数指令</h4><p>浮点数指令支持基础的运算+-*/，和扩展的运算sqrt。一些比较有用的函数有<code>_mm_min_ss(a,b)</code>， 对于32位浮点数，如果要完成<img src="/2021/01/09/深入浅出向量化技术/clip_image002.png" alt="img">，对应的SIMD指令是<code>_mm_rcp_ps</code>，而<img src="/2021/01/09/深入浅出向量化技术/clip_image004.png" alt="img">对应的SIMD指令是<code>_mm_rsqrt_ps</code>，采用SIMD指令可以在一条指令内完成，速度更快。</p>
+<h4 id="4-浮点数指令"><a href="#4-浮点数指令" class="headerlink" title="4)浮点数指令"></a>4)浮点数指令</h4><p>浮点数指令支持基础的运算+-*/，和扩展的运算sqrt。一些比较有用的函数有<code>_mm_min_ss(a,b)</code>， 对于32位浮点数，如果要完成<img src="/2022/06/16/深入浅出向量化技术/clip_image002.png" alt="img">，对应的SIMD指令是<code>_mm_rcp_ps</code>，而<img src="/2022/06/16/深入浅出向量化技术/clip_image004.png" alt="img">对应的SIMD指令是<code>_mm_rsqrt_ps</code>，采用SIMD指令可以在一条指令内完成，速度更快。</p>
 <p>  如果想加两个数组，例如[a,b,c,d]+[e,f,g,h]=[a+e,b+f,c+g,d+h]，对应的SIMD指令是<code>_mm_hadd_ps</code>，<code>_mm_hadd_pd</code>，<code>_mm256_hadd_pd</code>，<code>_mm256_hadd_ps</code></p>
 <h4 id="5-非并行指令，却能做到加速效果"><a href="#5-非并行指令，却能做到加速效果" class="headerlink" title="5)非并行指令，却能做到加速效果"></a>5)非并行指令，却能做到加速效果</h4><p>有些指令，在一条数据中只能操作一条数据，但是也能达到加速的效果。例如<code>_mm_min_ss</code>指令，表示取两个浮点数的最小值，该指令可以用一条指令完成计算，避免跳转，避免通过分支指令跳转。同理，取最大值的指令是<code>_mm_max_sd</code>。</p>
 <h3 id="手写SIMD指令的缺点"><a href="#手写SIMD指令的缺点" class="headerlink" title="手写SIMD指令的缺点"></a>手写SIMD指令的缺点</h3><p>虽然手写SIMD指令看起来很酷，但是存在一个很大的问题是可移植性不强，如果你手写一个512位宽的指令，却在一个不支持avx指令集的机器上运行，那就会出问题。所以最好的方案还是编写符合编译器向量化规范的代码，把向量化这件事情交给编译器好了！最新的编译器会帮助我们解决这些事情。</p>
@@ -773,10 +384,399 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://mayunlei.github.io/2021/01/09/深入浅出向量化技术/" data-id="clbc6yc0a000im23jwd84dr3h" class="article-share-link">Share</a>
+      <a data-url="http://mayunlei.github.io/2022/06/16/深入浅出向量化技术/" data-id="clbczv5zx000kx23jv37jerd0" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/向量化-SIMD/">向量化, SIMD</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-探索无人驾驶载货小飞机：航模技术研究" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/05/04/探索无人驾驶载货小飞机：航模技术研究/" class="article-date">
+  <time datetime="2022-05-04T14:39:22.000Z" itemprop="datePublished">2022-05-04</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/05/04/探索无人驾驶载货小飞机：航模技术研究/">探索无人驾驶载货小飞机：航模技术研究</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>上海突然封城，造成了物资紧张。大人还好办，好赖能充饥就行。但是小孩的物资是很挑剔的，奶粉和尿不湿是必需品。因此我就考虑了怎么才能远距离把紧急物资投送到家里。正好在B站看了一些航模的介绍，于是就做了下航模的调研，看能否用来载货。 </p>
+<h2 id="无人机的分类"><a href="#无人机的分类" class="headerlink" title="无人机的分类"></a>无人机的分类</h2><p>大众常见的无人机类型包括：</p>
+<h3 id="固定翼"><a href="#固定翼" class="headerlink" title="固定翼"></a>固定翼</h3><p>固定翼是最传统的航空模型，主要由飞手使用遥控器目视飞行。固定翼是最传统的航空模型，主要由飞手使用遥控器目视飞行。固定翼也是最接近真实飞机的，各种组件以及飞行原理，和真实飞机类似。多旋翼依靠发动机实现向前的推力，有了速度后，通过机翼实现向上的升力。固定翼的好处在于，能够达到一个很低的推重比，在空中的姿态有更多的可玩性，同时因为推力在水平方向上，可以达到很高的速度。固定翼的劣势在于，起降需要借助跑道，需要严格关注空中的姿态，操作不当就会炸机，非常考验操作者的观察能力和操作能力，因此更具备挑战性，更烧钱。鉴于固定翼飞机能够达到一个很低的推重比，相同的发动机下，固定翼可以载货更多，因此本文主要介绍固定翼飞机的原理。</p>
+<img src="/2022/05/04/探索无人驾驶载货小飞机：航模技术研究/05/04/探索无人驾驶载货小飞机：航模技术研究/1651389558708-b8852d80-ccbe-481c-a973-f15aaad23154.png" title="image.png">
+<h3 id="多旋翼"><a href="#多旋翼" class="headerlink" title="多旋翼"></a>多旋翼</h3><p>多旋翼的典型参考大疆的无人机。多旋翼和单旋翼一样，通过发动机的推力维持。多旋翼可以实现空中悬停，不需要跑道就能起降，因此门槛较低。但是多旋翼完全依靠电机的推力实现载重，推重比需要达到1以上才能起飞，所谓大力飞砖就是说只要推力足够大，火箭也能升上天。而发动机是制造成本里边占比最高的组件了，因此成本也很高。不过多旋翼的优势在于可以垂直起降，并且可以稳定在空中，因此操作成本较低，不会轻易炸机，玩家受众多。<br><img src="/2022/05/04/探索无人驾驶载货小飞机：航模技术研究/05/04/探索无人驾驶载货小飞机：航模技术研究/1651390240486-4c2862fb-287d-424b-84b8-ca926e3ee3b9.png" title="image.png"><br>固定翼和多旋翼是我们常见的两种无人机，还有其它一些衍生的无人机，这里不再一一介绍，本文的目标是介绍固定翼飞机的原理和入门，介绍这两种无人机只是方便对无人机有一个简单的认知。航模界的玩家一般是把一些商用大飞机或者战斗机，等比例缩小，制作成模型飞机，再配上一些关键的组件，完成空中的飞行。</p>
+<h2 id="固定翼结构和核心组件"><a href="#固定翼结构和核心组件" class="headerlink" title="固定翼结构和核心组件"></a>固定翼结构和核心组件</h2><h3 id="主体结构"><a href="#主体结构" class="headerlink" title="主体结构"></a>主体结构</h3><ol>
+<li>从主体结构上，飞机由前后的机身和左右的机翼构成主体结构。</li>
+<li>在机身的头部可以安装发动机和螺旋桨，当然发动机和螺旋桨也可以安装到机翼上。</li>
+<li>在机身的尾部是尾翼，分为水平尾翼和垂直尾翼，水平尾翼上有可以调整水平方向的升降舵，可控制机头的抬起和下降。垂直尾翼上有方向舵，可控制飞机左右调整方向。</li>
+<li>在机翼上附着的组件有襟翼和副翼。襟翼靠近内侧，距离重心较近，因此他不会用来调整方向，而是提供升力。襟翼只能向下运动，向下运动后，襟翼的受力会转化成升力。</li>
+<li>副翼是机翼上离中心较远的组件，由于离重心较远，受力可通过杠杆作用放大，用于实现飞机的滚转。在同一时刻，左右副翼的运动是相反的。也就是同一时刻，左右副翼的受力正好相反，但达到的效果是相同的，要么顺时针受力，要么逆时针受力，以此实现滚转。</li>
+<li>起落架，起飞和降落时需要起落架。</li>
+</ol>
+<img src="/2022/05/04/探索无人驾驶载货小飞机：航模技术研究/05/04/探索无人驾驶载货小飞机：航模技术研究/1651672552344-143aa623-b95b-429f-9cc5-f37013913cc3.png" title="image.png">
+<p>在原理上可以区分襟翼和副翼，但是在机身上，襟翼和副翼可以实现混控，也就是机身组件是同一套，但是通过舵机实现不同的效果，当同向运动时，是襟翼；当向相反方向运动时，是副翼。</p>
+<h3 id="控制组件"><a href="#控制组件" class="headerlink" title="控制组件"></a>控制组件</h3><p>上边这些结构是飞机上能看到的核心组件，还有一些控制组件，用于控制飞机的飞行。</p>
+<ol>
+<li>发动机需要能源，能源可以是燃油也可以是电池，一般藏在机身内部，重心附近。</li>
+<li>襟翼、尾翼、方向舵、升降舵的动作也需要动力来源，动力来自舵机。由舵机控制四个组件运动。舵机通过钢丝线拉动舵面运动。</li>
+<li>遥控器和接收机，遥控器是地面人员用于控制飞机速度和姿态的，接收机安装在机身内，用于接受遥控器的无线电信号。</li>
+<li>发动机的速度变化，需要通过调节电流来达到控制速度变化的目的。电调就是控制电流变化的组件。在遥控器上调节油门时，电调就可以调整电流的大小，进而达到控制发动机速度的。在选择电调时，要注意最大工作电流，需要大于电机的最大工作电流。<br>## <h3 id="电池介绍"><a href="#电池介绍" class="headerlink" title="电池介绍"></a>电池介绍</h3>航模一般使用锂电池，电池涉及到一些基本参数，比如4S 2200maH，2200mAh代表电池的容量，表示可以以2200mA持续放电1小时，4S指的是串联电芯数，也就是4块电芯，每块电芯的标准电压是3.7V，充满电是4.2V。4S的标准电压也就是14.8V，充满电是16.8V。也有并联的电池，3S4P代表3串4并，并联可以提升电流，一般不需要并联电池。此外还有最大放电倍率和最大充电倍率，最大放电倍率35C，代表最大可以是标准电流的35倍放电，最大充电倍率5C代表以标准充电电流的5倍充电，其中标准电流就是上边是2200mA，也就是2.2A。锂电池要注意保养，不能长时间低于3.7V工作，可以通过安装BB响，针对低电压告警。</li>
+</ol>
+<h3 id="电机介绍"><a href="#电机介绍" class="headerlink" title="电机介绍"></a>电机介绍</h3><p>根据动力系统的不同，航模可分为电动、油动、涡轮喷气、火箭助推和无动力滑翔这几类。电机靠带动螺旋桨旋转，窝喷靠喷推动。电机的动力比不上窝喷。但是电机比较便宜，涡喷发动机比较贵。对于新入门而言，电机是更主流的选择，安装调试和保养都比较简单。电动机也可以模仿喷气式飞机，电机外围包裹<strong>涵道</strong>，在内部安装多片直径较小的螺旋桨。包裹在<strong>涵道</strong>内的螺旋桨可以产生更大的推力，但相比窝喷仍然是比较低的。<br>电机的核心参数是KV值。KV值指的是电机的压每升高1V，转速就提高一个KV值的数目，转速越高，电机输出扭力越小，反之亦然。遥控器通过控制电调调整电流大小，进而改变电机的转速。<br>一般来说，高KV值电机搭配小直径的螺旋桨，低KV值电机则搭配较大的螺旋桨。<br>在航模领域，常用的电机是新西达电机，性价比高。</p>
+<h3 id="螺旋桨"><a href="#螺旋桨" class="headerlink" title="螺旋桨"></a>螺旋桨</h3><p>螺旋桨主要关注桨的尺寸，和电机的功率要匹配，注意电机到地面的距离。</p>
+<h3 id="遥控器"><a href="#遥控器" class="headerlink" title="遥控器"></a>遥控器</h3><p>遥控器发射信号，机身上的接收机接受信号，并传递给对应组件。遥控器分为左手油门和右手油门，顾名思义，油门分别在左侧或者右侧。真实的飞机，油门在左侧，因此推荐左手油门。 以左手油门为例，左侧摇杆上下控制油门，左右控制方向舵；右手摇杆上下控制升降，左右控制副翼。<br>除了油门，还有多个通道，每个通道控制一个舵机的运动。通道当然越多越好，但是越多肯定越贵，一般旋转6通道就足够了。<br>此外，还要关注，遥控器的距离，至少需要500米到1000米。如果太短，飞机飞出遥控距离容易失控；而太长了，人也看不清飞机的姿态，也容易失控。<br>入门级遥控器，有富斯i6价位在200多,MC6C价位在100多。遥控器不同于其他组件，其他组件飞上天可能会摔坏，但是遥控器是可以长期使用的，不建议买太差的。<br><img src="/2022/05/04/探索无人驾驶载货小飞机：航模技术研究/05/04/探索无人驾驶载货小飞机：航模技术研究/1651669325811-7d8496ac-4b91-4f1c-8a93-3a49690505fb.png" title="image.png"></p>
+<h3 id><a href="#" class="headerlink" title></a><img src="/2022/05/04/探索无人驾驶载货小飞机：航模技术研究/05/04/探索无人驾驶载货小飞机：航模技术研究/1651669778547-02afd493-b5c2-418f-884b-bc11dee782ec.png" title="image.png"></h3><h3 id="接收机"><a href="#接收机" class="headerlink" title="接收机"></a>接收机</h3><img src="/2022/05/04/探索无人驾驶载货小飞机：航模技术研究/05/04/探索无人驾驶载货小飞机：航模技术研究/1651669262307-6df48767-2453-4445-8c77-cb79d99ee09e.png" title="image.png">
+<p>接收机每个通道分别有正极、负极、信号孔，执行设备通过排线连接接收机。接收机可通过电调供电，插入任意一个通道即可。<br>操作各个通道，飞机各个部分的动作如下：<br><img src="/2022/05/04/探索无人驾驶载货小飞机：航模技术研究/05/04/探索无人驾驶载货小飞机：航模技术研究/1651670374663-745ee6be-469a-482a-8725-9872390f2f98.gif" title="May-04-2022 21-17-38.gif"></p>
+<h2 id="固定翼飞行原理"><a href="#固定翼飞行原理" class="headerlink" title="固定翼飞行原理"></a>固定翼飞行原理</h2><h3 id="升力原理"><a href="#升力原理" class="headerlink" title="升力原理"></a>升力原理</h3><img src="/2022/05/04/探索无人驾驶载货小飞机：航模技术研究/05/04/探索无人驾驶载货小飞机：航模技术研究/1651635253722-5dabbda4-63b1-438d-b67e-b7f89a05330d.png" title="image.png">
+<img src="/2022/05/04/探索无人驾驶载货小飞机：航模技术研究/05/04/探索无人驾驶载货小飞机：航模技术研究/1651569996870-0654253e-a44c-48d1-9a34-37b1b02edf2d.png" title="image.png">
+<p>固定翼飞机是如何升上天空的呢？特殊构造的机翼表面，下方接近扁平，而上方则有凸起。发动机提供了向前的速度，当气流流过机翼表面时，上方的气流压强较小，下方气流压强较大。上下的压强差提供了向上的升力。当升力大于重力时，飞机上升高度。升力翼形和翼展相关。</p>
+<h3 id="舵机"><a href="#舵机" class="headerlink" title="舵机"></a>舵机</h3><p>舵机有金属齿和塑料齿。前者更重一些，但是不容易扫齿，更耐用。舵机上也会注明扭矩，也就是力量。一般来说，尺寸大的，扭矩更大。</p>
+<h3 id="控制方式"><a href="#控制方式" class="headerlink" title="控制方式"></a>控制方式</h3><p>通过电机的转速可以改变飞行速度。<br>而飞机的姿态、方向的变化，则通过方向舵、升降舵、副翼来完成。这三个结构的特点是离重心比较远，受力后通过杠杆作用放大；围绕重心两侧，一侧受力，一侧不受力，受力不均衡就会产生偏斜，以此达到改变姿态的效果。<br>襟翼，位于重心附近，而且重心两侧的受力是一样的，因此不会改变飞行姿态，但是会增加阻力，把一部分阻力转化为升力。</p>
+<h3 id="反扭力"><a href="#反扭力" class="headerlink" title="反扭力"></a>反扭力</h3><p>如果发动机安装到机头，螺旋桨向一个方向转动时，形成的空气漩涡会撞击到机尾的垂直尾翼上，导致尾翼受到一个同方向的力。由于尾翼远离重心，收到的力叠加杠杆作用，会导致尾部向受力方向偏转。由于机尾和机头位于重心的两端，所以相当于机头受到了一个反方向的力，也就是和旋转方向相反的力，这就是反扭力。因此单发飞机会出现偏航。<br>要克服反扭力，在安装发动机时，可以适当偏斜一点，以抵消反扭力。<br>另一种办法是安装双发动机，分别位于机翼的两侧，两个发动机按照相反方向运动，互相抵消反扭力。</p>
+<h2 id="模拟器"><a href="#模拟器" class="headerlink" title="模拟器"></a>模拟器</h2><p>好了，硬件装备介绍完了，那么怎么才能让飞机升天呢？人在地面遥控飞机，和坐在飞机里驾驶飞机，感觉是完全不一样的。坐在驾驶舱，有各种仪表设备显示飞机的各项指标，能清楚的感知飞机的姿态和状态。而在地面遥控飞机，首先看不清飞机姿态，其次，地面视角还要转化成飞行员视角，这是很难的。而稍微操作不当。而稍微操作不当，导致飞机掉下来，把硬件摔坏，损失就太大了。机身或者零件摔坏，就得重新花钱买，因此玩航模的成本极高。为了避免炸机，最好的办法是在模拟器上训练好在上天，能做到从地面视角理解飞行员视角。最重要的是，即便是在模拟器中摔掉100架飞机，你也不会损失一分钱。</p>
+<p>模拟器是安装在电脑上的软件，遥控器通过加密狗接入电脑，可以控制模拟器飞机的运动。<br><img src="/2022/05/04/探索无人驾驶载货小飞机：航模技术研究/05/04/探索无人驾驶载货小飞机：航模技术研究/1651647442585-f0c5123e-769b-45c1-b49f-b72159ceec61.png" title="image.png"><br>新手入门，最简单的是练习无边航线，通过无边航线训练起飞，转弯，降落等重要的操作。</p>
+<h2 id="飞机常见动作"><a href="#飞机常见动作" class="headerlink" title="飞机常见动作"></a>飞机常见动作</h2><h3 id="起飞"><a href="#起飞" class="headerlink" title="起飞"></a>起飞</h3><p>飞机在跑道上达到足够的速度后，通过让升降舵向上抬起，升降舵受到向下的力，相当于机头受到一个向上的力，进而飞机抬头上升。机头抬起时，容易失速，应该注意速度。</p>
+<h3 id="上升"><a href="#上升" class="headerlink" title="上升"></a>上升</h3><p>上升过程类似起飞，也是让机头抬起。</p>
+<h3 id="下降"><a href="#下降" class="headerlink" title="下降"></a>下降</h3><p>下降时，通过让升降舵下压。让机尾收到向上的力，相当于机头受到向下的力。进而飞机向下俯冲。飞机向下俯冲时，叠加重力因素，飞机会加速。</p>
+<h3 id="降落"><a href="#降落" class="headerlink" title="降落"></a>降落</h3><p>降落，则是初学飞行时最难掌握的本领。降落分为欧式降落或俄式降落。<br>在降落时，飞机飞行的高度、俯冲的角度和接地时的速度都需要精确操控，而且不同的飞机在降落阶段的特性也各不相同，必须逐个细心掌握。概括起来说，降落包括3个环节：首先降低飞行高度，低空通过场地并保持航线；然后调整油门，进一步降低高度；当飞机距离地面一米左右时，持续拉一点升降舵，使飞机轻微仰头，让起落架平稳地接触地面。<br>欧式降落，保持机头向上，通过降低速度，不断降低高度，后起落架先着地，由于重心在前后起落架中间，速度向前，因此后起落架先着地的冲击力比较小。由于速度和升力相关，如果速度过低，会导致升力不足而失速。因此在下降时，需要时刻关注飞行姿态。如果降落发生问题，无法落地，复飞也会因为速度不足而受影响。<br>俄式降落，是向下俯冲，下降过程速度不降低，直到快落地时才调整机头向上。这种做法比较有挑战。</p>
+<h3 id="滚转"><a href="#滚转" class="headerlink" title="滚转"></a>滚转</h3><p>滚转通过控制副翼的上下运动来实现，两侧副翼相向运动，使一侧受到向上的力，机翼上升；另一侧收到向下的力，机翼下降，在回正前，会持续圆周运动，也就是发生滚转。<br><img src="/2022/05/04/探索无人驾驶载货小飞机：航模技术研究/05/04/探索无人驾驶载货小飞机：航模技术研究/1651647533503-c5a3cc47-c0dd-4bb1-a96c-a5e2487ec9fb.png" title="image.png"></p>
+<h3 id="偏航"><a href="#偏航" class="headerlink" title="偏航"></a>偏航</h3><p>飞机的偏航由垂直方向舵控制，需要向哪边转就向对应方向打方向舵。偏航只用于微调运动方向。不适用于转弯。<br><img src="/2022/05/04/探索无人驾驶载货小飞机：航模技术研究/05/04/探索无人驾驶载货小飞机：航模技术研究/1651647810740-9520afd1-68b4-428b-82ed-ac3205f19a45.png" title="image.png"></p>
+<h3 id="转弯"><a href="#转弯" class="headerlink" title="转弯"></a>转弯</h3><p>转弯需要副翼和升降舵配合使用。首先，利用副翼将机翼向要转的方向滚转，然后将副翼操纵杆“回中”(回归零位，以便下次操作），以使机翼不再进一步倾斜。此时立即拉升降舵，直到飞机转向到合适位置，再将升降舵操纵杆回中，以停止转弯。然后向相反方向打副翼，使机翼恢复水平状态。最后，在机翼恢复水平状态的那一刹，将副翼回中。</p>
+<h2 id="实操"><a href="#实操" class="headerlink" title="实操"></a>实操</h2><p>一般玩航模，上边说的那些控制组件，可以分别购买。机身可以购买空的机身或者用3D打印自己打印机身。机身因为负载比较轻，一般是泡沫材料。</p>
+<h3 id="入门机型"><a href="#入门机型" class="headerlink" title="入门机型"></a>入门机型</h3><p>新手入门采用的机型有：赛斯纳，冲浪者。赛斯纳是一款真私人飞机的微缩版，冲浪者没有原型。两者的区别在于，赛斯纳有起落架，螺旋桨在最前方，因而速度更高；冲浪者螺旋桨没有起落架，螺旋桨在翼后方。因此在炸机时，赛斯纳的螺旋桨更容易损坏，而冲浪者的螺旋桨可以受到保护。但是赛斯纳可以训练起飞和降落，而冲浪者因没有起落架而无法训练起飞和降落。</p>
+<img src="/2022/05/04/探索无人驾驶载货小飞机：航模技术研究/05/04/探索无人驾驶载货小飞机：航模技术研究/1651650141737-54091b88-8b38-4f31-9f37-898fd8be7be3.png" title="image.png">
+<img src="/2022/05/04/探索无人驾驶载货小飞机：航模技术研究/05/04/探索无人驾驶载货小飞机：航模技术研究/1651650213336-ab583bdf-75c6-4fcc-9e9c-fe344de9ed86.png" title="image.png">
+<h3 id="炸机常见问题"><a href="#炸机常见问题" class="headerlink" title="炸机常见问题"></a>炸机常见问题</h3><p>航模炸机的主要原因：看不清飞机姿态；飞机失速。其实这些问题都可以用自动驾驶来解决。在飞机上安装陀螺仪和GPS。通过陀螺仪判断飞机的姿态，上下左右是否平衡。通过GPS判断位置和计算速度。采集的信息传递到机载芯片上，对姿态做一下判断，然后做一下对应的操作应对。如果是失速，则应该立即下压机头，俯冲提速。如果向左或者向右倾斜，则打副翼让姿态回正。一些玩具厂家就是通过内在陀螺仪，自动纠正错误姿态，避免炸机。通过这种程序化的处理，是可以减少炸机的概率的。同时通过无人驾驶，设定好GPS航路坐标后，可以脱离遥控器飞得更远。如果加上物联网卡，则可以实现远程的控制。</p>
+<h2 id="搭载货物"><a href="#搭载货物" class="headerlink" title="搭载货物"></a>搭载货物</h2><p>搭载货物意味着提升了重力，需要更大的升力。对于多旋翼飞机，推重比至少得是1。而固定翼飞机，推重比能够低到0.2。 也就是相同的发动机，固定翼的载货量可以达到多旋翼的5倍以上。固定翼飞机的速度，升力，转弯的灵活度等，都是相互关联的性能因素，可以通过调整参数结构，尽可能的牺牲其他性能，尽可能的提升载重量。通过设计机翼，采用高升阻比的低速翼型，机翼平面形状做大。不过载重提升后，对机翼的结构强度要求比较高。从一些航模比赛中获得的数据，大概可以承受自重的5到6倍以上。</p>
+<h2 id="成本估算"><a href="#成本估算" class="headerlink" title="成本估算"></a>成本估算</h2><p>最便宜的入门遥控器MC6C 200+<br>最便宜的一套控制配件 100<br>赛斯纳空机 100+<br>充电器100+<br>总体而言需要500+的入门费用。<br>此外模拟机需要用windows电脑。<br>如果炸机，则需要更换损坏的机身或者配件。航模真是个烧钱并且劝退的兴趣。 </p>
+<h2 id="资料库"><a href="#资料库" class="headerlink" title="资料库"></a>资料库</h2><p>Flite Test 提供航模的资料和图纸。</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="https://max.book118.com/html/2019/0405/6044052152002021.shtm" target="_blank" rel="noopener">固定翼飞机的结构及飞行原理.ppt</a><br><a href="https://www.docin.com/p-2311183982.html" target="_blank" rel="noopener">固定翼无人机的结构及飞行原理 </a><br><a href="https://zhuanlan.zhihu.com/p/145581790" target="_blank" rel="noopener">【机型知识】固定翼飞机的飞行原理简介（一）</a><br><a href="http://hudongkepu.com/wap.php?action=article&amp;id=31818" target="_blank" rel="noopener">航模飞空(上)</a><br><a href="http://www.hudongkepu.com/m/view.php?aid=31819" target="_blank" rel="noopener">航模飞空(下）</a><br><a href="https://www.bilibili.com/video/BV1Ft4y127Th/?spm_id_from=333.788.recommend_more_video.-1" target="_blank" rel="noopener">【航模制作入门】5分钟了解航模电子设备</a><br><a href="https://www.bilibili.com/video/BV1BE411R7JR/?spm_id_from=autoNext" target="_blank" rel="noopener">如何用最低的价格，买一套入门航模设备</a><br><a href="https://www.bilibili.com/video/BV1eh411y7cw/?spm_id_from=333.788.recommend_more_video.1" target="_blank" rel="noopener">【固定翼飞手1】航模入门教程•必要设备介绍</a><br><a href="https://www.bilibili.com/video/BV1Er4y1K74V" target="_blank" rel="noopener">固定翼飞手2】航模入门教程•怎样购买空机与航模装备 最便宜？高性价比？</a><br><a href="https://www.ncnynl.com/archives/201608/713.html" target="_blank" rel="noopener">无人机基础知识-组成-航模电机</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://mayunlei.github.io/2022/05/04/探索无人驾驶载货小飞机：航模技术研究/" data-id="clbczv5zu000gx23j0pjtkgfo" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-从数据分析到数据洞察" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2021/12/25/从数据分析到数据洞察/" class="article-date">
+  <time datetime="2021-12-25T02:08:08.000Z" itemprop="datePublished">2021-12-25</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/12/25/从数据分析到数据洞察/">从数据分析到数据洞察</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="数据用途和玩转数据的手段"><a href="#数据用途和玩转数据的手段" class="headerlink" title="数据用途和玩转数据的手段"></a>数据用途和玩转数据的手段</h2><img src="/2021/12/25/从数据分析到数据洞察/12/25/从数据分析到数据洞察/1639895690262-2b65cf5f-0853-488a-aa1c-136d2d79be11.png" title="image.png">
+<p>数据分析通常用于商业决策，一般在大公司中，会养一个专门的商业分析部门，专门采集各种数据用于辅助董事会/CEO等决策层做核心的商业决策。但是，数据分析的需求无处不在，在各个业务线中也有对于数据分析的诉求，例如运营部分，一个运营活动的好坏、应该向哪个渠道投放资源，不能靠拍脑袋决定，要分析具体数据。同样对于开发运维也一样，线上系统是否稳定，各个模块指标怎么样，都需要数据得到反馈。对于董事会，可以养一个专门的机构搞数据分析；而对于普通的业务线，那只能自助分析了。今天我们就来总结一下数据分析的方法，如何洞察数据中的有效信息。<br>数据分析首先得有数据，从各个地方采集数据。所谓巧妇难为无米之炊，没有数据更谈不上数据洞察。有些公司，成立商业分析部门，干的活却是窃取其他公司的商业核心数据，愣是把一个高上大的技术名词搞成了间谍。20世纪上半叶，数学上的统计学在各行各业流行开来，数学家们，利用很少的数据，再加上统计学理论，推断一个结论。如经典的”女士品茶”这个故事，通过数据判定女士到底有没有某个超能力。至于把商业分析干成商业间谍的人，大概是不懂得需要如何合法的采集数据，以及分析数据的手段吧。<br>数据存储无需多讨论，要分析数据，首先要把数据存储下来，无论是存储在云端也好，还是excel也好，只有存储下来，才能方便后续的计算和分析。<br>数据有哪些使用方式呢？这里列举了四种用法，例如report，monitoring，analysis，exploration/mining。我们可以按照两个维度来划分，需求是否明确，分析方式是否成熟。<br><img src="/2021/12/25/从数据分析到数据洞察/12/25/从数据分析到数据洞察/1639914240796-aa90d9c9-0521-4741-825f-248664cbe39d.png" title="image.png"><br>有些需求场景是明确的，例如老板需要每天看几个关键的业务指标，那么就需要每天跑个固定的脚本，生成报告。在这个过程中分析方法也是固定的，即运行固定的计算逻辑。有些需求需要经过一番分析，例如某天业务量降低了，要分析下原因是什么，就需要从多种指标里边去探索。<br>还有些需求场景是不明确的，给你一份数据，我们知道数据里边有金矿，关键是怎么把数据中的核心信息捞出来，也需要探索才能找到，但是探索的目标不确定。这就是个开放式的话题了，也就是探索式数据分析：有数据，尝试找信息。应该沿着怎么样的一条路是探索呢？我认为有两种方式：</p>
+<ul>
+<li>尝试不同的分析方法，例如统计方法/机器学习方，挨个尝试，看能得到什么结果。有哪些分析方法，会在下文列一下常用的手段。</li>
+<li>尝试不同的目标，比如，首先用一句话描述数据的总体分布，然后找出其中的一些异常点，最后通过拟合数据做未来预测等等，有哪些分析目标，也会在下文列出一下常用的。</li>
+</ul>
+<h2 id="洞察数据的目标"><a href="#洞察数据的目标" class="headerlink" title="洞察数据的目标"></a>洞察数据的目标</h2><h3 id="寻找common-pattern"><a href="#寻找common-pattern" class="headerlink" title="寻找common pattern"></a>寻找common pattern</h3><p>common pattern是数据中出现频率最高的特征，可用于概括行描述一个数据集的总体信息。<br>​</p>
+<h3 id="寻找outlier"><a href="#寻找outlier" class="headerlink" title="寻找outlier"></a>寻找outlier</h3><p>outlier是离群点，即数据集合中某个偏离common pattern的数据。在一些异常监控中经常用到。<br>​</p>
+<h3 id="分类"><a href="#分类" class="headerlink" title="分类"></a>分类</h3><p>把一个数据集合分成不同的子集合，分成不同的类别。<br>​</p>
+<h3 id="验证假设"><a href="#验证假设" class="headerlink" title="验证假设"></a>验证假设</h3><p>首先给出一个假设，通过数据给出证明。</p>
+<h3 id="预测"><a href="#预测" class="headerlink" title="预测"></a>预测</h3><p>拟合已有的数据，根据模型预测未来数据。<br>​</p>
+<p>无论哪种目标，最终都是需要能过帮助完成决策，只有完成决策，才算完沉了闭环，否则就是无意义的数据分析。</p>
+<h2 id="洞察数据的方法"><a href="#洞察数据的方法" class="headerlink" title="洞察数据的方法"></a>洞察数据的方法</h2><p>一个优秀的软件，必定是有灵魂的，他的灵魂就是背后的方法论。Saas的本质，就是输出管理的理念和方法论，并且提供解决方案的工具。具体到数据分析工具而言，一个优秀的数据分析工具一定以数据分析方法论的为基础的，融合集合常见的数据分析方法。而不是东一榔头、西一棒槌追加分析函数，永远跟着甲方的需求跑，面向客户开发，面向demo开发，这样的话永远不成体系。<br>我们先来看个数据分析的笑话：<br><img src="/2021/12/25/从数据分析到数据洞察/12/25/从数据分析到数据洞察/1638965299987-04d1c697-7f85-4dd2-899e-9e5598c647bb.png" title="image.png"><br>手里有个锤子，看什么都是钉子，数据分析专业的同学，看到什么都要现象都要分析一把。疫情也要分析一把，强行刷存在感。不过笑归笑，外行看热闹，内行看门道。在这个简短的笑话中，我们看到一些常见的数据分析方法：相关性分析、假设检验、ab测试、z test、数据分布、标准差、显著性水平等。</p>
+<p>那么常见的数据分析方法有哪些呢？这些我们在大学的各个数学课程中都学习过了。首先我们做个分类，按照实现方式，数据分析包括：</p>
+<ul>
+<li>基于统计算法的数据分析。</li>
+<li>基于机器学习的数据分析。</li>
+</ul>
+<p>按照是否需要人工标注，数据分析分为：</p>
+<ul>
+<li>无监督学习，无需人工标注数据，根据已有数据直接分析。</li>
+<li>监督学习，需要标注数据，根据数据标签训练模型，再用于推断未知数据的结论。</li>
+<li>半监督学习，是无监督学习和监督学习的结合。</li>
+</ul>
+<p>接下来将逐个介绍各种方法：</p>
+<h3 id="统计量分析"><a href="#统计量分析" class="headerlink" title="统计量分析"></a>统计量分析</h3><p>统计量用于评估数据的整体状况，统计量使用单一数字来描述数据的分布。例如估计位置信息：</p>
+<ul>
+<li>均值</li>
+<li>中位值</li>
+</ul>
+<p>描述变异性：</p>
+<ul>
+<li>方差</li>
+<li>标准差</li>
+</ul>
+<p>描述性统计量：</p>
+<ul>
+<li>方差/标准差</li>
+<li>离散系数</li>
+<li>峰度</li>
+<li>偏度</li>
+<li>绝对中位差</li>
+<li>中位数</li>
+<li>单调性</li>
+</ul>
+<p>分位统计量：</p>
+<ul>
+<li>最大值</li>
+<li>最小值</li>
+<li>中位值</li>
+<li>25分位</li>
+<li>75分位</li>
+<li>范围</li>
+<li>四分位距</li>
+</ul>
+<img src="/2021/12/25/从数据分析到数据洞察/12/25/从数据分析到数据洞察/1639967567533-5e587d1b-3db0-4da0-aae2-906309bfd6f3.png" title="image.png">
+<h3 id="数据分布"><a href="#数据分布" class="headerlink" title="数据分布"></a>数据分布</h3><p>数据分布的目标主要是查看数据的分布频率(分布密度)，针对不同的数据采取不同的分析方式，对于连续数据，采取散点图/箱线图(分位统计)描述。在散点图中，把所有的点都打印到图中，密度比较高的地方则说明分布比较多。对于离散数据，采取堆叠图/直方图描述。按照每个不同的类别，分桶后统计计数，然后用直方图绘出。同样的，对于连续数据也可以采取直方图的方式，把连续数据按照固定的桶大小分桶后再计数。<br><img src="/2021/12/25/从数据分析到数据洞察/12/25/从数据分析到数据洞察/1639967723187-2fb0e24c-0aba-4dee-940a-5e50cbd882d3.png" title="image.png"></p>
+<img src="/2021/12/25/从数据分析到数据洞察/12/25/从数据分析到数据洞察/1639967822622-80a912a7-3c39-45bf-9baf-ebef36fb6c37.png" title="image.png">
+<h3 id="相关性"><a href="#相关性" class="headerlink" title="相关性"></a>相关性</h3><p>上文的统计量分析/数据分布分析，是用于分析单变量。 而对于多变量分析，则需要用到相关性分析。探索两个变量之间的相关性。在计算相关性时，主要计算两个数据集合的相关性系数。常见的相关性系数有皮尔逊系数、斯皮尔曼系数等。在计算好相关性系数后，可以绘制出一个相关性表如下：<br><img src="/2021/12/25/从数据分析到数据洞察/12/25/从数据分析到数据洞察/1639968277868-cd7f7b87-340f-4814-9470-17abca65d53e.png" title="image.png"></p>
+<h3 id="抽样分布"><a href="#抽样分布" class="headerlink" title="抽样分布"></a>抽样分布</h3><p>抽样分布是用少量数据估算整体数据的分布情况，用途有三种：第一,可以概括性描述整体分布;第二可以根据整体分布预测未来的新数据；第三，可以利用分布系数来排查异常值。<br>常见的分布有：</p>
+<ul>
+<li>正态分布： 如果确定数据服从正态分布，估算出正态分布的sigma后，我们可以使用3sigma来排除异常值。</li>
+<li>长尾分布：大部分现实数据不是严格匹配正态分布的，数据的中心位置也许符合正态分布，但是在尾部常常有长尾效应。</li>
+<li>T分布</li>
+<li>二项分布</li>
+<li>泊松分布</li>
+<li>指数分布</li>
+</ul>
+<p>柏松分布和指数分布通常用于估算事件发生率，也可用于估算IT系统的故障发生率。或者用于估算系统的上限水位，例如一个IT系统，每分钟的流量是x qps，那么根据泊松分布，可以估算出最大值是多少qps，系统需要准备多少资源。<br>​</p>
+<p>在现实的数据中，可能具备多种形状和类型，在特定场景下，应该首先确定数据集合服从哪种分布，求的分布系数后，再进行下一步的分析。<br>​</p>
+<h3 id="统计实验和假设性检验"><a href="#统计实验和假设性检验" class="headerlink" title="统计实验和假设性检验"></a>统计实验和假设性检验</h3><p>假设检验有个很好的用途，例如我们的营销团队做了个活动，那么如何评估活动是否带来了客流量呢？我们都知道现实的数据可能是有波动的，可能有N天变高，M天变低。所以要评估是否活动的影响，可以使用假设检验来验证。<br>最常见的业务场景，例如A/B测试。两种算法，哪个效果更好，可以通过假设检验来完成。<br>常见的方法有T检验、卡方检验<br>例如<br><img src="/2021/12/25/从数据分析到数据洞察/12/25/从数据分析到数据洞察/1639970025835-dc36319c-3779-40d2-8ee3-3666f3c2a277.png" title="image.png"><br>不同的标题下，有不同的点击率，那么这个点击率是随机造成的，还是标题起到了关键作用呢？可以通过卡方检验，计算皮尔逊残差，结果证明完全是随机作用。<br>​</p>
+<h3 id="回归和预测"><a href="#回归和预测" class="headerlink" title="回归和预测"></a>回归和预测</h3><p>在现实中，我们经常要回答的一个问题是，这两个指标之间是否有关联？如果有关联，是否可以通过其中一个指标预测另外一个指标。预测常见的一个使用场景是：根据预测的结果和实际的结果进行比对，然后判断是否有异常。</p>
+<h3 id="分类-1"><a href="#分类-1" class="headerlink" title="分类"></a>分类</h3><p>在数据分析中，经常要回答一个问题，一个电子邮件是否是钓鱼邮件？一个客户是否会流失？这种情况就需要分类。分类是有监督的学习。<br>常用的分类算法有：</p>
+<ul>
+<li>朴素贝叶斯</li>
+<li>线性判别分析</li>
+<li>KNN</li>
+<li>决策树</li>
+<li>Bagging</li>
+<li>随机森林</li>
+<li>boosting</li>
+<li>SVM</li>
+</ul>
+<h3 id="聚类"><a href="#聚类" class="headerlink" title="聚类"></a>聚类</h3><p>聚类是无监督学习的分类方法，根据算法把数据集合分成几个类。常用的算法有：</p>
+<ul>
+<li>主成因分析</li>
+<li>K-means</li>
+<li>层次聚类</li>
+</ul>
+<h3 id="神经网络"><a href="#神经网络" class="headerlink" title="神经网络"></a>神经网络</h3><p>神经网络是有监督学习，通过标注数据训练出模型，然后推断新的数据结果，篇幅有限，这里不再展开详细介绍。常用的算法有：</p>
+<ul>
+<li>卷积神经网络CNN</li>
+<li>循环神经网络RNN</li>
+<li>深度神经网络DNN</li>
+</ul>
+<h1 id="数据分析工具和数据洞察解决方案"><a href="#数据分析工具和数据洞察解决方案" class="headerlink" title="数据分析工具和数据洞察解决方案"></a>数据分析工具和数据洞察解决方案</h1><img src="/2021/12/25/从数据分析到数据洞察/12/25/从数据分析到数据洞察/1639971950420-24beef6e-73f9-44c7-9e2b-64ed77900b6e.png" title="image.png">
+<p>上文介紹了很多数据分析的方法算法。这些方法，归根结底是一个个工具，或者说是积木，用户可以使用这些积木组合成解决方案，解决自己特定的问题。市场上有很多系统提供类似的数据分析工具，例如Pandas，R，SQL，Tensorflow等等。 但是这依赖于使用者既要明确自己的分析目标，又要十分精通使用工具。 对于开放式的话题，在分析时需要不断尝试各种各样的手段进行分析，有些分析手段可能是无效的，因此需要不断尝试，在这个过程中浪费了太多的时间。如何能够快速洞察数据呢？<br>有些工具尝试集合数据分析的工具和数据洞察的解决方案，例如tableau，Knime等，而Pandas profiling则是一个纯粹的数据洞察方案。它自动的尝试上文描述的各种手段，把结论呈现给客户，减少了数据探索的时间，能过快速的完成数据洞察。<br>​</p>
+<h1 id="数据洞察工具的价值"><a href="#数据洞察工具的价值" class="headerlink" title="数据洞察工具的价值"></a>数据洞察工具的价值</h1><p>针对开放式的课题，需要投入大量的人工时间在各个方向上探索，这存在几个问题：</p>
+<ul>
+<li>可能以后某些关键路径，例如在分钟级别的数据看不出信息，而秒级别数据才能看出信息。若没有想到该方式，那么将极大延长发现问题的时间。</li>
+<li>需要人工采用各种工具，在多个方向上探索。这无异需要大量的时间。</li>
+</ul>
+<p>因此对于数据洞察工具的诉求就是：能过完全自动化的在各个方向上、尝试多种工具挖掘数据信息，达到最终对数据的insight。<br>​</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://mayunlei.github.io/2021/12/25/从数据分析到数据洞察/" data-id="clbczv5zq000cx23jciqma127" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SQL洞察/">SQL洞察</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2021/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/" class="article-date">
+  <time datetime="2021-12-25T02:02:23.000Z" itemprop="datePublished">2021-12-25</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/">Petabytes scale log analysis at Alibaba:intrastructure/challenge/optimization</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>2021年3月25日凌晨0：00，我参加了PrestoCon2021全球技术峰会，在会上直播分享了阿里云SLS使用Presto构建交互式分析产品的挑战和优化。本文是演讲稿全文。PrestoCon2021日程：<a href="https://prestoconday2021.sched.com/?iframe=no" target="_blank" rel="noopener">https://prestoconday2021.sched.com/?iframe=no</a>，直播视频已经上传到B站<a href="https://www.bilibili.com/video/BV1hK4y1m7qe/" target="_blank" rel="noopener">https://www.bilibili.com/video/BV1hK4y1m7qe/</a>，B站还包括其他演讲视频。<br><img src="/2021/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617422880023-8b0bcbe0-5016-48be-9ef6-09d33a8e28b8.png"><br>hello everyone my name is yunlei. I work at Alibaba Cloud log service team. Today I will share petabytes scale log data analysis at Alibaba group, I will share our experience with presto, the challenges we faced and the optimizations we did for presto.<br>​<img src="/2021/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617424047759-aef063ca-f536-46ca-bcde-d672f868ea96.png"><br>So today, I will first give an introduction about our team and talk about the motivation why we provide analysis service for logging data. And then I will talk about the challenges we face. And after that I will share our architecture to achieve scalability. And also share some ways to achieve low latency and high qps or high concurrency. And after that I will talk about some additional work based on the scalable framework of presto. And finally, I will talk about the future roadmap.<br>​<img src="/2021/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617424064586-453cf25f-6bff-4dab-a258-572163bc29b2.png"><br>​</p>
+<p>First let me introduce my team, this may help you have a better understanding of the background, and the motivation of my we provide analysis service for logging data. And we are log service team, we are providing the infrastructure of all kinds of logging data inside Alibaba group., for example linux server, web page, mobile phone, or kubernetes.. and all these data from different kinds of platforms are collected to our clusters in real time. And then, consumers can consume streaming data in real time, without worrying about different platforms.<br>And after that, we wanted to provide service just like what engineers can do on their linux servers. For example, we found that engineers often use the command grep to search some key word from their log file. So, in order to provide the real time interactive search, we build inverted index for logging data. By using inverted index, people can search large amount data with very low latency.<br>And after that we notices that in this era of data explosion, even the searching result may contain thousands to millions, even to billions of rows. That is a very large number, even thousands of data is large amount of data for human being’s eye, it is not easy to fully understand what is really appending inside the large amount data. But If, we can summarize the data, do aggregation on data, take web access log as an example, if we can calculate the average response time or max response time, we can better understand the whole data. That is the motivation my we provide analysis service for logging data. And we also have a visualization service, to visualize the interactive query result, which is helpful for understanding the data trend.<br>So, in summary, our team provide multi-tenant, interactive analysis for petabytes scale real time logging data.<br><img src="/2021/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617424085479-947ee0dd-7136-446c-9eb3-7d19e6fddb44.png"><br>What are the challenges we faced? The first challenge is the high QPS and high concurrency. Every day, we process about 400 millions queries, at the peak hour there are about 10000 queries running concurrently. Second, every day presto process over 1 quadrillion rows. Which is huge amount of data. But we can deliver the interactive query with very low latency. The average latency is only about 500 ms. So, how do we deal with those challenges, and how to achieve that low latency? In the latter slides, I will talk about some techniques we used.<br><img src="/2021/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617424102038-4ac1684f-5525-4932-940e-8f27480897da.png"><br>​</p>
+<p>In order to provide the interactive log analysis. The first thing we did is introducing presto into our system. Many people ask me the question that, why did we choose presto in the first day. Well, I think the first and most import reason is that, presto is really really fast, very flexible for interactive query. It suits our use case.  Second reason, presto has a scalable framework. We can develop our own connector/function/optimization rule which makes it very easy to integrate presto with our own storage. Last, the architecture and coding style Is very elegant. The architecture is simple, it doesn’t rely on any external components for deployment. The coding style is also very simple, it is easy for us to learn its internal implementation, also easy for us to do some modification for optimization. That is the reason why we choose presto in the first day.<br>​</p>
+<img src="/2021/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617424115235-59d335b5-b076-4de5-a717-aedbec1d7399.png">
+<p>In order to deal with the large amount of data ingested every day. We design our architecture like this. This is simplified architecture, only analysis related components are included. Data from different kinds of platforms are collected to our cluster, in the backend, the index worker keeps building inverted index and column format data for logging data. And then all the data are stored in the distributed file system, which is called pangu. This is the flow of data ingestion. When submitting query, users can send their query by sdk or jdbc client through our front api server, to one coordinator. We support distributed coordinators, and I will talk more detail about the design. In the backend, presto server read inverted index for filtering and column data for computing. This is the flow of querying. And presto play a key role in this architecture.<br>​<img src="/2021/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617424157805-b6df2168-c7a5-47bf-b034-2d38641b6127.png"><br>How to support querying large amount of data? Every day we process about 1quadrillinon rows. Fortunately, presto is a pure computing engine, so it is easy to decouple computing and storage separately. So that we can scale presto horizontally. Also, log data has a feature that it is immutable after ingested. And in the backend, we keep compacting small file into larger file, when the file is large enough, the file will become immutable. One immutable file contains tens of millions rows.so, each time we schedule a file, we schedule each immutable file to one presto server. And by this way, we can use a lot of presto server for one query. And thus, we can query large amount of data in one query. And the performance is also significant. If we run a simple group by query on 200 billions rows, it only takes about 20 seconds. That is a large amount of data and the latency is acceptable.<br>​<img src="/2021/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617424171251-5420046d-4e6c-4607-9891-cf6d2e64329c.png"><br>So, how to achieve low latency? There are a few techniques we used. The first technique we used is column format storage. In the backend, we keep building column format data. We all know that column storage is helpful for reducing data size to read from disk, and also helpful for vectorized execution, thus it will makes query faster.<br>​</p>
+<p>Another technique we used is data locality. We all know that, network speed inside cluster is much faster than network between clusters. So, we deploy storage and computing engine in same shared cluster. When scheduling task, we choose a free node by the order of machine, rack, cluster.<br>​</p>
+<p>There are some other techniques we used, for example cache, inverted index. I will talk more detail about that.<br>​<img src="/2021/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617424190608-a0d8d74d-5925-4f0a-a13d-280d1ee25ea8.png"><br>We all know that cache can make query faster, it can also help us removing some duplicated computation. And in order to take advantage of cache, the scheduling algorithm has to remember scheduling history in memory. Every time we schedule a file, we schedule each immutable file to the same node it has been scheduled before, unless the workload of specified node is much too high. In that case, we will choose another free node.<br>So there are three layers of cache, from the bottom up, there are raw data cache, intermediate result cache, and final result cache. The raw data cache and final result cache are common solutions. But the intermediate cache is a very rare solution. So, I’d like to talk more detail about the intermediate cache. As I mentioned earlier, file is immutable. So, every time we schedule a file, we schedule each mapper with exactly one immutable file. Then after finishing the partial aggregation operator, we store the result of partial aggregation operator in memory. And next time when we run exactly the same partial aggregation operator on exactly the same immutable file, we can just read the result from the memory, and send the intermediate result to final aggregation operator directly, without reading data from disk and recomputing the partial aggregation operator. We all know that partial aggregation operator deals with large amount of data, and only generate small amount of data. So, most of the computation happens in the partial aggregation operator. By using intermediate cache, we can achieve a faster query and also save a lot of cpu and IO resource.<br>​</p>
+<img src="/2021/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617424208162-f254d8cb-b03a-45a8-8175-129bb878d88c.png">
+<p>What about the performance of cache? Every day, there are more than about 100 millions query hitting final result cache. The average latency when hitting final result cache is only about 6 milliseconds. So, it is really fast. What’s more, final result cache can help us prevent a lot of duplicated computations and save us a lot of resource. What about the performance of intermediate cache?  For 1 billion rows.  It only takes about 1.3 second when hitting intermediate cache, but it will take 6 seconds when not hitting intermediate cache. So, the comparation of two latency is impressive.<br>​</p>
+<img src="/2021/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617424220492-9a72f5a5-99f4-489a-993f-4556faf5c06c.png">
+<p>Another technique we used is inverted index. In the first day, we use inverted index for searching data. After introducing presto into our system. I push down predicate from presto to storage system, and then use the inverted index to first calculate the matched row id, and use the matched row id to read matched rows, and then send only matched data to presto. This strategy is very effective if we can use inverted index to skip some file or only read small part of file. If you run a query select count(*), that will be extremely fast by using only index!.<br>​<img src="/2021/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617424234433-bf57b216-ed16-4155-a7ca-11de19da5c25.png"><br>Every day we are processing more than 400 million queries. And the main challenge is on coordinator. This picture was taken about 2 years ago. And at that time there was only one single coordinator. This picture shows the top 4 nodes with highest CPU usage of presto, the fist picture is coordinator. You may notice that the CPU usage of coordinator is much higher than normal workers. In our cluster, one single coordinator can process 1000 queries concurrently at most. So, the single coordinator is the bottleneck of the cluster. It has the problem of both scalability and availability. In order to improve the performance of coordinator, I did a few optimizations. The first optimization is supporting distributed scalable coordinators. The second optimization is transferring data from output stage to client directly, without worrying coordinator.<br>​<img src="/2021/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617424953423-4a63a842-e655-4d43-953a-46ef4363b76f.png"><br>Let us look at the detailed design of distributed coordinators. I design the distributed coordinators for scalability. And there are two kinds of roles in this design: the global coordinator, and the distributed coordinators. The global coordinator has only one instance. It is responsible for cluster management. For example, detect node state, replicate all the node state to other coordinators, track memory usage, assign largest query to reserved pool.  The distributed coordinators are responsible for query management. For example, parse query, create logical plan, optimize logical plan, schedule task, track task state. It is also responsible for a user queue. Every time submitting a query, user send his query to one coordinator based on the hashing of user name, in this way, all the queries belonging to one user can always be found in one coordinator. This design is not 100 percent perfect, because the global queue is not supported. But it is enough for our scenario. It helps us to scale coordinators horizontally for much higher concurrency.<br>​<img src="/2021/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617424969227-e65a0a3a-fc14-4284-b618-f064b17db078.png"><br>Another thing we did is optimizing the data transfer flow. In the original design, the coordinator transfers query result from output stage to client. So, the coordinator has to serialize query result into json format. We all know that json serialization is very slow. What if coordinator transfers large amount of data? For example, 1 gigabytes data. That will take a lot of CPU usage of coordinator. In order to optimize the performance of coordinator, here is my solution. The coordinator will tell the client all the addresses of the output stage. Because there may more than one node in the output stage. And then client will use the addresses to talk to output stage to directly fetch data with protobuf format. By this way we can make query faster and save a lot of cpu usage of coordinator.<br>​</p>
+<img src="/2021/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617425009217-0057e623-4495-447f-9a49-dcd24d6d8c56.png">
+<p>Here is the final performance. We can process 400 million queries every day by supporting distributed coordinator and optimizing data transfer. And by decoupling computing and storage, we can support processing over 1 quadrillion rows every day. By taking advantage of column storage, data locality, cache, inverted index, we can provide interactive query with very low latency, the average latency is only about 500 milliseconds.<br>​<img src="/2021/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617425021490-e42b4c38-9d1f-4c5a-8f4c-3c3c28939708.png"><br>Besides those optimizations, we also did a few additional works based on the scalable framework of presto. The first thing we did is machine learning library for time series data. We also noticed that only logging data is not enough for analysis. Sometimes, we need to join logging data with some external data. So, I developed a connector to read object file on OSS storage.  We also use presto as a federated SQL engine.<br>​<img src="/2021/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617425034418-771bd915-8711-455d-ab40-a88ffe74e48e.png"><br>In the future, there are still a lot of things to do. The biggest challenge is still on coordinator. We will keep optimizing coordinator. Another thing we want to do is increase the availability of discovery, by now, discovery has only one instance. We also want to improve the performance of data exchange by using rpc protocol, which will make it faster to shuffling large amount of data.<br><img src="/2021/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617425122280-6c261c3d-0b80-4e09-8eb4-a794ee80092c.png"><br>If you are interested in data analysis engine or OLAP engine, don’t hesitate connect me,  our team are hiring OLAP engineers, let us work together to make data easy to understand!<br>​</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://mayunlei.github.io/2021/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/" data-id="clbczv5zl0004x23jpykklvea" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-ClickHouse计算速度是如何做到领跑OLAP类产品的" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2021/01/09/ClickHouse计算速度是如何做到领跑OLAP类产品的/" class="article-date">
+  <time datetime="2021-01-09T10:59:33.000Z" itemprop="datePublished">2021-01-09</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/01/09/ClickHouse计算速度是如何做到领跑OLAP类产品的/">ClickHouse计算速度是如何做到领跑OLAP类产品的</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="数据分析类产品的发展历史"><a href="#数据分析类产品的发展历史" class="headerlink" title="数据分析类产品的发展历史"></a>数据分析类产品的发展历史</h2><p><img src="https://ata2-img.oss-cn-zhangjiakou.aliyuncs.com/431906298a05fa62bd3f3960aae50994.png" alt="image.png"></p>
+<h2 id="单机数据库时代"><a href="#单机数据库时代" class="headerlink" title="单机数据库时代"></a>单机数据库时代</h2><p>关系型数据库是发展了很多年的技术，在单机时代，微软的sql server ,甲骨文的oracle RDBMS，IBM的DB2是商业数据库的霸主。但是商业数据库实在太贵了，后来出现了开源的MySQL。阿里则干脆喊出了去IOE的口号。O就是oracle数据库。</p>
+<p>在数据库上，用户不仅有OLTP的使用需求，也有分析的需求，就是OLAP。但是单机数据库，无论硬件性能还是软件扩展能力，都是有限的。为了应对分析需求，一般采用一些技巧来实现，一般有这几种方式</p>
+<ul>
+<li>构建CUBE，按照要分析的问题，预计算出结果。这种思想在后来的Apache kylin上也有体现。<ul>
+<li>这种方式的缺点在于，<ol>
+<li>维度多的时候数据膨胀会比较厉害；</li>
+<li>需要预先把要分析的维度加入CUBE，不够灵活。</li>
+</ol>
+</li>
+</ul>
+</li>
+<li>分库分表。单表的查询在百万以内还能应付，超过千万级别，性能急剧下降。因此一般会根据某些列拆成多张表，查询时只命中需要的表即可。这种思想类似于数仓中的分区概念。</li>
+</ul>
+<h2 id="MapReduce时代"><a href="#MapReduce时代" class="headerlink" title="MapReduce时代"></a>MapReduce时代</h2><p>2004年，Google发表了MapReduce论文，开启了大数据时代。Google产生的大数据需要分析，传统的数据库依赖单机的性能来提升查询能力，但单机的能力毕竟是有限的，无法支持PB级别的规模，Google则另辟蹊径，通过MapReduce算法，把成千上万的小型机调动起来运行同一个分析程序。</p>
+<p>雅虎支持的开源社区则根据Google论文的思想，开发了Hadoop，成为现代大数据套件的鼻祖。Hadoop包含了MapReduce运行框架和HDFS分布式文件系统。之后的十多年间，围绕Hadoop衍生出了一整套的大数据生态系统，有做资源管理的，有做调度的，有做任务管理的，有做分布式锁的。要在生产环境把hadoop完整的跑起来，需要玩转多个组件，还真不容易。</p>
+<p>MapReduce，解决了对大数据的分析需求。</p>
+<h2 id="SQL-on-hadoop时代"><a href="#SQL-on-hadoop时代" class="headerlink" title="SQL on hadoop时代"></a>SQL on hadoop时代</h2><p>hadoop需要自己编写MapReduce的逻辑，使用门槛非常的高。一个公司内，需要有专门的大数据团队，来给各个业务方写分析程序。严重制约了使用范围。为了降低使用门槛，数据库常用的SQL语言被搬了出来。SQL可以说是数据分析领域受众最广的语言了。hive 就是典型的代表。数据存在在HDFS上，用户输入SQL，程序自动的拆解成MapReduce逻辑。用户不再需要关心底层的数据是怎么分布的，分析程序该如何根据哪个partition拆解MapReduce。大大降低了使用门槛。</p>
+<p>SQL on hadoop的本质，是提供了SQL的interface，但底层还是MapReduce的DAG执行方式。每个任务的执行结果，需要写入磁盘。每个阶段执行完后，下一个阶段才能开始执行。这种方式延时会非常高，跑一个复杂的job，需要几个小时；一个简单的job也需要几分钟。因此通常称为离线任务，放到晚上业务空闲期跑。</p>
+<p>SQL on hadoop 解决了对分析大数据的体验的需求。</p>
+<h2 id="MPP时代"><a href="#MPP时代" class="headerlink" title="MPP时代"></a>MPP时代</h2><p>离线任务能够帮助人们分析大数据，但是由于运行时间长，只能做一些固定模式的报表，每天晚上跑一跑前一天的数据，给领导一个报表。</p>
+<p>需求是无止境的，互联网业务产生了海量的数据，往往要深入挖掘数据的价值，挖掘这个动作本身，就意味着分析存在不确定性，需要反复的探索数据，尝试不同的方式分析数据。用离线任务去分析，一个job几分钟乃至几个小时，黄花菜都凉了。因此大数据挖掘，对快的要求越来越高。</p>
+<p>MapReduce框架代表了在算法层面提升了规模。而另一方面，最近十几年，硬件也在飞速发展。200x年的时候，单机内存有限。今天的服务器，动不动就几百个G，国产化的SSD的单价做到了0.5元/GB。单机几百G的内存，再加几个T的SSD，网卡普遍用上了万兆网卡。单机的硬件性能大大加强。</p>
+<p>于是出现了一批新的运行框架，例如Spark， Presto， 充分利用单机的内存做计算，计算结果通过网络传输给下游节点，而不是写到磁盘，再传给其他机器。这些新的软件，不再采用Hadoop的MapReduce运行框架，而是借鉴MapReduce的思想，自己实现了计算逻辑。</p>
+<p>这些新的计算系统，抛弃了除了HDFS以外的hadoop生态圈。原来跑起来hadoop需要一堆软件协同，现在只需要一个开箱即用的软件即可。当然像Presto,Spark，本身还是需要读写HDFS，也算是SQL on hadoop 的延续。</p>
+<p>DAG vs MPP</p>
+<p>本章节命名MPP不是很恰当，MPP只是其中的一种调度和运行模型。MPP源于并行数据库，每个进程都是一个独立的可运行数据库，有完整的解析，优化，codegen，和资源管理，每个进程只负责一部分数据。除了MPP模型，还有DAG模型，DAG的运行前提是shared storage，比如HDFS，由全局节点解析，优化，分配和协调每个节点的任务。</p>
+<p>基于内存的OLAP引擎，能够在秒级别完成大规模数据的分析，并拿到结果。做到了之前数据库、数仓做不到的性能和延时。在此之前，要在短时间分析大量数据是不可能的，因而不得不采取一些技巧来完成，例如预计算，流计算，把计算结果保存到NoSQL中，用户查询的时候，直接查询NoSQL的结果即可。但这些技巧本身对用户来说非常不灵活，规则的任何变化，都需要把历史数据重跑一遍。基于内存的计算引擎，让真正的OLAP成为可能。用户不再需要做各种预定义的规则。只需要保存原始的数据，在需要的时候，可以立即通过SQL获得结果。</p>
+<p>MPP解决了人们对于快速分析大数据的需求。</p>
+<h2 id="ClickHouse"><a href="#ClickHouse" class="headerlink" title="ClickHouse"></a>ClickHouse</h2><p>Presto是2012年FB研发出来的，目的是为了加速Hive的查询。Presto是基于Java开发的，大部分的大数据套件都是基于Java开发的，Java的开发生态比较丰富，开发门槛比较低。ClickHouse是2016年俄罗斯开源的OLAP系统，由于ClickHouse的年代更近，因而采用了最新的一些技术，用论文里边一句时髦的话叫<code>state of the art</code>，使得ClickHouse的运行速度领先同类OLAP引擎。本文就从代码层面探究ClickHouse的一些优势。</p>
+<h3 id="采用c-17语言"><a href="#采用c-17语言" class="headerlink" title="采用c++ 17语言"></a>采用c++ 17语言</h3><p>ClickHouse的第一个优势是采用c++语言，而且是c++17的标准。能用c++写大型程序的都是好汉。现代软件重要的是协同开发，而不是单打独斗。大数据生态，大多采用java开发，是有道理的。java一次编译，处处运行优势，可以让每一个开发者只负责其中一部分功能，然后以jar包的形式分发，打包成jar包就说明解决了编译问题，而运行时问题则交给jvm，其他开发者只需要引用jar包，就可以完成协同开发，这促进了java丰富的开发生态，基本上需要什么基础轮子，就有对应的jar包，不需要自己重复造轮子。这一点是c++不能比的。c++不同的编译器编译出来的二进制lib，不同的硬件平台上编译出来的lib，都有兼容性问题，这阻碍了基础套件的分发和共享。导致c++代码协同研发必须共享代码，而共享代码在不同编译器上有会遇到各种各样的编译问题。所以很少有基于c++实现的大数据软件。如何提升c++程序的协同开发效率，我会专门开一篇文章介绍LLVM。</p>
+<p>鉴于上述描述的c++协同开发的困难，ClickHouse能够用c++代码来实现，说明老大哥还是非常彪悍的，往年用c++搞出了nginx，现在又用c++码出了ClickHouse，c++代码比JAVA代码，在执行效率上高一些，再加上c++能够利用一些指令级别的优化，因而整体而言，c++程序的运行速度要快于JAVA。</p>
+<p>更难能可贵的是，ClickHouse采用了c++ 17的标准，用clang10编译器，采用了很多新的语言特性，新的语言特性的优势在于：</p>
+<ol>
+<li>编程代码更加简洁，编程效率会更高。例如auto关键字，让c++有了类似脚本语言的快感。</li>
+<li>一些新的特性让性能上更上一层楼。比如std::move通过移动构造函数，避免生成临时对象。 <code>std::unique_ptr</code>智能指针，既能够管理对象内存，又能够像对象一样在函数间传递(相对<code>auto_ptr</code>)，却不用承担shared_ptr锁的开销。</li>
+<li>更加复杂的编译时表达能力。像<code>enable_if</code>,<code>is_same_v</code>等语法，决定编译时的动作，让模板编程能力更加复杂。在以前，编译时动作只有宏编程，c++11之后，这些新的特性，让开发者有更多的选项告诉编译器该怎么做。</li>
+<li>可变长度模板参数列表。模板参数可以像函数的可变长度参数列表一样，支持不定长模板参数列表，快速实例化模板。这个特性会在下文的木版化执行阶段介绍。</li>
+</ol>
+<p>这里无意介绍c++11到c++17所有的特性，只是摘出来ClickHouse用到的一些特性做介绍，对c++11/17感兴趣的同学，网上有很多介绍文章。</p>
+<p>用最新的编译器+最新的语言特性，带来了编程效率和执行效率的提升，让ClickHouse领先同类产品一个段位。这大概就是后发优势吧</p>
+<h3 id="模板化执行代码"><a href="#模板化执行代码" class="headerlink" title="模板化执行代码"></a>模板化执行代码</h3><p>在SQL执行引擎中，逻辑执行计划生成物理执行计划，要根据相应的数据类型，函数名称、参数列表，寻找合适的执行代码。例如 <code>1 + 2.2</code>这个计算，要寻找到一个plus函数，参数类型分别是int和float，即签名是<code>plus(int, float)</code>的函数。实现方式上，会提供不同类型的重载函数。</p>
+<p>一般而言，有几种方式，第一是采用虚函数的方式，在执行时，根据实际类型选择合适的函数入口。但是我们都知道虚函数是通过虚表实现的。运行时查找函数需要经过一跳。如果每一行记录都在运行时做一次虚表跳转，代价是很大的。</p>
+<p>解决方法就是第二种形式，在编译时绑定执行函数。但是还要解决一个泛化的问题，要提供一系列函数，而不止是一个函数。ClickHouse采用的是模板化编程，同一个名字的函数，用模板实现，乃至模板套模板。参数的类型用模板类型表示。并通过可变模板类型参数列表物化出真正的代码，这一过程是在ClickHouse编译时确定的。等到物化执行计划阶段，调用可变模板类型参数列表的函数，逐个匹配各个类型，寻找到合适的类型，就执行对应的函数。<code>可变模板类型列表</code>是一个很重要的概念，ClickHouse依赖它完成泛化代码的编写、代码实例化、运行时多态、</p>
+<p>上边提到的<code>1+2.2</code>可能有点复杂，我们首先以单参数函数为例介绍，比如函数<code>abs(-1)</code>，计算-1的绝对值。首先clickhouse提供了一个模板实现<code>FunctionUnaryArithmetic</code>，囊括了所有的单参数数学函数，参数可以是不同的类型，从uint8到decimal256,也可以是string。<code>abs.cpp</code>，则提供了abs算子的具体实现<code>AbsImpl::apply</code>，当然这个算子也用数据类型作为模板，可以支持不同位数的数字，该算子作为FunctionUnaryArithmetic的模板参数。FunctionUnaryArithmetic要做的，就是在运行时根据传入的参数实际类型，选择不同的执行路径，主要是区分是string还是数字。怎么实现运行时动态参数选择呢？主要是通过上文提到的可变长度的模板参数列表来实现:</p>
+<p>ClickHouse调用castTypeToEither 函数，并且传入实际的数据类型，和回调函数，当匹配到某一个类型时，就执行f这个lambda函数。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">static bool castType(const IDataType * type, F &amp;&amp; f)</span><br><span class="line">&#123;   </span><br><span class="line">    return castTypeToEither&lt;</span><br><span class="line">        DataTypeUInt8,</span><br><span class="line">        DataTypeUInt16,</span><br><span class="line">        DataTypeUInt32,</span><br><span class="line">        DataTypeUInt64,</span><br><span class="line">        DataTypeUInt256,</span><br><span class="line">        DataTypeInt8,</span><br><span class="line">        DataTypeInt16,</span><br><span class="line">        DataTypeInt32,</span><br><span class="line">        DataTypeInt64,</span><br><span class="line">        DataTypeInt128,</span><br><span class="line">        DataTypeInt256,</span><br><span class="line">        DataTypeFloat32,</span><br><span class="line">        DataTypeFloat64,</span><br><span class="line">        DataTypeDecimal&lt;Decimal32&gt;,</span><br><span class="line">        DataTypeDecimal&lt;Decimal64&gt;,</span><br><span class="line">        DataTypeDecimal&lt;Decimal128&gt;,</span><br><span class="line">        DataTypeDecimal&lt;Decimal256&gt;,</span><br><span class="line">        DataTypeFixedString</span><br><span class="line">    &gt;(type, std::forward&lt;F&gt;(f));</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">template &lt;typename... Ts, typename T, typename F&gt;                </span><br><span class="line">static bool castTypeToEither(const T * type, F &amp;&amp; f)             </span><br><span class="line">&#123;                                                                </span><br><span class="line">    /// XXX can&apos;t use &amp;&amp; here because gcc-7 complains about parentheses around &amp;&amp; within ||</span><br><span class="line">    return ((typeid_cast&lt;const Ts *&gt;(type) ? f(*typeid_cast&lt;const Ts *&gt;(type)) : false) || ...);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>castTypeToEither是怎么实现的呢，如上代码样例，模板参数中的Ts是一个可变长度的列表。实现中，为了表达『命中类型就执行f』这个语义，用了短路求值法，但是因为编译器不支持&amp;&amp;这种写法，而用了?:双目运算符。如果检查类型匹配，就以匹配的类型执行，不匹配就检查下一个类型，语法上使用了||…  来表达对每一个模板参数执行相同操作。由于回调函数也是模板，传入实际类型就相当于实例化了对应代码。由于模板函数在编译时有调用才会实例化，不按照这种做法，我们恐怕要在一个地方为每一种类型编写一下调用函数才能实例化。castTypeToEither是非常重要的一个函数，由它实例化出了每一种计算函数的实现。</p>
+<p>看到了单参数的实现，接下来看多参数的实现，以上边提到了<code>1+2.2</code>为例，介绍ClickHouse的实现方式,由于双参数的类型组合比单数更多，相当于N*N个组合，比如int8 + float, int16+float,int32+float, float+float。 一般有个做法是，在具体实现时，只实现同类型的，比如Int8+int8， float+float。语法检查器在检查时，会优先寻找函数名匹配，参数类型也完全匹配的函数实现。 如果其中一个参数不匹配，比如Int32+float，找不到这个组合的实现，语法检查器会挨个检查每个函数实现，是否能够做类型转换，把实际类型转化成函数声明类型而不影响精度，比如针对int32+int32的函数实现，float不能转化成int32，所以不能采用该实现，针对float+float，发现int32能够转化成float，那么就会把语法树变成cast(int32 as float) + float来解决这个问题，虽然两者语义上有一定差别，毕竟int 转float在大数情况下会损失精度，但是好歹在目前情况下实现了该运算。</p>
+<p>按照这种做法，先强制转化类型，把数据拷贝出来一份，生成一份新的数据，再去计算。</p>
+<p>ClickHouse没有这样做，它没有在语法检查阶段添加这种强制类型转换的逻辑。而是用模板实现两个不同类型的计算，然后通过castTypeToEither函数，实例化出不同的组合。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">template &lt;typename F&gt;</span><br><span class="line">static bool castBothTypes(const IDataType * left, const IDataType * right, F &amp;&amp; f)</span><br><span class="line">&#123;    </span><br><span class="line">    return castType(left, [&amp;](const auto &amp; left_) &#123; return castType(right, [&amp;](const auto &amp; right_) &#123; return f(left_, right_); &#125;); &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在castBothTypes函数中，通过castType嵌套castType，获得左右两个函数的实际类型后，用实际类型回调lambda函数f。比如你传入的是int+float,就会实例化出该类型。在ClickHouse的编译阶段(注意，不是SQL的编译阶段)，就会通过上文提到的几个函数，实例化出不同的组合，既有int+float,也有int64+float，更有decimal128+float，还有float+decimal128等等各种组合。</p>
+<p>ClickHouse的这种做法的好处是什么呢？减少了一次类型转换的开销，节省一个算子。</p>
+<p>值得注意的是，模板函数提升的是泛化的能力，总不能给每一种类型都实现一个重载函数吧，在执行效率上，由于是运行时多态，挨个检查每个类型，找到合适的再回调，需要有多次跳转指令，和虚函数也没多大差别，不能充分利用CPU流水线。但是由于ClickHouse采用的是列式方式计算，每一大块数据(几万行数据)只需要执行一次查找即可，不需要每一行数据都做这个检查。但假如你用的是按行处理，那恐怕性能就急剧下降了。</p>
+<h3 id="列式计算"><a href="#列式计算" class="headerlink" title="列式计算"></a>列式计算</h3><p>上文提到了ClickHouse是按列式计算的，按照列式计算有两个好处，</p>
+<p>####1. 更高的存储压缩比<br> 存储时按照列式存储，同一种类型的数据在压缩时会获得一个更好的压缩比，节省存储空间，读取时速度也会更快。</p>
+<p>####2. 利用向量化加速计算<br> 按照列式处理，一次加载一批数据，利用单条指令同时操作多条数据，获得提速效果。一次操作一列数据，可以完全放到CPU缓存中。像Presto这种计算引擎，虽然提供了列式的接口，仅仅利用了存储上列的优势，没有用到计算上的优势。向量化如何提速，会在下文介绍。</p>
+<h3 id="向量化"><a href="#向量化" class="headerlink" title="向量化"></a>向量化</h3><p>向量化主要是利用单条指令操作多条数据，指令称为SIMD指令。在运行时，把满足寄存器大小的数据放到寄存器，CPU一条指令操作寄存器上的多条数据。</p>
+<p>向量化一般有两种方式：</p>
+<h3 id="1-利用编译器自动向量化"><a href="#1-利用编译器自动向量化" class="headerlink" title="1. 利用编译器自动向量化"></a>1. 利用编译器自动向量化</h3><p>在编写程序时，如果是符合一定规范的循环语句，循环语句内部是简单的操作，比如+-*/等，编译器优化器，可以把循环语句折叠成向量化执行。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">static void NO_INLINE vectorVector(const A * __restrict a, const B * __restrict b, ResultType * __restrict c, size_t size)</span><br><span class="line">&#123;   </span><br><span class="line">    for (size_t i = 0; i &lt; size; ++i)</span><br><span class="line">        c[i] = Op::template apply&lt;ResultType&gt;(a[i], b[i]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="2-显式使用SIMD指令"><a href="#2-显式使用SIMD指令" class="headerlink" title="2. 显式使用SIMD指令"></a>2. 显式使用SIMD指令</h4><p>c++ 提供了SIMD指令，可以一次把128bit的数据加载到寄存器，以下边的大小写转换的函数为例，一个字符是8bit，一次把128bit，也就是16个字节的字符串加载到寄存器，通过CPU一条指令操作16个字符，相当于获得了16倍的提速。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">    static void array(const UInt8 * src, const UInt8 * src_end, UInt8 * dst)</span><br><span class="line">    &#123;   </span><br><span class="line">        const auto flip_case_mask = &apos;A&apos; ^ &apos;a&apos;;</span><br><span class="line"></span><br><span class="line">#ifdef __SSE2__</span><br><span class="line">        const auto bytes_sse = sizeof(__m128i);</span><br><span class="line">        const auto src_end_sse = src_end - (src_end - src) % bytes_sse;</span><br><span class="line"></span><br><span class="line">        const auto v_not_case_lower_bound = _mm_set1_epi8(not_case_lower_bound - 1); </span><br><span class="line">        const auto v_not_case_upper_bound = _mm_set1_epi8(not_case_upper_bound + 1); </span><br><span class="line">        const auto v_flip_case_mask = _mm_set1_epi8(flip_case_mask);</span><br><span class="line"></span><br><span class="line">        for (; src &lt; src_end_sse; src += bytes_sse, dst += bytes_sse)</span><br><span class="line">        &#123;   </span><br><span class="line">            /// load 16 sequential 8-bit characters</span><br><span class="line">            const auto chars = _mm_loadu_si128(reinterpret_cast&lt;const __m128i *&gt;(src));</span><br><span class="line"></span><br><span class="line">            /// find which 8-bit sequences belong to range [case_lower_bound, case_upper_bound]</span><br><span class="line">            const auto is_not_case</span><br><span class="line">                = _mm_and_si128(_mm_cmpgt_epi8(chars, v_not_case_lower_bound), _mm_cmplt_epi8(chars, v_not_case_upper_bound));</span><br><span class="line"></span><br><span class="line">            /// keep `flip_case_mask` only where necessary, zero out elsewhere</span><br><span class="line">            const auto xor_mask = _mm_and_si128(v_flip_case_mask, is_not_case);</span><br><span class="line"></span><br><span class="line">            /// flip case by applying calculated mask</span><br><span class="line">            const auto cased_chars = _mm_xor_si128(chars, xor_mask);</span><br><span class="line"></span><br><span class="line">            /// store result back to destination</span><br><span class="line">            _mm_storeu_si128(reinterpret_cast&lt;__m128i *&gt;(dst), cased_chars);</span><br><span class="line">        &#125;   </span><br><span class="line">#endif</span><br><span class="line"></span><br><span class="line">        for (; src &lt; src_end; ++src, ++dst)</span><br><span class="line">            if (*src &gt;= not_case_lower_bound &amp;&amp; *src &lt;= not_case_upper_bound)</span><br><span class="line">                *dst = *src ^ flip_case_mask;</span><br><span class="line">            else</span><br><span class="line">                *dst = *src;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<h3 id="LLVM动态编译执行代码"><a href="#LLVM动态编译执行代码" class="headerlink" title="LLVM动态编译执行代码"></a>LLVM动态编译执行代码</h3><p>上文在介绍模板化编程时指出，CickHouse实现多态的方式是通过在运行时检查不同参数类型，直到找到一个合适的类型，再运行这个类型的实例化计算代码。相当于多条跳转指令才能找到真正的执行代码。虽然采用列式计算，但是如果数据块比较多，这个计算开销也是不小的。 再加上计算时函数套函数，一个很小的操作都需要调用函数完成，实际上完成一行的计算需要多条指令才能做到。为了在这上边提升计算速度，ClickHouse还提供了动态编译和JIT的方法。</p>
+<p>说到c++的动态编译，就离不开LLVM。LLVM是一种现代化的编译器，我会再开一篇文章详细介绍LLVM和JIT技术。 动态编译代码，就是在程序运行时，把SQL的执行计划，编译成可执行的机器指令，并且在当前程序中执行这些指令。动态编译是相对于静态编译而言的。通常静态编译是说，写完代码用g++、clang++等工具编译成二进制文件，然后运行这个二进制文件。动态代码则是程序运行时动态编译的。动态编译和执行称为JIT技术。 </p>
+<p>LLVM 为c++提供了很了不起的JIT技术支持。往常只有java代码才有动态编译一说。c++有了动态编译，才给数据库技术加速计算提供了新的方法。</p>
+<p>以plus函数为例，plus的运算符提供了编译方法，通过llvm实现一个指令，<code>b.CreateAdd</code>完成左右两个参数的加法的指令。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">static inline llvm::Value * compile(llvm::IRBuilder&lt;&gt; &amp; b, llvm::Value * left, llvm::Value * right, bool)</span><br><span class="line">&#123;   </span><br><span class="line">    return left-&gt;getType()-&gt;isIntegerTy() ? b.CreateAdd(left, right) : b.CreateFAdd(left, right);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>使用静态代码执行，需要多层函数嵌套，乃至每一行都需要调用一个函数，开销很大，而在JIT 技术下，一个区块的数据只需要调用一个函数就可以了。</p>
+<p>当然，动态编译代码代价很大。我们经常说，开发者大部人时间就是等待编译器做编译。JIT也一样，动态编译需要时间，编译一次代价很大。因此在编译后要把结果缓存下来复用。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>大数据系统发展了这么多年，数据规模越来越大，速度越来越快。而人们对数据分析的强烈需求是永无止境的。新的编程技术不断涌现，硬件水平也不断发展，每隔几年出现新的、更强大的、更快速的大数据系统。<br>ClickHouse作为比较新的OLAP引擎，在很多场景的benchmark上处于领先地位。本文从代码层面介绍了为什么ClickHouse计算速度快。ClickHouse利用c++17标准，clang11编译器，相当于最新的编程语言；同时利用模板泛化编程，泛化实现大量算子；也利用指令集别的并行计算，加速计算；利用LLVM动态编译代码，优化执行逻辑。</p>
+<p>本文主要探讨为什么计算快，对clickhouse架构方面涉及不多。OLAP引擎一直在发展，新的技术也会不断出现。我们会持续关注，并把最新的技术应用到我们的云计算中。     </p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://mayunlei.github.io/2021/01/09/ClickHouse计算速度是如何做到领跑OLAP类产品的/" data-id="clbczv5zh0000x23j34f94d8x" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ClickHouse-OLAP/">ClickHouse OLAP</a></li></ul>
 
     </footer>
   </div>
@@ -836,7 +836,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://mayunlei.github.io/2020/12/27/物联网产品现状和未来想象空间/" data-id="clbc6yc0b000qm23jpjwngv9v" class="article-share-link">Share</a>
+      <a data-url="http://mayunlei.github.io/2020/12/27/物联网产品现状和未来想象空间/" data-id="clbczv601000ox23jonivgrt6" class="article-share-link">Share</a>
       
       
     </footer>
@@ -1041,7 +1041,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://mayunlei.github.io/2020/10/27/机器学习和数据挖掘/" data-id="clbc6yc0b000lm23j1s0n9j2v" class="article-share-link">Share</a>
+      <a data-url="http://mayunlei.github.io/2020/10/27/机器学习和数据挖掘/" data-id="clbczv5zv000jx23joyobgm0w" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ML-机器学习-神经网络/">ML 机器学习 神经网络</a></li></ul>
@@ -1236,7 +1236,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://mayunlei.github.io/2020/08/16/深入理解Presto-Presto的内部架构/" data-id="clbc6yc0b000nm23j9ose981f" class="article-share-link">Share</a>
+      <a data-url="http://mayunlei.github.io/2020/08/16/深入理解Presto-Presto的内部架构/" data-id="clbczv602000qx23jd0mmxxwr" class="article-share-link">Share</a>
       
       
     </footer>
@@ -1299,7 +1299,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://mayunlei.github.io/2020/05/30/Presto-任务调度：-任务分配到哪里/" data-id="clbc6yc010002m23jpzrgwjrk" class="article-share-link">Share</a>
+      <a data-url="http://mayunlei.github.io/2020/05/30/Presto-任务调度：-任务分配到哪里/" data-id="clbczv600000mx23jszycj5sl" class="article-share-link">Share</a>
       
       
     </footer>
@@ -1498,7 +1498,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://mayunlei.github.io/2020/05/20/Procella-Youtube-把计算加速玩到极致的实时计算引擎/" data-id="clbc6yc030005m23jf5l6u7hc" class="article-share-link">Share</a>
+      <a data-url="http://mayunlei.github.io/2020/05/20/Procella-Youtube-把计算加速玩到极致的实时计算引擎/" data-id="clbczv5zq000bx23jco56f5re" class="article-share-link">Share</a>
       
       
     </footer>
@@ -1545,7 +1545,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/05/">May 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/12/">December 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">January 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">August 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">November 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/06/">June 2013</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/06/">June 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/05/">May 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/12/">December 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">January 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">August 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">November 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/06/">June 2013</a></li></ul>
     </div>
   </div>
 
@@ -1556,6 +1556,10 @@
     <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2022/06/16/深入浅出向量化技术/">深入向量化计算技术</a>
+          </li>
         
           <li>
             <a href="/2022/05/04/探索无人驾驶载货小飞机：航模技术研究/">探索无人驾驶载货小飞机：航模技术研究</a>
@@ -1571,10 +1575,6 @@
         
           <li>
             <a href="/2021/01/09/ClickHouse计算速度是如何做到领跑OLAP类产品的/">ClickHouse计算速度是如何做到领跑OLAP类产品的</a>
-          </li>
-        
-          <li>
-            <a href="/2021/01/09/深入浅出向量化技术/">深入向量化计算技术</a>
           </li>
         
       </ul>
