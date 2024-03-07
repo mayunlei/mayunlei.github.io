@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-<head><meta name="generator" content="Hexo 3.8.0">
+<head>
   <meta charset="utf-8">
   
 
@@ -8,18 +8,18 @@
   <title>ClickHouse计算速度是如何做到领跑OLAP类产品的 | 马云雷的技术博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="数据分析类产品的发展历史 单机数据库时代关系型数据库是发展了很多年的技术，在单机时代，微软的sql server ,甲骨文的oracle RDBMS，IBM的DB2是商业数据库的霸主。但是商业数据库实在太贵了，后来出现了开源的MySQL。阿里则干脆喊出了去IOE的口号。O就是oracle数据库。 在数据库上，用户不仅有OLTP的使用需求，也有分析的需求，就是OLAP。但是单机数据库，无论硬件性能还">
-<meta name="keywords" content="ClickHouse OLAP">
 <meta property="og:type" content="article">
 <meta property="og:title" content="ClickHouse计算速度是如何做到领跑OLAP类产品的">
-<meta property="og:url" content="http://mayunlei.github.io/2021/01/09/ClickHouse计算速度是如何做到领跑OLAP类产品的/index.html">
+<meta property="og:url" content="http://mayunlei.github.io/2021/01/09/ClickHouse%E8%AE%A1%E7%AE%97%E9%80%9F%E5%BA%A6%E6%98%AF%E5%A6%82%E4%BD%95%E5%81%9A%E5%88%B0%E9%A2%86%E8%B7%91OLAP%E7%B1%BB%E4%BA%A7%E5%93%81%E7%9A%84/index.html">
 <meta property="og:site_name" content="马云雷的技术博客">
 <meta property="og:description" content="数据分析类产品的发展历史 单机数据库时代关系型数据库是发展了很多年的技术，在单机时代，微软的sql server ,甲骨文的oracle RDBMS，IBM的DB2是商业数据库的霸主。但是商业数据库实在太贵了，后来出现了开源的MySQL。阿里则干脆喊出了去IOE的口号。O就是oracle数据库。 在数据库上，用户不仅有OLTP的使用需求，也有分析的需求，就是OLAP。但是单机数据库，无论硬件性能还">
-<meta property="og:locale" content="default">
+<meta property="og:locale">
 <meta property="og:image" content="https://ata2-img.oss-cn-zhangjiakou.aliyuncs.com/431906298a05fa62bd3f3960aae50994.png">
-<meta property="og:updated_time" content="2022-12-07T01:50:23.610Z">
+<meta property="article:published_time" content="2021-01-09T10:59:33.000Z">
+<meta property="article:modified_time" content="2022-12-07T01:50:23.610Z">
+<meta property="article:author" content="马云雷">
+<meta property="article:tag" content="ClickHouse OLAP">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="ClickHouse计算速度是如何做到领跑OLAP类产品的">
-<meta name="twitter:description" content="数据分析类产品的发展历史 单机数据库时代关系型数据库是发展了很多年的技术，在单机时代，微软的sql server ,甲骨文的oracle RDBMS，IBM的DB2是商业数据库的霸主。但是商业数据库实在太贵了，后来出现了开源的MySQL。阿里则干脆喊出了去IOE的口号。O就是oracle数据库。 在数据库上，用户不仅有OLTP的使用需求，也有分析的需求，就是OLAP。但是单机数据库，无论硬件性能还">
 <meta name="twitter:image" content="https://ata2-img.oss-cn-zhangjiakou.aliyuncs.com/431906298a05fa62bd3f3960aae50994.png">
   
     <link rel="alternate" href="/atom.xml" title="马云雷的技术博客" type="application/atom+xml">
@@ -30,9 +30,11 @@
   
     <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
   
-  <link rel="stylesheet" href="/css/style.css">
-</head>
-</html>
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 7.1.1"></head>
+
 <body>
   <div id="container">
     <div id="wrap">
@@ -71,7 +73,7 @@
       <div class="outer">
         <section id="main"><article id="post-ClickHouse计算速度是如何做到领跑OLAP类产品的" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2021/01/09/ClickHouse计算速度是如何做到领跑OLAP类产品的/" class="article-date">
+    <a href="/2021/01/09/ClickHouse%E8%AE%A1%E7%AE%97%E9%80%9F%E5%BA%A6%E6%98%AF%E5%A6%82%E4%BD%95%E5%81%9A%E5%88%B0%E9%A2%86%E8%B7%91OLAP%E7%B1%BB%E4%BA%A7%E5%93%81%E7%9A%84/" class="article-date">
   <time datetime="2021-01-09T10:59:33.000Z" itemprop="datePublished">2021-01-09</time>
 </a>
     
@@ -137,13 +139,13 @@
 <p>解决方法就是第二种形式，在编译时绑定执行函数。但是还要解决一个泛化的问题，要提供一系列函数，而不止是一个函数。ClickHouse采用的是模板化编程，同一个名字的函数，用模板实现，乃至模板套模板。参数的类型用模板类型表示。并通过可变模板类型参数列表物化出真正的代码，这一过程是在ClickHouse编译时确定的。等到物化执行计划阶段，调用可变模板类型参数列表的函数，逐个匹配各个类型，寻找到合适的类型，就执行对应的函数。<code>可变模板类型列表</code>是一个很重要的概念，ClickHouse依赖它完成泛化代码的编写、代码实例化、运行时多态、</p>
 <p>上边提到的<code>1+2.2</code>可能有点复杂，我们首先以单参数函数为例介绍，比如函数<code>abs(-1)</code>，计算-1的绝对值。首先clickhouse提供了一个模板实现<code>FunctionUnaryArithmetic</code>，囊括了所有的单参数数学函数，参数可以是不同的类型，从uint8到decimal256,也可以是string。<code>abs.cpp</code>，则提供了abs算子的具体实现<code>AbsImpl::apply</code>，当然这个算子也用数据类型作为模板，可以支持不同位数的数字，该算子作为FunctionUnaryArithmetic的模板参数。FunctionUnaryArithmetic要做的，就是在运行时根据传入的参数实际类型，选择不同的执行路径，主要是区分是string还是数字。怎么实现运行时动态参数选择呢？主要是通过上文提到的可变长度的模板参数列表来实现:</p>
 <p>ClickHouse调用castTypeToEither 函数，并且传入实际的数据类型，和回调函数，当匹配到某一个类型时，就执行f这个lambda函数。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">static bool castType(const IDataType * type, F &amp;&amp; f)</span><br><span class="line">&#123;   </span><br><span class="line">    return castTypeToEither&lt;</span><br><span class="line">        DataTypeUInt8,</span><br><span class="line">        DataTypeUInt16,</span><br><span class="line">        DataTypeUInt32,</span><br><span class="line">        DataTypeUInt64,</span><br><span class="line">        DataTypeUInt256,</span><br><span class="line">        DataTypeInt8,</span><br><span class="line">        DataTypeInt16,</span><br><span class="line">        DataTypeInt32,</span><br><span class="line">        DataTypeInt64,</span><br><span class="line">        DataTypeInt128,</span><br><span class="line">        DataTypeInt256,</span><br><span class="line">        DataTypeFloat32,</span><br><span class="line">        DataTypeFloat64,</span><br><span class="line">        DataTypeDecimal&lt;Decimal32&gt;,</span><br><span class="line">        DataTypeDecimal&lt;Decimal64&gt;,</span><br><span class="line">        DataTypeDecimal&lt;Decimal128&gt;,</span><br><span class="line">        DataTypeDecimal&lt;Decimal256&gt;,</span><br><span class="line">        DataTypeFixedString</span><br><span class="line">    &gt;(type, std::forward&lt;F&gt;(f));</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">template &lt;typename... Ts, typename T, typename F&gt;                </span><br><span class="line">static bool castTypeToEither(const T * type, F &amp;&amp; f)             </span><br><span class="line">&#123;                                                                </span><br><span class="line">    /// XXX can&apos;t use &amp;&amp; here because gcc-7 complains about parentheses around &amp;&amp; within ||</span><br><span class="line">    return ((typeid_cast&lt;const Ts *&gt;(type) ? f(*typeid_cast&lt;const Ts *&gt;(type)) : false) || ...);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">static bool castType(const IDataType * type, F &amp;&amp; f)</span><br><span class="line">&#123;   </span><br><span class="line">    return castTypeToEither&lt;</span><br><span class="line">        DataTypeUInt8,</span><br><span class="line">        DataTypeUInt16,</span><br><span class="line">        DataTypeUInt32,</span><br><span class="line">        DataTypeUInt64,</span><br><span class="line">        DataTypeUInt256,</span><br><span class="line">        DataTypeInt8,</span><br><span class="line">        DataTypeInt16,</span><br><span class="line">        DataTypeInt32,</span><br><span class="line">        DataTypeInt64,</span><br><span class="line">        DataTypeInt128,</span><br><span class="line">        DataTypeInt256,</span><br><span class="line">        DataTypeFloat32,</span><br><span class="line">        DataTypeFloat64,</span><br><span class="line">        DataTypeDecimal&lt;Decimal32&gt;,</span><br><span class="line">        DataTypeDecimal&lt;Decimal64&gt;,</span><br><span class="line">        DataTypeDecimal&lt;Decimal128&gt;,</span><br><span class="line">        DataTypeDecimal&lt;Decimal256&gt;,</span><br><span class="line">        DataTypeFixedString</span><br><span class="line">    &gt;(type, std::forward&lt;F&gt;(f));</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">template &lt;typename... Ts, typename T, typename F&gt;                </span><br><span class="line">static bool castTypeToEither(const T * type, F &amp;&amp; f)             </span><br><span class="line">&#123;                                                                </span><br><span class="line">    /// XXX can&#x27;t use &amp;&amp; here because gcc-7 complains about parentheses around &amp;&amp; within ||</span><br><span class="line">    return ((typeid_cast&lt;const Ts *&gt;(type) ? f(*typeid_cast&lt;const Ts *&gt;(type)) : false) || ...);</span><br><span class="line">&#125;  </span><br></pre></td></tr></table></figure>
 <p>castTypeToEither是怎么实现的呢，如上代码样例，模板参数中的Ts是一个可变长度的列表。实现中，为了表达『命中类型就执行f』这个语义，用了短路求值法，但是因为编译器不支持&amp;&amp;这种写法，而用了?:双目运算符。如果检查类型匹配，就以匹配的类型执行，不匹配就检查下一个类型，语法上使用了||…  来表达对每一个模板参数执行相同操作。由于回调函数也是模板，传入实际类型就相当于实例化了对应代码。由于模板函数在编译时有调用才会实例化，不按照这种做法，我们恐怕要在一个地方为每一种类型编写一下调用函数才能实例化。castTypeToEither是非常重要的一个函数，由它实例化出了每一种计算函数的实现。</p>
 <p>看到了单参数的实现，接下来看多参数的实现，以上边提到了<code>1+2.2</code>为例，介绍ClickHouse的实现方式,由于双参数的类型组合比单数更多，相当于N*N个组合，比如int8 + float, int16+float,int32+float, float+float。 一般有个做法是，在具体实现时，只实现同类型的，比如Int8+int8， float+float。语法检查器在检查时，会优先寻找函数名匹配，参数类型也完全匹配的函数实现。 如果其中一个参数不匹配，比如Int32+float，找不到这个组合的实现，语法检查器会挨个检查每个函数实现，是否能够做类型转换，把实际类型转化成函数声明类型而不影响精度，比如针对int32+int32的函数实现，float不能转化成int32，所以不能采用该实现，针对float+float，发现int32能够转化成float，那么就会把语法树变成cast(int32 as float) + float来解决这个问题，虽然两者语义上有一定差别，毕竟int 转float在大数情况下会损失精度，但是好歹在目前情况下实现了该运算。</p>
 <p>按照这种做法，先强制转化类型，把数据拷贝出来一份，生成一份新的数据，再去计算。</p>
 <p>ClickHouse没有这样做，它没有在语法检查阶段添加这种强制类型转换的逻辑。而是用模板实现两个不同类型的计算，然后通过castTypeToEither函数，实例化出不同的组合。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">template &lt;typename F&gt;</span><br><span class="line">static bool castBothTypes(const IDataType * left, const IDataType * right, F &amp;&amp; f)</span><br><span class="line">&#123;    </span><br><span class="line">    return castType(left, [&amp;](const auto &amp; left_) &#123; return castType(right, [&amp;](const auto &amp; right_) &#123; return f(left_, right_); &#125;); &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">template &lt;typename F&gt;</span><br><span class="line">static bool castBothTypes(const IDataType * left, const IDataType * right, F &amp;&amp; f)</span><br><span class="line">&#123;    </span><br><span class="line">    return castType(left, [&amp;](const auto &amp; left_) &#123; return castType(right, [&amp;](const auto &amp; right_) &#123; return f(left_, right_); &#125;); &#125;);</span><br><span class="line">&#125;    </span><br></pre></td></tr></table></figure>
 <p>在castBothTypes函数中，通过castType嵌套castType，获得左右两个函数的实际类型后，用实际类型回调lambda函数f。比如你传入的是int+float,就会实例化出该类型。在ClickHouse的编译阶段(注意，不是SQL的编译阶段)，就会通过上文提到的几个函数，实例化出不同的组合，既有int+float,也有int64+float，更有decimal128+float，还有float+decimal128等等各种组合。</p>
 <p>ClickHouse的这种做法的好处是什么呢？减少了一次类型转换的开销，节省一个算子。</p>
 <p>值得注意的是，模板函数提升的是泛化的能力，总不能给每一种类型都实现一个重载函数吧，在执行效率上，由于是运行时多态，挨个检查每个类型，找到合适的再回调，需要有多次跳转指令，和虚函数也没多大差别，不能充分利用CPU流水线。但是由于ClickHouse采用的是列式方式计算，每一大块数据(几万行数据)只需要执行一次查找即可，不需要每一行数据都做这个检查。但假如你用的是按行处理，那恐怕性能就急剧下降了。</p>
@@ -153,14 +155,14 @@
 <h3 id="向量化"><a href="#向量化" class="headerlink" title="向量化"></a>向量化</h3><p>向量化主要是利用单条指令操作多条数据，指令称为SIMD指令。在运行时，把满足寄存器大小的数据放到寄存器，CPU一条指令操作寄存器上的多条数据。</p>
 <p>向量化一般有两种方式：</p>
 <h3 id="1-利用编译器自动向量化"><a href="#1-利用编译器自动向量化" class="headerlink" title="1. 利用编译器自动向量化"></a>1. 利用编译器自动向量化</h3><p>在编写程序时，如果是符合一定规范的循环语句，循环语句内部是简单的操作，比如+-*/等，编译器优化器，可以把循环语句折叠成向量化执行。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">static void NO_INLINE vectorVector(const A * __restrict a, const B * __restrict b, ResultType * __restrict c, size_t size)</span><br><span class="line">&#123;   </span><br><span class="line">    for (size_t i = 0; i &lt; size; ++i)</span><br><span class="line">        c[i] = Op::template apply&lt;ResultType&gt;(a[i], b[i]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">static void NO_INLINE vectorVector(const A * __restrict a, const B * __restrict b, ResultType * __restrict c, size_t size)</span><br><span class="line">&#123;   </span><br><span class="line">    for (size_t i = 0; i &lt; size; ++i)</span><br><span class="line">        c[i] = Op::template apply&lt;ResultType&gt;(a[i], b[i]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h4 id="2-显式使用SIMD指令"><a href="#2-显式使用SIMD指令" class="headerlink" title="2. 显式使用SIMD指令"></a>2. 显式使用SIMD指令</h4><p>c++ 提供了SIMD指令，可以一次把128bit的数据加载到寄存器，以下边的大小写转换的函数为例，一个字符是8bit，一次把128bit，也就是16个字节的字符串加载到寄存器，通过CPU一条指令操作16个字符，相当于获得了16倍的提速。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">    static void array(const UInt8 * src, const UInt8 * src_end, UInt8 * dst)</span><br><span class="line">    &#123;   </span><br><span class="line">        const auto flip_case_mask = &apos;A&apos; ^ &apos;a&apos;;</span><br><span class="line"></span><br><span class="line">#ifdef __SSE2__</span><br><span class="line">        const auto bytes_sse = sizeof(__m128i);</span><br><span class="line">        const auto src_end_sse = src_end - (src_end - src) % bytes_sse;</span><br><span class="line"></span><br><span class="line">        const auto v_not_case_lower_bound = _mm_set1_epi8(not_case_lower_bound - 1); </span><br><span class="line">        const auto v_not_case_upper_bound = _mm_set1_epi8(not_case_upper_bound + 1); </span><br><span class="line">        const auto v_flip_case_mask = _mm_set1_epi8(flip_case_mask);</span><br><span class="line"></span><br><span class="line">        for (; src &lt; src_end_sse; src += bytes_sse, dst += bytes_sse)</span><br><span class="line">        &#123;   </span><br><span class="line">            /// load 16 sequential 8-bit characters</span><br><span class="line">            const auto chars = _mm_loadu_si128(reinterpret_cast&lt;const __m128i *&gt;(src));</span><br><span class="line"></span><br><span class="line">            /// find which 8-bit sequences belong to range [case_lower_bound, case_upper_bound]</span><br><span class="line">            const auto is_not_case</span><br><span class="line">                = _mm_and_si128(_mm_cmpgt_epi8(chars, v_not_case_lower_bound), _mm_cmplt_epi8(chars, v_not_case_upper_bound));</span><br><span class="line"></span><br><span class="line">            /// keep `flip_case_mask` only where necessary, zero out elsewhere</span><br><span class="line">            const auto xor_mask = _mm_and_si128(v_flip_case_mask, is_not_case);</span><br><span class="line"></span><br><span class="line">            /// flip case by applying calculated mask</span><br><span class="line">            const auto cased_chars = _mm_xor_si128(chars, xor_mask);</span><br><span class="line"></span><br><span class="line">            /// store result back to destination</span><br><span class="line">            _mm_storeu_si128(reinterpret_cast&lt;__m128i *&gt;(dst), cased_chars);</span><br><span class="line">        &#125;   </span><br><span class="line">#endif</span><br><span class="line"></span><br><span class="line">        for (; src &lt; src_end; ++src, ++dst)</span><br><span class="line">            if (*src &gt;= not_case_lower_bound &amp;&amp; *src &lt;= not_case_upper_bound)</span><br><span class="line">                *dst = *src ^ flip_case_mask;</span><br><span class="line">            else</span><br><span class="line">                *dst = *src;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">    static void array(const UInt8 * src, const UInt8 * src_end, UInt8 * dst)</span><br><span class="line">    &#123;   </span><br><span class="line">        const auto flip_case_mask = &#x27;A&#x27; ^ &#x27;a&#x27;;</span><br><span class="line"></span><br><span class="line">#ifdef __SSE2__</span><br><span class="line">        const auto bytes_sse = sizeof(__m128i);</span><br><span class="line">        const auto src_end_sse = src_end - (src_end - src) % bytes_sse;</span><br><span class="line"></span><br><span class="line">        const auto v_not_case_lower_bound = _mm_set1_epi8(not_case_lower_bound - 1); </span><br><span class="line">        const auto v_not_case_upper_bound = _mm_set1_epi8(not_case_upper_bound + 1); </span><br><span class="line">        const auto v_flip_case_mask = _mm_set1_epi8(flip_case_mask);</span><br><span class="line"></span><br><span class="line">        for (; src &lt; src_end_sse; src += bytes_sse, dst += bytes_sse)</span><br><span class="line">        &#123;   </span><br><span class="line">            /// load 16 sequential 8-bit characters</span><br><span class="line">            const auto chars = _mm_loadu_si128(reinterpret_cast&lt;const __m128i *&gt;(src));</span><br><span class="line"></span><br><span class="line">            /// find which 8-bit sequences belong to range [case_lower_bound, case_upper_bound]</span><br><span class="line">            const auto is_not_case</span><br><span class="line">                = _mm_and_si128(_mm_cmpgt_epi8(chars, v_not_case_lower_bound), _mm_cmplt_epi8(chars, v_not_case_upper_bound));</span><br><span class="line"></span><br><span class="line">            /// keep `flip_case_mask` only where necessary, zero out elsewhere</span><br><span class="line">            const auto xor_mask = _mm_and_si128(v_flip_case_mask, is_not_case);</span><br><span class="line"></span><br><span class="line">            /// flip case by applying calculated mask</span><br><span class="line">            const auto cased_chars = _mm_xor_si128(chars, xor_mask);</span><br><span class="line"></span><br><span class="line">            /// store result back to destination</span><br><span class="line">            _mm_storeu_si128(reinterpret_cast&lt;__m128i *&gt;(dst), cased_chars);</span><br><span class="line">        &#125;   </span><br><span class="line">#endif</span><br><span class="line"></span><br><span class="line">        for (; src &lt; src_end; ++src, ++dst)</span><br><span class="line">            if (*src &gt;= not_case_lower_bound &amp;&amp; *src &lt;= not_case_upper_bound)</span><br><span class="line">                *dst = *src ^ flip_case_mask;</span><br><span class="line">            else</span><br><span class="line">                *dst = *src;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 <h3 id="LLVM动态编译执行代码"><a href="#LLVM动态编译执行代码" class="headerlink" title="LLVM动态编译执行代码"></a>LLVM动态编译执行代码</h3><p>上文在介绍模板化编程时指出，CickHouse实现多态的方式是通过在运行时检查不同参数类型，直到找到一个合适的类型，再运行这个类型的实例化计算代码。相当于多条跳转指令才能找到真正的执行代码。虽然采用列式计算，但是如果数据块比较多，这个计算开销也是不小的。 再加上计算时函数套函数，一个很小的操作都需要调用函数完成，实际上完成一行的计算需要多条指令才能做到。为了在这上边提升计算速度，ClickHouse还提供了动态编译和JIT的方法。</p>
 <p>说到c++的动态编译，就离不开LLVM。LLVM是一种现代化的编译器，我会再开一篇文章详细介绍LLVM和JIT技术。 动态编译代码，就是在程序运行时，把SQL的执行计划，编译成可执行的机器指令，并且在当前程序中执行这些指令。动态编译是相对于静态编译而言的。通常静态编译是说，写完代码用g++、clang++等工具编译成二进制文件，然后运行这个二进制文件。动态代码则是程序运行时动态编译的。动态编译和执行称为JIT技术。 </p>
 <p>LLVM 为c++提供了很了不起的JIT技术支持。往常只有java代码才有动态编译一说。c++有了动态编译，才给数据库技术加速计算提供了新的方法。</p>
 <p>以plus函数为例，plus的运算符提供了编译方法，通过llvm实现一个指令，<code>b.CreateAdd</code>完成左右两个参数的加法的指令。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">static inline llvm::Value * compile(llvm::IRBuilder&lt;&gt; &amp; b, llvm::Value * left, llvm::Value * right, bool)</span><br><span class="line">&#123;   </span><br><span class="line">    return left-&gt;getType()-&gt;isIntegerTy() ? b.CreateAdd(left, right) : b.CreateFAdd(left, right);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">static inline llvm::Value * compile(llvm::IRBuilder&lt;&gt; &amp; b, llvm::Value * left, llvm::Value * right, bool)</span><br><span class="line">&#123;   </span><br><span class="line">    return left-&gt;getType()-&gt;isIntegerTy() ? b.CreateAdd(left, right) : b.CreateFAdd(left, right);</span><br><span class="line">&#125;   </span><br></pre></td></tr></table></figure>
 <p>使用静态代码执行，需要多层函数嵌套，乃至每一行都需要调用一个函数，开销很大，而在JIT 技术下，一个区块的数据只需要调用一个函数就可以了。</p>
 <p>当然，动态编译代码代价很大。我们经常说，开发者大部人时间就是等待编译器做编译。JIT也一样，动态编译需要时间，编译一次代价很大。因此在编译后要把结果缓存下来复用。</p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>大数据系统发展了这么多年，数据规模越来越大，速度越来越快。而人们对数据分析的强烈需求是永无止境的。新的编程技术不断涌现，硬件水平也不断发展，每隔几年出现新的、更强大的、更快速的大数据系统。<br>ClickHouse作为比较新的OLAP引擎，在很多场景的benchmark上处于领先地位。本文从代码层面介绍了为什么ClickHouse计算速度快。ClickHouse利用c++17标准，clang11编译器，相当于最新的编程语言；同时利用模板泛化编程，泛化实现大量算子；也利用指令集别的并行计算，加速计算；利用LLVM动态编译代码，优化执行逻辑。</p>
@@ -169,10 +171,10 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://mayunlei.github.io/2021/01/09/ClickHouse计算速度是如何做到领跑OLAP类产品的/" data-id="clbczv5zh0000x23j34f94d8x" class="article-share-link">Share</a>
+      <a data-url="http://mayunlei.github.io/2021/01/09/ClickHouse%E8%AE%A1%E7%AE%97%E9%80%9F%E5%BA%A6%E6%98%AF%E5%A6%82%E4%BD%95%E5%81%9A%E5%88%B0%E9%A2%86%E8%B7%91OLAP%E7%B1%BB%E4%BA%A7%E5%93%81%E7%9A%84/" data-id="cltb1iouw0001r6gte5txgtrj" class="article-share-link">Share</a>
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ClickHouse-OLAP/">ClickHouse OLAP</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ClickHouse-OLAP/" rel="tag">ClickHouse OLAP</a></li></ul>
 
     </footer>
   </div>
@@ -190,7 +192,7 @@
     </a>
   
   
-    <a href="/2020/12/27/物联网产品现状和未来想象空间/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2020/12/27/%E7%89%A9%E8%81%94%E7%BD%91%E4%BA%A7%E5%93%81%E7%8E%B0%E7%8A%B6%E5%92%8C%E6%9C%AA%E6%9D%A5%E6%83%B3%E8%B1%A1%E7%A9%BA%E9%97%B4/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
       <div class="article-nav-title">物联网产品现状和未来想象空间</div>
     </a>
@@ -211,7 +213,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/ClickHouse-OLAP/">ClickHouse OLAP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ML-机器学习-神经网络/">ML 机器学习 神经网络</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SQL洞察/">SQL洞察</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/presto/">presto</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/string-cow/">string cow</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/向量化-SIMD/">向量化, SIMD</a></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/ClickHouse-OLAP/" rel="tag">ClickHouse OLAP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ML-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/" rel="tag">ML 机器学习 神经网络</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SQL%E6%B4%9E%E5%AF%9F/" rel="tag">SQL洞察</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/presto/" rel="tag">presto</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/string-cow/" rel="tag">string cow</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%90%91%E9%87%8F%E5%8C%96-SIMD/" rel="tag">向量化, SIMD</a></li></ul>
     </div>
   </div>
 
@@ -221,7 +223,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/ClickHouse-OLAP/" style="font-size: 10px;">ClickHouse OLAP</a> <a href="/tags/ML-机器学习-神经网络/" style="font-size: 10px;">ML 机器学习 神经网络</a> <a href="/tags/SQL洞察/" style="font-size: 10px;">SQL洞察</a> <a href="/tags/presto/" style="font-size: 20px;">presto</a> <a href="/tags/string-cow/" style="font-size: 10px;">string cow</a> <a href="/tags/向量化-SIMD/" style="font-size: 10px;">向量化, SIMD</a>
+      <a href="/tags/ClickHouse-OLAP/" style="font-size: 10px;">ClickHouse OLAP</a> <a href="/tags/ML-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/" style="font-size: 10px;">ML 机器学习 神经网络</a> <a href="/tags/SQL%E6%B4%9E%E5%AF%9F/" style="font-size: 10px;">SQL洞察</a> <a href="/tags/presto/" style="font-size: 20px;">presto</a> <a href="/tags/string-cow/" style="font-size: 10px;">string cow</a> <a href="/tags/%E5%90%91%E9%87%8F%E5%8C%96-SIMD/" style="font-size: 10px;">向量化, SIMD</a>
     </div>
   </div>
 
@@ -230,7 +232,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/06/">June 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/05/">May 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/12/">December 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">January 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">August 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">November 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/06/">June 2013</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/03/">March 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/06/">June 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/05/">May 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/12/">December 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">January 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">August 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">November 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/06/">June 2013</a></li></ul>
     </div>
   </div>
 
@@ -243,23 +245,23 @@
       <ul>
         
           <li>
-            <a href="/2022/06/16/深入浅出向量化技术/">深入向量化计算技术</a>
+            <a href="/2024/03/03/OLAP%E8%AE%A1%E7%AE%97%E5%BC%95%E6%93%8E%E5%8E%9F%E7%90%86%E5%92%8C%E5%AE%9E%E7%8E%B0/">OLAP计算引擎原理和实现</a>
           </li>
         
           <li>
-            <a href="/2022/05/04/探索无人驾驶载货小飞机：航模技术研究/">探索无人驾驶载货小飞机：航模技术研究</a>
+            <a href="/2022/06/16/%E6%B7%B1%E5%85%A5%E6%B5%85%E5%87%BA%E5%90%91%E9%87%8F%E5%8C%96%E6%8A%80%E6%9C%AF/">深入向量化计算技术</a>
           </li>
         
           <li>
-            <a href="/2021/12/25/从数据分析到数据洞察/">从数据分析到数据洞察</a>
+            <a href="/2022/05/04/%E6%8E%A2%E7%B4%A2%E6%97%A0%E4%BA%BA%E9%A9%BE%E9%A9%B6%E8%BD%BD%E8%B4%A7%E5%B0%8F%E9%A3%9E%E6%9C%BA%EF%BC%9A%E8%88%AA%E6%A8%A1%E6%8A%80%E6%9C%AF%E7%A0%94%E7%A9%B6/">探索无人驾驶载货小飞机：航模技术研究</a>
+          </li>
+        
+          <li>
+            <a href="/2021/12/25/%E4%BB%8E%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E5%88%B0%E6%95%B0%E6%8D%AE%E6%B4%9E%E5%AF%9F/">从数据分析到数据洞察</a>
           </li>
         
           <li>
             <a href="/2021/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/">Petabytes scale log analysis at Alibaba:intrastructure/challenge/optimization</a>
-          </li>
-        
-          <li>
-            <a href="/2021/01/09/ClickHouse计算速度是如何做到领跑OLAP类产品的/">ClickHouse计算速度是如何做到领跑OLAP类产品的</a>
           </li>
         
       </ul>
@@ -274,7 +276,7 @@
   
   <div class="outer">
     <div id="footer-info" class="inner">
-      &copy; 2022 马云雷<br>
+      &copy; 2024 马云雷<br>
       Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>
@@ -294,11 +296,17 @@
 <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 
 
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
-  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
 
 
 <script src="/js/script.js"></script>
+
 
 
 

@@ -1,19 +1,19 @@
 <!DOCTYPE html>
 <html>
-<head><meta name="generator" content="Hexo 3.8.0">
+<head>
   <meta charset="utf-8">
   
 
   
   <title>深入理解Presto,Presto的内部架构 | 马云雷的技术博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="深入理解Presto本文译自英文书籍&amp;lt;Presto: the definitive guide&amp;gt;Presto权威指南第四章，目前该书的中文翻译版尚未出版，本文摘出书中对Presto内部介绍比较深入的第四章，看过本文对全书感兴趣的同学，请购买英文原版，或等待中文翻译版出版。–2020/08/16 在简单了解过Presto和众多的使用场景、并且安装和开始使用她之后，你现在已经准备好了深入探">
+  <meta name="description" content="深入理解Presto本文译自英文书籍&lt;Presto: the definitive guide&gt;Presto权威指南第四章，目前该书的中文翻译版尚未出版，本文摘出书中对Presto内部介绍比较深入的第四章，看过本文对全书感兴趣的同学，请购买英文原版，或等待中文翻译版出版。–2020&#x2F;08&#x2F;16 在简单了解过Presto和众多的使用场景、并且安装和开始使用她之后，你现在已经准备好了深入探">
 <meta property="og:type" content="article">
 <meta property="og:title" content="深入理解Presto,Presto的内部架构">
-<meta property="og:url" content="http://mayunlei.github.io/2020/08/16/深入理解Presto-Presto的内部架构/index.html">
+<meta property="og:url" content="http://mayunlei.github.io/2020/08/16/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3Presto-Presto%E7%9A%84%E5%86%85%E9%83%A8%E6%9E%B6%E6%9E%84/index.html">
 <meta property="og:site_name" content="马云雷的技术博客">
-<meta property="og:description" content="深入理解Presto本文译自英文书籍&amp;lt;Presto: the definitive guide&amp;gt;Presto权威指南第四章，目前该书的中文翻译版尚未出版，本文摘出书中对Presto内部介绍比较深入的第四章，看过本文对全书感兴趣的同学，请购买英文原版，或等待中文翻译版出版。–2020/08/16 在简单了解过Presto和众多的使用场景、并且安装和开始使用她之后，你现在已经准备好了深入探">
-<meta property="og:locale" content="default">
+<meta property="og:description" content="深入理解Presto本文译自英文书籍&lt;Presto: the definitive guide&gt;Presto权威指南第四章，目前该书的中文翻译版尚未出版，本文摘出书中对Presto内部介绍比较深入的第四章，看过本文对全书感兴趣的同学，请购买英文原版，或等待中文翻译版出版。–2020&#x2F;08&#x2F;16 在简单了解过Presto和众多的使用场景、并且安装和开始使用她之后，你现在已经准备好了深入探">
+<meta property="og:locale">
 <meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly91Y2MuYWxpY2RuLmNvbS9waWMvZGV2ZWxvcGVyLWVjb2xvZ3kvNTc4Yzc4YzUyNzYxNDZhYjgzMDkyMWEyNWYzOTU5MmUucG5n?x-oss-process=image/format,png">
 <meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly91Y2MuYWxpY2RuLmNvbS9waWMvZGV2ZWxvcGVyLWVjb2xvZ3kvNzVlMGZmODYxNWM2NGVjNDhmNzkzMWMyZDM1Y2JjMGQucG5n?x-oss-process=image/format,png">
 <meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly91Y2MuYWxpY2RuLmNvbS9waWMvZGV2ZWxvcGVyLWVjb2xvZ3kvYzE1MzE1MmU3ODc2NGNlNGE0MzdhYzA5MGFkM2Q1MDQucG5n?x-oss-process=image/format,png">
@@ -25,10 +25,10 @@
 <meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly91Y2MuYWxpY2RuLmNvbS9waWMvZGV2ZWxvcGVyLWVjb2xvZ3kvYTUwZmJhM2I1OGNjNGQ0NGI2MTM0NzFiZmJiMTExOWMucG5n?x-oss-process=image/format,png">
 <meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly91Y2MuYWxpY2RuLmNvbS9waWMvZGV2ZWxvcGVyLWVjb2xvZ3kvY2U1MDhmZWFiYzVmNDhmYjk3ZTI4Y2M1OGNhNDNkNjMucG5n?x-oss-process=image/format,png">
 <meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly91Y2MuYWxpY2RuLmNvbS9waWMvZGV2ZWxvcGVyLWVjb2xvZ3kvMGRkNjk5YTczODQ0NDU5MmI5ODk1MzdkODlkNDliZjcucG5n?x-oss-process=image/format,png">
-<meta property="og:updated_time" content="2020-08-16T07:31:48.000Z">
+<meta property="article:published_time" content="2020-08-16T07:31:16.000Z">
+<meta property="article:modified_time" content="2020-08-16T07:31:48.000Z">
+<meta property="article:author" content="马云雷">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="深入理解Presto,Presto的内部架构">
-<meta name="twitter:description" content="深入理解Presto本文译自英文书籍&amp;lt;Presto: the definitive guide&amp;gt;Presto权威指南第四章，目前该书的中文翻译版尚未出版，本文摘出书中对Presto内部介绍比较深入的第四章，看过本文对全书感兴趣的同学，请购买英文原版，或等待中文翻译版出版。–2020/08/16 在简单了解过Presto和众多的使用场景、并且安装和开始使用她之后，你现在已经准备好了深入探">
 <meta name="twitter:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly91Y2MuYWxpY2RuLmNvbS9waWMvZGV2ZWxvcGVyLWVjb2xvZ3kvNTc4Yzc4YzUyNzYxNDZhYjgzMDkyMWEyNWYzOTU5MmUucG5n?x-oss-process=image/format,png">
   
     <link rel="alternate" href="/atom.xml" title="马云雷的技术博客" type="application/atom+xml">
@@ -39,9 +39,11 @@
   
     <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
   
-  <link rel="stylesheet" href="/css/style.css">
-</head>
-</html>
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 7.1.1"></head>
+
 <body>
   <div id="container">
     <div id="wrap">
@@ -80,7 +82,7 @@
       <div class="outer">
         <section id="main"><article id="post-深入理解Presto-Presto的内部架构" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2020/08/16/深入理解Presto-Presto的内部架构/" class="article-date">
+    <a href="/2020/08/16/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3Presto-Presto%E7%9A%84%E5%86%85%E9%83%A8%E6%9E%B6%E6%9E%84/" class="article-date">
   <time datetime="2020-08-16T07:31:16.000Z" itemprop="datePublished">2020-08-16</time>
 </a>
     
@@ -196,7 +198,7 @@
 <p>为了处理一个查询，coordinator通过连接器的metadata创建了一组split。通过这一组split，coordinator开始调度task到机器上来采集数据。在查询执行阶段。coordinator追踪所有的可用split和他们的位置信息。一个task处理完成数据后，会产生更多的下游split。coordinator持续的调度任务，直到没有split需要处理。</p>
 <p>一旦所有的split处理完成，所有的数据都可用，coordinator会把数据结果提供给客户端。</p>
 <h2 id="查询计划"><a href="#查询计划" class="headerlink" title="查询计划"></a>查询计划</h2><p>在深入了解Presto逻辑执行计划生成器和基于代价的优化器如何工作之前，我们先限定一下我们考虑范围。这里提供了一个样例，来帮助我们探索逻辑执行计划的生成过程。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">样例 4-1. Example query to explain query planning</span><br><span class="line">SELECT</span><br><span class="line">(SELECT name FROM region r WHERE regionkey = n.regionkey) AS region_name, n.name AS nation_name,</span><br><span class="line">sum(totalprice) orders_sum</span><br><span class="line">FROM nation n, orders o, customer c WHERE n.nationkey = c.nationkey</span><br><span class="line">AND c.custkey = o.custkey</span><br><span class="line">GROUP BY n.nationkey, regionkey, n.name ORDER BY orders_sum DESC</span><br><span class="line">LIMIT 5;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">样例 4-1. Example query to explain query planning</span><br><span class="line">SELECT</span><br><span class="line">(SELECT name FROM region r WHERE regionkey = n.regionkey) AS region_name, n.name AS nation_name,</span><br><span class="line">sum(totalprice) orders_sum</span><br><span class="line">FROM nation n, orders o, customer c WHERE n.nationkey = c.nationkey</span><br><span class="line">AND c.custkey = o.custkey</span><br><span class="line">GROUP BY n.nationkey, regionkey, n.name ORDER BY orders_sum DESC</span><br><span class="line">LIMIT 5;</span><br></pre></td></tr></table></figure>
 <p>先了解一下这个SQL的目的。</p>
 <ul>
 <li>SELECT使用了三个表，隐式定义了一个CROSS join，跨越了三张表格。</li>
@@ -217,7 +219,7 @@
 <h2 id="初步的查询执行计划"><a href="#初步的查询执行计划" class="headerlink" title="初步的查询执行计划"></a>初步的查询执行计划</h2><p>查询执行计划可以看成是一个程序，这个程序可以产出查询结果。SQL是一种声明式语言，用户写一个SQL来指定要查询的数据。和命令式程序不同，用户不必指定怎么处理数据才能获得结果。Query的计划器和优化器可以决定处理数据的过程。</p>
 <p>处理数据的步骤的顺序就是查询逻辑执行计划。理论上，有很多种逻辑执行计划可以产生相同的查询结果，但是不同的逻辑执行计划的性能是非常不同的。所以就需要逻辑计划生成器和优化器来决定一个最佳的逻辑执行计划。可以产生相同结果的执行计划可以称为等同执行计划。</p>
 <p>我们来看一下样例4-1中的查询。最直接的逻辑执行计划就是直接翻译SQL的语法结构。解析出来的执行计划如样例4-2所示。逻辑执行计划是一个树结构，执行时从叶子节点开始，逐层向上处理树结构。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">样例4-2 手工生成的，非常直接的逻辑执行计划</span><br><span class="line">- Limit[5]</span><br><span class="line">- Sort[orders_sum DESC]</span><br><span class="line">- LateralJoin[2]</span><br><span class="line">- Aggregate[by nationkey...; orders_sum := sum(totalprice)]</span><br><span class="line">- Filter[c.nationkey = n.nationkey AND c.custkey = o.custkey] - CrossJoin</span><br><span class="line">- CrossJoin</span><br><span class="line">- TableScan[nation] - TableScan[orders]</span><br><span class="line">- TableScan[customer]</span><br><span class="line">- EnforceSingleRow[region_name := r.name]</span><br><span class="line">- Filter[r.regionkey = n.regionkey] - TableScan[region]</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">样例4-2 手工生成的，非常直接的逻辑执行计划</span><br><span class="line">- Limit[5]</span><br><span class="line">- Sort[orders_sum DESC]</span><br><span class="line">- LateralJoin[2]</span><br><span class="line">- Aggregate[by nationkey...; orders_sum := sum(totalprice)]</span><br><span class="line">- Filter[c.nationkey = n.nationkey AND c.custkey = o.custkey] - CrossJoin</span><br><span class="line">- CrossJoin</span><br><span class="line">- TableScan[nation] - TableScan[orders]</span><br><span class="line">- TableScan[customer]</span><br><span class="line">- EnforceSingleRow[region_name := r.name]</span><br><span class="line">- Filter[r.regionkey = n.regionkey] - TableScan[region]</span><br></pre></td></tr></table></figure>
 <p>逻辑执行计划中的每个元素都可以直接的，用命令式的风格来实现。例如TableScan访问底层的表，返回表中的所有的行。过滤器接收行，应用一个过滤条件，只保留满足条件的行。Cross join操作两个数据集，生成两个数据集的组合。或许可以把某个数据集保存在内存中，这样不必多次访问底层的存储系统。</p>
 <p>接下来我们看一下这个查询逻辑执行计划的计算复杂度。如果不知道所有实现的细节，就没办法评估复杂度。但是，我们可以假定，最小的复杂度就是数据集的大小。因此我们用O表示法。如果N,O,C，R代表nation，orders，customer，region的表的行数。这样我们可以观察到下边的内容：</p>
 <ol>
@@ -232,27 +234,27 @@
 <p>当然，Presto不会去傻乎乎的处理这样一个图样图森破的执行计划。但是这样一个图样图森破的执行计划有他的用处。初始化的执行计划扮演了一个桥梁的作用，连接起SQL语法及其所代表的语义规则，和查询优化。查询优化的作用就是把这样一个原生的执行计划转化成一个效果对等的计划，但是执行上尽可能的快，至少能用有限的Presto资源在可接受的时间延时内完成。 接下来我们探讨一下查询优化器是如何获得这样一个优化目标的。</p>
 <h2 id="逻辑执行计划优化的规则"><a href="#逻辑执行计划优化的规则" class="headerlink" title="逻辑执行计划优化的规则"></a>逻辑执行计划优化的规则</h2><p>在这一章节，我们来看一下Presto用到的优化规则。</p>
 <h3 id="1-谓词下推"><a href="#1-谓词下推" class="headerlink" title="1.谓词下推"></a>1.谓词下推</h3><p>谓词下推可能是唯一最重要的优化规则和最容易理解的规则。他的目标就是把过滤条件下推到离数据源越近越好。因此，数据的规模会在更早的执行阶段完成。在我们的案例中，过滤会转换成一个简单过滤和内连接，之下是同样的CrossJoin条件。变化后的执行计划如下所示4-3。没有发生变化的部分在这里忽略调。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">样例4-3，CrossJoin和Filter变成一个InnerJoin</span><br><span class="line">...</span><br><span class="line">- Aggregate[by nationkey...; orders_sum := sum(totalprice)]</span><br><span class="line">  - Filter[c.nationkey = n.nationkey AND c.custkey = o.custkey] // original filter</span><br><span class="line">    - CrossJoin</span><br><span class="line">      - CrossJoin</span><br><span class="line">         - TableScan[nation]</span><br><span class="line">         - TableScan[orders]</span><br><span class="line">      - TableScan[customer]</span><br><span class="line">- Aggregate[by nationkey...; orders_sum := sum(totalprice)]</span><br><span class="line"> - Filter[c.nationkey = n.nationkey]  // 变成简单的filter</span><br><span class="line">    - InnerJoin[o.custkey = c.custkey]  // 添加一个内连接InnerJoin</span><br><span class="line">        - CrossJoin</span><br><span class="line">            - TableScan[nation] </span><br><span class="line">            - TableScan[orders]</span><br><span class="line">        - TableScan[customer]</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">样例4-3，CrossJoin和Filter变成一个InnerJoin</span><br><span class="line">...</span><br><span class="line">- Aggregate[by nationkey...; orders_sum := sum(totalprice)]</span><br><span class="line">  - Filter[c.nationkey = n.nationkey AND c.custkey = o.custkey] // original filter</span><br><span class="line">    - CrossJoin</span><br><span class="line">      - CrossJoin</span><br><span class="line">         - TableScan[nation]</span><br><span class="line">         - TableScan[orders]</span><br><span class="line">      - TableScan[customer]</span><br><span class="line">- Aggregate[by nationkey...; orders_sum := sum(totalprice)]</span><br><span class="line"> - Filter[c.nationkey = n.nationkey]  // 变成简单的filter</span><br><span class="line">    - InnerJoin[o.custkey = c.custkey]  // 添加一个内连接InnerJoin</span><br><span class="line">        - CrossJoin</span><br><span class="line">            - TableScan[nation] </span><br><span class="line">            - TableScan[orders]</span><br><span class="line">        - TableScan[customer]</span><br></pre></td></tr></table></figure>
 <p>原来更大的Join变成了一个InnerJoin，保持相同的条件。我们暂时不深入细节，假设这样一个Join可以在分布式系统中高效的执行，计算复杂度等同于处理的行数。这意味着谓词下推至少把Ω(N × O × C) CrossJoin 实现变成了一个Θ(N × O)。</p>
 <p>但是，谓词下推不能优化nation和orders表之间的CrossJoin，因为两个表之间没有直接的条件关联。这正是消除CrossJoin方法能发挥作用的地方。</p>
 <h3 id="2-消除CrossJoin"><a href="#2-消除CrossJoin" class="headerlink" title="2. 消除CrossJoin"></a>2. 消除CrossJoin</h3><p>在没有CBO（基于代价的优化器），Presto 根据表出现在select中的顺序来进行join。一个重要的例外是，要join的表没有任何关联条件，这就是Cross Joinn。在实际案例中，crossjoin并不符合需求，Join出来的大部分行在之后都会过滤掉。但是cross join有太多的工作以至于可能完不成。</p>
 <p>消除Cross join把要join的表的顺序进行重排，目的是减少cross join的数量，最好是减少到0。在没有表的相对大小信息情况下，处理Cross join消除， table重排也可以做，所以用户可以掌控这一切。所以消除Cross Join的案例参考样例4-4. 现在两个Join都是inner  join，促使Query的整体代价变成Θ(C + O) = Θ(O).其他部分没有发生变化，所以整体的查询计算代价是Ω[O + (R × N) + (N × log(N))]。当然O所代表orders表的行数是决定性因素。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">Example 4-4. 重排join消除cross join</span><br><span class="line">...[i]</span><br><span class="line"> - Aggregate[by nationkey...; orders_sum := sum(totalprice)]</span><br><span class="line"> - Filter[c.nationkey = n.nationkey] 按照nationKey过滤</span><br><span class="line">    - InnerJoin[o.custkey = c.custkey] 按照cutKey inner join</span><br><span class="line">      - CrossJoin</span><br><span class="line">         - TableScan[nation]</span><br><span class="line">         - TableScan[orders]</span><br><span class="line">		- TableScan[customer]</span><br><span class="line">...</span><br><span class="line">...</span><br><span class="line">...</span><br><span class="line">- Aggregate[by nationkey...; orders_sum := sum(totalprice)]</span><br><span class="line">	- InnerJoin[c.custkey = o.custkey]</span><br><span class="line">     - InnerJoin[n.nationkey = c.nationkey]</span><br><span class="line">       - TableScan[nation]</span><br><span class="line">       - TableScan[customer]</span><br><span class="line">     - TableScan[orders]</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">Example 4-4. 重排join消除cross join</span><br><span class="line">...[i]</span><br><span class="line"> - Aggregate[by nationkey...; orders_sum := sum(totalprice)]</span><br><span class="line"> - Filter[c.nationkey = n.nationkey] 按照nationKey过滤</span><br><span class="line">    - InnerJoin[o.custkey = c.custkey] 按照cutKey inner join</span><br><span class="line">      - CrossJoin</span><br><span class="line">         - TableScan[nation]</span><br><span class="line">         - TableScan[orders]</span><br><span class="line">		- TableScan[customer]</span><br><span class="line">...</span><br><span class="line">...</span><br><span class="line">...</span><br><span class="line">- Aggregate[by nationkey...; orders_sum := sum(totalprice)]</span><br><span class="line">	- InnerJoin[c.custkey = o.custkey]</span><br><span class="line">     - InnerJoin[n.nationkey = c.nationkey]</span><br><span class="line">       - TableScan[nation]</span><br><span class="line">       - TableScan[customer]</span><br><span class="line">     - TableScan[orders]</span><br></pre></td></tr></table></figure>
 <h3 id="3-TopN"><a href="#3-TopN" class="headerlink" title="3. TopN"></a>3. TopN</h3><p>通常， 如果一个query包含了limit语句，那么前边必然跟着一个order  by语句。否则，如果没有order by排序，那么SQL返回的结果是随机的，你多次查询，结果会不同。带上order by ，则会保证查询的顺序和结果。</p>
 <p>当执行一个查询是，Presto可以对所有的行进行排序，然后取最前边的几行。这种做法的复杂度是Θ(row_count ×log(row_count))，内存复杂度是Θ(row_count)。 这种排序整个结果，而只取部分结果的做法，明显非常浪费，不是最佳做法。因此，一个优化规则把order by 和limit联合语句优化成了TopN逻辑计划节点。在query执行阶段，TopN在一个堆结构中保存一定数目的行数，当流式读取数据时，更新这个堆结构。这让时间复杂度降低到了Θ(row_count × log(limit)) ,内存复杂度降低到了Θ(limit)。 整体的查询复杂度是Ω[O + (R × N) + N]。</p>
 <h3 id="4-局部聚合"><a href="#4-局部聚合" class="headerlink" title="4. 局部聚合"></a>4. 局部聚合</h3><p>Presto没必要把orders表所有的行都传递给join，因为我们不是对每个单独的订单感兴趣。我们的样例查询，计算的聚合是堆每个nation计算totalprice的sum值，所以可以先预聚合，如样例4-5所示。我们通过聚合数据，减少了流入下游Join节点的行数。结果不是完整的，这也是为何被成为预聚合。但是数据的规模有可能被降低，显著的提升查询性能。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">- Aggregate[by nationkey...; orders_sum := sum(totalprice)] </span><br><span class="line">  - InnerJoin[c.custkey = o.custkey]</span><br><span class="line">    - InnerJoin[n.nationkey = c.nationkey] </span><br><span class="line">      - TableScan[nation]</span><br><span class="line">      - TableScan[customer]</span><br><span class="line">    - Aggregate[by custkey; totalprice := sum(totalprice)] </span><br><span class="line">       - TableScan[orders]</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">- Aggregate[by nationkey...; orders_sum := sum(totalprice)] </span><br><span class="line">  - InnerJoin[c.custkey = o.custkey]</span><br><span class="line">    - InnerJoin[n.nationkey = c.nationkey] </span><br><span class="line">      - TableScan[nation]</span><br><span class="line">      - TableScan[customer]</span><br><span class="line">    - Aggregate[by custkey; totalprice := sum(totalprice)] </span><br><span class="line">       - TableScan[orders]</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 <p>对于并行计算，预聚合可以以不同方式完成，也称为『局部聚合』。下文我们展示一个简化的执行计划，当然和实际的EPLAIN计划相比，有一些不同。</p>
 <h2 id="实现规则"><a href="#实现规则" class="headerlink" title="实现规则"></a>实现规则</h2><p>上文提到的规则是优化规则，规则的目标是减少查询处理时间，内存用量，网络交换的数据量。但是，即使是我们的样例查询，初始的逻辑执行计划还包含一些尚未实现的操作: lateral join。 在下一章节，我们看一下Presto怎么实现这种类型的操作。</p>
 <h3 id="1-lateral-join解耦"><a href="#1-lateral-join解耦" class="headerlink" title="1. lateral join解耦"></a>1. lateral join解耦</h3><p>lateral join可以实现成一个for-each循环,遍历一个数据集的每一行数据，然后执行另一个查询。这样的实现是有可能实现的，但这不是Presto处理的方式。其实，Presto解耦这样的子查询，上拉所有的相关条件，组成一个left join。在SQL语义中，这对应下边的查询转换。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">SELECT</span><br><span class="line">(SELECT name FROM region r WHERE regionkey = n.regionkey)</span><br><span class="line">AS region_name, n.name AS nation_name</span><br><span class="line">FROM nation n</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">SELECT</span><br><span class="line">(SELECT name FROM region r WHERE regionkey = n.regionkey)</span><br><span class="line">AS region_name, n.name AS nation_name</span><br><span class="line">FROM nation n</span><br></pre></td></tr></table></figure>
 <p>上述查询转化成：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">SELECT</span><br><span class="line">r.name AS region_name, n.name AS nation_name</span><br><span class="line">FROM nation n LEFT OUTER JOIN region r ON r.regionkey = n.regionkey</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">SELECT</span><br><span class="line">r.name AS region_name, n.name AS nation_name</span><br><span class="line">FROM nation n LEFT OUTER JOIN region r ON r.regionkey = n.regionkey</span><br></pre></td></tr></table></figure>
 <p>尽管我们可以这样交换规则，但是谨慎的、堆SQL语义非常了解的读者知道，上边的两个语句不是完全对等。如果region表中有regionkey重复的条目，第一个查询会失败，第二个查询不会失败。第二个查询虽然不会失败，但是会产生更多的结果。基于这个理由，lateral join解耦使用join之外的两个元素。第一，给原表的行编码，以使他们可区分。第二，join之后，检查一下是否有任何行是重复的。如样例4-6所示。如果检测到重复，查询会失败，以保护原始的查询语义。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">样例4-6 lateral join解耦需要额外的检测</span><br><span class="line">- TopN[5; orders_sum DESC] </span><br><span class="line">  - MarkDistinct &amp; Check</span><br><span class="line">    - LeftJoin[n.regionkey = r.regionkey] </span><br><span class="line">     - AssignUniqueId</span><br><span class="line">         - Aggregate[by nationkey...; orders_sum := sum(totalprice)] </span><br><span class="line">           - ...</span><br><span class="line">      - TableScan[region]</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">样例4-6 lateral join解耦需要额外的检测</span><br><span class="line">- TopN[5; orders_sum DESC] </span><br><span class="line">  - MarkDistinct &amp; Check</span><br><span class="line">    - LeftJoin[n.regionkey = r.regionkey] </span><br><span class="line">     - AssignUniqueId</span><br><span class="line">         - Aggregate[by nationkey...; orders_sum := sum(totalprice)] </span><br><span class="line">           - ...</span><br><span class="line">      - TableScan[region]</span><br></pre></td></tr></table></figure>
 <h3 id="2-Semi-Join-In-解耦"><a href="#2-Semi-Join-In-解耦" class="headerlink" title="2. Semi-Join(In)解耦"></a>2. Semi-Join(In)解耦</h3><p>一个子查询不仅可以用来获取信息(如上边lateral join样例)，也可以用IN谓词来过滤行。实际上，IN谓词可以用来在filter中(WHERE 语句)， 或者在一个projection中(SELECT 语句）,当你在projection中用一个in语句的时候，他不仅仅是一个简单的bool 判断的运算符，例如exists。实际上，in谓词可以判定成true，false，null。</p>
 <p>让我们考虑一个查询场景，找到那些顾客和物品供应商来自同一个国家的订单，如样例4-7所示。这样的订单可能存在，例如，我们想节省物流费用，减少物流环境的影响，可以直接把物品从供应商处寄给顾客，省略掉分拣中心。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">SELECT DISTINCT </span><br><span class="line">FROM lineitem l </span><br><span class="line">  JOIN orders o ON o.orderkey = l.orderkey</span><br><span class="line">  JOIN customer c ON o.custkey = c.custkey </span><br><span class="line">WHERE c.nationkey IN (</span><br><span class="line"> -- subquery invoked multiple times</span><br><span class="line">   SELECT s.nationkey FROM part p</span><br><span class="line">   JOIN partsupp ps ON p.partkey = ps.partkey</span><br><span class="line">    JOIN supplier s ON ps.suppkey = s.suppkey WHERE p.partkey = l.partkey</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">SELECT DISTINCT </span><br><span class="line">FROM lineitem l </span><br><span class="line">  JOIN orders o ON o.orderkey = l.orderkey</span><br><span class="line">  JOIN customer c ON o.custkey = c.custkey </span><br><span class="line">WHERE c.nationkey IN (</span><br><span class="line"> -- subquery invoked multiple times</span><br><span class="line">   SELECT s.nationkey FROM part p</span><br><span class="line">   JOIN partsupp ps ON p.partkey = ps.partkey</span><br><span class="line">    JOIN supplier s ON ps.suppkey = s.suppkey WHERE p.partkey = l.partkey</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
 <p>当然，上述需求可以通过lateral join实现，可以实现成一个循环，遍历外层查询的每一行，然后子查询获得所有的供应商的所有的国家，多次调用即可。</p>
 <p>但是我们有更好的做法，Presto解耦子查询，去除关联条件后，子查询计算一次，然后回来和外层的查询通过关联条件进行join。棘手的地方在于join要保证不能产生多行结果（所以要用到去重的聚合）。这种转换正确的保留了in谓词的三值逻辑。</p>
 <p>在这个案例中，去重的聚合计算使用了和join相同的分区，所以可以以流式的方式执行。不需要在网络上交换数据，同时使用了最少的内存。</p>
@@ -261,7 +263,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://mayunlei.github.io/2020/08/16/深入理解Presto-Presto的内部架构/" data-id="clbczv602000qx23jd0mmxxwr" class="article-share-link">Share</a>
+      <a data-url="http://mayunlei.github.io/2020/08/16/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3Presto-Presto%E7%9A%84%E5%86%85%E9%83%A8%E6%9E%B6%E6%9E%84/" data-id="cltb1iov5000nr6gth9uo2gvg" class="article-share-link">Share</a>
       
       
     </footer>
@@ -270,7 +272,7 @@
     
 <nav id="article-nav">
   
-    <a href="/2020/10/27/机器学习和数据挖掘/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2020/10/27/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%92%8C%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Newer</strong>
       <div class="article-nav-title">
         
@@ -280,7 +282,7 @@
     </a>
   
   
-    <a href="/2020/05/30/Presto-任务调度：-任务分配到哪里/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2020/05/30/Presto-%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6%EF%BC%9A-%E4%BB%BB%E5%8A%A1%E5%88%86%E9%85%8D%E5%88%B0%E5%93%AA%E9%87%8C/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
       <div class="article-nav-title">Presto 任务调度： 任务分配到哪里</div>
     </a>
@@ -301,7 +303,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/ClickHouse-OLAP/">ClickHouse OLAP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ML-机器学习-神经网络/">ML 机器学习 神经网络</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SQL洞察/">SQL洞察</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/presto/">presto</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/string-cow/">string cow</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/向量化-SIMD/">向量化, SIMD</a></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/ClickHouse-OLAP/" rel="tag">ClickHouse OLAP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ML-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/" rel="tag">ML 机器学习 神经网络</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SQL%E6%B4%9E%E5%AF%9F/" rel="tag">SQL洞察</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/presto/" rel="tag">presto</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/string-cow/" rel="tag">string cow</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%90%91%E9%87%8F%E5%8C%96-SIMD/" rel="tag">向量化, SIMD</a></li></ul>
     </div>
   </div>
 
@@ -311,7 +313,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/ClickHouse-OLAP/" style="font-size: 10px;">ClickHouse OLAP</a> <a href="/tags/ML-机器学习-神经网络/" style="font-size: 10px;">ML 机器学习 神经网络</a> <a href="/tags/SQL洞察/" style="font-size: 10px;">SQL洞察</a> <a href="/tags/presto/" style="font-size: 20px;">presto</a> <a href="/tags/string-cow/" style="font-size: 10px;">string cow</a> <a href="/tags/向量化-SIMD/" style="font-size: 10px;">向量化, SIMD</a>
+      <a href="/tags/ClickHouse-OLAP/" style="font-size: 10px;">ClickHouse OLAP</a> <a href="/tags/ML-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/" style="font-size: 10px;">ML 机器学习 神经网络</a> <a href="/tags/SQL%E6%B4%9E%E5%AF%9F/" style="font-size: 10px;">SQL洞察</a> <a href="/tags/presto/" style="font-size: 20px;">presto</a> <a href="/tags/string-cow/" style="font-size: 10px;">string cow</a> <a href="/tags/%E5%90%91%E9%87%8F%E5%8C%96-SIMD/" style="font-size: 10px;">向量化, SIMD</a>
     </div>
   </div>
 
@@ -320,7 +322,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/06/">June 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/05/">May 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/12/">December 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">January 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">August 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">November 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/06/">June 2013</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/03/">March 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/06/">June 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/05/">May 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/12/">December 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">January 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">August 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">November 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/06/">June 2013</a></li></ul>
     </div>
   </div>
 
@@ -333,23 +335,23 @@
       <ul>
         
           <li>
-            <a href="/2022/06/16/深入浅出向量化技术/">深入向量化计算技术</a>
+            <a href="/2024/03/03/OLAP%E8%AE%A1%E7%AE%97%E5%BC%95%E6%93%8E%E5%8E%9F%E7%90%86%E5%92%8C%E5%AE%9E%E7%8E%B0/">OLAP计算引擎原理和实现</a>
           </li>
         
           <li>
-            <a href="/2022/05/04/探索无人驾驶载货小飞机：航模技术研究/">探索无人驾驶载货小飞机：航模技术研究</a>
+            <a href="/2022/06/16/%E6%B7%B1%E5%85%A5%E6%B5%85%E5%87%BA%E5%90%91%E9%87%8F%E5%8C%96%E6%8A%80%E6%9C%AF/">深入向量化计算技术</a>
           </li>
         
           <li>
-            <a href="/2021/12/25/从数据分析到数据洞察/">从数据分析到数据洞察</a>
+            <a href="/2022/05/04/%E6%8E%A2%E7%B4%A2%E6%97%A0%E4%BA%BA%E9%A9%BE%E9%A9%B6%E8%BD%BD%E8%B4%A7%E5%B0%8F%E9%A3%9E%E6%9C%BA%EF%BC%9A%E8%88%AA%E6%A8%A1%E6%8A%80%E6%9C%AF%E7%A0%94%E7%A9%B6/">探索无人驾驶载货小飞机：航模技术研究</a>
+          </li>
+        
+          <li>
+            <a href="/2021/12/25/%E4%BB%8E%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E5%88%B0%E6%95%B0%E6%8D%AE%E6%B4%9E%E5%AF%9F/">从数据分析到数据洞察</a>
           </li>
         
           <li>
             <a href="/2021/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/">Petabytes scale log analysis at Alibaba:intrastructure/challenge/optimization</a>
-          </li>
-        
-          <li>
-            <a href="/2021/01/09/ClickHouse计算速度是如何做到领跑OLAP类产品的/">ClickHouse计算速度是如何做到领跑OLAP类产品的</a>
           </li>
         
       </ul>
@@ -364,7 +366,7 @@
   
   <div class="outer">
     <div id="footer-info" class="inner">
-      &copy; 2022 马云雷<br>
+      &copy; 2024 马云雷<br>
       Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>
@@ -384,11 +386,17 @@
 <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 
 
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
-  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
 
 
 <script src="/js/script.js"></script>
+
 
 
 

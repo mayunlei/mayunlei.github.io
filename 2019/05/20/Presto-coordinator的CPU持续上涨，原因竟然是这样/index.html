@@ -1,19 +1,19 @@
 <!DOCTYPE html>
 <html>
-<head><meta name="generator" content="Hexo 3.8.0">
+<head>
   <meta charset="utf-8">
   
 
   
   <title>Presto coordinator的CPU持续上涨，原因竟然是这样 | 马云雷的技术博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="问题背景之前介绍过presto的架构， coordinator是Presto架构中负责调度的master节点。在实际部署中，为了减少该节点的负载，指定node-scheduler.include-coordinator=false，避免把计算任务调度到coordinator节点上。 由于Presto进程是常驻进程，而且需要实时的提供在线服务。通常只有在需要升级时，才会通过热升级手段重启进程。于是我">
+  <meta name="description" content="问题背景之前介绍过presto的架构， coordinator是Presto架构中负责调度的master节点。在实际部署中，为了减少该节点的负载，指定node-scheduler.include-coordinator&#x3D;false，避免把计算任务调度到coordinator节点上。 由于Presto进程是常驻进程，而且需要实时的提供在线服务。通常只有在需要升级时，才会通过热升级手段重启进程。于是我">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Presto coordinator的CPU持续上涨，原因竟然是这样">
-<meta property="og:url" content="http://mayunlei.github.io/2019/05/20/Presto-coordinator的CPU持续上涨，原因竟然是这样/index.html">
+<meta property="og:url" content="http://mayunlei.github.io/2019/05/20/Presto-coordinator%E7%9A%84CPU%E6%8C%81%E7%BB%AD%E4%B8%8A%E6%B6%A8%EF%BC%8C%E5%8E%9F%E5%9B%A0%E7%AB%9F%E7%84%B6%E6%98%AF%E8%BF%99%E6%A0%B7/index.html">
 <meta property="og:site_name" content="马云雷的技术博客">
-<meta property="og:description" content="问题背景之前介绍过presto的架构， coordinator是Presto架构中负责调度的master节点。在实际部署中，为了减少该节点的负载，指定node-scheduler.include-coordinator=false，避免把计算任务调度到coordinator节点上。 由于Presto进程是常驻进程，而且需要实时的提供在线服务。通常只有在需要升级时，才会通过热升级手段重启进程。于是我">
-<meta property="og:locale" content="default">
+<meta property="og:description" content="问题背景之前介绍过presto的架构， coordinator是Presto架构中负责调度的master节点。在实际部署中，为了减少该节点的负载，指定node-scheduler.include-coordinator&#x3D;false，避免把计算任务调度到coordinator节点上。 由于Presto进程是常驻进程，而且需要实时的提供在线服务。通常只有在需要升级时，才会通过热升级手段重启进程。于是我">
+<meta property="og:locale">
 <meta property="og:image" content="https://ata2-img.cn-hangzhou.oss-pub.aliyun-inc.com/ade1f0a32898a86f03e7b33391a70270.png">
 <meta property="og:image" content="https://ata2-img.cn-hangzhou.oss-pub.aliyun-inc.com/d0fae569617369cfd5605f6fefe514d7.png">
 <meta property="og:image" content="https://ata2-img.cn-hangzhou.oss-pub.aliyun-inc.com/d89fdc380ff859cfaef6f560703a5352.png">
@@ -21,10 +21,10 @@
 <meta property="og:image" content="https://ata2-img.cn-hangzhou.oss-pub.aliyun-inc.com/ff4bf8d06279e968cda7d4b2e4b91c48.png">
 <meta property="og:image" content="https://ata2-img.cn-hangzhou.oss-pub.aliyun-inc.com/36a907cc024a816567ee727155400d67.png">
 <meta property="og:image" content="https://ata2-img.cn-hangzhou.oss-pub.aliyun-inc.com/6530cf137e74fb75dd0b7750041d4a63.png">
-<meta property="og:updated_time" content="2019-05-28T12:51:09.000Z">
+<meta property="article:published_time" content="2019-05-20T01:52:09.000Z">
+<meta property="article:modified_time" content="2019-05-28T12:51:09.000Z">
+<meta property="article:author" content="马云雷">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Presto coordinator的CPU持续上涨，原因竟然是这样">
-<meta name="twitter:description" content="问题背景之前介绍过presto的架构， coordinator是Presto架构中负责调度的master节点。在实际部署中，为了减少该节点的负载，指定node-scheduler.include-coordinator=false，避免把计算任务调度到coordinator节点上。 由于Presto进程是常驻进程，而且需要实时的提供在线服务。通常只有在需要升级时，才会通过热升级手段重启进程。于是我">
 <meta name="twitter:image" content="https://ata2-img.cn-hangzhou.oss-pub.aliyun-inc.com/ade1f0a32898a86f03e7b33391a70270.png">
   
     <link rel="alternate" href="/atom.xml" title="马云雷的技术博客" type="application/atom+xml">
@@ -35,9 +35,11 @@
   
     <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
   
-  <link rel="stylesheet" href="/css/style.css">
-</head>
-</html>
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 7.1.1"></head>
+
 <body>
   <div id="container">
     <div id="wrap">
@@ -76,7 +78,7 @@
       <div class="outer">
         <section id="main"><article id="post-Presto-coordinator的CPU持续上涨，原因竟然是这样" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2019/05/20/Presto-coordinator的CPU持续上涨，原因竟然是这样/" class="article-date">
+    <a href="/2019/05/20/Presto-coordinator%E7%9A%84CPU%E6%8C%81%E7%BB%AD%E4%B8%8A%E6%B6%A8%EF%BC%8C%E5%8E%9F%E5%9B%A0%E7%AB%9F%E7%84%B6%E6%98%AF%E8%BF%99%E6%A0%B7/" class="article-date">
   <time datetime="2019-05-20T01:52:09.000Z" itemprop="datePublished">2019-05-20</time>
 </a>
     
@@ -100,7 +102,7 @@
 <p>由于Presto进程是常驻进程，而且需要实时的提供在线服务。通常只有在需要升级时，才会通过热升级手段重启进程。于是我们在一个大集群上发现了这个现象，coordinator的CPU随着时间不短增长。最高达到了3000%+ 。见下图是连续一个月的持续上涨。<br><img src="https://ata2-img.cn-hangzhou.oss-pub.aliyun-inc.com/ade1f0a32898a86f03e7b33391a70270.png" alt="image.png"></p>
 <p>如果任由CPU这样上涨下去，整个集群将不可控，也会影响计算能力。于是我开始了一系列的调查。</p>
 <h2 id="是json的原因吗？"><a href="#是json的原因吗？" class="headerlink" title="是json的原因吗？"></a>是json的原因吗？</h2><p>首先，通过jstack命令打印Presto进程的栈。在栈中最常见的调用栈，是json的反序列化操作。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">at com.fasterxml.jackson.core.json.UTF8StreamJsonParser.parseMediumName2(UTF8StreamJsonParser.java:1836)</span><br><span class="line">at com.fasterxml.jackson.core.json.UTF8StreamJsonParser.parseMediumName(UTF8StreamJsonParser.java:1793)</span><br><span class="line">at com.fasterxml.jackson.core.json.UTF8StreamJsonParser._parseName(UTF8StreamJsonParser.java:1728)</span><br><span class="line">at com.fasterxml.jackson.core.json.UTF8StreamJsonParser.nextToken(UTF8StreamJsonParser.java:776)</span><br><span class="line">at com.fasterxml.jackson.databind.deser.BeanDeserializer._deserializeUsingPropertyBased(BeanDeserializer.java:389)</span><br><span class="line">at com.fasterxml.jackson.databind.deser.BeanDeserializerBase.deserializeFromObjectUsingNonDefault(BeanDeserializerBase.java:1194)</span><br><span class="line">at com.fasterxml.jackson.databind.deser.BeanDeserializer.deserializeFromObject(BeanDeserializer.java:314)</span><br><span class="line">at com.fasterxml.jackson.databind.deser.BeanDeserializer.deserialize(BeanDeserializer.java:148)</span><br><span class="line">at com.fasterxml.jackson.databind.ObjectMapper._readMapAndClose(ObjectMapper.java:3789)</span><br><span class="line">at com.fasterxml.jackson.databind.ObjectMapper.readValue(ObjectMapper.java:2950)</span><br><span class="line">at io.airlift.json.JsonCodec.fromJson(JsonCodec.java:198)</span><br><span class="line">at io.airlift.http.client.FullJsonResponseHandler$JsonResponse.&lt;init&gt;(FullJsonResponseHandler.java:118)</span><br><span class="line">at io.airlift.http.client.FullJsonResponseHandler.handle(FullJsonResponseHandler.java:68)</span><br><span class="line">at io.airlift.http.client.FullJsonResponseHandler.handle(FullJsonResponseHandler.java:37)</span><br><span class="line">at io.airlift.http.client.jetty.JettyHttpClient$JettyResponseFuture.processResponse(JettyHttpClient.java:857)</span><br><span class="line">at io.airlift.http.client.jetty.JettyHttpClient$JettyResponseFuture.completed(JettyHttpClient.java:834)</span><br><span class="line">at io.airlift.http.client.jetty.JettyHttpClient$BufferingResponseListener.onComplete(JettyHttpClient.java:1119)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">at com.fasterxml.jackson.core.json.UTF8StreamJsonParser.parseMediumName2(UTF8StreamJsonParser.java:1836)</span><br><span class="line">at com.fasterxml.jackson.core.json.UTF8StreamJsonParser.parseMediumName(UTF8StreamJsonParser.java:1793)</span><br><span class="line">at com.fasterxml.jackson.core.json.UTF8StreamJsonParser._parseName(UTF8StreamJsonParser.java:1728)</span><br><span class="line">at com.fasterxml.jackson.core.json.UTF8StreamJsonParser.nextToken(UTF8StreamJsonParser.java:776)</span><br><span class="line">at com.fasterxml.jackson.databind.deser.BeanDeserializer._deserializeUsingPropertyBased(BeanDeserializer.java:389)</span><br><span class="line">at com.fasterxml.jackson.databind.deser.BeanDeserializerBase.deserializeFromObjectUsingNonDefault(BeanDeserializerBase.java:1194)</span><br><span class="line">at com.fasterxml.jackson.databind.deser.BeanDeserializer.deserializeFromObject(BeanDeserializer.java:314)</span><br><span class="line">at com.fasterxml.jackson.databind.deser.BeanDeserializer.deserialize(BeanDeserializer.java:148)</span><br><span class="line">at com.fasterxml.jackson.databind.ObjectMapper._readMapAndClose(ObjectMapper.java:3789)</span><br><span class="line">at com.fasterxml.jackson.databind.ObjectMapper.readValue(ObjectMapper.java:2950)</span><br><span class="line">at io.airlift.json.JsonCodec.fromJson(JsonCodec.java:198)</span><br><span class="line">at io.airlift.http.client.FullJsonResponseHandler$JsonResponse.&lt;init&gt;(FullJsonResponseHandler.java:118)</span><br><span class="line">at io.airlift.http.client.FullJsonResponseHandler.handle(FullJsonResponseHandler.java:68)</span><br><span class="line">at io.airlift.http.client.FullJsonResponseHandler.handle(FullJsonResponseHandler.java:37)</span><br><span class="line">at io.airlift.http.client.jetty.JettyHttpClient$JettyResponseFuture.processResponse(JettyHttpClient.java:857)</span><br><span class="line">at io.airlift.http.client.jetty.JettyHttpClient$JettyResponseFuture.completed(JettyHttpClient.java:834)</span><br><span class="line">at io.airlift.http.client.jetty.JettyHttpClient$BufferingResponseListener.onComplete(JettyHttpClient.java:1119)</span><br></pre></td></tr></table></figure>
 <p>这个栈是一个http请求的callback，在callback中把response把json反序列化成对象。http的callback线程时包括了200个线程，而我经常能在stack中看到超过180个线程在做json反序列化。从栈总看不出是属于什么http请求。但是我们能从代码中找到coordinator发出的这几类请求。</p>
 <p><img src="https://ata2-img.cn-hangzhou.oss-pub.aliyun-inc.com/d0fae569617369cfd5605f6fefe514d7.png" alt="image.png"></p>
 <ol>
@@ -126,16 +128,16 @@
 <p>过了一段时间，发现了新的情况。中心coordinator的CPU仍然在缓慢持续上涨，但是CPU并不是一直很高，而是每隔5s飙升一次。新增的两个coordinator则没有变化。于是我从所有的配置中找跟5s相关的参数，从这里开始意思到似乎和内存管理的心跳有关。</p>
 <p>从jstack能看到跟json反序列化有关， 内存管理的http response也需要反序列化json。虽然之前把jackson改造成了fastjson，但只是改造了task心跳部分，没有改造内存管理部分。</p>
 <p>coordinator每5s向每个worker发送一次请求，获取worker的内存使用，这个请求量是恒定的。理论上，除非我们增加机器，负载才会增加。于是我去检查了presto的http-request.log。 我把日志采集到阿里云日志服务，通过日志分析，检查http请求的变化趋势。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">v1/memory | select date_trunc(&apos;day&apos;,__time__) as t, count(1) as pv, sum(response_size) as res from log group by t order by t</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">v1/memory | select date_trunc(&#x27;day&#x27;,__time__) as t, count(1) as pv, sum(response_size) as res from log group by t order by t</span><br></pre></td></tr></table></figure>
 <p><img src="https://ata2-img.cn-hangzhou.oss-pub.aliyun-inc.com/d89fdc380ff859cfaef6f560703a5352.png" alt="image.png"><br>左Y轴是PV，右Y轴是response size的一天累加值。我们可以看到PV基本上没有大的变化。而response size则不断增长。20天内从最低7.6G/day增长到了237G/day。平均每个response达到149k。 这个截图是我写文章时截取的。在当时调查问题时，看到了600k的response。</p>
 <p>response增加 -&gt; json反序列化负载增加 -&gt; CPU不断增加。看起来符合逻辑，接下来只有去找为什么response不断增加了。</p>
 <h2 id="tcp抓包"><a href="#tcp抓包" class="headerlink" title="tcp抓包"></a>tcp抓包</h2><p>为了查看response这么大的原因，我用tcpdump抓取presto的流量。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo tcpdump  port 10000 -s 0 -w /tmp/netstat</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo tcpdump  port 10000 -s 0 -w /tmp/netstat </span><br></pre></td></tr></table></figure>
 <p>在/v1/memory的响应结果中，会包含general , reserved， 和system 三个pool分别总的大小以及使用大小，和目前占用对应内存池的queryId。结构是这样：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;totalNodeMemory&quot;: &quot;12884901888B&quot;,</span><br><span class="line">  &quot;pools&quot;: &#123;</span><br><span class="line">    &quot;reserved&quot;: &#123;</span><br><span class="line">      &quot;maxBytes&quot;: 3221225472,</span><br><span class="line">      &quot;freeBytes&quot;: 3221225472,</span><br><span class="line">      &quot;queryMemoryReservations&quot;: &#123;</span><br><span class="line">        </span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    &quot;general&quot;: &#123;</span><br><span class="line">      &quot;maxBytes&quot;: 9663676416,</span><br><span class="line">      &quot;freeBytes&quot;: 9663676416,</span><br><span class="line">      &quot;queryMemoryReservations&quot;: &#123;</span><br><span class="line">        </span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    &quot;system&quot;: &#123;</span><br><span class="line">      &quot;maxBytes&quot;: 8589934592,</span><br><span class="line">      &quot;freeBytes&quot;: 8589934592,</span><br><span class="line">      &quot;queryMemoryReservations&quot;: &#123;</span><br><span class="line">        &quot;20190509_113603_03920_25e2h&quot;,</span><br><span class="line">        &quot;20190509_113608_02758_rdy5b&quot;,</span><br><span class="line">        ...</span><br><span class="line">        ...</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;totalNodeMemory&quot;: &quot;12884901888B&quot;,</span><br><span class="line">  &quot;pools&quot;: &#123;</span><br><span class="line">    &quot;reserved&quot;: &#123;</span><br><span class="line">      &quot;maxBytes&quot;: 3221225472,</span><br><span class="line">      &quot;freeBytes&quot;: 3221225472,</span><br><span class="line">      &quot;queryMemoryReservations&quot;: &#123;</span><br><span class="line">        </span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    &quot;general&quot;: &#123;</span><br><span class="line">      &quot;maxBytes&quot;: 9663676416,</span><br><span class="line">      &quot;freeBytes&quot;: 9663676416,</span><br><span class="line">      &quot;queryMemoryReservations&quot;: &#123;</span><br><span class="line">        </span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    &quot;system&quot;: &#123;</span><br><span class="line">      &quot;maxBytes&quot;: 8589934592,</span><br><span class="line">      &quot;freeBytes&quot;: 8589934592,</span><br><span class="line">      &quot;queryMemoryReservations&quot;: &#123;</span><br><span class="line">        &quot;20190509_113603_03920_25e2h&quot;,</span><br><span class="line">        &quot;20190509_113608_02758_rdy5b&quot;,</span><br><span class="line">        ...</span><br><span class="line">        ...</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>其中system -&gt; queryMemoryReservations 这个节点下的内容非常的多，甚至包含几天前的queryId。这意味着某些query占用了system内存池，结束后没有正常释放。接下来就需要查找什么地方存在内存泄露。</p>
 <h2 id="查找内存泄漏点"><a href="#查找内存泄漏点" class="headerlink" title="查找内存泄漏点"></a>查找内存泄漏点</h2><p>query使用的内存，都会记录在context中，因此我专门写了个程序，向coordinator轮训已经完成的query，获取这些query的描述信息。查看到底是哪个环节的内存使用有问题。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&quot;tasks&quot; : [ &#123;          </span><br><span class="line">	&quot;stats&quot; : &#123;</span><br><span class="line">		&quot;systemMemoryReservation&quot; : &quot;712B&quot;,</span><br><span class="line">       &quot;pipelines&quot; : [ &#123;           </span><br><span class="line">            &quot;systemMemoryReservation&quot; : &quot;712B&quot;, </span><br><span class="line">            &quot;operatorSummaries&quot; : [ &#123;                                                                                                                             </span><br><span class="line">            		&quot;systemMemoryReservation&quot; : &quot;0B&quot;,</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&quot;tasks&quot; : [ &#123;          </span><br><span class="line">	&quot;stats&quot; : &#123;</span><br><span class="line">		&quot;systemMemoryReservation&quot; : &quot;712B&quot;,</span><br><span class="line">       &quot;pipelines&quot; : [ &#123;           </span><br><span class="line">            &quot;systemMemoryReservation&quot; : &quot;712B&quot;, </span><br><span class="line">            &quot;operatorSummaries&quot; : [ &#123;                                                                                                                             </span><br><span class="line">            		&quot;systemMemoryReservation&quot; : &quot;0B&quot;,              </span><br></pre></td></tr></table></figure>
 <p>抓取到的多个query的stat信息，都具备相同的特征：</p>
 <ol>
 <li>某一个task的systemMemoryReservation 不为0。</li>
@@ -156,9 +158,9 @@
 <p>如果上边的假设成立，那么会在日志中看到<code>tried to free more memory than is reserved</code>的错误。没有从日志中发现上边的错误，于是这种假设被排除了。</p>
 <p>第二种场景， C2在释放内存是，会先判断closed变量。如果生产者在C2之前就设置了closed变量，那么就不会进入释放的逻辑。我加了一些日志，证明发生内存泄露时，closed变量确实被设置了。</p>
 <p>设置closed变量的方式如下代码，在代码中只设置了closed变量，而没有做内存清理：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">if (!closed.get() &amp;&amp; pageBuffer.peek() == NO_MORE_PAGES) &#123;</span><br><span class="line">    closed.set(true);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">if (!closed.get() &amp;&amp; pageBuffer.peek() == NO_MORE_PAGES) &#123;</span><br><span class="line">    closed.set(true);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>由于我使用的presto代码比较老，是176版本，和master head版本进行对比，发现最新代码已经改成了<code>close()</code>， 调用<code>close()</code>函数，会提前清理内存，能够避免内存泄露的问题。<br>git blame的结果:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">e3535bbfeca (Dain Sundstrom     2017-02-24 10:04:37 -0800 289)                 close();</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">e3535bbfeca (Dain Sundstrom     2017-02-24 10:04:37 -0800 289)                 close();</span><br></pre></td></tr></table></figure>
 <p>根据commit id找到对应的信息：<code>https://github.com/prestodb/presto/commit/e3535bbfeca</code></p>
 <p><img src="https://ata2-img.cn-hangzhou.oss-pub.aliyun-inc.com/6530cf137e74fb75dd0b7750041d4a63.png" alt="image.png"></p>
 <p>内存泄露的原因已经解决了，我用的版本已经太老了。但是由于我对presto内核做了很多改动，想要merge到HEAD版本恐怕要花费不少时间。</p>
@@ -170,7 +172,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://mayunlei.github.io/2019/05/20/Presto-coordinator的CPU持续上涨，原因竟然是这样/" data-id="clbczv5zj0002x23jy14fgj6n" class="article-share-link">Share</a>
+      <a data-url="http://mayunlei.github.io/2019/05/20/Presto-coordinator%E7%9A%84CPU%E6%8C%81%E7%BB%AD%E4%B8%8A%E6%B6%A8%EF%BC%8C%E5%8E%9F%E5%9B%A0%E7%AB%9F%E7%84%B6%E6%98%AF%E8%BF%99%E6%A0%B7/" data-id="cltb1iouz0005r6gthfpybeq1" class="article-share-link">Share</a>
       
       
     </footer>
@@ -179,7 +181,7 @@
     
 <nav id="article-nav">
   
-    <a href="/2019/09/02/Presto内存泄露问题调查/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2019/09/02/Presto%E5%86%85%E5%AD%98%E6%B3%84%E9%9C%B2%E9%97%AE%E9%A2%98%E8%B0%83%E6%9F%A5/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Newer</strong>
       <div class="article-nav-title">
         
@@ -210,7 +212,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/ClickHouse-OLAP/">ClickHouse OLAP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ML-机器学习-神经网络/">ML 机器学习 神经网络</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SQL洞察/">SQL洞察</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/presto/">presto</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/string-cow/">string cow</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/向量化-SIMD/">向量化, SIMD</a></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/ClickHouse-OLAP/" rel="tag">ClickHouse OLAP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ML-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/" rel="tag">ML 机器学习 神经网络</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SQL%E6%B4%9E%E5%AF%9F/" rel="tag">SQL洞察</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/presto/" rel="tag">presto</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/string-cow/" rel="tag">string cow</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%90%91%E9%87%8F%E5%8C%96-SIMD/" rel="tag">向量化, SIMD</a></li></ul>
     </div>
   </div>
 
@@ -220,7 +222,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/ClickHouse-OLAP/" style="font-size: 10px;">ClickHouse OLAP</a> <a href="/tags/ML-机器学习-神经网络/" style="font-size: 10px;">ML 机器学习 神经网络</a> <a href="/tags/SQL洞察/" style="font-size: 10px;">SQL洞察</a> <a href="/tags/presto/" style="font-size: 20px;">presto</a> <a href="/tags/string-cow/" style="font-size: 10px;">string cow</a> <a href="/tags/向量化-SIMD/" style="font-size: 10px;">向量化, SIMD</a>
+      <a href="/tags/ClickHouse-OLAP/" style="font-size: 10px;">ClickHouse OLAP</a> <a href="/tags/ML-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/" style="font-size: 10px;">ML 机器学习 神经网络</a> <a href="/tags/SQL%E6%B4%9E%E5%AF%9F/" style="font-size: 10px;">SQL洞察</a> <a href="/tags/presto/" style="font-size: 20px;">presto</a> <a href="/tags/string-cow/" style="font-size: 10px;">string cow</a> <a href="/tags/%E5%90%91%E9%87%8F%E5%8C%96-SIMD/" style="font-size: 10px;">向量化, SIMD</a>
     </div>
   </div>
 
@@ -229,7 +231,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/06/">June 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/05/">May 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/12/">December 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">January 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">August 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">November 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/06/">June 2013</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/03/">March 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/06/">June 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/05/">May 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/12/">December 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">January 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">August 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">November 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/06/">June 2013</a></li></ul>
     </div>
   </div>
 
@@ -242,23 +244,23 @@
       <ul>
         
           <li>
-            <a href="/2022/06/16/深入浅出向量化技术/">深入向量化计算技术</a>
+            <a href="/2024/03/03/OLAP%E8%AE%A1%E7%AE%97%E5%BC%95%E6%93%8E%E5%8E%9F%E7%90%86%E5%92%8C%E5%AE%9E%E7%8E%B0/">OLAP计算引擎原理和实现</a>
           </li>
         
           <li>
-            <a href="/2022/05/04/探索无人驾驶载货小飞机：航模技术研究/">探索无人驾驶载货小飞机：航模技术研究</a>
+            <a href="/2022/06/16/%E6%B7%B1%E5%85%A5%E6%B5%85%E5%87%BA%E5%90%91%E9%87%8F%E5%8C%96%E6%8A%80%E6%9C%AF/">深入向量化计算技术</a>
           </li>
         
           <li>
-            <a href="/2021/12/25/从数据分析到数据洞察/">从数据分析到数据洞察</a>
+            <a href="/2022/05/04/%E6%8E%A2%E7%B4%A2%E6%97%A0%E4%BA%BA%E9%A9%BE%E9%A9%B6%E8%BD%BD%E8%B4%A7%E5%B0%8F%E9%A3%9E%E6%9C%BA%EF%BC%9A%E8%88%AA%E6%A8%A1%E6%8A%80%E6%9C%AF%E7%A0%94%E7%A9%B6/">探索无人驾驶载货小飞机：航模技术研究</a>
+          </li>
+        
+          <li>
+            <a href="/2021/12/25/%E4%BB%8E%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E5%88%B0%E6%95%B0%E6%8D%AE%E6%B4%9E%E5%AF%9F/">从数据分析到数据洞察</a>
           </li>
         
           <li>
             <a href="/2021/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/">Petabytes scale log analysis at Alibaba:intrastructure/challenge/optimization</a>
-          </li>
-        
-          <li>
-            <a href="/2021/01/09/ClickHouse计算速度是如何做到领跑OLAP类产品的/">ClickHouse计算速度是如何做到领跑OLAP类产品的</a>
           </li>
         
       </ul>
@@ -273,7 +275,7 @@
   
   <div class="outer">
     <div id="footer-info" class="inner">
-      &copy; 2022 马云雷<br>
+      &copy; 2024 马云雷<br>
       Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>
@@ -293,11 +295,17 @@
 <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 
 
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
-  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
 
 
 <script src="/js/script.js"></script>
+
 
 
 

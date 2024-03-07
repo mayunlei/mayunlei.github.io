@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-<head><meta name="generator" content="Hexo 3.8.0">
+<head>
   <meta charset="utf-8">
   
 
@@ -8,22 +8,22 @@
   <title>深入理解Presto(2) ：Presto查询执行过程 | 马云雷的技术博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="深入理解Presto(2) ：Presto查询执行过程Presto查询执行过程 Presto包含三类角色，coordinator,discovery,worker。coordinator负责query的解析和调度。discovery负责集群的心跳和角色管理。worker负责执行计算。 presto-cli提交的查询，实际上是一个http POST请求。查询请求发送到coordinator后，经过词">
-<meta name="keywords" content="presto">
 <meta property="og:type" content="article">
 <meta property="og:title" content="深入理解Presto(2) ：Presto查询执行过程">
 <meta property="og:url" content="http://mayunlei.github.io/2018/02/26/presto-2-execution-flow/index.html">
 <meta property="og:site_name" content="马云雷的技术博客">
 <meta property="og:description" content="深入理解Presto(2) ：Presto查询执行过程Presto查询执行过程 Presto包含三类角色，coordinator,discovery,worker。coordinator负责query的解析和调度。discovery负责集群的心跳和角色管理。worker负责执行计算。 presto-cli提交的查询，实际上是一个http POST请求。查询请求发送到coordinator后，经过词">
-<meta property="og:locale" content="default">
+<meta property="og:locale">
 <meta property="og:image" content="http://img.blog.csdn.net/20180226231925791?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvc2p0dXl1bmxlaQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70">
 <meta property="og:image" content="http://img.blog.csdn.net/20180226232039250?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvc2p0dXl1bmxlaQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70">
 <meta property="og:image" content="http://img.blog.csdn.net/20180226232159260?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvc2p0dXl1bmxlaQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70">
 <meta property="og:image" content="http://img.blog.csdn.net/20180226232230284?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvc2p0dXl1bmxlaQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70">
 <meta property="og:image" content="http://img.blog.csdn.net/20180226232302199?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvc2p0dXl1bmxlaQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70">
-<meta property="og:updated_time" content="2019-03-29T11:36:04.000Z">
+<meta property="article:published_time" content="2018-02-26T15:33:00.000Z">
+<meta property="article:modified_time" content="2019-03-29T11:36:04.000Z">
+<meta property="article:author" content="马云雷">
+<meta property="article:tag" content="presto">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="深入理解Presto(2) ：Presto查询执行过程">
-<meta name="twitter:description" content="深入理解Presto(2) ：Presto查询执行过程Presto查询执行过程 Presto包含三类角色，coordinator,discovery,worker。coordinator负责query的解析和调度。discovery负责集群的心跳和角色管理。worker负责执行计算。 presto-cli提交的查询，实际上是一个http POST请求。查询请求发送到coordinator后，经过词">
 <meta name="twitter:image" content="http://img.blog.csdn.net/20180226231925791?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvc2p0dXl1bmxlaQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70">
   
     <link rel="alternate" href="/atom.xml" title="马云雷的技术博客" type="application/atom+xml">
@@ -34,9 +34,11 @@
   
     <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
   
-  <link rel="stylesheet" href="/css/style.css">
-</head>
-</html>
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 7.1.1"></head>
+
 <body>
   <div id="container">
     <div id="wrap">
@@ -173,10 +175,10 @@ var _hmt = _hmt || [];
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://mayunlei.github.io/2018/02/26/presto-2-execution-flow/" data-id="clbczv602000sx23jql1y03gc" class="article-share-link">Share</a>
+      <a data-url="http://mayunlei.github.io/2018/02/26/presto-2-execution-flow/" data-id="cltb1iov2000br6gt9e3wcwm8" class="article-share-link">Share</a>
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/presto/">presto</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/presto/" rel="tag">presto</a></li></ul>
 
     </footer>
   </div>
@@ -215,7 +217,7 @@ var _hmt = _hmt || [];
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/ClickHouse-OLAP/">ClickHouse OLAP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ML-机器学习-神经网络/">ML 机器学习 神经网络</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SQL洞察/">SQL洞察</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/presto/">presto</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/string-cow/">string cow</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/向量化-SIMD/">向量化, SIMD</a></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/ClickHouse-OLAP/" rel="tag">ClickHouse OLAP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ML-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/" rel="tag">ML 机器学习 神经网络</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SQL%E6%B4%9E%E5%AF%9F/" rel="tag">SQL洞察</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/presto/" rel="tag">presto</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/string-cow/" rel="tag">string cow</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%90%91%E9%87%8F%E5%8C%96-SIMD/" rel="tag">向量化, SIMD</a></li></ul>
     </div>
   </div>
 
@@ -225,7 +227,7 @@ var _hmt = _hmt || [];
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/ClickHouse-OLAP/" style="font-size: 10px;">ClickHouse OLAP</a> <a href="/tags/ML-机器学习-神经网络/" style="font-size: 10px;">ML 机器学习 神经网络</a> <a href="/tags/SQL洞察/" style="font-size: 10px;">SQL洞察</a> <a href="/tags/presto/" style="font-size: 20px;">presto</a> <a href="/tags/string-cow/" style="font-size: 10px;">string cow</a> <a href="/tags/向量化-SIMD/" style="font-size: 10px;">向量化, SIMD</a>
+      <a href="/tags/ClickHouse-OLAP/" style="font-size: 10px;">ClickHouse OLAP</a> <a href="/tags/ML-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/" style="font-size: 10px;">ML 机器学习 神经网络</a> <a href="/tags/SQL%E6%B4%9E%E5%AF%9F/" style="font-size: 10px;">SQL洞察</a> <a href="/tags/presto/" style="font-size: 20px;">presto</a> <a href="/tags/string-cow/" style="font-size: 10px;">string cow</a> <a href="/tags/%E5%90%91%E9%87%8F%E5%8C%96-SIMD/" style="font-size: 10px;">向量化, SIMD</a>
     </div>
   </div>
 
@@ -234,7 +236,7 @@ var _hmt = _hmt || [];
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/06/">June 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/05/">May 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/12/">December 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">January 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">August 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">November 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/06/">June 2013</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/03/">March 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/06/">June 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/05/">May 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/12/">December 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">January 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">August 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">November 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/06/">June 2013</a></li></ul>
     </div>
   </div>
 
@@ -247,23 +249,23 @@ var _hmt = _hmt || [];
       <ul>
         
           <li>
-            <a href="/2022/06/16/深入浅出向量化技术/">深入向量化计算技术</a>
+            <a href="/2024/03/03/OLAP%E8%AE%A1%E7%AE%97%E5%BC%95%E6%93%8E%E5%8E%9F%E7%90%86%E5%92%8C%E5%AE%9E%E7%8E%B0/">OLAP计算引擎原理和实现</a>
           </li>
         
           <li>
-            <a href="/2022/05/04/探索无人驾驶载货小飞机：航模技术研究/">探索无人驾驶载货小飞机：航模技术研究</a>
+            <a href="/2022/06/16/%E6%B7%B1%E5%85%A5%E6%B5%85%E5%87%BA%E5%90%91%E9%87%8F%E5%8C%96%E6%8A%80%E6%9C%AF/">深入向量化计算技术</a>
           </li>
         
           <li>
-            <a href="/2021/12/25/从数据分析到数据洞察/">从数据分析到数据洞察</a>
+            <a href="/2022/05/04/%E6%8E%A2%E7%B4%A2%E6%97%A0%E4%BA%BA%E9%A9%BE%E9%A9%B6%E8%BD%BD%E8%B4%A7%E5%B0%8F%E9%A3%9E%E6%9C%BA%EF%BC%9A%E8%88%AA%E6%A8%A1%E6%8A%80%E6%9C%AF%E7%A0%94%E7%A9%B6/">探索无人驾驶载货小飞机：航模技术研究</a>
+          </li>
+        
+          <li>
+            <a href="/2021/12/25/%E4%BB%8E%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E5%88%B0%E6%95%B0%E6%8D%AE%E6%B4%9E%E5%AF%9F/">从数据分析到数据洞察</a>
           </li>
         
           <li>
             <a href="/2021/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/">Petabytes scale log analysis at Alibaba:intrastructure/challenge/optimization</a>
-          </li>
-        
-          <li>
-            <a href="/2021/01/09/ClickHouse计算速度是如何做到领跑OLAP类产品的/">ClickHouse计算速度是如何做到领跑OLAP类产品的</a>
           </li>
         
       </ul>
@@ -278,7 +280,7 @@ var _hmt = _hmt || [];
   
   <div class="outer">
     <div id="footer-info" class="inner">
-      &copy; 2022 马云雷<br>
+      &copy; 2024 马云雷<br>
       Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>
@@ -298,11 +300,17 @@ var _hmt = _hmt || [];
 <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 
 
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
-  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
 
 
 <script src="/js/script.js"></script>
+
 
 
 

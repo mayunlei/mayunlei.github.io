@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-<head><meta name="generator" content="Hexo 3.8.0">
+<head>
   <meta charset="utf-8">
   
 
@@ -11,9 +11,9 @@
 <meta property="og:title" content="马云雷的技术博客">
 <meta property="og:url" content="http://mayunlei.github.io/index.html">
 <meta property="og:site_name" content="马云雷的技术博客">
-<meta property="og:locale" content="default">
+<meta property="og:locale">
+<meta property="article:author" content="马云雷">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="马云雷的技术博客">
   
     <link rel="alternate" href="/atom.xml" title="马云雷的技术博客" type="application/atom+xml">
   
@@ -23,9 +23,11 @@
   
     <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
   
-  <link rel="stylesheet" href="/css/style.css">
-</head>
-</html>
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 7.1.1"></head>
+
 <body>
   <div id="container">
     <div id="wrap">
@@ -64,9 +66,45 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-OLAP计算引擎原理和实现" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2024/03/03/OLAP%E8%AE%A1%E7%AE%97%E5%BC%95%E6%93%8E%E5%8E%9F%E7%90%86%E5%92%8C%E5%AE%9E%E7%8E%B0/" class="article-date">
+  <time datetime="2024-03-03T04:22:49.000Z" itemprop="datePublished">2024-03-03</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2024/03/03/OLAP%E8%AE%A1%E7%AE%97%E5%BC%95%E6%93%8E%E5%8E%9F%E7%90%86%E5%92%8C%E5%AE%9E%E7%8E%B0/">OLAP计算引擎原理和实现</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h1>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://mayunlei.github.io/2024/03/03/OLAP%E8%AE%A1%E7%AE%97%E5%BC%95%E6%93%8E%E5%8E%9F%E7%90%86%E5%92%8C%E5%AE%9E%E7%8E%B0/" data-id="cltb1iouy0002r6gtgvn4dmdh" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-深入浅出向量化技术" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2022/06/16/深入浅出向量化技术/" class="article-date">
+    <a href="/2022/06/16/%E6%B7%B1%E5%85%A5%E6%B5%85%E5%87%BA%E5%90%91%E9%87%8F%E5%8C%96%E6%8A%80%E6%9C%AF/" class="article-date">
   <time datetime="2022-06-16T10:59:33.000Z" itemprop="datePublished">2022-06-16</time>
 </a>
     
@@ -78,7 +116,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2022/06/16/深入浅出向量化技术/">深入向量化计算技术</a>
+      <a class="article-title" href="/2022/06/16/%E6%B7%B1%E5%85%A5%E6%B5%85%E5%87%BA%E5%90%91%E9%87%8F%E5%8C%96%E6%8A%80%E6%9C%AF/">深入向量化计算技术</a>
     </h1>
   
 
@@ -90,12 +128,12 @@
 <p>其他并发处理方式比较常见，那么指令级并发怎么理解呢？冯诺依曼式架构是CPU从存储系统中加载指令和数据，完成指令并把结果保存到存储系统。通常一个指令操作一个数据，生成一份结果。而SIMD(Single Instruction Multiple Data)指令是一类特殊的CPU指令类型，这种指令可以在一条指令中，同时操作多个数据。</p>
 <p>SIMD指令的作用是向量化执行(Vectorized Execution)，中文通常翻译成向量化，但是这个词并不是很好，更好的翻译是数组化执行，表示一次指令操作数组中的多个数据，而不是一次处理一个数据；向量则代表有数值和方向，显然在这里的意义用数组更能准确的表达。在操作SIMD指令时，一次性把多条数据从内存加载到宽寄存器中，通过一条并行指令同时完成多条数据的计算。例如一个操作32字节(256位)的指令，可以同时操作8个int类型，获得8倍的加速。同时利用SIMD减少循环次数，大大减少了循环跳转指令，也能获得加速。SIMD指令可以有0个参数、1个数组参数、2个数组参数。如果有一个数组参数，指令计算完数组中的每个元素后，分别把结果写入对应位置；如果是有两个参数，则两个参数对应的位置分别完成指定操作，写入到对应位置。</p>
 <p>编译器通过SIMD加速的原理是：通过把循环语句展开，减少循环次数，循环展开的作用是减少循环时的跳转语句，跳转会破坏流水线；而流水线可以预先加载指令，减少CPU停顿时间，因此减少跳转指令可以提升流水线的效率。</p>
-<p><img src="/2022/06/16/深入浅出向量化技术/image-20221207094652357.png" alt="image-20221207094652357" style="zoom:50%;"></p>
+<p><img src="/2022/06/16/%E6%B7%B1%E5%85%A5%E6%B5%85%E5%87%BA%E5%90%91%E9%87%8F%E5%8C%96%E6%8A%80%E6%9C%AF/image-20221207094652357.png" alt="image-20221207094652357" style="zoom:50%;"></p>
 <p>图：SIMD指令同时操作A和B中4对数字，产生4个结果存放到C中</p>
 <p>以如下代码为例，对4个float计算平方：</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">squre</span><span class="params">( <span class="keyword">float</span>* ptr )</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">		<span class="keyword">for</span>( <span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">4</span>; i++ )</span><br><span class="line">   	&#123;</span><br><span class="line">			<span class="keyword">const</span> <span class="keyword">float</span> f = ptr[ i ];</span><br><span class="line">    	ptr[ i ] = f * f;</span><br><span class="line">		&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">squre</span><span class="params">( <span class="type">float</span>* ptr )</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">		<span class="keyword">for</span>( <span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">4</span>; i++ )</span><br><span class="line">   	&#123;</span><br><span class="line">			<span class="type">const</span> <span class="type">float</span> f = ptr[ i ];</span><br><span class="line">    	ptr[ i ] = f * f;</span><br><span class="line">		&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>上述代码转写成SIMD指令，则可以删除循环，用三条指令即可完成计算，分别是加载到寄存器，计算平方，结果写回内存:</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">squre</span><span class="params">(<span class="keyword">float</span> * ptr)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	  __m128 f = _mm_loadu_ps( ptr ); </span><br><span class="line">	  f = _mm_mul_ps( f, f ); </span><br><span class="line">     _mm_storeu_ps( ptr, f );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">squre</span><span class="params">(<span class="type">float</span> * ptr)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	  __m128 f = _mm_loadu_ps( ptr ); </span><br><span class="line">	  f = _mm_mul_ps( f, f ); </span><br><span class="line">     _mm_storeu_ps( ptr, f );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>理论上，各种数据类型和指令宽度下的加速比如下表，在最好的情况，对char类型可实现64倍提速。</p>
 <table>
 <thead>
@@ -142,8 +180,8 @@
 <h2 id="SIMD扩展指令集"><a href="#SIMD扩展指令集" class="headerlink" title="SIMD扩展指令集"></a>SIMD扩展指令集</h2><p>SIMD指令的运行方式时，把一组数据加载到宽寄存器(128位、256位、512位）中，然后生成结果放到另一个宽寄存器中。</p>
 <p>SIMD指令需要硬件支持MMX系列，SSE(Streaming SIMD Extensions)系列、AVX(Advanced Vector Extensions)系列扩展指令集。SSE1、SSE2、SSE3、SSE4.1、SSE4.2操作的是16字节寄存器，AVX、AVX2引入了32字节寄存器，AVX512引入了64字节寄存器。目前大部分CPU都支持AVX2，只有最新的CPU才支持AVX512。</p>
 <p>指令集需要CPU硬件支持，下标列出了支持各个指令集的CPU。</p>
-<p><img src="/2022/06/16/深入浅出向量化技术/image-20220618163034294.png" alt="image-20220618163034294" style="zoom:50%;"></p>
-<p>ARM也引入了SIMD扩展指令。典型的SIMD操作包括算术运算(+-*/)以及abs、sqrt等，完整的指令集合请参考英特尔提供的使用文档<a href="https://software.intel.com/sites/landingpage/IntrinsicsGuide/#" target="_blank" rel="noopener">https://software.intel.com/sites/landingpage/IntrinsicsGuide/#</a></p>
+<p><img src="/2022/06/16/%E6%B7%B1%E5%85%A5%E6%B5%85%E5%87%BA%E5%90%91%E9%87%8F%E5%8C%96%E6%8A%80%E6%9C%AF/image-20220618163034294.png" alt="image-20220618163034294" style="zoom:50%;"></p>
+<p>ARM也引入了SIMD扩展指令。典型的SIMD操作包括算术运算(+-*/)以及abs、sqrt等，完整的指令集合请参考英特尔提供的使用文档<a href="https://software.intel.com/sites/landingpage/IntrinsicsGuide/#">https://software.intel.com/sites/landingpage/IntrinsicsGuide/#</a></p>
 <p>那么如何生成SIMD指令呢？有几种方式：</p>
 <ol>
 <li>编译器自动向量化：<ol>
@@ -163,24 +201,24 @@
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">res[i] = tmpBitPtr[i] &amp; opBitPtr[i];   <span class="comment">//使用下标访问地址，clang和gcc都支持</span></span><br><span class="line">*(res + i) = *(tmpBitPtr + i) &amp; *(opBitPtr + i);  <span class="comment">//使用地址运算访问内存，clang不支持，gcc支持</span></span><br></pre></td></tr></table></figure>
 <h2 id="如何写出可向量化的代码："><a href="#如何写出可向量化的代码：" class="headerlink" title="如何写出可向量化的代码："></a>如何写出可向量化的代码：</h2><p>为了更好的引导编译器给你的代码生成向量化代码，编程上有一些最佳实践。</p>
 <h3 id="1-循环的次数要是可计数的"><a href="#1-循环的次数要是可计数的" class="headerlink" title="1 循环的次数要是可计数的"></a>1 循环的次数要是可计数的</h3><p>循环的变量初始值和结束值要固定，例如</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>;i &lt; n ;++i ) <span class="comment">//总的次数是可以计数的,这种写法可以向量化</span></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>;i != n;++i) <span class="comment">//总的次数不可计数，这种写法无法向量</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>;i &lt; n ;++i ) <span class="comment">//总的次数是可以计数的,这种写法可以向量化</span></span><br><span class="line"><span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>;i != n;++i) <span class="comment">//总的次数不可计数，这种写法无法向量</span></span><br></pre></td></tr></table></figure>
 <h3 id="2-简单直接的计算，不包含函数调用"><a href="#2-简单直接的计算，不包含函数调用" class="headerlink" title="2 简单直接的计算，不包含函数调用"></a>2 简单直接的计算，不包含函数调用</h3><p>计算只包含简单的加减乘除等数学运算、与或非等逻辑运算。不要包含switch，if，return等语句。</p>
 <p>此处有一些例外是，部分三角函数(sin,cos等)或者算术函数(pow,log等)因为lib提供了内置的向量化实现，是可以自动向量化的。</p>
 <h3 id="3-在循环的最内层"><a href="#3-在循环的最内层" class="headerlink" title="3 在循环的最内层"></a>3 在循环的最内层</h3><p>只有最内层的循环可以向量化</p>
 <h3 id="4-访问连续的内存空间"><a href="#4-访问连续的内存空间" class="headerlink" title="4 访问连续的内存空间"></a>4 访问连续的内存空间</h3><p>也就是函数的计算参数和结果必须存放在连续空间中，通过一条simd指令从内存加载到寄存器。</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">0</span>; i&lt;SIZE; i+=<span class="number">2</span>) b[i] += a[i] * x[i];   <span class="comment">//访问连续空间，可以向量化</span></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">0</span>; i&lt;SIZE; i+=<span class="number">2</span>) b[i] += a[i] * x[index[i]] <span class="comment">//访问非连续空间，不能向量化</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="type">int</span> i=<span class="number">0</span>; i&lt;SIZE; i+=<span class="number">2</span>) b[i] += a[i] * x[i];   <span class="comment">//访问连续空间，可以向量化</span></span><br><span class="line"><span class="keyword">for</span> (<span class="type">int</span> i=<span class="number">0</span>; i&lt;SIZE; i+=<span class="number">2</span>) b[i] += a[i] * x[index[i]] <span class="comment">//访问非连续空间，不能向量化</span></span><br></pre></td></tr></table></figure>
 <h3 id="5-数据无依赖"><a href="#5-数据无依赖" class="headerlink" title="5 数据无依赖"></a>5 数据无依赖</h3><p>这是最重要的一条，因为是并行计算，属于同一条并行指令的多个独立指令所操作的数字，之间不能有关联，否则就不能并行化处理，只能串行计算。</p>
 <p>数据依赖有几种场景：</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (j=<span class="number">1</span>; j&lt;MAX; j++) A[j]=A[j<span class="number">-1</span>]+<span class="number">1</span>;<span class="comment">// case 1 先写后读，不能向量化</span></span><br><span class="line"><span class="keyword">for</span> (j=<span class="number">1</span>; j&lt;MAX; j++) A[j<span class="number">-1</span>]=A[j]+<span class="number">1</span>;<span class="comment">// case 2 先读后写，不能向量化</span></span><br><span class="line"><span class="keyword">for</span> (j=<span class="number">1</span>; j&lt;MAX; j++) A[j<span class="number">-4</span>]=A[j]+<span class="number">1</span>;<span class="comment">// case 3 虽然是先读后写，但假如4组数据组成一个向量，那么同一组数据内无依赖的，因而可以向量化</span></span><br><span class="line">                                     <span class="comment">// case 4 先写后写，无法向量化（此处无案例）</span></span><br><span class="line"><span class="keyword">for</span> (j=<span class="number">1</span>; j&lt;MAX; j++) B[j]=A[j]+A[j<span class="number">-1</span>]+<span class="number">1</span>;<span class="comment">//case 5 先读后读，因为没有写操作，不影响向量化</span></span><br><span class="line"><span class="keyword">for</span> (j=<span class="number">1</span>; j&lt;MAX; j++) sum = sum + A[j]*B[j] <span class="comment">//case 6 这种可以向量化，虽然每次都会读同一个变量，再写一个变量，因为可以先用一个宽寄存器表示sum，分别累加每一路数据，循环结束后再累加宽寄存器中的值。</span></span><br><span class="line"> <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; size; i++) &#123;</span><br><span class="line"> 		c[i] = a[i] * b[i];</span><br><span class="line"> &#125;<span class="comment">// case 7这种要确认c的内存空间和a/b的内存空间十分有交集。如果c是a或者b的别名，比如c=a+1，那么c[i] = a[i+1]，那a和c就有内存交集了。</span></span><br></pre></td></tr></table></figure>
 <p>上述几个例子中，case 3、5、6是可以向量化的，这些case属于比较特殊的case，正常而言建议还是写出明确无任何依赖问题的代码。如果确定有依赖，仍想使用向量化，可以手动编写SIMD代码。</p>
 <h3 id="6-使用数组而不是指针"><a href="#6-使用数组而不是指针" class="headerlink" title="6 使用数组而不是指针"></a>6 使用数组而不是指针</h3><p>尽管使用指针可以达到数组类似的效果，但是使用数组，可以减少出现意外依赖的可能。而使用指针的时候，有些场景下连编译器也无法确认是否可以向量化。使用数组则没有这种担忧，编译器可以很容易的向量化。</p>
 <h3 id="7-使用循环的计数器作为数组的下标"><a href="#7-使用循环的计数器作为数组的下标" class="headerlink" title="7 使用循环的计数器作为数组的下标"></a>7 使用循环的计数器作为数组的下标</h3><p>直接使用循环的计数器作为数组的下标访问，可以简化编译器的理解。如果额外的使用其他值作为下标，则很难确认能否向量化。例如</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>;i &lt; <span class="number">10</span>;i++)  a[i] = b[i] <span class="comment">//这种较好</span></span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i =<span class="number">0</span>,index=<span class="number">0</span>;i &lt; <span class="number">10</span>;i++)  a[index++]=b[index] <span class="comment">//这种无法向量化</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span>;i &lt; <span class="number">10</span>;i++)  a[i] = b[i] <span class="comment">//这种较好</span></span><br><span class="line"><span class="keyword">for</span>(<span class="type">int</span> i =<span class="number">0</span>,index=<span class="number">0</span>;i &lt; <span class="number">10</span>;i++)  a[index++]=b[index] <span class="comment">//这种无法向量化</span></span><br></pre></td></tr></table></figure>
 <h3 id="8-使用更高效的内存布局"><a href="#8-使用更高效的内存布局" class="headerlink" title="8 使用更高效的内存布局"></a>8 使用更高效的内存布局</h3><p>数据最好以16字节或者32字节对齐。数组的元素最好是基础类型，而不是结构体或类。如果是一个复杂结构，那么同一个数组中每个对象的相同元素并不是相邻存储的。</p>
 <h3 id="9-循环次数并不需要是指令宽度的整数倍。"><a href="#9-循环次数并不需要是指令宽度的整数倍。" class="headerlink" title="9 循环次数并不需要是指令宽度的整数倍。"></a>9 循环次数并不需要是指令宽度的整数倍。</h3><p>在一些老的编译器中，循环的次数需要是指令宽度的整数倍，例如128位指令，操作4字节的int类型，可以同时操作4个int类型，那么就要求循环次数是4的整数倍。因此写代码时，需要写成两个循环，第一部分是4的整数倍循环；第二部分是末尾多出来的少量数据。</p>
 <p>而最新的编译器以及能够自动化的处理这种情况，编写代码按照正常逻辑写就行，无需拆分成两部分。编译器生成的代码会自动生成两部分逻辑。</p>
 <h2 id="手写SIMD-代码"><a href="#手写SIMD-代码" class="headerlink" title="手写SIMD 代码"></a>手写SIMD 代码</h2><p>编译器能把直接了当的逻辑转换为SIMD指令，并且需要我们认真的考虑代码风格，避免阻碍向量化。但是有些比较复杂的逻辑，编译器是无法自动向量化的，而我们人类知道这里边的逻辑是每个操作数分别计算，互不干扰，可以使用向量化。这种情况，我们可以手写SIMD代码。举一个典型的例子，把一个字符串转成全小写。</p>
-<h3 id="SIMD代码例子和不同编译器性能对比"><a href="#SIMD代码例子和不同编译器性能对比" class="headerlink" title="SIMD代码例子和不同编译器性能对比"></a>SIMD代码例子和不同编译器性能对比</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="keyword">static</span> <span class="keyword">char</span> not_case_lower_bound = <span class="string">'A'</span>;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">static</span> <span class="keyword">char</span> not_case_upper_bound= <span class="string">'Z'</span>;</span><br><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">lowerStrWithSIMD</span><span class="params">(<span class="keyword">const</span> <span class="keyword">char</span> * src, <span class="keyword">const</span> <span class="keyword">char</span> * src_end, <span class="keyword">char</span> * dst)</span></span></span><br><span class="line"><span class="function"></span>&#123;   </span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">auto</span> flip_case_mask = <span class="string">'A'</span> ^ <span class="string">'a'</span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifdef</span> __SSE2__</span></span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">auto</span> bytes_sse = <span class="keyword">sizeof</span>(__m128i);</span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">auto</span> * src_end_sse = src_end - (src_end - src) % bytes_sse;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">auto</span> v_not_case_lower_bound = _mm_set1_epi8(not_case_lower_bound - <span class="number">1</span>);</span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">auto</span> v_not_case_upper_bound = _mm_set1_epi8(not_case_upper_bound + <span class="number">1</span>);</span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">auto</span> v_flip_case_mask = _mm_set1_epi8(flip_case_mask);</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span> (; src &lt; src_end_sse; src += bytes_sse, dst += bytes_sse)</span><br><span class="line">    &#123;   </span><br><span class="line">        <span class="comment">/// load 16 sequential 8-bit characters</span></span><br><span class="line">        <span class="keyword">const</span> <span class="keyword">auto</span> chars = _mm_loadu_si128(<span class="keyword">reinterpret_cast</span>&lt;<span class="keyword">const</span> __m128i *&gt;(src));</span><br><span class="line">        </span><br><span class="line">        <span class="comment">/// find which 8-bit sequences belong to range [case_lower_bound, case_upper_bound]</span></span><br><span class="line">        <span class="keyword">const</span> <span class="keyword">auto</span> is_not_case</span><br><span class="line">            = _mm_and_si128(_mm_cmpgt_epi8(chars, v_not_case_lower_bound), _mm_cmplt_epi8(chars, v_not_case_upper_bound));</span><br><span class="line">        </span><br><span class="line">        <span class="comment">/// keep lip_case_mask _mm_and_si128(v_flip_case_mask, is_not_case);</span></span><br><span class="line">        </span><br><span class="line">        <span class="comment">/// flip case by applying calculated mask</span></span><br><span class="line">         <span class="keyword">const</span> <span class="keyword">auto</span> xor_mask = _mm_and_si128(v_flip_case_mask, is_not_case);</span><br><span class="line">        <span class="keyword">const</span> <span class="keyword">auto</span> cased_chars = _mm_xor_si128(chars, xor_mask);</span><br><span class="line">        </span><br><span class="line">        <span class="comment">/// store result back to destination</span></span><br><span class="line">        _mm_storeu_si128(<span class="keyword">reinterpret_cast</span>&lt;__m128i *&gt;(dst), cased_chars);</span><br><span class="line">    &#125;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span> (; src &lt; src_end; ++src, ++dst)</span><br><span class="line">        <span class="keyword">if</span> (*src &gt;= not_case_lower_bound &amp;&amp; *src &lt;= not_case_upper_bound)</span><br><span class="line">            *dst = *src ^ flip_case_mask;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            *dst = *src;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">lowerStr</span><span class="params">(<span class="keyword">const</span> <span class="keyword">char</span> * src, <span class="keyword">const</span> <span class="keyword">char</span> * src_end, <span class="keyword">char</span> * dst)</span></span></span><br><span class="line"><span class="function"></span>&#123;   </span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">auto</span> flip_case_mask = <span class="string">'A'</span> ^ <span class="string">'a'</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (; src &lt; src_end; ++src, ++dst)</span><br><span class="line">        <span class="keyword">if</span> (*src &gt;= not_case_lower_bound &amp;&amp; *src &lt;= not_case_upper_bound)</span><br><span class="line">            *dst = *src ^ flip_case_mask;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            *dst = *src;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="SIMD代码例子和不同编译器性能对比"><a href="#SIMD代码例子和不同编译器性能对比" class="headerlink" title="SIMD代码例子和不同编译器性能对比"></a>SIMD代码例子和不同编译器性能对比</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">const</span> <span class="type">static</span> <span class="type">char</span> not_case_lower_bound = <span class="string">&#x27;A&#x27;</span>;</span><br><span class="line"><span class="type">const</span> <span class="type">static</span> <span class="type">char</span> not_case_upper_bound= <span class="string">&#x27;Z&#x27;</span>;</span><br><span class="line"><span class="function"><span class="type">static</span> <span class="type">void</span> <span class="title">lowerStrWithSIMD</span><span class="params">(<span class="type">const</span> <span class="type">char</span> * src, <span class="type">const</span> <span class="type">char</span> * src_end, <span class="type">char</span> * dst)</span></span></span><br><span class="line"><span class="function"></span>&#123;   </span><br><span class="line">    <span class="type">const</span> <span class="keyword">auto</span> flip_case_mask = <span class="string">&#x27;A&#x27;</span> ^ <span class="string">&#x27;a&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">ifdef</span> __SSE2__</span></span><br><span class="line">    <span class="type">const</span> <span class="keyword">auto</span> bytes_sse = <span class="built_in">sizeof</span>(__m128i);</span><br><span class="line">    <span class="type">const</span> <span class="keyword">auto</span> * src_end_sse = src_end - (src_end - src) % bytes_sse;</span><br><span class="line">    </span><br><span class="line">    <span class="type">const</span> <span class="keyword">auto</span> v_not_case_lower_bound = _mm_set1_epi8(not_case_lower_bound - <span class="number">1</span>);</span><br><span class="line">    <span class="type">const</span> <span class="keyword">auto</span> v_not_case_upper_bound = _mm_set1_epi8(not_case_upper_bound + <span class="number">1</span>);</span><br><span class="line">    <span class="type">const</span> <span class="keyword">auto</span> v_flip_case_mask = _mm_set1_epi8(flip_case_mask);</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span> (; src &lt; src_end_sse; src += bytes_sse, dst += bytes_sse)</span><br><span class="line">    &#123;   </span><br><span class="line">        <span class="comment">/// load 16 sequential 8-bit characters</span></span><br><span class="line">        <span class="type">const</span> <span class="keyword">auto</span> chars = _mm_loadu_si128(<span class="built_in">reinterpret_cast</span>&lt;<span class="type">const</span> __m128i *&gt;(src));</span><br><span class="line">        </span><br><span class="line">        <span class="comment">/// find which 8-bit sequences belong to range [case_lower_bound, case_upper_bound]</span></span><br><span class="line">        <span class="type">const</span> <span class="keyword">auto</span> is_not_case</span><br><span class="line">            = _mm_and_si128(_mm_cmpgt_epi8(chars, v_not_case_lower_bound), _mm_cmplt_epi8(chars, v_not_case_upper_bound));</span><br><span class="line">        </span><br><span class="line">        <span class="comment">/// keep lip_case_mask _mm_and_si128(v_flip_case_mask, is_not_case);</span></span><br><span class="line">        </span><br><span class="line">        <span class="comment">/// flip case by applying calculated mask</span></span><br><span class="line">         <span class="type">const</span> <span class="keyword">auto</span> xor_mask = _mm_and_si128(v_flip_case_mask, is_not_case);</span><br><span class="line">        <span class="type">const</span> <span class="keyword">auto</span> cased_chars = _mm_xor_si128(chars, xor_mask);</span><br><span class="line">        </span><br><span class="line">        <span class="comment">/// store result back to destination</span></span><br><span class="line">        _mm_storeu_si128(<span class="built_in">reinterpret_cast</span>&lt;__m128i *&gt;(dst), cased_chars);</span><br><span class="line">    &#125;</span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span> (; src &lt; src_end; ++src, ++dst)</span><br><span class="line">        <span class="keyword">if</span> (*src &gt;= not_case_lower_bound &amp;&amp; *src &lt;= not_case_upper_bound)</span><br><span class="line">            *dst = *src ^ flip_case_mask;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            *dst = *src;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">static</span> <span class="type">void</span> <span class="title">lowerStr</span><span class="params">(<span class="type">const</span> <span class="type">char</span> * src, <span class="type">const</span> <span class="type">char</span> * src_end, <span class="type">char</span> * dst)</span></span></span><br><span class="line"><span class="function"></span>&#123;   </span><br><span class="line">    <span class="type">const</span> <span class="keyword">auto</span> flip_case_mask = <span class="string">&#x27;A&#x27;</span> ^ <span class="string">&#x27;a&#x27;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (; src &lt; src_end; ++src, ++dst)</span><br><span class="line">        <span class="keyword">if</span> (*src &gt;= not_case_lower_bound &amp;&amp; *src &lt;= not_case_upper_bound)</span><br><span class="line">            *dst = *src ^ flip_case_mask;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            *dst = *src;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 <p>上述两个函数用于把字符串中的大写字母转换成小写字母，第一个函数采用了SIMD实现（采用128位指令），第二个函数采用了普通的做法。由于第一个是128位指令（16字节），理论上相比非向量化指令，加速比是16倍。但是由于第二个代码在结构上是很清晰的，也可以自动向量化，在这里我们测试下不同编译器的编译性能,g++版本9.3.0,clang++12.0.0</p>
 <table>
 <thead>
@@ -230,7 +268,7 @@
 </table>
 <p>结论：在相同的优化级别下，clang生成更宽的指令，性能更好。</p>
 <h3 id="解读SIMD指令"><a href="#解读SIMD指令" class="headerlink" title="解读SIMD指令"></a>解读SIMD指令</h3><p>最简单的SIMD指令，实现两个数字的加法:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">const __m128i dst = _mm_add_epi32(left,right);</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">const __m128i dst = _mm_add_epi32(left,right);</span><br></pre></td></tr></table></figure>
 <p>这条指令把4组int类型数字相加，填写到结果中。__m128i代表是128位宽寄存器，存放的是int类型（4字节32位），可以存放4个int类型。<code>_mm_and_epi32</code>是一个simd指令，<code>_mm</code>开头表示128寄存器，add表示相加,epi32表示32位整数。SIMD指令的命名规范：在SIMD指令中，需要表达三个含义，分别是寄存器宽度、操作类型、和参数宽度。</p>
 <p>各种类型对应到各种宽度的寄存器上的写法：</p>
 <table>
@@ -368,8 +406,8 @@
 <h4 id="2-SIMD初始化寄存器指令"><a href="#2-SIMD初始化寄存器指令" class="headerlink" title="2)SIMD初始化寄存器指令"></a>2)SIMD初始化寄存器指令</h4><p>初始化为0的指令。<code>_mm_setzero_ps</code>和<code>_mm256_setzero_si256</code>把寄存器初始化为0，初始化操作没有任何依赖。</p>
 <p>  初始化为特定值。<code>_mm[256]_set_XXX</code>把每一个点初始化不同的值，<code>_mm[256]_set1_XXX</code> 把每一个点初始化相同的值。[256]代表是否出现256，如果出现256。<code>_mm_set_epi32(1,2,3,4)</code>表示按照顺序初始化为整型数[1,2,3,4]。如果时倒序初始化，则使用<code>_mm_setr_epi32(1,2,3,4)</code>。</p>
 <h4 id="3-位运算指令"><a href="#3-位运算指令" class="headerlink" title="3)位运算指令"></a>3)位运算指令</h4><p>Float和int有很多位运算指令，包括AND、OR、XOR。如果要执行NOT指令，则最快的方式就是和全1做XOR，而获得全1的最快方式就是把两个0做相等比较。如下代码样例：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">__m128i bitwiseNot(__m128i x)</span><br><span class="line">&#123;</span><br><span class="line">	const __m128i zero = _mm_setzero_si128();</span><br><span class="line">	const __128i one = _mm_cmpeq_epi32(zero, zero);</span><br><span class="line">	return _mm_xor_si128(x, one);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="4-浮点数指令"><a href="#4-浮点数指令" class="headerlink" title="4)浮点数指令"></a>4)浮点数指令</h4><p>浮点数指令支持基础的运算+-*/，和扩展的运算sqrt。一些比较有用的函数有<code>_mm_min_ss(a,b)</code>， 对于32位浮点数，如果要完成<img src="/2022/06/16/深入浅出向量化技术/clip_image002.png" alt="img">，对应的SIMD指令是<code>_mm_rcp_ps</code>，而<img src="/2022/06/16/深入浅出向量化技术/clip_image004.png" alt="img">对应的SIMD指令是<code>_mm_rsqrt_ps</code>，采用SIMD指令可以在一条指令内完成，速度更快。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">__m128i bitwiseNot(__m128i x)</span><br><span class="line">&#123;</span><br><span class="line">	const __m128i zero = _mm_setzero_si128();</span><br><span class="line">	const __128i one = _mm_cmpeq_epi32(zero, zero);</span><br><span class="line">	return _mm_xor_si128(x, one);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="4-浮点数指令"><a href="#4-浮点数指令" class="headerlink" title="4)浮点数指令"></a>4)浮点数指令</h4><p>浮点数指令支持基础的运算+-*/，和扩展的运算sqrt。一些比较有用的函数有<code>_mm_min_ss(a,b)</code>， 对于32位浮点数，如果要完成<img src="/2022/06/16/%E6%B7%B1%E5%85%A5%E6%B5%85%E5%87%BA%E5%90%91%E9%87%8F%E5%8C%96%E6%8A%80%E6%9C%AF/clip_image002.png" alt="img">，对应的SIMD指令是<code>_mm_rcp_ps</code>，而<img src="/2022/06/16/%E6%B7%B1%E5%85%A5%E6%B5%85%E5%87%BA%E5%90%91%E9%87%8F%E5%8C%96%E6%8A%80%E6%9C%AF/clip_image004.png" alt="img">对应的SIMD指令是<code>_mm_rsqrt_ps</code>，采用SIMD指令可以在一条指令内完成，速度更快。</p>
 <p>  如果想加两个数组，例如[a,b,c,d]+[e,f,g,h]=[a+e,b+f,c+g,d+h]，对应的SIMD指令是<code>_mm_hadd_ps</code>，<code>_mm_hadd_pd</code>，<code>_mm256_hadd_pd</code>，<code>_mm256_hadd_ps</code></p>
 <h4 id="5-非并行指令，却能做到加速效果"><a href="#5-非并行指令，却能做到加速效果" class="headerlink" title="5)非并行指令，却能做到加速效果"></a>5)非并行指令，却能做到加速效果</h4><p>有些指令，在一条数据中只能操作一条数据，但是也能达到加速的效果。例如<code>_mm_min_ss</code>指令，表示取两个浮点数的最小值，该指令可以用一条指令完成计算，避免跳转，避免通过分支指令跳转。同理，取最大值的指令是<code>_mm_max_sd</code>。</p>
 <h3 id="手写SIMD指令的缺点"><a href="#手写SIMD指令的缺点" class="headerlink" title="手写SIMD指令的缺点"></a>手写SIMD指令的缺点</h3><p>虽然手写SIMD指令看起来很酷，但是存在一个很大的问题是可移植性不强，如果你手写一个512位宽的指令，却在一个不支持avx指令集的机器上运行，那就会出问题。所以最好的方案还是编写符合编译器向量化规范的代码，把向量化这件事情交给编译器好了！最新的编译器会帮助我们解决这些事情。</p>
@@ -384,10 +422,10 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://mayunlei.github.io/2022/06/16/深入浅出向量化技术/" data-id="clbczv5zx000kx23jv37jerd0" class="article-share-link">Share</a>
+      <a data-url="http://mayunlei.github.io/2022/06/16/%E6%B7%B1%E5%85%A5%E6%B5%85%E5%87%BA%E5%90%91%E9%87%8F%E5%8C%96%E6%8A%80%E6%9C%AF/" data-id="cltb1iov5000mr6gt05kbc0nn" class="article-share-link">Share</a>
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/向量化-SIMD/">向量化, SIMD</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%90%91%E9%87%8F%E5%8C%96-SIMD/" rel="tag">向量化, SIMD</a></li></ul>
 
     </footer>
   </div>
@@ -398,7 +436,7 @@
   
     <article id="post-探索无人驾驶载货小飞机：航模技术研究" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2022/05/04/探索无人驾驶载货小飞机：航模技术研究/" class="article-date">
+    <a href="/2022/05/04/%E6%8E%A2%E7%B4%A2%E6%97%A0%E4%BA%BA%E9%A9%BE%E9%A9%B6%E8%BD%BD%E8%B4%A7%E5%B0%8F%E9%A3%9E%E6%9C%BA%EF%BC%9A%E8%88%AA%E6%A8%A1%E6%8A%80%E6%9C%AF%E7%A0%94%E7%A9%B6/" class="article-date">
   <time datetime="2022-05-04T14:39:22.000Z" itemprop="datePublished">2022-05-04</time>
 </a>
     
@@ -410,7 +448,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2022/05/04/探索无人驾驶载货小飞机：航模技术研究/">探索无人驾驶载货小飞机：航模技术研究</a>
+      <a class="article-title" href="/2022/05/04/%E6%8E%A2%E7%B4%A2%E6%97%A0%E4%BA%BA%E9%A9%BE%E9%A9%B6%E8%BD%BD%E8%B4%A7%E5%B0%8F%E9%A3%9E%E6%9C%BA%EF%BC%9A%E8%88%AA%E6%A8%A1%E6%8A%80%E6%9C%AF%E7%A0%94%E7%A9%B6/">探索无人驾驶载货小飞机：航模技术研究</a>
     </h1>
   
 
@@ -421,8 +459,8 @@
         <p>上海突然封城，造成了物资紧张。大人还好办，好赖能充饥就行。但是小孩的物资是很挑剔的，奶粉和尿不湿是必需品。因此我就考虑了怎么才能远距离把紧急物资投送到家里。正好在B站看了一些航模的介绍，于是就做了下航模的调研，看能否用来载货。 </p>
 <h2 id="无人机的分类"><a href="#无人机的分类" class="headerlink" title="无人机的分类"></a>无人机的分类</h2><p>大众常见的无人机类型包括：</p>
 <h3 id="固定翼"><a href="#固定翼" class="headerlink" title="固定翼"></a>固定翼</h3><p>固定翼是最传统的航空模型，主要由飞手使用遥控器目视飞行。固定翼是最传统的航空模型，主要由飞手使用遥控器目视飞行。固定翼也是最接近真实飞机的，各种组件以及飞行原理，和真实飞机类似。多旋翼依靠发动机实现向前的推力，有了速度后，通过机翼实现向上的升力。固定翼的好处在于，能够达到一个很低的推重比，在空中的姿态有更多的可玩性，同时因为推力在水平方向上，可以达到很高的速度。固定翼的劣势在于，起降需要借助跑道，需要严格关注空中的姿态，操作不当就会炸机，非常考验操作者的观察能力和操作能力，因此更具备挑战性，更烧钱。鉴于固定翼飞机能够达到一个很低的推重比，相同的发动机下，固定翼可以载货更多，因此本文主要介绍固定翼飞机的原理。</p>
-<img src="/2022/05/04/探索无人驾驶载货小飞机：航模技术研究/05/04/探索无人驾驶载货小飞机：航模技术研究/1651389558708-b8852d80-ccbe-481c-a973-f15aaad23154.png" title="image.png">
-<h3 id="多旋翼"><a href="#多旋翼" class="headerlink" title="多旋翼"></a>多旋翼</h3><p>多旋翼的典型参考大疆的无人机。多旋翼和单旋翼一样，通过发动机的推力维持。多旋翼可以实现空中悬停，不需要跑道就能起降，因此门槛较低。但是多旋翼完全依靠电机的推力实现载重，推重比需要达到1以上才能起飞，所谓大力飞砖就是说只要推力足够大，火箭也能升上天。而发动机是制造成本里边占比最高的组件了，因此成本也很高。不过多旋翼的优势在于可以垂直起降，并且可以稳定在空中，因此操作成本较低，不会轻易炸机，玩家受众多。<br><img src="/2022/05/04/探索无人驾驶载货小飞机：航模技术研究/05/04/探索无人驾驶载货小飞机：航模技术研究/1651390240486-4c2862fb-287d-424b-84b8-ca926e3ee3b9.png" title="image.png"><br>固定翼和多旋翼是我们常见的两种无人机，还有其它一些衍生的无人机，这里不再一一介绍，本文的目标是介绍固定翼飞机的原理和入门，介绍这两种无人机只是方便对无人机有一个简单的认知。航模界的玩家一般是把一些商用大飞机或者战斗机，等比例缩小，制作成模型飞机，再配上一些关键的组件，完成空中的飞行。</p>
+<img src="/2022/05/04/%E6%8E%A2%E7%B4%A2%E6%97%A0%E4%BA%BA%E9%A9%BE%E9%A9%B6%E8%BD%BD%E8%B4%A7%E5%B0%8F%E9%A3%9E%E6%9C%BA%EF%BC%9A%E8%88%AA%E6%A8%A1%E6%8A%80%E6%9C%AF%E7%A0%94%E7%A9%B6/05/04/%E6%8E%A2%E7%B4%A2%E6%97%A0%E4%BA%BA%E9%A9%BE%E9%A9%B6%E8%BD%BD%E8%B4%A7%E5%B0%8F%E9%A3%9E%E6%9C%BA%EF%BC%9A%E8%88%AA%E6%A8%A1%E6%8A%80%E6%9C%AF%E7%A0%94%E7%A9%B6/1651389558708-b8852d80-ccbe-481c-a973-f15aaad23154.png" class title="image.png">
+<h3 id="多旋翼"><a href="#多旋翼" class="headerlink" title="多旋翼"></a>多旋翼</h3><p>多旋翼的典型参考大疆的无人机。多旋翼和单旋翼一样，通过发动机的推力维持。多旋翼可以实现空中悬停，不需要跑道就能起降，因此门槛较低。但是多旋翼完全依靠电机的推力实现载重，推重比需要达到1以上才能起飞，所谓大力飞砖就是说只要推力足够大，火箭也能升上天。而发动机是制造成本里边占比最高的组件了，因此成本也很高。不过多旋翼的优势在于可以垂直起降，并且可以稳定在空中，因此操作成本较低，不会轻易炸机，玩家受众多。<br><img src="/2022/05/04/%E6%8E%A2%E7%B4%A2%E6%97%A0%E4%BA%BA%E9%A9%BE%E9%A9%B6%E8%BD%BD%E8%B4%A7%E5%B0%8F%E9%A3%9E%E6%9C%BA%EF%BC%9A%E8%88%AA%E6%A8%A1%E6%8A%80%E6%9C%AF%E7%A0%94%E7%A9%B6/05/04/%E6%8E%A2%E7%B4%A2%E6%97%A0%E4%BA%BA%E9%A9%BE%E9%A9%B6%E8%BD%BD%E8%B4%A7%E5%B0%8F%E9%A3%9E%E6%9C%BA%EF%BC%9A%E8%88%AA%E6%A8%A1%E6%8A%80%E6%9C%AF%E7%A0%94%E7%A9%B6/1651390240486-4c2862fb-287d-424b-84b8-ca926e3ee3b9.png" class title="image.png"><br>固定翼和多旋翼是我们常见的两种无人机，还有其它一些衍生的无人机，这里不再一一介绍，本文的目标是介绍固定翼飞机的原理和入门，介绍这两种无人机只是方便对无人机有一个简单的认知。航模界的玩家一般是把一些商用大飞机或者战斗机，等比例缩小，制作成模型飞机，再配上一些关键的组件，完成空中的飞行。</p>
 <h2 id="固定翼结构和核心组件"><a href="#固定翼结构和核心组件" class="headerlink" title="固定翼结构和核心组件"></a>固定翼结构和核心组件</h2><h3 id="主体结构"><a href="#主体结构" class="headerlink" title="主体结构"></a>主体结构</h3><ol>
 <li>从主体结构上，飞机由前后的机身和左右的机翼构成主体结构。</li>
 <li>在机身的头部可以安装发动机和螺旋桨，当然发动机和螺旋桨也可以安装到机翼上。</li>
@@ -431,7 +469,7 @@
 <li>副翼是机翼上离中心较远的组件，由于离重心较远，受力可通过杠杆作用放大，用于实现飞机的滚转。在同一时刻，左右副翼的运动是相反的。也就是同一时刻，左右副翼的受力正好相反，但达到的效果是相同的，要么顺时针受力，要么逆时针受力，以此实现滚转。</li>
 <li>起落架，起飞和降落时需要起落架。</li>
 </ol>
-<img src="/2022/05/04/探索无人驾驶载货小飞机：航模技术研究/05/04/探索无人驾驶载货小飞机：航模技术研究/1651672552344-143aa623-b95b-429f-9cc5-f37013913cc3.png" title="image.png">
+<img src="/2022/05/04/%E6%8E%A2%E7%B4%A2%E6%97%A0%E4%BA%BA%E9%A9%BE%E9%A9%B6%E8%BD%BD%E8%B4%A7%E5%B0%8F%E9%A3%9E%E6%9C%BA%EF%BC%9A%E8%88%AA%E6%A8%A1%E6%8A%80%E6%9C%AF%E7%A0%94%E7%A9%B6/05/04/%E6%8E%A2%E7%B4%A2%E6%97%A0%E4%BA%BA%E9%A9%BE%E9%A9%B6%E8%BD%BD%E8%B4%A7%E5%B0%8F%E9%A3%9E%E6%9C%BA%EF%BC%9A%E8%88%AA%E6%A8%A1%E6%8A%80%E6%9C%AF%E7%A0%94%E7%A9%B6/1651672552344-143aa623-b95b-429f-9cc5-f37013913cc3.png" class title="image.png">
 <p>在原理上可以区分襟翼和副翼，但是在机身上，襟翼和副翼可以实现混控，也就是机身组件是同一套，但是通过舵机实现不同的效果，当同向运动时，是襟翼；当向相反方向运动时，是副翼。</p>
 <h3 id="控制组件"><a href="#控制组件" class="headerlink" title="控制组件"></a>控制组件</h3><p>上边这些结构是飞机上能看到的核心组件，还有一些控制组件，用于控制飞机的飞行。</p>
 <ol>
@@ -442,38 +480,38 @@
 </ol>
 <h3 id="电机介绍"><a href="#电机介绍" class="headerlink" title="电机介绍"></a>电机介绍</h3><p>根据动力系统的不同，航模可分为电动、油动、涡轮喷气、火箭助推和无动力滑翔这几类。电机靠带动螺旋桨旋转，窝喷靠喷推动。电机的动力比不上窝喷。但是电机比较便宜，涡喷发动机比较贵。对于新入门而言，电机是更主流的选择，安装调试和保养都比较简单。电动机也可以模仿喷气式飞机，电机外围包裹<strong>涵道</strong>，在内部安装多片直径较小的螺旋桨。包裹在<strong>涵道</strong>内的螺旋桨可以产生更大的推力，但相比窝喷仍然是比较低的。<br>电机的核心参数是KV值。KV值指的是电机的压每升高1V，转速就提高一个KV值的数目，转速越高，电机输出扭力越小，反之亦然。遥控器通过控制电调调整电流大小，进而改变电机的转速。<br>一般来说，高KV值电机搭配小直径的螺旋桨，低KV值电机则搭配较大的螺旋桨。<br>在航模领域，常用的电机是新西达电机，性价比高。</p>
 <h3 id="螺旋桨"><a href="#螺旋桨" class="headerlink" title="螺旋桨"></a>螺旋桨</h3><p>螺旋桨主要关注桨的尺寸，和电机的功率要匹配，注意电机到地面的距离。</p>
-<h3 id="遥控器"><a href="#遥控器" class="headerlink" title="遥控器"></a>遥控器</h3><p>遥控器发射信号，机身上的接收机接受信号，并传递给对应组件。遥控器分为左手油门和右手油门，顾名思义，油门分别在左侧或者右侧。真实的飞机，油门在左侧，因此推荐左手油门。 以左手油门为例，左侧摇杆上下控制油门，左右控制方向舵；右手摇杆上下控制升降，左右控制副翼。<br>除了油门，还有多个通道，每个通道控制一个舵机的运动。通道当然越多越好，但是越多肯定越贵，一般旋转6通道就足够了。<br>此外，还要关注，遥控器的距离，至少需要500米到1000米。如果太短，飞机飞出遥控距离容易失控；而太长了，人也看不清飞机的姿态，也容易失控。<br>入门级遥控器，有富斯i6价位在200多,MC6C价位在100多。遥控器不同于其他组件，其他组件飞上天可能会摔坏，但是遥控器是可以长期使用的，不建议买太差的。<br><img src="/2022/05/04/探索无人驾驶载货小飞机：航模技术研究/05/04/探索无人驾驶载货小飞机：航模技术研究/1651669325811-7d8496ac-4b91-4f1c-8a93-3a49690505fb.png" title="image.png"></p>
-<h3 id><a href="#" class="headerlink" title></a><img src="/2022/05/04/探索无人驾驶载货小飞机：航模技术研究/05/04/探索无人驾驶载货小飞机：航模技术研究/1651669778547-02afd493-b5c2-418f-884b-bc11dee782ec.png" title="image.png"></h3><h3 id="接收机"><a href="#接收机" class="headerlink" title="接收机"></a>接收机</h3><img src="/2022/05/04/探索无人驾驶载货小飞机：航模技术研究/05/04/探索无人驾驶载货小飞机：航模技术研究/1651669262307-6df48767-2453-4445-8c77-cb79d99ee09e.png" title="image.png">
-<p>接收机每个通道分别有正极、负极、信号孔，执行设备通过排线连接接收机。接收机可通过电调供电，插入任意一个通道即可。<br>操作各个通道，飞机各个部分的动作如下：<br><img src="/2022/05/04/探索无人驾驶载货小飞机：航模技术研究/05/04/探索无人驾驶载货小飞机：航模技术研究/1651670374663-745ee6be-469a-482a-8725-9872390f2f98.gif" title="May-04-2022 21-17-38.gif"></p>
-<h2 id="固定翼飞行原理"><a href="#固定翼飞行原理" class="headerlink" title="固定翼飞行原理"></a>固定翼飞行原理</h2><h3 id="升力原理"><a href="#升力原理" class="headerlink" title="升力原理"></a>升力原理</h3><img src="/2022/05/04/探索无人驾驶载货小飞机：航模技术研究/05/04/探索无人驾驶载货小飞机：航模技术研究/1651635253722-5dabbda4-63b1-438d-b67e-b7f89a05330d.png" title="image.png">
-<img src="/2022/05/04/探索无人驾驶载货小飞机：航模技术研究/05/04/探索无人驾驶载货小飞机：航模技术研究/1651569996870-0654253e-a44c-48d1-9a34-37b1b02edf2d.png" title="image.png">
+<h3 id="遥控器"><a href="#遥控器" class="headerlink" title="遥控器"></a>遥控器</h3><p>遥控器发射信号，机身上的接收机接受信号，并传递给对应组件。遥控器分为左手油门和右手油门，顾名思义，油门分别在左侧或者右侧。真实的飞机，油门在左侧，因此推荐左手油门。 以左手油门为例，左侧摇杆上下控制油门，左右控制方向舵；右手摇杆上下控制升降，左右控制副翼。<br>除了油门，还有多个通道，每个通道控制一个舵机的运动。通道当然越多越好，但是越多肯定越贵，一般旋转6通道就足够了。<br>此外，还要关注，遥控器的距离，至少需要500米到1000米。如果太短，飞机飞出遥控距离容易失控；而太长了，人也看不清飞机的姿态，也容易失控。<br>入门级遥控器，有富斯i6价位在200多,MC6C价位在100多。遥控器不同于其他组件，其他组件飞上天可能会摔坏，但是遥控器是可以长期使用的，不建议买太差的。<br><img src="/2022/05/04/%E6%8E%A2%E7%B4%A2%E6%97%A0%E4%BA%BA%E9%A9%BE%E9%A9%B6%E8%BD%BD%E8%B4%A7%E5%B0%8F%E9%A3%9E%E6%9C%BA%EF%BC%9A%E8%88%AA%E6%A8%A1%E6%8A%80%E6%9C%AF%E7%A0%94%E7%A9%B6/05/04/%E6%8E%A2%E7%B4%A2%E6%97%A0%E4%BA%BA%E9%A9%BE%E9%A9%B6%E8%BD%BD%E8%B4%A7%E5%B0%8F%E9%A3%9E%E6%9C%BA%EF%BC%9A%E8%88%AA%E6%A8%A1%E6%8A%80%E6%9C%AF%E7%A0%94%E7%A9%B6/1651669325811-7d8496ac-4b91-4f1c-8a93-3a49690505fb.png" class title="image.png"></p>
+<h3 id><a href="#" class="headerlink" title></a><img src="/2022/05/04/%E6%8E%A2%E7%B4%A2%E6%97%A0%E4%BA%BA%E9%A9%BE%E9%A9%B6%E8%BD%BD%E8%B4%A7%E5%B0%8F%E9%A3%9E%E6%9C%BA%EF%BC%9A%E8%88%AA%E6%A8%A1%E6%8A%80%E6%9C%AF%E7%A0%94%E7%A9%B6/05/04/%E6%8E%A2%E7%B4%A2%E6%97%A0%E4%BA%BA%E9%A9%BE%E9%A9%B6%E8%BD%BD%E8%B4%A7%E5%B0%8F%E9%A3%9E%E6%9C%BA%EF%BC%9A%E8%88%AA%E6%A8%A1%E6%8A%80%E6%9C%AF%E7%A0%94%E7%A9%B6/1651669778547-02afd493-b5c2-418f-884b-bc11dee782ec.png" class title="image.png"></h3><h3 id="接收机"><a href="#接收机" class="headerlink" title="接收机"></a>接收机</h3><img src="/2022/05/04/%E6%8E%A2%E7%B4%A2%E6%97%A0%E4%BA%BA%E9%A9%BE%E9%A9%B6%E8%BD%BD%E8%B4%A7%E5%B0%8F%E9%A3%9E%E6%9C%BA%EF%BC%9A%E8%88%AA%E6%A8%A1%E6%8A%80%E6%9C%AF%E7%A0%94%E7%A9%B6/05/04/%E6%8E%A2%E7%B4%A2%E6%97%A0%E4%BA%BA%E9%A9%BE%E9%A9%B6%E8%BD%BD%E8%B4%A7%E5%B0%8F%E9%A3%9E%E6%9C%BA%EF%BC%9A%E8%88%AA%E6%A8%A1%E6%8A%80%E6%9C%AF%E7%A0%94%E7%A9%B6/1651669262307-6df48767-2453-4445-8c77-cb79d99ee09e.png" class title="image.png">
+<p>接收机每个通道分别有正极、负极、信号孔，执行设备通过排线连接接收机。接收机可通过电调供电，插入任意一个通道即可。<br>操作各个通道，飞机各个部分的动作如下：<br><img src="/2022/05/04/%E6%8E%A2%E7%B4%A2%E6%97%A0%E4%BA%BA%E9%A9%BE%E9%A9%B6%E8%BD%BD%E8%B4%A7%E5%B0%8F%E9%A3%9E%E6%9C%BA%EF%BC%9A%E8%88%AA%E6%A8%A1%E6%8A%80%E6%9C%AF%E7%A0%94%E7%A9%B6/05/04/%E6%8E%A2%E7%B4%A2%E6%97%A0%E4%BA%BA%E9%A9%BE%E9%A9%B6%E8%BD%BD%E8%B4%A7%E5%B0%8F%E9%A3%9E%E6%9C%BA%EF%BC%9A%E8%88%AA%E6%A8%A1%E6%8A%80%E6%9C%AF%E7%A0%94%E7%A9%B6/1651670374663-745ee6be-469a-482a-8725-9872390f2f98.gif" class title="May-04-2022 21-17-38.gif"></p>
+<h2 id="固定翼飞行原理"><a href="#固定翼飞行原理" class="headerlink" title="固定翼飞行原理"></a>固定翼飞行原理</h2><h3 id="升力原理"><a href="#升力原理" class="headerlink" title="升力原理"></a>升力原理</h3><img src="/2022/05/04/%E6%8E%A2%E7%B4%A2%E6%97%A0%E4%BA%BA%E9%A9%BE%E9%A9%B6%E8%BD%BD%E8%B4%A7%E5%B0%8F%E9%A3%9E%E6%9C%BA%EF%BC%9A%E8%88%AA%E6%A8%A1%E6%8A%80%E6%9C%AF%E7%A0%94%E7%A9%B6/05/04/%E6%8E%A2%E7%B4%A2%E6%97%A0%E4%BA%BA%E9%A9%BE%E9%A9%B6%E8%BD%BD%E8%B4%A7%E5%B0%8F%E9%A3%9E%E6%9C%BA%EF%BC%9A%E8%88%AA%E6%A8%A1%E6%8A%80%E6%9C%AF%E7%A0%94%E7%A9%B6/1651635253722-5dabbda4-63b1-438d-b67e-b7f89a05330d.png" class title="image.png">
+<img src="/2022/05/04/%E6%8E%A2%E7%B4%A2%E6%97%A0%E4%BA%BA%E9%A9%BE%E9%A9%B6%E8%BD%BD%E8%B4%A7%E5%B0%8F%E9%A3%9E%E6%9C%BA%EF%BC%9A%E8%88%AA%E6%A8%A1%E6%8A%80%E6%9C%AF%E7%A0%94%E7%A9%B6/05/04/%E6%8E%A2%E7%B4%A2%E6%97%A0%E4%BA%BA%E9%A9%BE%E9%A9%B6%E8%BD%BD%E8%B4%A7%E5%B0%8F%E9%A3%9E%E6%9C%BA%EF%BC%9A%E8%88%AA%E6%A8%A1%E6%8A%80%E6%9C%AF%E7%A0%94%E7%A9%B6/1651569996870-0654253e-a44c-48d1-9a34-37b1b02edf2d.png" class title="image.png">
 <p>固定翼飞机是如何升上天空的呢？特殊构造的机翼表面，下方接近扁平，而上方则有凸起。发动机提供了向前的速度，当气流流过机翼表面时，上方的气流压强较小，下方气流压强较大。上下的压强差提供了向上的升力。当升力大于重力时，飞机上升高度。升力翼形和翼展相关。</p>
 <h3 id="舵机"><a href="#舵机" class="headerlink" title="舵机"></a>舵机</h3><p>舵机有金属齿和塑料齿。前者更重一些，但是不容易扫齿，更耐用。舵机上也会注明扭矩，也就是力量。一般来说，尺寸大的，扭矩更大。</p>
 <h3 id="控制方式"><a href="#控制方式" class="headerlink" title="控制方式"></a>控制方式</h3><p>通过电机的转速可以改变飞行速度。<br>而飞机的姿态、方向的变化，则通过方向舵、升降舵、副翼来完成。这三个结构的特点是离重心比较远，受力后通过杠杆作用放大；围绕重心两侧，一侧受力，一侧不受力，受力不均衡就会产生偏斜，以此达到改变姿态的效果。<br>襟翼，位于重心附近，而且重心两侧的受力是一样的，因此不会改变飞行姿态，但是会增加阻力，把一部分阻力转化为升力。</p>
 <h3 id="反扭力"><a href="#反扭力" class="headerlink" title="反扭力"></a>反扭力</h3><p>如果发动机安装到机头，螺旋桨向一个方向转动时，形成的空气漩涡会撞击到机尾的垂直尾翼上，导致尾翼受到一个同方向的力。由于尾翼远离重心，收到的力叠加杠杆作用，会导致尾部向受力方向偏转。由于机尾和机头位于重心的两端，所以相当于机头受到了一个反方向的力，也就是和旋转方向相反的力，这就是反扭力。因此单发飞机会出现偏航。<br>要克服反扭力，在安装发动机时，可以适当偏斜一点，以抵消反扭力。<br>另一种办法是安装双发动机，分别位于机翼的两侧，两个发动机按照相反方向运动，互相抵消反扭力。</p>
 <h2 id="模拟器"><a href="#模拟器" class="headerlink" title="模拟器"></a>模拟器</h2><p>好了，硬件装备介绍完了，那么怎么才能让飞机升天呢？人在地面遥控飞机，和坐在飞机里驾驶飞机，感觉是完全不一样的。坐在驾驶舱，有各种仪表设备显示飞机的各项指标，能清楚的感知飞机的姿态和状态。而在地面遥控飞机，首先看不清飞机姿态，其次，地面视角还要转化成飞行员视角，这是很难的。而稍微操作不当。而稍微操作不当，导致飞机掉下来，把硬件摔坏，损失就太大了。机身或者零件摔坏，就得重新花钱买，因此玩航模的成本极高。为了避免炸机，最好的办法是在模拟器上训练好在上天，能做到从地面视角理解飞行员视角。最重要的是，即便是在模拟器中摔掉100架飞机，你也不会损失一分钱。</p>
-<p>模拟器是安装在电脑上的软件，遥控器通过加密狗接入电脑，可以控制模拟器飞机的运动。<br><img src="/2022/05/04/探索无人驾驶载货小飞机：航模技术研究/05/04/探索无人驾驶载货小飞机：航模技术研究/1651647442585-f0c5123e-769b-45c1-b49f-b72159ceec61.png" title="image.png"><br>新手入门，最简单的是练习无边航线，通过无边航线训练起飞，转弯，降落等重要的操作。</p>
+<p>模拟器是安装在电脑上的软件，遥控器通过加密狗接入电脑，可以控制模拟器飞机的运动。<br><img src="/2022/05/04/%E6%8E%A2%E7%B4%A2%E6%97%A0%E4%BA%BA%E9%A9%BE%E9%A9%B6%E8%BD%BD%E8%B4%A7%E5%B0%8F%E9%A3%9E%E6%9C%BA%EF%BC%9A%E8%88%AA%E6%A8%A1%E6%8A%80%E6%9C%AF%E7%A0%94%E7%A9%B6/05/04/%E6%8E%A2%E7%B4%A2%E6%97%A0%E4%BA%BA%E9%A9%BE%E9%A9%B6%E8%BD%BD%E8%B4%A7%E5%B0%8F%E9%A3%9E%E6%9C%BA%EF%BC%9A%E8%88%AA%E6%A8%A1%E6%8A%80%E6%9C%AF%E7%A0%94%E7%A9%B6/1651647442585-f0c5123e-769b-45c1-b49f-b72159ceec61.png" class title="image.png"><br>新手入门，最简单的是练习无边航线，通过无边航线训练起飞，转弯，降落等重要的操作。</p>
 <h2 id="飞机常见动作"><a href="#飞机常见动作" class="headerlink" title="飞机常见动作"></a>飞机常见动作</h2><h3 id="起飞"><a href="#起飞" class="headerlink" title="起飞"></a>起飞</h3><p>飞机在跑道上达到足够的速度后，通过让升降舵向上抬起，升降舵受到向下的力，相当于机头受到一个向上的力，进而飞机抬头上升。机头抬起时，容易失速，应该注意速度。</p>
 <h3 id="上升"><a href="#上升" class="headerlink" title="上升"></a>上升</h3><p>上升过程类似起飞，也是让机头抬起。</p>
 <h3 id="下降"><a href="#下降" class="headerlink" title="下降"></a>下降</h3><p>下降时，通过让升降舵下压。让机尾收到向上的力，相当于机头受到向下的力。进而飞机向下俯冲。飞机向下俯冲时，叠加重力因素，飞机会加速。</p>
 <h3 id="降落"><a href="#降落" class="headerlink" title="降落"></a>降落</h3><p>降落，则是初学飞行时最难掌握的本领。降落分为欧式降落或俄式降落。<br>在降落时，飞机飞行的高度、俯冲的角度和接地时的速度都需要精确操控，而且不同的飞机在降落阶段的特性也各不相同，必须逐个细心掌握。概括起来说，降落包括3个环节：首先降低飞行高度，低空通过场地并保持航线；然后调整油门，进一步降低高度；当飞机距离地面一米左右时，持续拉一点升降舵，使飞机轻微仰头，让起落架平稳地接触地面。<br>欧式降落，保持机头向上，通过降低速度，不断降低高度，后起落架先着地，由于重心在前后起落架中间，速度向前，因此后起落架先着地的冲击力比较小。由于速度和升力相关，如果速度过低，会导致升力不足而失速。因此在下降时，需要时刻关注飞行姿态。如果降落发生问题，无法落地，复飞也会因为速度不足而受影响。<br>俄式降落，是向下俯冲，下降过程速度不降低，直到快落地时才调整机头向上。这种做法比较有挑战。</p>
-<h3 id="滚转"><a href="#滚转" class="headerlink" title="滚转"></a>滚转</h3><p>滚转通过控制副翼的上下运动来实现，两侧副翼相向运动，使一侧受到向上的力，机翼上升；另一侧收到向下的力，机翼下降，在回正前，会持续圆周运动，也就是发生滚转。<br><img src="/2022/05/04/探索无人驾驶载货小飞机：航模技术研究/05/04/探索无人驾驶载货小飞机：航模技术研究/1651647533503-c5a3cc47-c0dd-4bb1-a96c-a5e2487ec9fb.png" title="image.png"></p>
-<h3 id="偏航"><a href="#偏航" class="headerlink" title="偏航"></a>偏航</h3><p>飞机的偏航由垂直方向舵控制，需要向哪边转就向对应方向打方向舵。偏航只用于微调运动方向。不适用于转弯。<br><img src="/2022/05/04/探索无人驾驶载货小飞机：航模技术研究/05/04/探索无人驾驶载货小飞机：航模技术研究/1651647810740-9520afd1-68b4-428b-82ed-ac3205f19a45.png" title="image.png"></p>
+<h3 id="滚转"><a href="#滚转" class="headerlink" title="滚转"></a>滚转</h3><p>滚转通过控制副翼的上下运动来实现，两侧副翼相向运动，使一侧受到向上的力，机翼上升；另一侧收到向下的力，机翼下降，在回正前，会持续圆周运动，也就是发生滚转。<br><img src="/2022/05/04/%E6%8E%A2%E7%B4%A2%E6%97%A0%E4%BA%BA%E9%A9%BE%E9%A9%B6%E8%BD%BD%E8%B4%A7%E5%B0%8F%E9%A3%9E%E6%9C%BA%EF%BC%9A%E8%88%AA%E6%A8%A1%E6%8A%80%E6%9C%AF%E7%A0%94%E7%A9%B6/05/04/%E6%8E%A2%E7%B4%A2%E6%97%A0%E4%BA%BA%E9%A9%BE%E9%A9%B6%E8%BD%BD%E8%B4%A7%E5%B0%8F%E9%A3%9E%E6%9C%BA%EF%BC%9A%E8%88%AA%E6%A8%A1%E6%8A%80%E6%9C%AF%E7%A0%94%E7%A9%B6/1651647533503-c5a3cc47-c0dd-4bb1-a96c-a5e2487ec9fb.png" class title="image.png"></p>
+<h3 id="偏航"><a href="#偏航" class="headerlink" title="偏航"></a>偏航</h3><p>飞机的偏航由垂直方向舵控制，需要向哪边转就向对应方向打方向舵。偏航只用于微调运动方向。不适用于转弯。<br><img src="/2022/05/04/%E6%8E%A2%E7%B4%A2%E6%97%A0%E4%BA%BA%E9%A9%BE%E9%A9%B6%E8%BD%BD%E8%B4%A7%E5%B0%8F%E9%A3%9E%E6%9C%BA%EF%BC%9A%E8%88%AA%E6%A8%A1%E6%8A%80%E6%9C%AF%E7%A0%94%E7%A9%B6/05/04/%E6%8E%A2%E7%B4%A2%E6%97%A0%E4%BA%BA%E9%A9%BE%E9%A9%B6%E8%BD%BD%E8%B4%A7%E5%B0%8F%E9%A3%9E%E6%9C%BA%EF%BC%9A%E8%88%AA%E6%A8%A1%E6%8A%80%E6%9C%AF%E7%A0%94%E7%A9%B6/1651647810740-9520afd1-68b4-428b-82ed-ac3205f19a45.png" class title="image.png"></p>
 <h3 id="转弯"><a href="#转弯" class="headerlink" title="转弯"></a>转弯</h3><p>转弯需要副翼和升降舵配合使用。首先，利用副翼将机翼向要转的方向滚转，然后将副翼操纵杆“回中”(回归零位，以便下次操作），以使机翼不再进一步倾斜。此时立即拉升降舵，直到飞机转向到合适位置，再将升降舵操纵杆回中，以停止转弯。然后向相反方向打副翼，使机翼恢复水平状态。最后，在机翼恢复水平状态的那一刹，将副翼回中。</p>
 <h2 id="实操"><a href="#实操" class="headerlink" title="实操"></a>实操</h2><p>一般玩航模，上边说的那些控制组件，可以分别购买。机身可以购买空的机身或者用3D打印自己打印机身。机身因为负载比较轻，一般是泡沫材料。</p>
 <h3 id="入门机型"><a href="#入门机型" class="headerlink" title="入门机型"></a>入门机型</h3><p>新手入门采用的机型有：赛斯纳，冲浪者。赛斯纳是一款真私人飞机的微缩版，冲浪者没有原型。两者的区别在于，赛斯纳有起落架，螺旋桨在最前方，因而速度更高；冲浪者螺旋桨没有起落架，螺旋桨在翼后方。因此在炸机时，赛斯纳的螺旋桨更容易损坏，而冲浪者的螺旋桨可以受到保护。但是赛斯纳可以训练起飞和降落，而冲浪者因没有起落架而无法训练起飞和降落。</p>
-<img src="/2022/05/04/探索无人驾驶载货小飞机：航模技术研究/05/04/探索无人驾驶载货小飞机：航模技术研究/1651650141737-54091b88-8b38-4f31-9f37-898fd8be7be3.png" title="image.png">
-<img src="/2022/05/04/探索无人驾驶载货小飞机：航模技术研究/05/04/探索无人驾驶载货小飞机：航模技术研究/1651650213336-ab583bdf-75c6-4fcc-9e9c-fe344de9ed86.png" title="image.png">
+<img src="/2022/05/04/%E6%8E%A2%E7%B4%A2%E6%97%A0%E4%BA%BA%E9%A9%BE%E9%A9%B6%E8%BD%BD%E8%B4%A7%E5%B0%8F%E9%A3%9E%E6%9C%BA%EF%BC%9A%E8%88%AA%E6%A8%A1%E6%8A%80%E6%9C%AF%E7%A0%94%E7%A9%B6/05/04/%E6%8E%A2%E7%B4%A2%E6%97%A0%E4%BA%BA%E9%A9%BE%E9%A9%B6%E8%BD%BD%E8%B4%A7%E5%B0%8F%E9%A3%9E%E6%9C%BA%EF%BC%9A%E8%88%AA%E6%A8%A1%E6%8A%80%E6%9C%AF%E7%A0%94%E7%A9%B6/1651650141737-54091b88-8b38-4f31-9f37-898fd8be7be3.png" class title="image.png">
+<img src="/2022/05/04/%E6%8E%A2%E7%B4%A2%E6%97%A0%E4%BA%BA%E9%A9%BE%E9%A9%B6%E8%BD%BD%E8%B4%A7%E5%B0%8F%E9%A3%9E%E6%9C%BA%EF%BC%9A%E8%88%AA%E6%A8%A1%E6%8A%80%E6%9C%AF%E7%A0%94%E7%A9%B6/05/04/%E6%8E%A2%E7%B4%A2%E6%97%A0%E4%BA%BA%E9%A9%BE%E9%A9%B6%E8%BD%BD%E8%B4%A7%E5%B0%8F%E9%A3%9E%E6%9C%BA%EF%BC%9A%E8%88%AA%E6%A8%A1%E6%8A%80%E6%9C%AF%E7%A0%94%E7%A9%B6/1651650213336-ab583bdf-75c6-4fcc-9e9c-fe344de9ed86.png" class title="image.png">
 <h3 id="炸机常见问题"><a href="#炸机常见问题" class="headerlink" title="炸机常见问题"></a>炸机常见问题</h3><p>航模炸机的主要原因：看不清飞机姿态；飞机失速。其实这些问题都可以用自动驾驶来解决。在飞机上安装陀螺仪和GPS。通过陀螺仪判断飞机的姿态，上下左右是否平衡。通过GPS判断位置和计算速度。采集的信息传递到机载芯片上，对姿态做一下判断，然后做一下对应的操作应对。如果是失速，则应该立即下压机头，俯冲提速。如果向左或者向右倾斜，则打副翼让姿态回正。一些玩具厂家就是通过内在陀螺仪，自动纠正错误姿态，避免炸机。通过这种程序化的处理，是可以减少炸机的概率的。同时通过无人驾驶，设定好GPS航路坐标后，可以脱离遥控器飞得更远。如果加上物联网卡，则可以实现远程的控制。</p>
 <h2 id="搭载货物"><a href="#搭载货物" class="headerlink" title="搭载货物"></a>搭载货物</h2><p>搭载货物意味着提升了重力，需要更大的升力。对于多旋翼飞机，推重比至少得是1。而固定翼飞机，推重比能够低到0.2。 也就是相同的发动机，固定翼的载货量可以达到多旋翼的5倍以上。固定翼飞机的速度，升力，转弯的灵活度等，都是相互关联的性能因素，可以通过调整参数结构，尽可能的牺牲其他性能，尽可能的提升载重量。通过设计机翼，采用高升阻比的低速翼型，机翼平面形状做大。不过载重提升后，对机翼的结构强度要求比较高。从一些航模比赛中获得的数据，大概可以承受自重的5到6倍以上。</p>
 <h2 id="成本估算"><a href="#成本估算" class="headerlink" title="成本估算"></a>成本估算</h2><p>最便宜的入门遥控器MC6C 200+<br>最便宜的一套控制配件 100<br>赛斯纳空机 100+<br>充电器100+<br>总体而言需要500+的入门费用。<br>此外模拟机需要用windows电脑。<br>如果炸机，则需要更换损坏的机身或者配件。航模真是个烧钱并且劝退的兴趣。 </p>
 <h2 id="资料库"><a href="#资料库" class="headerlink" title="资料库"></a>资料库</h2><p>Flite Test 提供航模的资料和图纸。</p>
-<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="https://max.book118.com/html/2019/0405/6044052152002021.shtm" target="_blank" rel="noopener">固定翼飞机的结构及飞行原理.ppt</a><br><a href="https://www.docin.com/p-2311183982.html" target="_blank" rel="noopener">固定翼无人机的结构及飞行原理 </a><br><a href="https://zhuanlan.zhihu.com/p/145581790" target="_blank" rel="noopener">【机型知识】固定翼飞机的飞行原理简介（一）</a><br><a href="http://hudongkepu.com/wap.php?action=article&amp;id=31818" target="_blank" rel="noopener">航模飞空(上)</a><br><a href="http://www.hudongkepu.com/m/view.php?aid=31819" target="_blank" rel="noopener">航模飞空(下）</a><br><a href="https://www.bilibili.com/video/BV1Ft4y127Th/?spm_id_from=333.788.recommend_more_video.-1" target="_blank" rel="noopener">【航模制作入门】5分钟了解航模电子设备</a><br><a href="https://www.bilibili.com/video/BV1BE411R7JR/?spm_id_from=autoNext" target="_blank" rel="noopener">如何用最低的价格，买一套入门航模设备</a><br><a href="https://www.bilibili.com/video/BV1eh411y7cw/?spm_id_from=333.788.recommend_more_video.1" target="_blank" rel="noopener">【固定翼飞手1】航模入门教程•必要设备介绍</a><br><a href="https://www.bilibili.com/video/BV1Er4y1K74V" target="_blank" rel="noopener">固定翼飞手2】航模入门教程•怎样购买空机与航模装备 最便宜？高性价比？</a><br><a href="https://www.ncnynl.com/archives/201608/713.html" target="_blank" rel="noopener">无人机基础知识-组成-航模电机</a></p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="https://max.book118.com/html/2019/0405/6044052152002021.shtm">固定翼飞机的结构及飞行原理.ppt</a><br><a href="https://www.docin.com/p-2311183982.html">固定翼无人机的结构及飞行原理 </a><br><a href="https://zhuanlan.zhihu.com/p/145581790">【机型知识】固定翼飞机的飞行原理简介（一）</a><br><a href="http://hudongkepu.com/wap.php?action=article&amp;id=31818">航模飞空(上)</a><br><a href="http://www.hudongkepu.com/m/view.php?aid=31819">航模飞空(下）</a><br><a href="https://www.bilibili.com/video/BV1Ft4y127Th/?spm_id_from=333.788.recommend_more_video.-1">【航模制作入门】5分钟了解航模电子设备</a><br><a href="https://www.bilibili.com/video/BV1BE411R7JR/?spm_id_from=autoNext">如何用最低的价格，买一套入门航模设备</a><br><a href="https://www.bilibili.com/video/BV1eh411y7cw/?spm_id_from=333.788.recommend_more_video.1">【固定翼飞手1】航模入门教程•必要设备介绍</a><br><a href="https://www.bilibili.com/video/BV1Er4y1K74V">固定翼飞手2】航模入门教程•怎样购买空机与航模装备 最便宜？高性价比？</a><br><a href="https://www.ncnynl.com/archives/201608/713.html">无人机基础知识-组成-航模电机</a></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://mayunlei.github.io/2022/05/04/探索无人驾驶载货小飞机：航模技术研究/" data-id="clbczv5zu000gx23j0pjtkgfo" class="article-share-link">Share</a>
+      <a data-url="http://mayunlei.github.io/2022/05/04/%E6%8E%A2%E7%B4%A2%E6%97%A0%E4%BA%BA%E9%A9%BE%E9%A9%B6%E8%BD%BD%E8%B4%A7%E5%B0%8F%E9%A3%9E%E6%9C%BA%EF%BC%9A%E8%88%AA%E6%A8%A1%E6%8A%80%E6%9C%AF%E7%A0%94%E7%A9%B6/" data-id="cltb1iov6000rr6gtff6246ai" class="article-share-link">Share</a>
       
       
     </footer>
@@ -485,7 +523,7 @@
   
     <article id="post-从数据分析到数据洞察" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2021/12/25/从数据分析到数据洞察/" class="article-date">
+    <a href="/2021/12/25/%E4%BB%8E%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E5%88%B0%E6%95%B0%E6%8D%AE%E6%B4%9E%E5%AF%9F/" class="article-date">
   <time datetime="2021-12-25T02:08:08.000Z" itemprop="datePublished">2021-12-25</time>
 </a>
     
@@ -497,7 +535,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2021/12/25/从数据分析到数据洞察/">从数据分析到数据洞察</a>
+      <a class="article-title" href="/2021/12/25/%E4%BB%8E%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E5%88%B0%E6%95%B0%E6%8D%AE%E6%B4%9E%E5%AF%9F/">从数据分析到数据洞察</a>
     </h1>
   
 
@@ -505,8 +543,8 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="数据用途和玩转数据的手段"><a href="#数据用途和玩转数据的手段" class="headerlink" title="数据用途和玩转数据的手段"></a>数据用途和玩转数据的手段</h2><img src="/2021/12/25/从数据分析到数据洞察/12/25/从数据分析到数据洞察/1639895690262-2b65cf5f-0853-488a-aa1c-136d2d79be11.png" title="image.png">
-<p>数据分析通常用于商业决策，一般在大公司中，会养一个专门的商业分析部门，专门采集各种数据用于辅助董事会/CEO等决策层做核心的商业决策。但是，数据分析的需求无处不在，在各个业务线中也有对于数据分析的诉求，例如运营部分，一个运营活动的好坏、应该向哪个渠道投放资源，不能靠拍脑袋决定，要分析具体数据。同样对于开发运维也一样，线上系统是否稳定，各个模块指标怎么样，都需要数据得到反馈。对于董事会，可以养一个专门的机构搞数据分析；而对于普通的业务线，那只能自助分析了。今天我们就来总结一下数据分析的方法，如何洞察数据中的有效信息。<br>数据分析首先得有数据，从各个地方采集数据。所谓巧妇难为无米之炊，没有数据更谈不上数据洞察。有些公司，成立商业分析部门，干的活却是窃取其他公司的商业核心数据，愣是把一个高上大的技术名词搞成了间谍。20世纪上半叶，数学上的统计学在各行各业流行开来，数学家们，利用很少的数据，再加上统计学理论，推断一个结论。如经典的”女士品茶”这个故事，通过数据判定女士到底有没有某个超能力。至于把商业分析干成商业间谍的人，大概是不懂得需要如何合法的采集数据，以及分析数据的手段吧。<br>数据存储无需多讨论，要分析数据，首先要把数据存储下来，无论是存储在云端也好，还是excel也好，只有存储下来，才能方便后续的计算和分析。<br>数据有哪些使用方式呢？这里列举了四种用法，例如report，monitoring，analysis，exploration/mining。我们可以按照两个维度来划分，需求是否明确，分析方式是否成熟。<br><img src="/2021/12/25/从数据分析到数据洞察/12/25/从数据分析到数据洞察/1639914240796-aa90d9c9-0521-4741-825f-248664cbe39d.png" title="image.png"><br>有些需求场景是明确的，例如老板需要每天看几个关键的业务指标，那么就需要每天跑个固定的脚本，生成报告。在这个过程中分析方法也是固定的，即运行固定的计算逻辑。有些需求需要经过一番分析，例如某天业务量降低了，要分析下原因是什么，就需要从多种指标里边去探索。<br>还有些需求场景是不明确的，给你一份数据，我们知道数据里边有金矿，关键是怎么把数据中的核心信息捞出来，也需要探索才能找到，但是探索的目标不确定。这就是个开放式的话题了，也就是探索式数据分析：有数据，尝试找信息。应该沿着怎么样的一条路是探索呢？我认为有两种方式：</p>
+        <h2 id="数据用途和玩转数据的手段"><a href="#数据用途和玩转数据的手段" class="headerlink" title="数据用途和玩转数据的手段"></a>数据用途和玩转数据的手段</h2><img src="/2021/12/25/%E4%BB%8E%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E5%88%B0%E6%95%B0%E6%8D%AE%E6%B4%9E%E5%AF%9F/12/25/%E4%BB%8E%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E5%88%B0%E6%95%B0%E6%8D%AE%E6%B4%9E%E5%AF%9F/1639895690262-2b65cf5f-0853-488a-aa1c-136d2d79be11.png" class title="image.png">
+<p>数据分析通常用于商业决策，一般在大公司中，会养一个专门的商业分析部门，专门采集各种数据用于辅助董事会/CEO等决策层做核心的商业决策。但是，数据分析的需求无处不在，在各个业务线中也有对于数据分析的诉求，例如运营部分，一个运营活动的好坏、应该向哪个渠道投放资源，不能靠拍脑袋决定，要分析具体数据。同样对于开发运维也一样，线上系统是否稳定，各个模块指标怎么样，都需要数据得到反馈。对于董事会，可以养一个专门的机构搞数据分析；而对于普通的业务线，那只能自助分析了。今天我们就来总结一下数据分析的方法，如何洞察数据中的有效信息。<br>数据分析首先得有数据，从各个地方采集数据。所谓巧妇难为无米之炊，没有数据更谈不上数据洞察。有些公司，成立商业分析部门，干的活却是窃取其他公司的商业核心数据，愣是把一个高上大的技术名词搞成了间谍。20世纪上半叶，数学上的统计学在各行各业流行开来，数学家们，利用很少的数据，再加上统计学理论，推断一个结论。如经典的”女士品茶”这个故事，通过数据判定女士到底有没有某个超能力。至于把商业分析干成商业间谍的人，大概是不懂得需要如何合法的采集数据，以及分析数据的手段吧。<br>数据存储无需多讨论，要分析数据，首先要把数据存储下来，无论是存储在云端也好，还是excel也好，只有存储下来，才能方便后续的计算和分析。<br>数据有哪些使用方式呢？这里列举了四种用法，例如report，monitoring，analysis，exploration/mining。我们可以按照两个维度来划分，需求是否明确，分析方式是否成熟。<br><img src="/2021/12/25/%E4%BB%8E%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E5%88%B0%E6%95%B0%E6%8D%AE%E6%B4%9E%E5%AF%9F/12/25/%E4%BB%8E%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E5%88%B0%E6%95%B0%E6%8D%AE%E6%B4%9E%E5%AF%9F/1639914240796-aa90d9c9-0521-4741-825f-248664cbe39d.png" class title="image.png"><br>有些需求场景是明确的，例如老板需要每天看几个关键的业务指标，那么就需要每天跑个固定的脚本，生成报告。在这个过程中分析方法也是固定的，即运行固定的计算逻辑。有些需求需要经过一番分析，例如某天业务量降低了，要分析下原因是什么，就需要从多种指标里边去探索。<br>还有些需求场景是不明确的，给你一份数据，我们知道数据里边有金矿，关键是怎么把数据中的核心信息捞出来，也需要探索才能找到，但是探索的目标不确定。这就是个开放式的话题了，也就是探索式数据分析：有数据，尝试找信息。应该沿着怎么样的一条路是探索呢？我认为有两种方式：</p>
 <ul>
 <li>尝试不同的分析方法，例如统计方法/机器学习方，挨个尝试，看能得到什么结果。有哪些分析方法，会在下文列一下常用的手段。</li>
 <li>尝试不同的目标，比如，首先用一句话描述数据的总体分布，然后找出其中的一些异常点，最后通过拟合数据做未来预测等等，有哪些分析目标，也会在下文列出一下常用的。</li>
@@ -517,7 +555,7 @@
 <h3 id="验证假设"><a href="#验证假设" class="headerlink" title="验证假设"></a>验证假设</h3><p>首先给出一个假设，通过数据给出证明。</p>
 <h3 id="预测"><a href="#预测" class="headerlink" title="预测"></a>预测</h3><p>拟合已有的数据，根据模型预测未来数据。<br>​</p>
 <p>无论哪种目标，最终都是需要能过帮助完成决策，只有完成决策，才算完沉了闭环，否则就是无意义的数据分析。</p>
-<h2 id="洞察数据的方法"><a href="#洞察数据的方法" class="headerlink" title="洞察数据的方法"></a>洞察数据的方法</h2><p>一个优秀的软件，必定是有灵魂的，他的灵魂就是背后的方法论。Saas的本质，就是输出管理的理念和方法论，并且提供解决方案的工具。具体到数据分析工具而言，一个优秀的数据分析工具一定以数据分析方法论的为基础的，融合集合常见的数据分析方法。而不是东一榔头、西一棒槌追加分析函数，永远跟着甲方的需求跑，面向客户开发，面向demo开发，这样的话永远不成体系。<br>我们先来看个数据分析的笑话：<br><img src="/2021/12/25/从数据分析到数据洞察/12/25/从数据分析到数据洞察/1638965299987-04d1c697-7f85-4dd2-899e-9e5598c647bb.png" title="image.png"><br>手里有个锤子，看什么都是钉子，数据分析专业的同学，看到什么都要现象都要分析一把。疫情也要分析一把，强行刷存在感。不过笑归笑，外行看热闹，内行看门道。在这个简短的笑话中，我们看到一些常见的数据分析方法：相关性分析、假设检验、ab测试、z test、数据分布、标准差、显著性水平等。</p>
+<h2 id="洞察数据的方法"><a href="#洞察数据的方法" class="headerlink" title="洞察数据的方法"></a>洞察数据的方法</h2><p>一个优秀的软件，必定是有灵魂的，他的灵魂就是背后的方法论。Saas的本质，就是输出管理的理念和方法论，并且提供解决方案的工具。具体到数据分析工具而言，一个优秀的数据分析工具一定以数据分析方法论的为基础的，融合集合常见的数据分析方法。而不是东一榔头、西一棒槌追加分析函数，永远跟着甲方的需求跑，面向客户开发，面向demo开发，这样的话永远不成体系。<br>我们先来看个数据分析的笑话：<br><img src="/2021/12/25/%E4%BB%8E%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E5%88%B0%E6%95%B0%E6%8D%AE%E6%B4%9E%E5%AF%9F/12/25/%E4%BB%8E%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E5%88%B0%E6%95%B0%E6%8D%AE%E6%B4%9E%E5%AF%9F/1638965299987-04d1c697-7f85-4dd2-899e-9e5598c647bb.png" class title="image.png"><br>手里有个锤子，看什么都是钉子，数据分析专业的同学，看到什么都要现象都要分析一把。疫情也要分析一把，强行刷存在感。不过笑归笑，外行看热闹，内行看门道。在这个简短的笑话中，我们看到一些常见的数据分析方法：相关性分析、假设检验、ab测试、z test、数据分布、标准差、显著性水平等。</p>
 <p>那么常见的数据分析方法有哪些呢？这些我们在大学的各个数学课程中都学习过了。首先我们做个分类，按照实现方式，数据分析包括：</p>
 <ul>
 <li>基于统计算法的数据分析。</li>
@@ -560,10 +598,10 @@
 <li>范围</li>
 <li>四分位距</li>
 </ul>
-<img src="/2021/12/25/从数据分析到数据洞察/12/25/从数据分析到数据洞察/1639967567533-5e587d1b-3db0-4da0-aae2-906309bfd6f3.png" title="image.png">
-<h3 id="数据分布"><a href="#数据分布" class="headerlink" title="数据分布"></a>数据分布</h3><p>数据分布的目标主要是查看数据的分布频率(分布密度)，针对不同的数据采取不同的分析方式，对于连续数据，采取散点图/箱线图(分位统计)描述。在散点图中，把所有的点都打印到图中，密度比较高的地方则说明分布比较多。对于离散数据，采取堆叠图/直方图描述。按照每个不同的类别，分桶后统计计数，然后用直方图绘出。同样的，对于连续数据也可以采取直方图的方式，把连续数据按照固定的桶大小分桶后再计数。<br><img src="/2021/12/25/从数据分析到数据洞察/12/25/从数据分析到数据洞察/1639967723187-2fb0e24c-0aba-4dee-940a-5e50cbd882d3.png" title="image.png"></p>
-<img src="/2021/12/25/从数据分析到数据洞察/12/25/从数据分析到数据洞察/1639967822622-80a912a7-3c39-45bf-9baf-ebef36fb6c37.png" title="image.png">
-<h3 id="相关性"><a href="#相关性" class="headerlink" title="相关性"></a>相关性</h3><p>上文的统计量分析/数据分布分析，是用于分析单变量。 而对于多变量分析，则需要用到相关性分析。探索两个变量之间的相关性。在计算相关性时，主要计算两个数据集合的相关性系数。常见的相关性系数有皮尔逊系数、斯皮尔曼系数等。在计算好相关性系数后，可以绘制出一个相关性表如下：<br><img src="/2021/12/25/从数据分析到数据洞察/12/25/从数据分析到数据洞察/1639968277868-cd7f7b87-340f-4814-9470-17abca65d53e.png" title="image.png"></p>
+<img src="/2021/12/25/%E4%BB%8E%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E5%88%B0%E6%95%B0%E6%8D%AE%E6%B4%9E%E5%AF%9F/12/25/%E4%BB%8E%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E5%88%B0%E6%95%B0%E6%8D%AE%E6%B4%9E%E5%AF%9F/1639967567533-5e587d1b-3db0-4da0-aae2-906309bfd6f3.png" class title="image.png">
+<h3 id="数据分布"><a href="#数据分布" class="headerlink" title="数据分布"></a>数据分布</h3><p>数据分布的目标主要是查看数据的分布频率(分布密度)，针对不同的数据采取不同的分析方式，对于连续数据，采取散点图/箱线图(分位统计)描述。在散点图中，把所有的点都打印到图中，密度比较高的地方则说明分布比较多。对于离散数据，采取堆叠图/直方图描述。按照每个不同的类别，分桶后统计计数，然后用直方图绘出。同样的，对于连续数据也可以采取直方图的方式，把连续数据按照固定的桶大小分桶后再计数。<br><img src="/2021/12/25/%E4%BB%8E%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E5%88%B0%E6%95%B0%E6%8D%AE%E6%B4%9E%E5%AF%9F/12/25/%E4%BB%8E%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E5%88%B0%E6%95%B0%E6%8D%AE%E6%B4%9E%E5%AF%9F/1639967723187-2fb0e24c-0aba-4dee-940a-5e50cbd882d3.png" class title="image.png"></p>
+<img src="/2021/12/25/%E4%BB%8E%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E5%88%B0%E6%95%B0%E6%8D%AE%E6%B4%9E%E5%AF%9F/12/25/%E4%BB%8E%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E5%88%B0%E6%95%B0%E6%8D%AE%E6%B4%9E%E5%AF%9F/1639967822622-80a912a7-3c39-45bf-9baf-ebef36fb6c37.png" class title="image.png">
+<h3 id="相关性"><a href="#相关性" class="headerlink" title="相关性"></a>相关性</h3><p>上文的统计量分析/数据分布分析，是用于分析单变量。 而对于多变量分析，则需要用到相关性分析。探索两个变量之间的相关性。在计算相关性时，主要计算两个数据集合的相关性系数。常见的相关性系数有皮尔逊系数、斯皮尔曼系数等。在计算好相关性系数后，可以绘制出一个相关性表如下：<br><img src="/2021/12/25/%E4%BB%8E%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E5%88%B0%E6%95%B0%E6%8D%AE%E6%B4%9E%E5%AF%9F/12/25/%E4%BB%8E%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E5%88%B0%E6%95%B0%E6%8D%AE%E6%B4%9E%E5%AF%9F/1639968277868-cd7f7b87-340f-4814-9470-17abca65d53e.png" class title="image.png"></p>
 <h3 id="抽样分布"><a href="#抽样分布" class="headerlink" title="抽样分布"></a>抽样分布</h3><p>抽样分布是用少量数据估算整体数据的分布情况，用途有三种：第一,可以概括性描述整体分布;第二可以根据整体分布预测未来的新数据；第三，可以利用分布系数来排查异常值。<br>常见的分布有：</p>
 <ul>
 <li>正态分布： 如果确定数据服从正态分布，估算出正态分布的sigma后，我们可以使用3sigma来排除异常值。</li>
@@ -575,7 +613,7 @@
 </ul>
 <p>柏松分布和指数分布通常用于估算事件发生率，也可用于估算IT系统的故障发生率。或者用于估算系统的上限水位，例如一个IT系统，每分钟的流量是x qps，那么根据泊松分布，可以估算出最大值是多少qps，系统需要准备多少资源。<br>​</p>
 <p>在现实的数据中，可能具备多种形状和类型，在特定场景下，应该首先确定数据集合服从哪种分布，求的分布系数后，再进行下一步的分析。<br>​</p>
-<h3 id="统计实验和假设性检验"><a href="#统计实验和假设性检验" class="headerlink" title="统计实验和假设性检验"></a>统计实验和假设性检验</h3><p>假设检验有个很好的用途，例如我们的营销团队做了个活动，那么如何评估活动是否带来了客流量呢？我们都知道现实的数据可能是有波动的，可能有N天变高，M天变低。所以要评估是否活动的影响，可以使用假设检验来验证。<br>最常见的业务场景，例如A/B测试。两种算法，哪个效果更好，可以通过假设检验来完成。<br>常见的方法有T检验、卡方检验<br>例如<br><img src="/2021/12/25/从数据分析到数据洞察/12/25/从数据分析到数据洞察/1639970025835-dc36319c-3779-40d2-8ee3-3666f3c2a277.png" title="image.png"><br>不同的标题下，有不同的点击率，那么这个点击率是随机造成的，还是标题起到了关键作用呢？可以通过卡方检验，计算皮尔逊残差，结果证明完全是随机作用。<br>​</p>
+<h3 id="统计实验和假设性检验"><a href="#统计实验和假设性检验" class="headerlink" title="统计实验和假设性检验"></a>统计实验和假设性检验</h3><p>假设检验有个很好的用途，例如我们的营销团队做了个活动，那么如何评估活动是否带来了客流量呢？我们都知道现实的数据可能是有波动的，可能有N天变高，M天变低。所以要评估是否活动的影响，可以使用假设检验来验证。<br>最常见的业务场景，例如A/B测试。两种算法，哪个效果更好，可以通过假设检验来完成。<br>常见的方法有T检验、卡方检验<br>例如<br><img src="/2021/12/25/%E4%BB%8E%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E5%88%B0%E6%95%B0%E6%8D%AE%E6%B4%9E%E5%AF%9F/12/25/%E4%BB%8E%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E5%88%B0%E6%95%B0%E6%8D%AE%E6%B4%9E%E5%AF%9F/1639970025835-dc36319c-3779-40d2-8ee3-3666f3c2a277.png" class title="image.png"><br>不同的标题下，有不同的点击率，那么这个点击率是随机造成的，还是标题起到了关键作用呢？可以通过卡方检验，计算皮尔逊残差，结果证明完全是随机作用。<br>​</p>
 <h3 id="回归和预测"><a href="#回归和预测" class="headerlink" title="回归和预测"></a>回归和预测</h3><p>在现实中，我们经常要回答的一个问题是，这两个指标之间是否有关联？如果有关联，是否可以通过其中一个指标预测另外一个指标。预测常见的一个使用场景是：根据预测的结果和实际的结果进行比对，然后判断是否有异常。</p>
 <h3 id="分类-1"><a href="#分类-1" class="headerlink" title="分类"></a>分类</h3><p>在数据分析中，经常要回答一个问题，一个电子邮件是否是钓鱼邮件？一个客户是否会流失？这种情况就需要分类。分类是有监督的学习。<br>常用的分类算法有：</p>
 <ul>
@@ -600,7 +638,7 @@
 <li>循环神经网络RNN</li>
 <li>深度神经网络DNN</li>
 </ul>
-<h1 id="数据分析工具和数据洞察解决方案"><a href="#数据分析工具和数据洞察解决方案" class="headerlink" title="数据分析工具和数据洞察解决方案"></a>数据分析工具和数据洞察解决方案</h1><img src="/2021/12/25/从数据分析到数据洞察/12/25/从数据分析到数据洞察/1639971950420-24beef6e-73f9-44c7-9e2b-64ed77900b6e.png" title="image.png">
+<h1 id="数据分析工具和数据洞察解决方案"><a href="#数据分析工具和数据洞察解决方案" class="headerlink" title="数据分析工具和数据洞察解决方案"></a>数据分析工具和数据洞察解决方案</h1><img src="/2021/12/25/%E4%BB%8E%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E5%88%B0%E6%95%B0%E6%8D%AE%E6%B4%9E%E5%AF%9F/12/25/%E4%BB%8E%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E5%88%B0%E6%95%B0%E6%8D%AE%E6%B4%9E%E5%AF%9F/1639971950420-24beef6e-73f9-44c7-9e2b-64ed77900b6e.png" class title="image.png">
 <p>上文介紹了很多数据分析的方法算法。这些方法，归根结底是一个个工具，或者说是积木，用户可以使用这些积木组合成解决方案，解决自己特定的问题。市场上有很多系统提供类似的数据分析工具，例如Pandas，R，SQL，Tensorflow等等。 但是这依赖于使用者既要明确自己的分析目标，又要十分精通使用工具。 对于开放式的话题，在分析时需要不断尝试各种各样的手段进行分析，有些分析手段可能是无效的，因此需要不断尝试，在这个过程中浪费了太多的时间。如何能够快速洞察数据呢？<br>有些工具尝试集合数据分析的工具和数据洞察的解决方案，例如tableau，Knime等，而Pandas profiling则是一个纯粹的数据洞察方案。它自动的尝试上文描述的各种手段，把结论呈现给客户，减少了数据探索的时间，能过快速的完成数据洞察。<br>​</p>
 <h1 id="数据洞察工具的价值"><a href="#数据洞察工具的价值" class="headerlink" title="数据洞察工具的价值"></a>数据洞察工具的价值</h1><p>针对开放式的课题，需要投入大量的人工时间在各个方向上探索，这存在几个问题：</p>
 <ul>
@@ -612,10 +650,10 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://mayunlei.github.io/2021/12/25/从数据分析到数据洞察/" data-id="clbczv5zq000cx23jciqma127" class="article-share-link">Share</a>
+      <a data-url="http://mayunlei.github.io/2021/12/25/%E4%BB%8E%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E5%88%B0%E6%95%B0%E6%8D%AE%E6%B4%9E%E5%AF%9F/" data-id="cltb1iov5000ir6gtc3b05ebp" class="article-share-link">Share</a>
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SQL洞察/">SQL洞察</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SQL%E6%B4%9E%E5%AF%9F/" rel="tag">SQL洞察</a></li></ul>
 
     </footer>
   </div>
@@ -646,24 +684,24 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>2021年3月25日凌晨0：00，我参加了PrestoCon2021全球技术峰会，在会上直播分享了阿里云SLS使用Presto构建交互式分析产品的挑战和优化。本文是演讲稿全文。PrestoCon2021日程：<a href="https://prestoconday2021.sched.com/?iframe=no" target="_blank" rel="noopener">https://prestoconday2021.sched.com/?iframe=no</a>，直播视频已经上传到B站<a href="https://www.bilibili.com/video/BV1hK4y1m7qe/" target="_blank" rel="noopener">https://www.bilibili.com/video/BV1hK4y1m7qe/</a>，B站还包括其他演讲视频。<br><img src="/2021/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617422880023-8b0bcbe0-5016-48be-9ef6-09d33a8e28b8.png"><br>hello everyone my name is yunlei. I work at Alibaba Cloud log service team. Today I will share petabytes scale log data analysis at Alibaba group, I will share our experience with presto, the challenges we faced and the optimizations we did for presto.<br>​<img src="/2021/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617424047759-aef063ca-f536-46ca-bcde-d672f868ea96.png"><br>So today, I will first give an introduction about our team and talk about the motivation why we provide analysis service for logging data. And then I will talk about the challenges we face. And after that I will share our architecture to achieve scalability. And also share some ways to achieve low latency and high qps or high concurrency. And after that I will talk about some additional work based on the scalable framework of presto. And finally, I will talk about the future roadmap.<br>​<img src="/2021/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617424064586-453cf25f-6bff-4dab-a258-572163bc29b2.png"><br>​</p>
-<p>First let me introduce my team, this may help you have a better understanding of the background, and the motivation of my we provide analysis service for logging data. And we are log service team, we are providing the infrastructure of all kinds of logging data inside Alibaba group., for example linux server, web page, mobile phone, or kubernetes.. and all these data from different kinds of platforms are collected to our clusters in real time. And then, consumers can consume streaming data in real time, without worrying about different platforms.<br>And after that, we wanted to provide service just like what engineers can do on their linux servers. For example, we found that engineers often use the command grep to search some key word from their log file. So, in order to provide the real time interactive search, we build inverted index for logging data. By using inverted index, people can search large amount data with very low latency.<br>And after that we notices that in this era of data explosion, even the searching result may contain thousands to millions, even to billions of rows. That is a very large number, even thousands of data is large amount of data for human being’s eye, it is not easy to fully understand what is really appending inside the large amount data. But If, we can summarize the data, do aggregation on data, take web access log as an example, if we can calculate the average response time or max response time, we can better understand the whole data. That is the motivation my we provide analysis service for logging data. And we also have a visualization service, to visualize the interactive query result, which is helpful for understanding the data trend.<br>So, in summary, our team provide multi-tenant, interactive analysis for petabytes scale real time logging data.<br><img src="/2021/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617424085479-947ee0dd-7136-446c-9eb3-7d19e6fddb44.png"><br>What are the challenges we faced? The first challenge is the high QPS and high concurrency. Every day, we process about 400 millions queries, at the peak hour there are about 10000 queries running concurrently. Second, every day presto process over 1 quadrillion rows. Which is huge amount of data. But we can deliver the interactive query with very low latency. The average latency is only about 500 ms. So, how do we deal with those challenges, and how to achieve that low latency? In the latter slides, I will talk about some techniques we used.<br><img src="/2021/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617424102038-4ac1684f-5525-4932-940e-8f27480897da.png"><br>​</p>
+        <p>2021年3月25日凌晨0：00，我参加了PrestoCon2021全球技术峰会，在会上直播分享了阿里云SLS使用Presto构建交互式分析产品的挑战和优化。本文是演讲稿全文。PrestoCon2021日程：<a href="https://prestoconday2021.sched.com/?iframe=no">https://prestoconday2021.sched.com/?iframe=no</a>，直播视频已经上传到B站<a href="https://www.bilibili.com/video/BV1hK4y1m7qe/">https://www.bilibili.com/video/BV1hK4y1m7qe/</a>，B站还包括其他演讲视频。<br><img src="/2021/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617422880023-8b0bcbe0-5016-48be-9ef6-09d33a8e28b8.png" class><br>hello everyone my name is yunlei. I work at Alibaba Cloud log service team. Today I will share petabytes scale log data analysis at Alibaba group, I will share our experience with presto, the challenges we faced and the optimizations we did for presto.<br>​<img src="/2021/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617424047759-aef063ca-f536-46ca-bcde-d672f868ea96.png" class><br>So today, I will first give an introduction about our team and talk about the motivation why we provide analysis service for logging data. And then I will talk about the challenges we face. And after that I will share our architecture to achieve scalability. And also share some ways to achieve low latency and high qps or high concurrency. And after that I will talk about some additional work based on the scalable framework of presto. And finally, I will talk about the future roadmap.<br>​<img src="/2021/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617424064586-453cf25f-6bff-4dab-a258-572163bc29b2.png" class><br>​</p>
+<p>First let me introduce my team, this may help you have a better understanding of the background, and the motivation of my we provide analysis service for logging data. And we are log service team, we are providing the infrastructure of all kinds of logging data inside Alibaba group., for example linux server, web page, mobile phone, or kubernetes.. and all these data from different kinds of platforms are collected to our clusters in real time. And then, consumers can consume streaming data in real time, without worrying about different platforms.<br>And after that, we wanted to provide service just like what engineers can do on their linux servers. For example, we found that engineers often use the command grep to search some key word from their log file. So, in order to provide the real time interactive search, we build inverted index for logging data. By using inverted index, people can search large amount data with very low latency.<br>And after that we notices that in this era of data explosion, even the searching result may contain thousands to millions, even to billions of rows. That is a very large number, even thousands of data is large amount of data for human being’s eye, it is not easy to fully understand what is really appending inside the large amount data. But If, we can summarize the data, do aggregation on data, take web access log as an example, if we can calculate the average response time or max response time, we can better understand the whole data. That is the motivation my we provide analysis service for logging data. And we also have a visualization service, to visualize the interactive query result, which is helpful for understanding the data trend.<br>So, in summary, our team provide multi-tenant, interactive analysis for petabytes scale real time logging data.<br><img src="/2021/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617424085479-947ee0dd-7136-446c-9eb3-7d19e6fddb44.png" class><br>What are the challenges we faced? The first challenge is the high QPS and high concurrency. Every day, we process about 400 millions queries, at the peak hour there are about 10000 queries running concurrently. Second, every day presto process over 1 quadrillion rows. Which is huge amount of data. But we can deliver the interactive query with very low latency. The average latency is only about 500 ms. So, how do we deal with those challenges, and how to achieve that low latency? In the latter slides, I will talk about some techniques we used.<br><img src="/2021/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617424102038-4ac1684f-5525-4932-940e-8f27480897da.png" class><br>​</p>
 <p>In order to provide the interactive log analysis. The first thing we did is introducing presto into our system. Many people ask me the question that, why did we choose presto in the first day. Well, I think the first and most import reason is that, presto is really really fast, very flexible for interactive query. It suits our use case.  Second reason, presto has a scalable framework. We can develop our own connector/function/optimization rule which makes it very easy to integrate presto with our own storage. Last, the architecture and coding style Is very elegant. The architecture is simple, it doesn’t rely on any external components for deployment. The coding style is also very simple, it is easy for us to learn its internal implementation, also easy for us to do some modification for optimization. That is the reason why we choose presto in the first day.<br>​</p>
-<img src="/2021/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617424115235-59d335b5-b076-4de5-a717-aedbec1d7399.png">
-<p>In order to deal with the large amount of data ingested every day. We design our architecture like this. This is simplified architecture, only analysis related components are included. Data from different kinds of platforms are collected to our cluster, in the backend, the index worker keeps building inverted index and column format data for logging data. And then all the data are stored in the distributed file system, which is called pangu. This is the flow of data ingestion. When submitting query, users can send their query by sdk or jdbc client through our front api server, to one coordinator. We support distributed coordinators, and I will talk more detail about the design. In the backend, presto server read inverted index for filtering and column data for computing. This is the flow of querying. And presto play a key role in this architecture.<br>​<img src="/2021/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617424157805-b6df2168-c7a5-47bf-b034-2d38641b6127.png"><br>How to support querying large amount of data? Every day we process about 1quadrillinon rows. Fortunately, presto is a pure computing engine, so it is easy to decouple computing and storage separately. So that we can scale presto horizontally. Also, log data has a feature that it is immutable after ingested. And in the backend, we keep compacting small file into larger file, when the file is large enough, the file will become immutable. One immutable file contains tens of millions rows.so, each time we schedule a file, we schedule each immutable file to one presto server. And by this way, we can use a lot of presto server for one query. And thus, we can query large amount of data in one query. And the performance is also significant. If we run a simple group by query on 200 billions rows, it only takes about 20 seconds. That is a large amount of data and the latency is acceptable.<br>​<img src="/2021/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617424171251-5420046d-4e6c-4607-9891-cf6d2e64329c.png"><br>So, how to achieve low latency? There are a few techniques we used. The first technique we used is column format storage. In the backend, we keep building column format data. We all know that column storage is helpful for reducing data size to read from disk, and also helpful for vectorized execution, thus it will makes query faster.<br>​</p>
+<img src="/2021/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617424115235-59d335b5-b076-4de5-a717-aedbec1d7399.png" class>
+<p>In order to deal with the large amount of data ingested every day. We design our architecture like this. This is simplified architecture, only analysis related components are included. Data from different kinds of platforms are collected to our cluster, in the backend, the index worker keeps building inverted index and column format data for logging data. And then all the data are stored in the distributed file system, which is called pangu. This is the flow of data ingestion. When submitting query, users can send their query by sdk or jdbc client through our front api server, to one coordinator. We support distributed coordinators, and I will talk more detail about the design. In the backend, presto server read inverted index for filtering and column data for computing. This is the flow of querying. And presto play a key role in this architecture.<br>​<img src="/2021/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617424157805-b6df2168-c7a5-47bf-b034-2d38641b6127.png" class><br>How to support querying large amount of data? Every day we process about 1quadrillinon rows. Fortunately, presto is a pure computing engine, so it is easy to decouple computing and storage separately. So that we can scale presto horizontally. Also, log data has a feature that it is immutable after ingested. And in the backend, we keep compacting small file into larger file, when the file is large enough, the file will become immutable. One immutable file contains tens of millions rows.so, each time we schedule a file, we schedule each immutable file to one presto server. And by this way, we can use a lot of presto server for one query. And thus, we can query large amount of data in one query. And the performance is also significant. If we run a simple group by query on 200 billions rows, it only takes about 20 seconds. That is a large amount of data and the latency is acceptable.<br>​<img src="/2021/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617424171251-5420046d-4e6c-4607-9891-cf6d2e64329c.png" class><br>So, how to achieve low latency? There are a few techniques we used. The first technique we used is column format storage. In the backend, we keep building column format data. We all know that column storage is helpful for reducing data size to read from disk, and also helpful for vectorized execution, thus it will makes query faster.<br>​</p>
 <p>Another technique we used is data locality. We all know that, network speed inside cluster is much faster than network between clusters. So, we deploy storage and computing engine in same shared cluster. When scheduling task, we choose a free node by the order of machine, rack, cluster.<br>​</p>
-<p>There are some other techniques we used, for example cache, inverted index. I will talk more detail about that.<br>​<img src="/2021/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617424190608-a0d8d74d-5925-4f0a-a13d-280d1ee25ea8.png"><br>We all know that cache can make query faster, it can also help us removing some duplicated computation. And in order to take advantage of cache, the scheduling algorithm has to remember scheduling history in memory. Every time we schedule a file, we schedule each immutable file to the same node it has been scheduled before, unless the workload of specified node is much too high. In that case, we will choose another free node.<br>So there are three layers of cache, from the bottom up, there are raw data cache, intermediate result cache, and final result cache. The raw data cache and final result cache are common solutions. But the intermediate cache is a very rare solution. So, I’d like to talk more detail about the intermediate cache. As I mentioned earlier, file is immutable. So, every time we schedule a file, we schedule each mapper with exactly one immutable file. Then after finishing the partial aggregation operator, we store the result of partial aggregation operator in memory. And next time when we run exactly the same partial aggregation operator on exactly the same immutable file, we can just read the result from the memory, and send the intermediate result to final aggregation operator directly, without reading data from disk and recomputing the partial aggregation operator. We all know that partial aggregation operator deals with large amount of data, and only generate small amount of data. So, most of the computation happens in the partial aggregation operator. By using intermediate cache, we can achieve a faster query and also save a lot of cpu and IO resource.<br>​</p>
-<img src="/2021/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617424208162-f254d8cb-b03a-45a8-8175-129bb878d88c.png">
+<p>There are some other techniques we used, for example cache, inverted index. I will talk more detail about that.<br>​<img src="/2021/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617424190608-a0d8d74d-5925-4f0a-a13d-280d1ee25ea8.png" class><br>We all know that cache can make query faster, it can also help us removing some duplicated computation. And in order to take advantage of cache, the scheduling algorithm has to remember scheduling history in memory. Every time we schedule a file, we schedule each immutable file to the same node it has been scheduled before, unless the workload of specified node is much too high. In that case, we will choose another free node.<br>So there are three layers of cache, from the bottom up, there are raw data cache, intermediate result cache, and final result cache. The raw data cache and final result cache are common solutions. But the intermediate cache is a very rare solution. So, I’d like to talk more detail about the intermediate cache. As I mentioned earlier, file is immutable. So, every time we schedule a file, we schedule each mapper with exactly one immutable file. Then after finishing the partial aggregation operator, we store the result of partial aggregation operator in memory. And next time when we run exactly the same partial aggregation operator on exactly the same immutable file, we can just read the result from the memory, and send the intermediate result to final aggregation operator directly, without reading data from disk and recomputing the partial aggregation operator. We all know that partial aggregation operator deals with large amount of data, and only generate small amount of data. So, most of the computation happens in the partial aggregation operator. By using intermediate cache, we can achieve a faster query and also save a lot of cpu and IO resource.<br>​</p>
+<img src="/2021/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617424208162-f254d8cb-b03a-45a8-8175-129bb878d88c.png" class>
 <p>What about the performance of cache? Every day, there are more than about 100 millions query hitting final result cache. The average latency when hitting final result cache is only about 6 milliseconds. So, it is really fast. What’s more, final result cache can help us prevent a lot of duplicated computations and save us a lot of resource. What about the performance of intermediate cache?  For 1 billion rows.  It only takes about 1.3 second when hitting intermediate cache, but it will take 6 seconds when not hitting intermediate cache. So, the comparation of two latency is impressive.<br>​</p>
-<img src="/2021/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617424220492-9a72f5a5-99f4-489a-993f-4556faf5c06c.png">
-<p>Another technique we used is inverted index. In the first day, we use inverted index for searching data. After introducing presto into our system. I push down predicate from presto to storage system, and then use the inverted index to first calculate the matched row id, and use the matched row id to read matched rows, and then send only matched data to presto. This strategy is very effective if we can use inverted index to skip some file or only read small part of file. If you run a query select count(*), that will be extremely fast by using only index!.<br>​<img src="/2021/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617424234433-bf57b216-ed16-4155-a7ca-11de19da5c25.png"><br>Every day we are processing more than 400 million queries. And the main challenge is on coordinator. This picture was taken about 2 years ago. And at that time there was only one single coordinator. This picture shows the top 4 nodes with highest CPU usage of presto, the fist picture is coordinator. You may notice that the CPU usage of coordinator is much higher than normal workers. In our cluster, one single coordinator can process 1000 queries concurrently at most. So, the single coordinator is the bottleneck of the cluster. It has the problem of both scalability and availability. In order to improve the performance of coordinator, I did a few optimizations. The first optimization is supporting distributed scalable coordinators. The second optimization is transferring data from output stage to client directly, without worrying coordinator.<br>​<img src="/2021/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617424953423-4a63a842-e655-4d43-953a-46ef4363b76f.png"><br>Let us look at the detailed design of distributed coordinators. I design the distributed coordinators for scalability. And there are two kinds of roles in this design: the global coordinator, and the distributed coordinators. The global coordinator has only one instance. It is responsible for cluster management. For example, detect node state, replicate all the node state to other coordinators, track memory usage, assign largest query to reserved pool.  The distributed coordinators are responsible for query management. For example, parse query, create logical plan, optimize logical plan, schedule task, track task state. It is also responsible for a user queue. Every time submitting a query, user send his query to one coordinator based on the hashing of user name, in this way, all the queries belonging to one user can always be found in one coordinator. This design is not 100 percent perfect, because the global queue is not supported. But it is enough for our scenario. It helps us to scale coordinators horizontally for much higher concurrency.<br>​<img src="/2021/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617424969227-e65a0a3a-fc14-4284-b618-f064b17db078.png"><br>Another thing we did is optimizing the data transfer flow. In the original design, the coordinator transfers query result from output stage to client. So, the coordinator has to serialize query result into json format. We all know that json serialization is very slow. What if coordinator transfers large amount of data? For example, 1 gigabytes data. That will take a lot of CPU usage of coordinator. In order to optimize the performance of coordinator, here is my solution. The coordinator will tell the client all the addresses of the output stage. Because there may more than one node in the output stage. And then client will use the addresses to talk to output stage to directly fetch data with protobuf format. By this way we can make query faster and save a lot of cpu usage of coordinator.<br>​</p>
-<img src="/2021/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617425009217-0057e623-4495-447f-9a49-dcd24d6d8c56.png">
-<p>Here is the final performance. We can process 400 million queries every day by supporting distributed coordinator and optimizing data transfer. And by decoupling computing and storage, we can support processing over 1 quadrillion rows every day. By taking advantage of column storage, data locality, cache, inverted index, we can provide interactive query with very low latency, the average latency is only about 500 milliseconds.<br>​<img src="/2021/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617425021490-e42b4c38-9d1f-4c5a-8f4c-3c3c28939708.png"><br>Besides those optimizations, we also did a few additional works based on the scalable framework of presto. The first thing we did is machine learning library for time series data. We also noticed that only logging data is not enough for analysis. Sometimes, we need to join logging data with some external data. So, I developed a connector to read object file on OSS storage.  We also use presto as a federated SQL engine.<br>​<img src="/2021/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617425034418-771bd915-8711-455d-ab40-a88ffe74e48e.png"><br>In the future, there are still a lot of things to do. The biggest challenge is still on coordinator. We will keep optimizing coordinator. Another thing we want to do is increase the availability of discovery, by now, discovery has only one instance. We also want to improve the performance of data exchange by using rpc protocol, which will make it faster to shuffling large amount of data.<br><img src="/2021/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617425122280-6c261c3d-0b80-4e09-8eb4-a794ee80092c.png"><br>If you are interested in data analysis engine or OLAP engine, don’t hesitate connect me,  our team are hiring OLAP engineers, let us work together to make data easy to understand!<br>​</p>
+<img src="/2021/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617424220492-9a72f5a5-99f4-489a-993f-4556faf5c06c.png" class>
+<p>Another technique we used is inverted index. In the first day, we use inverted index for searching data. After introducing presto into our system. I push down predicate from presto to storage system, and then use the inverted index to first calculate the matched row id, and use the matched row id to read matched rows, and then send only matched data to presto. This strategy is very effective if we can use inverted index to skip some file or only read small part of file. If you run a query select count(*), that will be extremely fast by using only index!.<br>​<img src="/2021/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617424234433-bf57b216-ed16-4155-a7ca-11de19da5c25.png" class><br>Every day we are processing more than 400 million queries. And the main challenge is on coordinator. This picture was taken about 2 years ago. And at that time there was only one single coordinator. This picture shows the top 4 nodes with highest CPU usage of presto, the fist picture is coordinator. You may notice that the CPU usage of coordinator is much higher than normal workers. In our cluster, one single coordinator can process 1000 queries concurrently at most. So, the single coordinator is the bottleneck of the cluster. It has the problem of both scalability and availability. In order to improve the performance of coordinator, I did a few optimizations. The first optimization is supporting distributed scalable coordinators. The second optimization is transferring data from output stage to client directly, without worrying coordinator.<br>​<img src="/2021/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617424953423-4a63a842-e655-4d43-953a-46ef4363b76f.png" class><br>Let us look at the detailed design of distributed coordinators. I design the distributed coordinators for scalability. And there are two kinds of roles in this design: the global coordinator, and the distributed coordinators. The global coordinator has only one instance. It is responsible for cluster management. For example, detect node state, replicate all the node state to other coordinators, track memory usage, assign largest query to reserved pool.  The distributed coordinators are responsible for query management. For example, parse query, create logical plan, optimize logical plan, schedule task, track task state. It is also responsible for a user queue. Every time submitting a query, user send his query to one coordinator based on the hashing of user name, in this way, all the queries belonging to one user can always be found in one coordinator. This design is not 100 percent perfect, because the global queue is not supported. But it is enough for our scenario. It helps us to scale coordinators horizontally for much higher concurrency.<br>​<img src="/2021/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617424969227-e65a0a3a-fc14-4284-b618-f064b17db078.png" class><br>Another thing we did is optimizing the data transfer flow. In the original design, the coordinator transfers query result from output stage to client. So, the coordinator has to serialize query result into json format. We all know that json serialization is very slow. What if coordinator transfers large amount of data? For example, 1 gigabytes data. That will take a lot of CPU usage of coordinator. In order to optimize the performance of coordinator, here is my solution. The coordinator will tell the client all the addresses of the output stage. Because there may more than one node in the output stage. And then client will use the addresses to talk to output stage to directly fetch data with protobuf format. By this way we can make query faster and save a lot of cpu usage of coordinator.<br>​</p>
+<img src="/2021/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617425009217-0057e623-4495-447f-9a49-dcd24d6d8c56.png" class>
+<p>Here is the final performance. We can process 400 million queries every day by supporting distributed coordinator and optimizing data transfer. And by decoupling computing and storage, we can support processing over 1 quadrillion rows every day. By taking advantage of column storage, data locality, cache, inverted index, we can provide interactive query with very low latency, the average latency is only about 500 milliseconds.<br>​<img src="/2021/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617425021490-e42b4c38-9d1f-4c5a-8f4c-3c3c28939708.png" class><br>Besides those optimizations, we also did a few additional works based on the scalable framework of presto. The first thing we did is machine learning library for time series data. We also noticed that only logging data is not enough for analysis. Sometimes, we need to join logging data with some external data. So, I developed a connector to read object file on OSS storage.  We also use presto as a federated SQL engine.<br>​<img src="/2021/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617425034418-771bd915-8711-455d-ab40-a88ffe74e48e.png" class><br>In the future, there are still a lot of things to do. The biggest challenge is still on coordinator. We will keep optimizing coordinator. Another thing we want to do is increase the availability of discovery, by now, discovery has only one instance. We also want to improve the performance of data exchange by using rpc protocol, which will make it faster to shuffling large amount of data.<br><img src="/2021/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617425122280-6c261c3d-0b80-4e09-8eb4-a794ee80092c.png" class><br>If you are interested in data analysis engine or OLAP engine, don’t hesitate connect me,  our team are hiring OLAP engineers, let us work together to make data easy to understand!<br>​</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://mayunlei.github.io/2021/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/" data-id="clbczv5zl0004x23jpykklvea" class="article-share-link">Share</a>
+      <a data-url="http://mayunlei.github.io/2021/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/" data-id="cltb1iouz0004r6gtgmjz3199" class="article-share-link">Share</a>
       
       
     </footer>
@@ -675,7 +713,7 @@
   
     <article id="post-ClickHouse计算速度是如何做到领跑OLAP类产品的" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2021/01/09/ClickHouse计算速度是如何做到领跑OLAP类产品的/" class="article-date">
+    <a href="/2021/01/09/ClickHouse%E8%AE%A1%E7%AE%97%E9%80%9F%E5%BA%A6%E6%98%AF%E5%A6%82%E4%BD%95%E5%81%9A%E5%88%B0%E9%A2%86%E8%B7%91OLAP%E7%B1%BB%E4%BA%A7%E5%93%81%E7%9A%84/" class="article-date">
   <time datetime="2021-01-09T10:59:33.000Z" itemprop="datePublished">2021-01-09</time>
 </a>
     
@@ -687,7 +725,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2021/01/09/ClickHouse计算速度是如何做到领跑OLAP类产品的/">ClickHouse计算速度是如何做到领跑OLAP类产品的</a>
+      <a class="article-title" href="/2021/01/09/ClickHouse%E8%AE%A1%E7%AE%97%E9%80%9F%E5%BA%A6%E6%98%AF%E5%A6%82%E4%BD%95%E5%81%9A%E5%88%B0%E9%A2%86%E8%B7%91OLAP%E7%B1%BB%E4%BA%A7%E5%93%81%E7%9A%84/">ClickHouse计算速度是如何做到领跑OLAP类产品的</a>
     </h1>
   
 
@@ -741,13 +779,13 @@
 <p>解决方法就是第二种形式，在编译时绑定执行函数。但是还要解决一个泛化的问题，要提供一系列函数，而不止是一个函数。ClickHouse采用的是模板化编程，同一个名字的函数，用模板实现，乃至模板套模板。参数的类型用模板类型表示。并通过可变模板类型参数列表物化出真正的代码，这一过程是在ClickHouse编译时确定的。等到物化执行计划阶段，调用可变模板类型参数列表的函数，逐个匹配各个类型，寻找到合适的类型，就执行对应的函数。<code>可变模板类型列表</code>是一个很重要的概念，ClickHouse依赖它完成泛化代码的编写、代码实例化、运行时多态、</p>
 <p>上边提到的<code>1+2.2</code>可能有点复杂，我们首先以单参数函数为例介绍，比如函数<code>abs(-1)</code>，计算-1的绝对值。首先clickhouse提供了一个模板实现<code>FunctionUnaryArithmetic</code>，囊括了所有的单参数数学函数，参数可以是不同的类型，从uint8到decimal256,也可以是string。<code>abs.cpp</code>，则提供了abs算子的具体实现<code>AbsImpl::apply</code>，当然这个算子也用数据类型作为模板，可以支持不同位数的数字，该算子作为FunctionUnaryArithmetic的模板参数。FunctionUnaryArithmetic要做的，就是在运行时根据传入的参数实际类型，选择不同的执行路径，主要是区分是string还是数字。怎么实现运行时动态参数选择呢？主要是通过上文提到的可变长度的模板参数列表来实现:</p>
 <p>ClickHouse调用castTypeToEither 函数，并且传入实际的数据类型，和回调函数，当匹配到某一个类型时，就执行f这个lambda函数。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">static bool castType(const IDataType * type, F &amp;&amp; f)</span><br><span class="line">&#123;   </span><br><span class="line">    return castTypeToEither&lt;</span><br><span class="line">        DataTypeUInt8,</span><br><span class="line">        DataTypeUInt16,</span><br><span class="line">        DataTypeUInt32,</span><br><span class="line">        DataTypeUInt64,</span><br><span class="line">        DataTypeUInt256,</span><br><span class="line">        DataTypeInt8,</span><br><span class="line">        DataTypeInt16,</span><br><span class="line">        DataTypeInt32,</span><br><span class="line">        DataTypeInt64,</span><br><span class="line">        DataTypeInt128,</span><br><span class="line">        DataTypeInt256,</span><br><span class="line">        DataTypeFloat32,</span><br><span class="line">        DataTypeFloat64,</span><br><span class="line">        DataTypeDecimal&lt;Decimal32&gt;,</span><br><span class="line">        DataTypeDecimal&lt;Decimal64&gt;,</span><br><span class="line">        DataTypeDecimal&lt;Decimal128&gt;,</span><br><span class="line">        DataTypeDecimal&lt;Decimal256&gt;,</span><br><span class="line">        DataTypeFixedString</span><br><span class="line">    &gt;(type, std::forward&lt;F&gt;(f));</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">template &lt;typename... Ts, typename T, typename F&gt;                </span><br><span class="line">static bool castTypeToEither(const T * type, F &amp;&amp; f)             </span><br><span class="line">&#123;                                                                </span><br><span class="line">    /// XXX can&apos;t use &amp;&amp; here because gcc-7 complains about parentheses around &amp;&amp; within ||</span><br><span class="line">    return ((typeid_cast&lt;const Ts *&gt;(type) ? f(*typeid_cast&lt;const Ts *&gt;(type)) : false) || ...);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">static bool castType(const IDataType * type, F &amp;&amp; f)</span><br><span class="line">&#123;   </span><br><span class="line">    return castTypeToEither&lt;</span><br><span class="line">        DataTypeUInt8,</span><br><span class="line">        DataTypeUInt16,</span><br><span class="line">        DataTypeUInt32,</span><br><span class="line">        DataTypeUInt64,</span><br><span class="line">        DataTypeUInt256,</span><br><span class="line">        DataTypeInt8,</span><br><span class="line">        DataTypeInt16,</span><br><span class="line">        DataTypeInt32,</span><br><span class="line">        DataTypeInt64,</span><br><span class="line">        DataTypeInt128,</span><br><span class="line">        DataTypeInt256,</span><br><span class="line">        DataTypeFloat32,</span><br><span class="line">        DataTypeFloat64,</span><br><span class="line">        DataTypeDecimal&lt;Decimal32&gt;,</span><br><span class="line">        DataTypeDecimal&lt;Decimal64&gt;,</span><br><span class="line">        DataTypeDecimal&lt;Decimal128&gt;,</span><br><span class="line">        DataTypeDecimal&lt;Decimal256&gt;,</span><br><span class="line">        DataTypeFixedString</span><br><span class="line">    &gt;(type, std::forward&lt;F&gt;(f));</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">template &lt;typename... Ts, typename T, typename F&gt;                </span><br><span class="line">static bool castTypeToEither(const T * type, F &amp;&amp; f)             </span><br><span class="line">&#123;                                                                </span><br><span class="line">    /// XXX can&#x27;t use &amp;&amp; here because gcc-7 complains about parentheses around &amp;&amp; within ||</span><br><span class="line">    return ((typeid_cast&lt;const Ts *&gt;(type) ? f(*typeid_cast&lt;const Ts *&gt;(type)) : false) || ...);</span><br><span class="line">&#125;  </span><br></pre></td></tr></table></figure>
 <p>castTypeToEither是怎么实现的呢，如上代码样例，模板参数中的Ts是一个可变长度的列表。实现中，为了表达『命中类型就执行f』这个语义，用了短路求值法，但是因为编译器不支持&amp;&amp;这种写法，而用了?:双目运算符。如果检查类型匹配，就以匹配的类型执行，不匹配就检查下一个类型，语法上使用了||…  来表达对每一个模板参数执行相同操作。由于回调函数也是模板，传入实际类型就相当于实例化了对应代码。由于模板函数在编译时有调用才会实例化，不按照这种做法，我们恐怕要在一个地方为每一种类型编写一下调用函数才能实例化。castTypeToEither是非常重要的一个函数，由它实例化出了每一种计算函数的实现。</p>
 <p>看到了单参数的实现，接下来看多参数的实现，以上边提到了<code>1+2.2</code>为例，介绍ClickHouse的实现方式,由于双参数的类型组合比单数更多，相当于N*N个组合，比如int8 + float, int16+float,int32+float, float+float。 一般有个做法是，在具体实现时，只实现同类型的，比如Int8+int8， float+float。语法检查器在检查时，会优先寻找函数名匹配，参数类型也完全匹配的函数实现。 如果其中一个参数不匹配，比如Int32+float，找不到这个组合的实现，语法检查器会挨个检查每个函数实现，是否能够做类型转换，把实际类型转化成函数声明类型而不影响精度，比如针对int32+int32的函数实现，float不能转化成int32，所以不能采用该实现，针对float+float，发现int32能够转化成float，那么就会把语法树变成cast(int32 as float) + float来解决这个问题，虽然两者语义上有一定差别，毕竟int 转float在大数情况下会损失精度，但是好歹在目前情况下实现了该运算。</p>
 <p>按照这种做法，先强制转化类型，把数据拷贝出来一份，生成一份新的数据，再去计算。</p>
 <p>ClickHouse没有这样做，它没有在语法检查阶段添加这种强制类型转换的逻辑。而是用模板实现两个不同类型的计算，然后通过castTypeToEither函数，实例化出不同的组合。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">template &lt;typename F&gt;</span><br><span class="line">static bool castBothTypes(const IDataType * left, const IDataType * right, F &amp;&amp; f)</span><br><span class="line">&#123;    </span><br><span class="line">    return castType(left, [&amp;](const auto &amp; left_) &#123; return castType(right, [&amp;](const auto &amp; right_) &#123; return f(left_, right_); &#125;); &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">template &lt;typename F&gt;</span><br><span class="line">static bool castBothTypes(const IDataType * left, const IDataType * right, F &amp;&amp; f)</span><br><span class="line">&#123;    </span><br><span class="line">    return castType(left, [&amp;](const auto &amp; left_) &#123; return castType(right, [&amp;](const auto &amp; right_) &#123; return f(left_, right_); &#125;); &#125;);</span><br><span class="line">&#125;    </span><br></pre></td></tr></table></figure>
 <p>在castBothTypes函数中，通过castType嵌套castType，获得左右两个函数的实际类型后，用实际类型回调lambda函数f。比如你传入的是int+float,就会实例化出该类型。在ClickHouse的编译阶段(注意，不是SQL的编译阶段)，就会通过上文提到的几个函数，实例化出不同的组合，既有int+float,也有int64+float，更有decimal128+float，还有float+decimal128等等各种组合。</p>
 <p>ClickHouse的这种做法的好处是什么呢？减少了一次类型转换的开销，节省一个算子。</p>
 <p>值得注意的是，模板函数提升的是泛化的能力，总不能给每一种类型都实现一个重载函数吧，在执行效率上，由于是运行时多态，挨个检查每个类型，找到合适的再回调，需要有多次跳转指令，和虚函数也没多大差别，不能充分利用CPU流水线。但是由于ClickHouse采用的是列式方式计算，每一大块数据(几万行数据)只需要执行一次查找即可，不需要每一行数据都做这个检查。但假如你用的是按行处理，那恐怕性能就急剧下降了。</p>
@@ -757,14 +795,14 @@
 <h3 id="向量化"><a href="#向量化" class="headerlink" title="向量化"></a>向量化</h3><p>向量化主要是利用单条指令操作多条数据，指令称为SIMD指令。在运行时，把满足寄存器大小的数据放到寄存器，CPU一条指令操作寄存器上的多条数据。</p>
 <p>向量化一般有两种方式：</p>
 <h3 id="1-利用编译器自动向量化"><a href="#1-利用编译器自动向量化" class="headerlink" title="1. 利用编译器自动向量化"></a>1. 利用编译器自动向量化</h3><p>在编写程序时，如果是符合一定规范的循环语句，循环语句内部是简单的操作，比如+-*/等，编译器优化器，可以把循环语句折叠成向量化执行。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">static void NO_INLINE vectorVector(const A * __restrict a, const B * __restrict b, ResultType * __restrict c, size_t size)</span><br><span class="line">&#123;   </span><br><span class="line">    for (size_t i = 0; i &lt; size; ++i)</span><br><span class="line">        c[i] = Op::template apply&lt;ResultType&gt;(a[i], b[i]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">static void NO_INLINE vectorVector(const A * __restrict a, const B * __restrict b, ResultType * __restrict c, size_t size)</span><br><span class="line">&#123;   </span><br><span class="line">    for (size_t i = 0; i &lt; size; ++i)</span><br><span class="line">        c[i] = Op::template apply&lt;ResultType&gt;(a[i], b[i]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h4 id="2-显式使用SIMD指令"><a href="#2-显式使用SIMD指令" class="headerlink" title="2. 显式使用SIMD指令"></a>2. 显式使用SIMD指令</h4><p>c++ 提供了SIMD指令，可以一次把128bit的数据加载到寄存器，以下边的大小写转换的函数为例，一个字符是8bit，一次把128bit，也就是16个字节的字符串加载到寄存器，通过CPU一条指令操作16个字符，相当于获得了16倍的提速。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">    static void array(const UInt8 * src, const UInt8 * src_end, UInt8 * dst)</span><br><span class="line">    &#123;   </span><br><span class="line">        const auto flip_case_mask = &apos;A&apos; ^ &apos;a&apos;;</span><br><span class="line"></span><br><span class="line">#ifdef __SSE2__</span><br><span class="line">        const auto bytes_sse = sizeof(__m128i);</span><br><span class="line">        const auto src_end_sse = src_end - (src_end - src) % bytes_sse;</span><br><span class="line"></span><br><span class="line">        const auto v_not_case_lower_bound = _mm_set1_epi8(not_case_lower_bound - 1); </span><br><span class="line">        const auto v_not_case_upper_bound = _mm_set1_epi8(not_case_upper_bound + 1); </span><br><span class="line">        const auto v_flip_case_mask = _mm_set1_epi8(flip_case_mask);</span><br><span class="line"></span><br><span class="line">        for (; src &lt; src_end_sse; src += bytes_sse, dst += bytes_sse)</span><br><span class="line">        &#123;   </span><br><span class="line">            /// load 16 sequential 8-bit characters</span><br><span class="line">            const auto chars = _mm_loadu_si128(reinterpret_cast&lt;const __m128i *&gt;(src));</span><br><span class="line"></span><br><span class="line">            /// find which 8-bit sequences belong to range [case_lower_bound, case_upper_bound]</span><br><span class="line">            const auto is_not_case</span><br><span class="line">                = _mm_and_si128(_mm_cmpgt_epi8(chars, v_not_case_lower_bound), _mm_cmplt_epi8(chars, v_not_case_upper_bound));</span><br><span class="line"></span><br><span class="line">            /// keep `flip_case_mask` only where necessary, zero out elsewhere</span><br><span class="line">            const auto xor_mask = _mm_and_si128(v_flip_case_mask, is_not_case);</span><br><span class="line"></span><br><span class="line">            /// flip case by applying calculated mask</span><br><span class="line">            const auto cased_chars = _mm_xor_si128(chars, xor_mask);</span><br><span class="line"></span><br><span class="line">            /// store result back to destination</span><br><span class="line">            _mm_storeu_si128(reinterpret_cast&lt;__m128i *&gt;(dst), cased_chars);</span><br><span class="line">        &#125;   </span><br><span class="line">#endif</span><br><span class="line"></span><br><span class="line">        for (; src &lt; src_end; ++src, ++dst)</span><br><span class="line">            if (*src &gt;= not_case_lower_bound &amp;&amp; *src &lt;= not_case_upper_bound)</span><br><span class="line">                *dst = *src ^ flip_case_mask;</span><br><span class="line">            else</span><br><span class="line">                *dst = *src;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">    static void array(const UInt8 * src, const UInt8 * src_end, UInt8 * dst)</span><br><span class="line">    &#123;   </span><br><span class="line">        const auto flip_case_mask = &#x27;A&#x27; ^ &#x27;a&#x27;;</span><br><span class="line"></span><br><span class="line">#ifdef __SSE2__</span><br><span class="line">        const auto bytes_sse = sizeof(__m128i);</span><br><span class="line">        const auto src_end_sse = src_end - (src_end - src) % bytes_sse;</span><br><span class="line"></span><br><span class="line">        const auto v_not_case_lower_bound = _mm_set1_epi8(not_case_lower_bound - 1); </span><br><span class="line">        const auto v_not_case_upper_bound = _mm_set1_epi8(not_case_upper_bound + 1); </span><br><span class="line">        const auto v_flip_case_mask = _mm_set1_epi8(flip_case_mask);</span><br><span class="line"></span><br><span class="line">        for (; src &lt; src_end_sse; src += bytes_sse, dst += bytes_sse)</span><br><span class="line">        &#123;   </span><br><span class="line">            /// load 16 sequential 8-bit characters</span><br><span class="line">            const auto chars = _mm_loadu_si128(reinterpret_cast&lt;const __m128i *&gt;(src));</span><br><span class="line"></span><br><span class="line">            /// find which 8-bit sequences belong to range [case_lower_bound, case_upper_bound]</span><br><span class="line">            const auto is_not_case</span><br><span class="line">                = _mm_and_si128(_mm_cmpgt_epi8(chars, v_not_case_lower_bound), _mm_cmplt_epi8(chars, v_not_case_upper_bound));</span><br><span class="line"></span><br><span class="line">            /// keep `flip_case_mask` only where necessary, zero out elsewhere</span><br><span class="line">            const auto xor_mask = _mm_and_si128(v_flip_case_mask, is_not_case);</span><br><span class="line"></span><br><span class="line">            /// flip case by applying calculated mask</span><br><span class="line">            const auto cased_chars = _mm_xor_si128(chars, xor_mask);</span><br><span class="line"></span><br><span class="line">            /// store result back to destination</span><br><span class="line">            _mm_storeu_si128(reinterpret_cast&lt;__m128i *&gt;(dst), cased_chars);</span><br><span class="line">        &#125;   </span><br><span class="line">#endif</span><br><span class="line"></span><br><span class="line">        for (; src &lt; src_end; ++src, ++dst)</span><br><span class="line">            if (*src &gt;= not_case_lower_bound &amp;&amp; *src &lt;= not_case_upper_bound)</span><br><span class="line">                *dst = *src ^ flip_case_mask;</span><br><span class="line">            else</span><br><span class="line">                *dst = *src;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 <h3 id="LLVM动态编译执行代码"><a href="#LLVM动态编译执行代码" class="headerlink" title="LLVM动态编译执行代码"></a>LLVM动态编译执行代码</h3><p>上文在介绍模板化编程时指出，CickHouse实现多态的方式是通过在运行时检查不同参数类型，直到找到一个合适的类型，再运行这个类型的实例化计算代码。相当于多条跳转指令才能找到真正的执行代码。虽然采用列式计算，但是如果数据块比较多，这个计算开销也是不小的。 再加上计算时函数套函数，一个很小的操作都需要调用函数完成，实际上完成一行的计算需要多条指令才能做到。为了在这上边提升计算速度，ClickHouse还提供了动态编译和JIT的方法。</p>
 <p>说到c++的动态编译，就离不开LLVM。LLVM是一种现代化的编译器，我会再开一篇文章详细介绍LLVM和JIT技术。 动态编译代码，就是在程序运行时，把SQL的执行计划，编译成可执行的机器指令，并且在当前程序中执行这些指令。动态编译是相对于静态编译而言的。通常静态编译是说，写完代码用g++、clang++等工具编译成二进制文件，然后运行这个二进制文件。动态代码则是程序运行时动态编译的。动态编译和执行称为JIT技术。 </p>
 <p>LLVM 为c++提供了很了不起的JIT技术支持。往常只有java代码才有动态编译一说。c++有了动态编译，才给数据库技术加速计算提供了新的方法。</p>
 <p>以plus函数为例，plus的运算符提供了编译方法，通过llvm实现一个指令，<code>b.CreateAdd</code>完成左右两个参数的加法的指令。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">static inline llvm::Value * compile(llvm::IRBuilder&lt;&gt; &amp; b, llvm::Value * left, llvm::Value * right, bool)</span><br><span class="line">&#123;   </span><br><span class="line">    return left-&gt;getType()-&gt;isIntegerTy() ? b.CreateAdd(left, right) : b.CreateFAdd(left, right);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">static inline llvm::Value * compile(llvm::IRBuilder&lt;&gt; &amp; b, llvm::Value * left, llvm::Value * right, bool)</span><br><span class="line">&#123;   </span><br><span class="line">    return left-&gt;getType()-&gt;isIntegerTy() ? b.CreateAdd(left, right) : b.CreateFAdd(left, right);</span><br><span class="line">&#125;   </span><br></pre></td></tr></table></figure>
 <p>使用静态代码执行，需要多层函数嵌套，乃至每一行都需要调用一个函数，开销很大，而在JIT 技术下，一个区块的数据只需要调用一个函数就可以了。</p>
 <p>当然，动态编译代码代价很大。我们经常说，开发者大部人时间就是等待编译器做编译。JIT也一样，动态编译需要时间，编译一次代价很大。因此在编译后要把结果缓存下来复用。</p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>大数据系统发展了这么多年，数据规模越来越大，速度越来越快。而人们对数据分析的强烈需求是永无止境的。新的编程技术不断涌现，硬件水平也不断发展，每隔几年出现新的、更强大的、更快速的大数据系统。<br>ClickHouse作为比较新的OLAP引擎，在很多场景的benchmark上处于领先地位。本文从代码层面介绍了为什么ClickHouse计算速度快。ClickHouse利用c++17标准，clang11编译器，相当于最新的编程语言；同时利用模板泛化编程，泛化实现大量算子；也利用指令集别的并行计算，加速计算；利用LLVM动态编译代码，优化执行逻辑。</p>
@@ -773,10 +811,10 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://mayunlei.github.io/2021/01/09/ClickHouse计算速度是如何做到领跑OLAP类产品的/" data-id="clbczv5zh0000x23j34f94d8x" class="article-share-link">Share</a>
+      <a data-url="http://mayunlei.github.io/2021/01/09/ClickHouse%E8%AE%A1%E7%AE%97%E9%80%9F%E5%BA%A6%E6%98%AF%E5%A6%82%E4%BD%95%E5%81%9A%E5%88%B0%E9%A2%86%E8%B7%91OLAP%E7%B1%BB%E4%BA%A7%E5%93%81%E7%9A%84/" data-id="cltb1iouw0001r6gte5txgtrj" class="article-share-link">Share</a>
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ClickHouse-OLAP/">ClickHouse OLAP</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ClickHouse-OLAP/" rel="tag">ClickHouse OLAP</a></li></ul>
 
     </footer>
   </div>
@@ -787,7 +825,7 @@
   
     <article id="post-物联网产品现状和未来想象空间" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2020/12/27/物联网产品现状和未来想象空间/" class="article-date">
+    <a href="/2020/12/27/%E7%89%A9%E8%81%94%E7%BD%91%E4%BA%A7%E5%93%81%E7%8E%B0%E7%8A%B6%E5%92%8C%E6%9C%AA%E6%9D%A5%E6%83%B3%E8%B1%A1%E7%A9%BA%E9%97%B4/" class="article-date">
   <time datetime="2020-12-27T07:55:25.000Z" itemprop="datePublished">2020-12-27</time>
 </a>
     
@@ -799,7 +837,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2020/12/27/物联网产品现状和未来想象空间/">物联网产品现状和未来想象空间</a>
+      <a class="article-title" href="/2020/12/27/%E7%89%A9%E8%81%94%E7%BD%91%E4%BA%A7%E5%93%81%E7%8E%B0%E7%8A%B6%E5%92%8C%E6%9C%AA%E6%9D%A5%E6%83%B3%E8%B1%A1%E7%A9%BA%E9%97%B4/">物联网产品现状和未来想象空间</a>
     </h1>
   
 
@@ -836,7 +874,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://mayunlei.github.io/2020/12/27/物联网产品现状和未来想象空间/" data-id="clbczv601000ox23jonivgrt6" class="article-share-link">Share</a>
+      <a data-url="http://mayunlei.github.io/2020/12/27/%E7%89%A9%E8%81%94%E7%BD%91%E4%BA%A7%E5%93%81%E7%8E%B0%E7%8A%B6%E5%92%8C%E6%9C%AA%E6%9D%A5%E6%83%B3%E8%B1%A1%E7%A9%BA%E9%97%B4/" data-id="cltb1iov6000qr6gt3rgj3w57" class="article-share-link">Share</a>
       
       
     </footer>
@@ -848,7 +886,7 @@
   
     <article id="post-机器学习和数据挖掘" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2020/10/27/机器学习和数据挖掘/" class="article-date">
+    <a href="/2020/10/27/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%92%8C%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98/" class="article-date">
   <time datetime="2020-10-27T12:46:11.000Z" itemprop="datePublished">2020-10-27</time>
 </a>
     
@@ -860,7 +898,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2020/10/27/机器学习和数据挖掘/">机器学习和数据挖掘</a>
+      <a class="article-title" href="/2020/10/27/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%92%8C%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98/">机器学习和数据挖掘</a>
     </h1>
   
 
@@ -1030,21 +1068,21 @@
 </ul>
 <p>通过评分大大小，来判断结果的好坏。并最终训练出最好的模型。</p>
 <h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>上文列出了一些统计和假设检验、以及统计机器学习、神经网络机器学习的方法。统计机器学习属于比较传统的算法范畴，而神经网络属于最近几年比较火的内容，在特定场景下，还需要根据实际场景选择特定的算法。</p>
-<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><p><a href="https://book.douban.com/subject/27087503//" target="_blank" rel="noopener">深度学习</a></p>
-<p><a href="https://book.douban.com/subject/26708119/" target="_blank" rel="noopener">《机器学习》周志华</a></p>
-<p><a href="https://book.douban.com/subject/24703171/" target="_blank" rel="noopener">机器学习实战</a></p>
-<p><a href="https://book.douban.com/subject/26974266/" target="_blank" rel="noopener">TensorFlow实战</a></p>
-<p><a href="https://book.douban.com/subject/26976457/" target="_blank" rel="noopener">Tensorflow：实战Google深度学习框架</a></p>
-<p><a href="https://book.douban.com/subject/30354581/" target="_blank" rel="noopener">面向数据科学家的实用统计学</a></p>
-<p><a href="https://book.douban.com/subject/2038599//" target="_blank" rel="noopener">数据挖掘概念与技术</a></p>
+<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><p><a href="https://book.douban.com/subject/27087503//">深度学习</a></p>
+<p><a href="https://book.douban.com/subject/26708119/">《机器学习》周志华</a></p>
+<p><a href="https://book.douban.com/subject/24703171/">机器学习实战</a></p>
+<p><a href="https://book.douban.com/subject/26974266/">TensorFlow实战</a></p>
+<p><a href="https://book.douban.com/subject/26976457/">Tensorflow：实战Google深度学习框架</a></p>
+<p><a href="https://book.douban.com/subject/30354581/">面向数据科学家的实用统计学</a></p>
+<p><a href="https://book.douban.com/subject/2038599//">数据挖掘概念与技术</a></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://mayunlei.github.io/2020/10/27/机器学习和数据挖掘/" data-id="clbczv5zv000jx23joyobgm0w" class="article-share-link">Share</a>
+      <a data-url="http://mayunlei.github.io/2020/10/27/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%92%8C%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98/" data-id="cltb1iov5000jr6gt7ycq0joh" class="article-share-link">Share</a>
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ML-机器学习-神经网络/">ML 机器学习 神经网络</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ML-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/" rel="tag">ML 机器学习 神经网络</a></li></ul>
 
     </footer>
   </div>
@@ -1055,7 +1093,7 @@
   
     <article id="post-深入理解Presto-Presto的内部架构" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2020/08/16/深入理解Presto-Presto的内部架构/" class="article-date">
+    <a href="/2020/08/16/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3Presto-Presto%E7%9A%84%E5%86%85%E9%83%A8%E6%9E%B6%E6%9E%84/" class="article-date">
   <time datetime="2020-08-16T07:31:16.000Z" itemprop="datePublished">2020-08-16</time>
 </a>
     
@@ -1067,7 +1105,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2020/08/16/深入理解Presto-Presto的内部架构/">深入理解Presto,Presto的内部架构</a>
+      <a class="article-title" href="/2020/08/16/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3Presto-Presto%E7%9A%84%E5%86%85%E9%83%A8%E6%9E%B6%E6%9E%84/">深入理解Presto,Presto的内部架构</a>
     </h1>
   
 
@@ -1171,7 +1209,7 @@
 <p>为了处理一个查询，coordinator通过连接器的metadata创建了一组split。通过这一组split，coordinator开始调度task到机器上来采集数据。在查询执行阶段。coordinator追踪所有的可用split和他们的位置信息。一个task处理完成数据后，会产生更多的下游split。coordinator持续的调度任务，直到没有split需要处理。</p>
 <p>一旦所有的split处理完成，所有的数据都可用，coordinator会把数据结果提供给客户端。</p>
 <h2 id="查询计划"><a href="#查询计划" class="headerlink" title="查询计划"></a>查询计划</h2><p>在深入了解Presto逻辑执行计划生成器和基于代价的优化器如何工作之前，我们先限定一下我们考虑范围。这里提供了一个样例，来帮助我们探索逻辑执行计划的生成过程。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">样例 4-1. Example query to explain query planning</span><br><span class="line">SELECT</span><br><span class="line">(SELECT name FROM region r WHERE regionkey = n.regionkey) AS region_name, n.name AS nation_name,</span><br><span class="line">sum(totalprice) orders_sum</span><br><span class="line">FROM nation n, orders o, customer c WHERE n.nationkey = c.nationkey</span><br><span class="line">AND c.custkey = o.custkey</span><br><span class="line">GROUP BY n.nationkey, regionkey, n.name ORDER BY orders_sum DESC</span><br><span class="line">LIMIT 5;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">样例 4-1. Example query to explain query planning</span><br><span class="line">SELECT</span><br><span class="line">(SELECT name FROM region r WHERE regionkey = n.regionkey) AS region_name, n.name AS nation_name,</span><br><span class="line">sum(totalprice) orders_sum</span><br><span class="line">FROM nation n, orders o, customer c WHERE n.nationkey = c.nationkey</span><br><span class="line">AND c.custkey = o.custkey</span><br><span class="line">GROUP BY n.nationkey, regionkey, n.name ORDER BY orders_sum DESC</span><br><span class="line">LIMIT 5;</span><br></pre></td></tr></table></figure>
 <p>先了解一下这个SQL的目的。</p>
 <ul>
 <li>SELECT使用了三个表，隐式定义了一个CROSS join，跨越了三张表格。</li>
@@ -1192,7 +1230,7 @@
 <h2 id="初步的查询执行计划"><a href="#初步的查询执行计划" class="headerlink" title="初步的查询执行计划"></a>初步的查询执行计划</h2><p>查询执行计划可以看成是一个程序，这个程序可以产出查询结果。SQL是一种声明式语言，用户写一个SQL来指定要查询的数据。和命令式程序不同，用户不必指定怎么处理数据才能获得结果。Query的计划器和优化器可以决定处理数据的过程。</p>
 <p>处理数据的步骤的顺序就是查询逻辑执行计划。理论上，有很多种逻辑执行计划可以产生相同的查询结果，但是不同的逻辑执行计划的性能是非常不同的。所以就需要逻辑计划生成器和优化器来决定一个最佳的逻辑执行计划。可以产生相同结果的执行计划可以称为等同执行计划。</p>
 <p>我们来看一下样例4-1中的查询。最直接的逻辑执行计划就是直接翻译SQL的语法结构。解析出来的执行计划如样例4-2所示。逻辑执行计划是一个树结构，执行时从叶子节点开始，逐层向上处理树结构。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">样例4-2 手工生成的，非常直接的逻辑执行计划</span><br><span class="line">- Limit[5]</span><br><span class="line">- Sort[orders_sum DESC]</span><br><span class="line">- LateralJoin[2]</span><br><span class="line">- Aggregate[by nationkey...; orders_sum := sum(totalprice)]</span><br><span class="line">- Filter[c.nationkey = n.nationkey AND c.custkey = o.custkey] - CrossJoin</span><br><span class="line">- CrossJoin</span><br><span class="line">- TableScan[nation] - TableScan[orders]</span><br><span class="line">- TableScan[customer]</span><br><span class="line">- EnforceSingleRow[region_name := r.name]</span><br><span class="line">- Filter[r.regionkey = n.regionkey] - TableScan[region]</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">样例4-2 手工生成的，非常直接的逻辑执行计划</span><br><span class="line">- Limit[5]</span><br><span class="line">- Sort[orders_sum DESC]</span><br><span class="line">- LateralJoin[2]</span><br><span class="line">- Aggregate[by nationkey...; orders_sum := sum(totalprice)]</span><br><span class="line">- Filter[c.nationkey = n.nationkey AND c.custkey = o.custkey] - CrossJoin</span><br><span class="line">- CrossJoin</span><br><span class="line">- TableScan[nation] - TableScan[orders]</span><br><span class="line">- TableScan[customer]</span><br><span class="line">- EnforceSingleRow[region_name := r.name]</span><br><span class="line">- Filter[r.regionkey = n.regionkey] - TableScan[region]</span><br></pre></td></tr></table></figure>
 <p>逻辑执行计划中的每个元素都可以直接的，用命令式的风格来实现。例如TableScan访问底层的表，返回表中的所有的行。过滤器接收行，应用一个过滤条件，只保留满足条件的行。Cross join操作两个数据集，生成两个数据集的组合。或许可以把某个数据集保存在内存中，这样不必多次访问底层的存储系统。</p>
 <p>接下来我们看一下这个查询逻辑执行计划的计算复杂度。如果不知道所有实现的细节，就没办法评估复杂度。但是，我们可以假定，最小的复杂度就是数据集的大小。因此我们用O表示法。如果N,O,C，R代表nation，orders，customer，region的表的行数。这样我们可以观察到下边的内容：</p>
 <ol>
@@ -1207,27 +1245,27 @@
 <p>当然，Presto不会去傻乎乎的处理这样一个图样图森破的执行计划。但是这样一个图样图森破的执行计划有他的用处。初始化的执行计划扮演了一个桥梁的作用，连接起SQL语法及其所代表的语义规则，和查询优化。查询优化的作用就是把这样一个原生的执行计划转化成一个效果对等的计划，但是执行上尽可能的快，至少能用有限的Presto资源在可接受的时间延时内完成。 接下来我们探讨一下查询优化器是如何获得这样一个优化目标的。</p>
 <h2 id="逻辑执行计划优化的规则"><a href="#逻辑执行计划优化的规则" class="headerlink" title="逻辑执行计划优化的规则"></a>逻辑执行计划优化的规则</h2><p>在这一章节，我们来看一下Presto用到的优化规则。</p>
 <h3 id="1-谓词下推"><a href="#1-谓词下推" class="headerlink" title="1.谓词下推"></a>1.谓词下推</h3><p>谓词下推可能是唯一最重要的优化规则和最容易理解的规则。他的目标就是把过滤条件下推到离数据源越近越好。因此，数据的规模会在更早的执行阶段完成。在我们的案例中，过滤会转换成一个简单过滤和内连接，之下是同样的CrossJoin条件。变化后的执行计划如下所示4-3。没有发生变化的部分在这里忽略调。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">样例4-3，CrossJoin和Filter变成一个InnerJoin</span><br><span class="line">...</span><br><span class="line">- Aggregate[by nationkey...; orders_sum := sum(totalprice)]</span><br><span class="line">  - Filter[c.nationkey = n.nationkey AND c.custkey = o.custkey] // original filter</span><br><span class="line">    - CrossJoin</span><br><span class="line">      - CrossJoin</span><br><span class="line">         - TableScan[nation]</span><br><span class="line">         - TableScan[orders]</span><br><span class="line">      - TableScan[customer]</span><br><span class="line">- Aggregate[by nationkey...; orders_sum := sum(totalprice)]</span><br><span class="line"> - Filter[c.nationkey = n.nationkey]  // 变成简单的filter</span><br><span class="line">    - InnerJoin[o.custkey = c.custkey]  // 添加一个内连接InnerJoin</span><br><span class="line">        - CrossJoin</span><br><span class="line">            - TableScan[nation] </span><br><span class="line">            - TableScan[orders]</span><br><span class="line">        - TableScan[customer]</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">样例4-3，CrossJoin和Filter变成一个InnerJoin</span><br><span class="line">...</span><br><span class="line">- Aggregate[by nationkey...; orders_sum := sum(totalprice)]</span><br><span class="line">  - Filter[c.nationkey = n.nationkey AND c.custkey = o.custkey] // original filter</span><br><span class="line">    - CrossJoin</span><br><span class="line">      - CrossJoin</span><br><span class="line">         - TableScan[nation]</span><br><span class="line">         - TableScan[orders]</span><br><span class="line">      - TableScan[customer]</span><br><span class="line">- Aggregate[by nationkey...; orders_sum := sum(totalprice)]</span><br><span class="line"> - Filter[c.nationkey = n.nationkey]  // 变成简单的filter</span><br><span class="line">    - InnerJoin[o.custkey = c.custkey]  // 添加一个内连接InnerJoin</span><br><span class="line">        - CrossJoin</span><br><span class="line">            - TableScan[nation] </span><br><span class="line">            - TableScan[orders]</span><br><span class="line">        - TableScan[customer]</span><br></pre></td></tr></table></figure>
 <p>原来更大的Join变成了一个InnerJoin，保持相同的条件。我们暂时不深入细节，假设这样一个Join可以在分布式系统中高效的执行，计算复杂度等同于处理的行数。这意味着谓词下推至少把Ω(N × O × C) CrossJoin 实现变成了一个Θ(N × O)。</p>
 <p>但是，谓词下推不能优化nation和orders表之间的CrossJoin，因为两个表之间没有直接的条件关联。这正是消除CrossJoin方法能发挥作用的地方。</p>
 <h3 id="2-消除CrossJoin"><a href="#2-消除CrossJoin" class="headerlink" title="2. 消除CrossJoin"></a>2. 消除CrossJoin</h3><p>在没有CBO（基于代价的优化器），Presto 根据表出现在select中的顺序来进行join。一个重要的例外是，要join的表没有任何关联条件，这就是Cross Joinn。在实际案例中，crossjoin并不符合需求，Join出来的大部分行在之后都会过滤掉。但是cross join有太多的工作以至于可能完不成。</p>
 <p>消除Cross join把要join的表的顺序进行重排，目的是减少cross join的数量，最好是减少到0。在没有表的相对大小信息情况下，处理Cross join消除， table重排也可以做，所以用户可以掌控这一切。所以消除Cross Join的案例参考样例4-4. 现在两个Join都是inner  join，促使Query的整体代价变成Θ(C + O) = Θ(O).其他部分没有发生变化，所以整体的查询计算代价是Ω[O + (R × N) + (N × log(N))]。当然O所代表orders表的行数是决定性因素。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">Example 4-4. 重排join消除cross join</span><br><span class="line">...[i]</span><br><span class="line"> - Aggregate[by nationkey...; orders_sum := sum(totalprice)]</span><br><span class="line"> - Filter[c.nationkey = n.nationkey] 按照nationKey过滤</span><br><span class="line">    - InnerJoin[o.custkey = c.custkey] 按照cutKey inner join</span><br><span class="line">      - CrossJoin</span><br><span class="line">         - TableScan[nation]</span><br><span class="line">         - TableScan[orders]</span><br><span class="line">		- TableScan[customer]</span><br><span class="line">...</span><br><span class="line">...</span><br><span class="line">...</span><br><span class="line">- Aggregate[by nationkey...; orders_sum := sum(totalprice)]</span><br><span class="line">	- InnerJoin[c.custkey = o.custkey]</span><br><span class="line">     - InnerJoin[n.nationkey = c.nationkey]</span><br><span class="line">       - TableScan[nation]</span><br><span class="line">       - TableScan[customer]</span><br><span class="line">     - TableScan[orders]</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">Example 4-4. 重排join消除cross join</span><br><span class="line">...[i]</span><br><span class="line"> - Aggregate[by nationkey...; orders_sum := sum(totalprice)]</span><br><span class="line"> - Filter[c.nationkey = n.nationkey] 按照nationKey过滤</span><br><span class="line">    - InnerJoin[o.custkey = c.custkey] 按照cutKey inner join</span><br><span class="line">      - CrossJoin</span><br><span class="line">         - TableScan[nation]</span><br><span class="line">         - TableScan[orders]</span><br><span class="line">		- TableScan[customer]</span><br><span class="line">...</span><br><span class="line">...</span><br><span class="line">...</span><br><span class="line">- Aggregate[by nationkey...; orders_sum := sum(totalprice)]</span><br><span class="line">	- InnerJoin[c.custkey = o.custkey]</span><br><span class="line">     - InnerJoin[n.nationkey = c.nationkey]</span><br><span class="line">       - TableScan[nation]</span><br><span class="line">       - TableScan[customer]</span><br><span class="line">     - TableScan[orders]</span><br></pre></td></tr></table></figure>
 <h3 id="3-TopN"><a href="#3-TopN" class="headerlink" title="3. TopN"></a>3. TopN</h3><p>通常， 如果一个query包含了limit语句，那么前边必然跟着一个order  by语句。否则，如果没有order by排序，那么SQL返回的结果是随机的，你多次查询，结果会不同。带上order by ，则会保证查询的顺序和结果。</p>
 <p>当执行一个查询是，Presto可以对所有的行进行排序，然后取最前边的几行。这种做法的复杂度是Θ(row_count ×log(row_count))，内存复杂度是Θ(row_count)。 这种排序整个结果，而只取部分结果的做法，明显非常浪费，不是最佳做法。因此，一个优化规则把order by 和limit联合语句优化成了TopN逻辑计划节点。在query执行阶段，TopN在一个堆结构中保存一定数目的行数，当流式读取数据时，更新这个堆结构。这让时间复杂度降低到了Θ(row_count × log(limit)) ,内存复杂度降低到了Θ(limit)。 整体的查询复杂度是Ω[O + (R × N) + N]。</p>
 <h3 id="4-局部聚合"><a href="#4-局部聚合" class="headerlink" title="4. 局部聚合"></a>4. 局部聚合</h3><p>Presto没必要把orders表所有的行都传递给join，因为我们不是对每个单独的订单感兴趣。我们的样例查询，计算的聚合是堆每个nation计算totalprice的sum值，所以可以先预聚合，如样例4-5所示。我们通过聚合数据，减少了流入下游Join节点的行数。结果不是完整的，这也是为何被成为预聚合。但是数据的规模有可能被降低，显著的提升查询性能。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">- Aggregate[by nationkey...; orders_sum := sum(totalprice)] </span><br><span class="line">  - InnerJoin[c.custkey = o.custkey]</span><br><span class="line">    - InnerJoin[n.nationkey = c.nationkey] </span><br><span class="line">      - TableScan[nation]</span><br><span class="line">      - TableScan[customer]</span><br><span class="line">    - Aggregate[by custkey; totalprice := sum(totalprice)] </span><br><span class="line">       - TableScan[orders]</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">- Aggregate[by nationkey...; orders_sum := sum(totalprice)] </span><br><span class="line">  - InnerJoin[c.custkey = o.custkey]</span><br><span class="line">    - InnerJoin[n.nationkey = c.nationkey] </span><br><span class="line">      - TableScan[nation]</span><br><span class="line">      - TableScan[customer]</span><br><span class="line">    - Aggregate[by custkey; totalprice := sum(totalprice)] </span><br><span class="line">       - TableScan[orders]</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 <p>对于并行计算，预聚合可以以不同方式完成，也称为『局部聚合』。下文我们展示一个简化的执行计划，当然和实际的EPLAIN计划相比，有一些不同。</p>
 <h2 id="实现规则"><a href="#实现规则" class="headerlink" title="实现规则"></a>实现规则</h2><p>上文提到的规则是优化规则，规则的目标是减少查询处理时间，内存用量，网络交换的数据量。但是，即使是我们的样例查询，初始的逻辑执行计划还包含一些尚未实现的操作: lateral join。 在下一章节，我们看一下Presto怎么实现这种类型的操作。</p>
 <h3 id="1-lateral-join解耦"><a href="#1-lateral-join解耦" class="headerlink" title="1. lateral join解耦"></a>1. lateral join解耦</h3><p>lateral join可以实现成一个for-each循环,遍历一个数据集的每一行数据，然后执行另一个查询。这样的实现是有可能实现的，但这不是Presto处理的方式。其实，Presto解耦这样的子查询，上拉所有的相关条件，组成一个left join。在SQL语义中，这对应下边的查询转换。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">SELECT</span><br><span class="line">(SELECT name FROM region r WHERE regionkey = n.regionkey)</span><br><span class="line">AS region_name, n.name AS nation_name</span><br><span class="line">FROM nation n</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">SELECT</span><br><span class="line">(SELECT name FROM region r WHERE regionkey = n.regionkey)</span><br><span class="line">AS region_name, n.name AS nation_name</span><br><span class="line">FROM nation n</span><br></pre></td></tr></table></figure>
 <p>上述查询转化成：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">SELECT</span><br><span class="line">r.name AS region_name, n.name AS nation_name</span><br><span class="line">FROM nation n LEFT OUTER JOIN region r ON r.regionkey = n.regionkey</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">SELECT</span><br><span class="line">r.name AS region_name, n.name AS nation_name</span><br><span class="line">FROM nation n LEFT OUTER JOIN region r ON r.regionkey = n.regionkey</span><br></pre></td></tr></table></figure>
 <p>尽管我们可以这样交换规则，但是谨慎的、堆SQL语义非常了解的读者知道，上边的两个语句不是完全对等。如果region表中有regionkey重复的条目，第一个查询会失败，第二个查询不会失败。第二个查询虽然不会失败，但是会产生更多的结果。基于这个理由，lateral join解耦使用join之外的两个元素。第一，给原表的行编码，以使他们可区分。第二，join之后，检查一下是否有任何行是重复的。如样例4-6所示。如果检测到重复，查询会失败，以保护原始的查询语义。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">样例4-6 lateral join解耦需要额外的检测</span><br><span class="line">- TopN[5; orders_sum DESC] </span><br><span class="line">  - MarkDistinct &amp; Check</span><br><span class="line">    - LeftJoin[n.regionkey = r.regionkey] </span><br><span class="line">     - AssignUniqueId</span><br><span class="line">         - Aggregate[by nationkey...; orders_sum := sum(totalprice)] </span><br><span class="line">           - ...</span><br><span class="line">      - TableScan[region]</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">样例4-6 lateral join解耦需要额外的检测</span><br><span class="line">- TopN[5; orders_sum DESC] </span><br><span class="line">  - MarkDistinct &amp; Check</span><br><span class="line">    - LeftJoin[n.regionkey = r.regionkey] </span><br><span class="line">     - AssignUniqueId</span><br><span class="line">         - Aggregate[by nationkey...; orders_sum := sum(totalprice)] </span><br><span class="line">           - ...</span><br><span class="line">      - TableScan[region]</span><br></pre></td></tr></table></figure>
 <h3 id="2-Semi-Join-In-解耦"><a href="#2-Semi-Join-In-解耦" class="headerlink" title="2. Semi-Join(In)解耦"></a>2. Semi-Join(In)解耦</h3><p>一个子查询不仅可以用来获取信息(如上边lateral join样例)，也可以用IN谓词来过滤行。实际上，IN谓词可以用来在filter中(WHERE 语句)， 或者在一个projection中(SELECT 语句）,当你在projection中用一个in语句的时候，他不仅仅是一个简单的bool 判断的运算符，例如exists。实际上，in谓词可以判定成true，false，null。</p>
 <p>让我们考虑一个查询场景，找到那些顾客和物品供应商来自同一个国家的订单，如样例4-7所示。这样的订单可能存在，例如，我们想节省物流费用，减少物流环境的影响，可以直接把物品从供应商处寄给顾客，省略掉分拣中心。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">SELECT DISTINCT </span><br><span class="line">FROM lineitem l </span><br><span class="line">  JOIN orders o ON o.orderkey = l.orderkey</span><br><span class="line">  JOIN customer c ON o.custkey = c.custkey </span><br><span class="line">WHERE c.nationkey IN (</span><br><span class="line"> -- subquery invoked multiple times</span><br><span class="line">   SELECT s.nationkey FROM part p</span><br><span class="line">   JOIN partsupp ps ON p.partkey = ps.partkey</span><br><span class="line">    JOIN supplier s ON ps.suppkey = s.suppkey WHERE p.partkey = l.partkey</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">SELECT DISTINCT </span><br><span class="line">FROM lineitem l </span><br><span class="line">  JOIN orders o ON o.orderkey = l.orderkey</span><br><span class="line">  JOIN customer c ON o.custkey = c.custkey </span><br><span class="line">WHERE c.nationkey IN (</span><br><span class="line"> -- subquery invoked multiple times</span><br><span class="line">   SELECT s.nationkey FROM part p</span><br><span class="line">   JOIN partsupp ps ON p.partkey = ps.partkey</span><br><span class="line">    JOIN supplier s ON ps.suppkey = s.suppkey WHERE p.partkey = l.partkey</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
 <p>当然，上述需求可以通过lateral join实现，可以实现成一个循环，遍历外层查询的每一行，然后子查询获得所有的供应商的所有的国家，多次调用即可。</p>
 <p>但是我们有更好的做法，Presto解耦子查询，去除关联条件后，子查询计算一次，然后回来和外层的查询通过关联条件进行join。棘手的地方在于join要保证不能产生多行结果（所以要用到去重的聚合）。这种转换正确的保留了in谓词的三值逻辑。</p>
 <p>在这个案例中，去重的聚合计算使用了和join相同的分区，所以可以以流式的方式执行。不需要在网络上交换数据，同时使用了最少的内存。</p>
@@ -1236,7 +1274,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://mayunlei.github.io/2020/08/16/深入理解Presto-Presto的内部架构/" data-id="clbczv602000qx23jd0mmxxwr" class="article-share-link">Share</a>
+      <a data-url="http://mayunlei.github.io/2020/08/16/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3Presto-Presto%E7%9A%84%E5%86%85%E9%83%A8%E6%9E%B6%E6%9E%84/" data-id="cltb1iov5000nr6gth9uo2gvg" class="article-share-link">Share</a>
       
       
     </footer>
@@ -1248,7 +1286,7 @@
   
     <article id="post-Presto-任务调度：-任务分配到哪里" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2020/05/30/Presto-任务调度：-任务分配到哪里/" class="article-date">
+    <a href="/2020/05/30/Presto-%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6%EF%BC%9A-%E4%BB%BB%E5%8A%A1%E5%88%86%E9%85%8D%E5%88%B0%E5%93%AA%E9%87%8C/" class="article-date">
   <time datetime="2020-05-30T14:12:41.000Z" itemprop="datePublished">2020-05-30</time>
 </a>
     
@@ -1260,7 +1298,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2020/05/30/Presto-任务调度：-任务分配到哪里/">Presto 任务调度： 任务分配到哪里</a>
+      <a class="article-title" href="/2020/05/30/Presto-%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6%EF%BC%9A-%E4%BB%BB%E5%8A%A1%E5%88%86%E9%85%8D%E5%88%B0%E5%93%AA%E9%87%8C/">Presto 任务调度： 任务分配到哪里</a>
     </h1>
   
 
@@ -1299,206 +1337,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://mayunlei.github.io/2020/05/30/Presto-任务调度：-任务分配到哪里/" data-id="clbczv600000mx23jszycj5sl" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-Procella-Youtube-把计算加速玩到极致的实时计算引擎" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2020/05/20/Procella-Youtube-把计算加速玩到极致的实时计算引擎/" class="article-date">
-  <time datetime="2020-05-20T13:20:48.000Z" itemprop="datePublished">2020-05-20</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/05/20/Procella-Youtube-把计算加速玩到极致的实时计算引擎/">Procella@Youtube 把计算加速玩到极致的实时计算引擎</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="Procella-Youtube-把计算加速玩到极值的实时计算引擎"><a href="#Procella-Youtube-把计算加速玩到极值的实时计算引擎" class="headerlink" title="Procella@Youtube 把计算加速玩到极值的实时计算引擎"></a>Procella@Youtube 把计算加速玩到极值的实时计算引擎</h1><h2 id="Procella的应用场景"><a href="#Procella的应用场景" class="headerlink" title="Procella的应用场景"></a>Procella的应用场景</h2><p>在youtue内部，在数据分析领域有4个方面的应用场景：</p>
-<ul>
-<li>报表和大盘：1000亿数据/天，要求在10ms的延时内完成近实时的计算，主要的计算类型过滤/聚合/set/join</li>
-<li>内嵌的统计指标，例如视频的浏览人数等等，特点是数据不停的变化，每秒上百万次查询。</li>
-<li>时序数据监控：特点是query固定，数据量小，可以下采样，旧数据过期，以及一些特有的查询例如估算函数和时序函数。</li>
-<li>Ad hoc查询：提供给数据科学家，BI分析师等使用的，特点是query比较复杂，且不可预测，要求延时在秒级别处理一万亿行数据。</li>
-</ul>
-<h2 id="老的解决方案和挑战"><a href="#老的解决方案和挑战" class="headerlink" title="老的解决方案和挑战"></a>老的解决方案和挑战</h2><p>针对以上需求，在Youtube内部原来有这几种解决方案：</p>
-<p><img src="https://ata2-img.cn-hangzhou.oss-pub.aliyun-inc.com/0cb24797144f6600025960c0f6348791.png" alt="image.png"></p>
-<p>采用以上方案，有以下挑战：</p>
-<ul>
-<li>数据需要在多个系统之间流转，复杂度高。</li>
-<li>ETL打开的维护开销。</li>
-<li>不同系统之间的数据一致性和数据质量差别。</li>
-<li>不同系统都有学习成本，有些系统不支持SQL全集。</li>
-<li>一些底层组件性能查，可用性和扩展性无法满足需求。</li>
-</ul>
-<h2 id="Procella的特点"><a href="#Procella的特点" class="headerlink" title="Procella的特点"></a>Procella的特点</h2><p>为了解决上述挑战，Youtube引入了Procella， Procella有如下特点：</p>
-<ol>
-<li>支持标准SQL，并且做了一些扩展，支持估算函数、嵌套类型、UDF等。</li>
-<li>高扩展性，计算和存储解耦，两者都可以无限扩展。</li>
-<li>高性能，引用最新的计算计算，支持百万qps，毫秒级别响应。</li>
-<li>数据freshness，支持batch和stream两种写入模式，原生支持lambda架构。</li>
-</ol>
-<h2 id="Procella的性能"><a href="#Procella的性能" class="headerlink" title="Procella的性能"></a>Procella的性能</h2><p><img src="https://ata2-img.cn-hangzhou.oss-pub.aliyun-inc.com/3bd0777221b2b866ca21fdf43bbb1b07.png" alt="image.png"></p>
-<p>Procella 15亿查询/天，一条扫描8E16行数据/天，返回1000亿行/天</p>
-<p><img src="https://ata2-img.cn-hangzhou.oss-pub.aliyun-inc.com/8655d1514e2c81a921ed02713d6c373a.png" alt="image.png"></p>
-<p>延时的中位数是25毫秒，p999为 2.8秒，也就是说99.9%的查询在2.8秒内查询完成。</p>
-<p>在毫秒级别晚上大规模数据的计算，Procella是如何做到的呢？下文将来揭秘。</p>
-<h2 id="Procella的架构"><a href="#Procella的架构" class="headerlink" title="Procella的架构"></a>Procella的架构</h2><p><img src="https://ata2-img.cn-hangzhou.oss-pub.aliyun-inc.com/58595988bb9485f462b7a345ebffd2b6.png" alt="image.png"></p>
-<p>Procella采用计算和存储解耦的架构：</p>
-<ul>
-<li><p>数据存储在分布式文件系统Colossus上，类似hdfs/盘古。</p>
-</li>
-<li><p>计算任务跑在由borg维护的机器上。</p>
-</li>
-</ul>
-<h3 id="数据写入"><a href="#数据写入" class="headerlink" title="数据写入"></a>数据写入</h3><p>Procella数据写入有两条链路：</p>
-<ul>
-<li>右侧的realtime数据，写入Ingestion Server，Ingestion Server把数据存储在Collossus上，与此同时，会把数据写一份到DataServer上（为啥呢？ DataServer是负责计算的，发送到DS是为了做缓存，更有效的利用内存数据，因为Youbute的查询大部分依赖最近的数据，下文在查询加速上会提到该点）</li>
-<li>批量导入节点，采用离线的方式，离线通过MapReduce任务生成满足格式要求的文件，把文件写到Colossus上，然后再把文件信息注册到RegistrationServer上，这样避免了突然导入大量数据对系统的负载。</li>
-</ul>
-<h3 id="数据模型"><a href="#数据模型" class="headerlink" title="数据模型"></a>数据模型</h3><p>Procella的数据分成两部分，分别是Data和metadata。</p>
-<p>Procella采用的是表模型，存储格式是Artus的列式格式，数据存储在分布式文件系统Colossus。计算由DataServer完成，由于计算和存储是解耦的，所以同一份数据可以由多个DataServer来做计算。</p>
-<p>MetaData包含了用于辅助计算的一些结构，称为secondary structure。包括zonemap(min,max等信息), bitmap(倒排索引), bloom filter, 分区， 排序键等。 metadata从列存储的文件头中读取，或者ds在计算query时生成。 metadata和data存储位置不同，是存储在bigtable或spanner上的。</p>
-<p>通过DDL的形式管理表，DDL发送到Root Server（query入口）,管理表的机制有分区、排序、constraint, 写入方式等。对于实时表，还支持生命周期管理，下采样，compact。</p>
-<p>在compaction阶段，允许通过使用user defined sql 来处理数据，例如过滤，聚合，生命周期管理等。相当于在compaction阶段来做etl。</p>
-<h2 id="查询"><a href="#查询" class="headerlink" title="查询"></a>查询</h2><p>好了，到了最关键的查询阶段， 首先看一下查询的流程。</p>
-<p>在上文的架构图中，可以看到Procella的查询流程。 </p>
-<ol>
-<li>client发起query，到达RootServer。 </li>
-<li>RootServer解析sql, 优化plan</li>
-<li>分配计算任务到DataServer上。</li>
-<li>DataServer读取数据(大部分在内存中, 少量读远程分布式存储)，计算。</li>
-<li>最终结果通过。</li>
-</ol>
-<p>在整个查询，例如语法解析，plan 优化，计算，都是常见的流程。 而Procella的亮点在于做了相当多的优化手段，以加速计算，实现毫秒级别的响应。下文介绍具体有哪些优化手段。</p>
-<h2 id="查询优化"><a href="#查询优化" class="headerlink" title="查询优化"></a>查询优化</h2><h3 id="DataServer端的优化"><a href="#DataServer端的优化" class="headerlink" title="DataServer端的优化"></a>DataServer端的优化</h3><ol>
-<li>读取数据时，数据有三种来源，local  mem，缓存在本地内存中的数据；remote file，存储在分布式存储系统上的文件，remote  memory，通过RDMA技术读取远程DataServer内存中的内容。RDMA 技术可以比RPC/http技术更快的从其他机器内存中读取数据。</li>
-<li>尽可能的把计算任务下推到数据节点，例如filter，agg，project，join，能下推到最底层就下推到最底层，这样可以最大限度的减少数据的读取量，以及计算量。</li>
-<li>在计算时，以encoding-native的方式读取，什么是encoding-native呢？就是算法感知编码格式，例如dictionary编码，在filter时，先从字典中filter出来要的key id，再到数据编码中找对应的id。</li>
-<li>数据交换用stubby(一种grpc协议), shuffle用RDMA协议。</li>
-</ol>
-<h3 id="Cache"><a href="#Cache" class="headerlink" title="Cache"></a>Cache</h3><p>上文的架构图中提到，Procella是一种计算和存储分离的架构，这种数据和计算分离的方式，虽然能带来规模上的扩展性，但是也给单次查询带来了overhead。Procella时怎么做的呢？Procella通过大量的使用缓存来达到加速的目的，避免从远程读取数据。</p>
-<ol>
-<li>file metadata cache：数据存储在分布式存储上，每次读取文件，首先要向master获取文件真实存储的机器，然后再取对应的机器上读取数据。每次调用必然带来开销，因此在内存中维护了block -&gt; file的handle信息。这样就比不要每次都从远程读取了，节省了rpc的开销。</li>
-<li>header cache， 列存文件的header中记录了文件的meta，每次读取这些meta要打开文件。IO的开销很大，因此在内存中采用lru来缓存这些header。</li>
-<li>Data Cache， 部分数据缓存在内存中，以加速计算，前文提到，实时数据流会有一份发送到内存中。<ol start="4">
-<li>在内存中的数据格式，和磁盘上是一样的。这意味着，数据以encoding的模式放在内存中，不会反序列化，在计算时也直接操作encoded数据。这样节省了反序列化的开销。</li>
-<li>一些计算复杂的output，也会缓存下来，还有一些metadata，例如bloom filter也会缓存下来。</li>
-</ol>
-</li>
-<li>metadata的缓存，上文提到的各种secondary structure，都会缓存在内存中。</li>
-<li>亲缘调度，由于大量的使用了缓存，也就意味着，在调度时，跟这份数据相关的，都需要尽量调度到同一个机器上，避免调度上颠簸，提高缓存命中率。</li>
-<li>由于缓存技术以及很高的缓存命中率，使得procella在使用上彻底变成了一个内存数据，2%的数据保存在内存中，换取了99%的file handle命中率和90%的data 命中率。当然这个命中率可能是跟youtube特有的使用模式相关的，在youtube有大量的计算最新数据的需求。</li>
-<li>对于metadata的缓存，从存储load到内存时，会编码成encoding模式，减少内存的使用率。</li>
-</ol>
-<h3 id="特有的列式格式Artus-启发式的encoding"><a href="#特有的列式格式Artus-启发式的encoding" class="headerlink" title="特有的列式格式Artus,启发式的encoding"></a>特有的列式格式Artus,启发式的encoding</h3><p>youtube在设计列式存储时，需求有两个，分别是</p>
-<ol>
-<li>lookup，随机seek某些行数据。</li>
-<li>range scan， 扫描大块的数据。</li>
-</ol>
-<p>存储上采用各种encoding 模式，不用压缩数据。这意味着读取时，也不用解压缩。<br>同时在计算时，直接在encoding模式智商进行，避免了反序列化。<br>encoding之后的数据大小和压缩后的大小基本接近，也就是说在存储空间上不是问题。</p>
-<p>procella采用启发式的编码方式，根据数据特征进行特殊编码</p>
-<ol>
-<li>在编码时进行多次扫描数据，第一次扫描采集轻量级信息，例如distinct value,min,max, sort order， 根据这些信息决定最佳的encoding模式。</li>
-<li>encoding模式包括dictionary encoding, rle， delta等。</li>
-<li>如何动态的选择编码格式呢？ 根据上边采集的信息，同时也会评估每一种encoding的压缩率和速度，决定最终的编码方式。</li>
-<li>在查询时，可以实现O(logn)级别的搜索，O(1)seek到具体行。当然对于变长类型(例如字符串), 可以给每一段数据记录skip block信息，方便查找时快速跳过某些block。</li>
-<li>file和column  header中记录了多种meta，例如sorting, min,max,encoding,bloom filter等用于剪枝，减少不必要的IO。例如通过pk来分文件，减少文件的读取次数。</li>
-<li>通过倒排索引来加速in类计算。通常in类操作，可以变成join计算，或者逐个比较每个值，这种处理方式的性能是很差的，join计算是SQL里边的老大难题了，而逐个比较，时间复杂度在O(m*n)级别。而通过倒排索引，可以直接在O(1)级别知道是否存在对应的数据。</li>
-<li>在数据摄入时，存储过程会针对计算做一些优化，比如分配partition， 部分aggregation预计算，sort key， 热数据放到ssd上等。</li>
-</ol>
-<h3 id="计算引擎"><a href="#计算引擎" class="headerlink" title="计算引擎"></a>计算引擎</h3><ul>
-<li>静态codegen<ul>
-<li>对于大多数的分布式计算系统，都喜欢用llvm来动态生成执行代码，以减少虚函数调用和分支跳转的开销。 但是llvm是有代价的，动态生成代码会带来毫秒级别的开销，对于Procella这样的系统，要求在几十毫秒内完成计算，动态codegen的overhead是不可接受的。同时由于他们的计算系统有个特点是大部分的query是固定的，比如前端显示的视频uv，pv等等。因此他们采用了静态编译的方式，通过c++ template来静态codegen，相当于枚举了所有的可能的operator。也算是一个特色吧。</li>
-<li>这种方式缺点也很明显，静态codegen需要在编译时刻把所有代码编译出来，估计编出来binary会非常大，放到内存里边也会占用大量内存，还需要防止换出到swap。</li>
-</ul>
-</li>
-<li>以block为单元进行计算，block的大小不超过L1 cache，充分利用CPU的高速缓存。</li>
-<li>代码上保证能够自动的向量化处理（simd)。 </li>
-<li>计算以encoding-native operator来计算。保证充分利用每一种encoding的计算优势，也避免数据反序列化的开销，同时也节省了内存使用。但是估计每个operator要是适配每一个encoding，代码工程量会不少。</li>
-<li>谓词下推，减少scan的数据量，算是古老的加速手段了。</li>
-<li>metadata server 利用partitioning减少读取的文件，相当于谓词下推在partition上应用一层，过滤出只需要扫描的partition。</li>
-<li>利用metadata的计算。<ul>
-<li>利用bloom filter &amp; max/min信息 &amp; 倒排索引以及其他的mta减少读盘计算。比如知道一个block的min/max之后，就可以根据filter条件确定是否要读取这个block。 </li>
-</ul>
-</li>
-</ul>
-<h3 id="Join"><a href="#Join" class="headerlink" title="Join"></a>Join</h3><p>Join算是SQL里边的老大难题了，有很多算法来优化join的性能，比如RBO，CBO<br>Processla支持的join类型有</p>
-<ul>
-<li>broadcastjoin，广播式join，在大表join小表的场景，把小表复制到大表所在的每一个机器上，这样避免大表的复制。</li>
-<li>Co-partitioned join，左右表具有相同的partition信息，那么只把partition相同的数据hash到相同的机器，避免全量数据计算hash和跨机器拷贝。</li>
-<li>shuffle join, 左右表分别计算hash，hash值相同的数据shuffle到同一个机器上进行join，算是最慢的</li>
-<li>Pipelined join，如果右表是一个复杂的子查询，但是结果集合很小，那么倾向于先算出右表的结果，然后再按照broad cast join的方式。</li>
-<li>Remote Lookup ，如果dim table比较大，这个时候就不适合hash或者broadcast了，由于procella的存储格式支持高效的lookup,O(1)或O(logn)级别，因此可以通过rpc发起远程的lookup来完成join。</li>
-</ul>
-<h3 id="长尾query"><a href="#长尾query" class="headerlink" title="长尾query"></a>长尾query</h3><p>在SQL/MapReduce任务中，最常见的一个难题是长尾query，由于局部计算过热导致影响整体的查询延时。</p>
-<p>Procella提出了这些优化：</p>
-<ul>
-<li>Backup 策略<ul>
-<li>对于每一个data server上的计算都会统计其响应延时，并且汇总成分位，对于远大于均值的请求，认为是利群点，这个时候，启动备份的data  server来重新计算这个任务。</li>
-</ul>
-</li>
-<li>限制发送到同一个ds的请求速度，前文讲过，processla是计算存储解耦的架构，但是为了充分利用缓存，又倾向于把同一份数据的计算调度到同一个机器上，因此这台机器又会成为热点。因此需要对发送到同一个ds的请求做资源限制。</li>
-<li>Smaller query具有高的优先级。 smaller query可以快速跑完，让出资源，因此procella倾向于让小query先跑。这和presto是相反的逻辑。presto倾向于让大query先跑，否则大query就饿死了。</li>
-</ul>
-<h3 id="Intermediate-Merging"><a href="#Intermediate-Merging" class="headerlink" title="Intermediate Merging"></a>Intermediate Merging</h3><p>在merge节点，有些merge操作是单点的，因此会成为计算的瓶颈点。Procella采集一些统计信息，如果发现merge节点一段时间还未完成计算，那么就开启一些前置的线程进行分布式计算。预聚合的结果发送给merge算子。前置线程是在同一台机器上的，也避免了数据交换。</p>
-<h2 id="Query-优化器"><a href="#Query-优化器" class="headerlink" title="Query 优化器"></a>Query 优化器</h2><h3 id="静态优化器"><a href="#静态优化器" class="headerlink" title="静态优化器"></a>静态优化器</h3><p>静态优化器是指在plan阶段执行的优化逻辑，包括RBO，CBO。procella支持了RBO， filter pushdown， subquery decorrelation, constant folding等。</p>
-<h3 id="启发式优化器"><a href="#启发式优化器" class="headerlink" title="启发式优化器"></a>启发式优化器</h3><p>Procella的一个特点就在于这个启发式的优化器，相对静态优化器而言，启发式优化器是在运行时执行的。启发式优化器通过采集计算的状态统计，例如统计数据，基数，distinct count，分位信息等。启发式优化器甚至可以在执行时修改物理执行计划。我们知道通常而言，SQL在plan阶段生成逻辑执行计划，经过优化后，再生成物理执行计划，物理执行计划下发到机器上后，就不再修改了。Procella做到了动态的修改plan。</p>
-<p>主要又这几个优化点：</p>
-<ol>
-<li>决定reduce的个数，例如，计算group by时，下游分配多少个节点是跟group by的key的基数相关的，因此可以统计基数信息，动态决定分配多少个reduce节点，甚至可以运行时取消部分reduce任务。</li>
-<li>启发式agg：正式运行之前，在一份小的数据聚合上运行一下，获得结果和统计数据，评估输出的行数，决定分配多少个reduce节点。</li>
-<li>启发是join：也是根据采样的数据评估哪种join方式比较合适。</li>
-<li>启发式sort：sort避免不了全局排序，在全局做排序是非常消耗内存和CPU的事情，procella采集数据的分布信息，把全量数据分配到n个桶里边，Map阶段按照分位shuffle到下游节点，实现了桶排序。</li>
-</ol>
-<p>当然启发式优化器是有代价的，需要先在采样的数据上跑一次，才能决定正式的执行计划。因此会带来一些overhead。procella提供了开关，可以关闭启发式优化器。不过对于用户而言，是非常乐意通过少量的overhead来换取很大的性能提升的。</p>
-<h2 id="Youtube内嵌statistics"><a href="#Youtube内嵌statistics" class="headerlink" title="Youtube内嵌statistics"></a>Youtube内嵌statistics</h2><p>内嵌指标就是我们通常在视频网站上看到的一些指标，比如视频多少人观看，多少人点赞等等。</p>
-<p>针对这部分计算的需求有：</p>
-<ol>
-<li>数据更新快。</li>
-<li>请求的qps高。</li>
-<li>查询要求毫秒级别。</li>
-</ol>
-<p>为了应对上述需求，procella做了以下优化：</p>
-<ol>
-<li>新数据写入存储的同时，也会写入ds内存中，以保证查询时命中内存。</li>
-<li>MDS作为ds的模块，以减少rpc调用。因为获取一些meta信息会向mds请求。而rpc的开销至少也是毫秒级别。</li>
-<li>metadata 预加载 &amp; 异步增量同步，保证meta数据都在内存中。</li>
-<li>plan缓存在内存中。通常词法/语法解析，以及各种plan优化也会带来开销。针对内嵌场景，大量的query都是重复的，因此缓存下来可以节省不少CPU和延时。</li>
-<li>RPC合并发送。不同的server之间交互的时候，把rpc合并起来发送，以减少网络开销。</li>
-<li>监控RS，DS的错误率，一旦达到阈值，把机器下线。</li>
-<li>禁用启发式优化器，前边提到启发式优化器会带来一些开销，针对内嵌指标场景其实是没必要的。</li>
-</ol>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>总结下来，procella做了很多方面的优化，以保证计算在毫秒级别完成，总体而言，这些优化手段可以归结为：</p>
-<ol>
-<li>通过metadata减少读取磁盘的次数和大小。</li>
-<li>通过encoding-native的方式让计算靠近数据，减少反序列化开销，也让encoding加速计算。</li>
-<li>大量内存缓存的使用，使得procella完全变成了一个内存计算引擎。</li>
-<li>启发式的优化器，动态优化执行计划。</li>
-</ol>
-<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p>procella <a href="http://www.vldb.org/pvldb/vol12/p2022-chattopadhyay.pdf" target="_blank" rel="noopener">论文</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://mayunlei.github.io/2020/05/20/Procella-Youtube-把计算加速玩到极致的实时计算引擎/" data-id="clbczv5zq000bx23jco56f5re" class="article-share-link">Share</a>
+      <a data-url="http://mayunlei.github.io/2020/05/30/Presto-%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6%EF%BC%9A-%E4%BB%BB%E5%8A%A1%E5%88%86%E9%85%8D%E5%88%B0%E5%93%AA%E9%87%8C/" data-id="cltb1iov00006r6gtbzdj8rub" class="article-share-link">Share</a>
       
       
     </footer>
@@ -1526,7 +1365,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/ClickHouse-OLAP/">ClickHouse OLAP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ML-机器学习-神经网络/">ML 机器学习 神经网络</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SQL洞察/">SQL洞察</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/presto/">presto</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/string-cow/">string cow</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/向量化-SIMD/">向量化, SIMD</a></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/ClickHouse-OLAP/" rel="tag">ClickHouse OLAP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ML-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/" rel="tag">ML 机器学习 神经网络</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SQL%E6%B4%9E%E5%AF%9F/" rel="tag">SQL洞察</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/presto/" rel="tag">presto</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/string-cow/" rel="tag">string cow</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%90%91%E9%87%8F%E5%8C%96-SIMD/" rel="tag">向量化, SIMD</a></li></ul>
     </div>
   </div>
 
@@ -1536,7 +1375,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/ClickHouse-OLAP/" style="font-size: 10px;">ClickHouse OLAP</a> <a href="/tags/ML-机器学习-神经网络/" style="font-size: 10px;">ML 机器学习 神经网络</a> <a href="/tags/SQL洞察/" style="font-size: 10px;">SQL洞察</a> <a href="/tags/presto/" style="font-size: 20px;">presto</a> <a href="/tags/string-cow/" style="font-size: 10px;">string cow</a> <a href="/tags/向量化-SIMD/" style="font-size: 10px;">向量化, SIMD</a>
+      <a href="/tags/ClickHouse-OLAP/" style="font-size: 10px;">ClickHouse OLAP</a> <a href="/tags/ML-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/" style="font-size: 10px;">ML 机器学习 神经网络</a> <a href="/tags/SQL%E6%B4%9E%E5%AF%9F/" style="font-size: 10px;">SQL洞察</a> <a href="/tags/presto/" style="font-size: 20px;">presto</a> <a href="/tags/string-cow/" style="font-size: 10px;">string cow</a> <a href="/tags/%E5%90%91%E9%87%8F%E5%8C%96-SIMD/" style="font-size: 10px;">向量化, SIMD</a>
     </div>
   </div>
 
@@ -1545,7 +1384,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/06/">June 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/05/">May 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/12/">December 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">January 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">August 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">November 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/06/">June 2013</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/03/">March 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/06/">June 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/05/">May 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/12/">December 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">January 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">August 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">November 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/06/">June 2013</a></li></ul>
     </div>
   </div>
 
@@ -1558,23 +1397,23 @@
       <ul>
         
           <li>
-            <a href="/2022/06/16/深入浅出向量化技术/">深入向量化计算技术</a>
+            <a href="/2024/03/03/OLAP%E8%AE%A1%E7%AE%97%E5%BC%95%E6%93%8E%E5%8E%9F%E7%90%86%E5%92%8C%E5%AE%9E%E7%8E%B0/">OLAP计算引擎原理和实现</a>
           </li>
         
           <li>
-            <a href="/2022/05/04/探索无人驾驶载货小飞机：航模技术研究/">探索无人驾驶载货小飞机：航模技术研究</a>
+            <a href="/2022/06/16/%E6%B7%B1%E5%85%A5%E6%B5%85%E5%87%BA%E5%90%91%E9%87%8F%E5%8C%96%E6%8A%80%E6%9C%AF/">深入向量化计算技术</a>
           </li>
         
           <li>
-            <a href="/2021/12/25/从数据分析到数据洞察/">从数据分析到数据洞察</a>
+            <a href="/2022/05/04/%E6%8E%A2%E7%B4%A2%E6%97%A0%E4%BA%BA%E9%A9%BE%E9%A9%B6%E8%BD%BD%E8%B4%A7%E5%B0%8F%E9%A3%9E%E6%9C%BA%EF%BC%9A%E8%88%AA%E6%A8%A1%E6%8A%80%E6%9C%AF%E7%A0%94%E7%A9%B6/">探索无人驾驶载货小飞机：航模技术研究</a>
+          </li>
+        
+          <li>
+            <a href="/2021/12/25/%E4%BB%8E%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E5%88%B0%E6%95%B0%E6%8D%AE%E6%B4%9E%E5%AF%9F/">从数据分析到数据洞察</a>
           </li>
         
           <li>
             <a href="/2021/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/">Petabytes scale log analysis at Alibaba:intrastructure/challenge/optimization</a>
-          </li>
-        
-          <li>
-            <a href="/2021/01/09/ClickHouse计算速度是如何做到领跑OLAP类产品的/">ClickHouse计算速度是如何做到领跑OLAP类产品的</a>
           </li>
         
       </ul>
@@ -1589,7 +1428,7 @@
   
   <div class="outer">
     <div id="footer-info" class="inner">
-      &copy; 2022 马云雷<br>
+      &copy; 2024 马云雷<br>
       Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>
@@ -1609,11 +1448,17 @@
 <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 
 
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
-  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
 
 
 <script src="/js/script.js"></script>
+
 
 
 

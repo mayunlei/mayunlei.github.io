@@ -1,34 +1,34 @@
 <!DOCTYPE html>
 <html>
-<head><meta name="generator" content="Hexo 3.8.0">
+<head>
   <meta charset="utf-8">
   
 
   
   <title>从数据分析到数据洞察 | 马云雷的技术博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="数据用途和玩转数据的手段 数据分析通常用于商业决策，一般在大公司中，会养一个专门的商业分析部门，专门采集各种数据用于辅助董事会/CEO等决策层做核心的商业决策。但是，数据分析的需求无处不在，在各个业务线中也有对于数据分析的诉求，例如运营部分，一个运营活动的好坏、应该向哪个渠道投放资源，不能靠拍脑袋决定，要分析具体数据。同样对于开发运维也一样，线上系统是否稳定，各个模块指标怎么样，都需要数据得到反馈">
-<meta name="keywords" content="SQL洞察">
+  <meta name="description" content="数据用途和玩转数据的手段 数据分析通常用于商业决策，一般在大公司中，会养一个专门的商业分析部门，专门采集各种数据用于辅助董事会&#x2F;CEO等决策层做核心的商业决策。但是，数据分析的需求无处不在，在各个业务线中也有对于数据分析的诉求，例如运营部分，一个运营活动的好坏、应该向哪个渠道投放资源，不能靠拍脑袋决定，要分析具体数据。同样对于开发运维也一样，线上系统是否稳定，各个模块指标怎么样，都需要数据得到反馈">
 <meta property="og:type" content="article">
 <meta property="og:title" content="从数据分析到数据洞察">
-<meta property="og:url" content="http://mayunlei.github.io/2021/12/25/从数据分析到数据洞察/index.html">
+<meta property="og:url" content="http://mayunlei.github.io/2021/12/25/%E4%BB%8E%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E5%88%B0%E6%95%B0%E6%8D%AE%E6%B4%9E%E5%AF%9F/index.html">
 <meta property="og:site_name" content="马云雷的技术博客">
-<meta property="og:description" content="数据用途和玩转数据的手段 数据分析通常用于商业决策，一般在大公司中，会养一个专门的商业分析部门，专门采集各种数据用于辅助董事会/CEO等决策层做核心的商业决策。但是，数据分析的需求无处不在，在各个业务线中也有对于数据分析的诉求，例如运营部分，一个运营活动的好坏、应该向哪个渠道投放资源，不能靠拍脑袋决定，要分析具体数据。同样对于开发运维也一样，线上系统是否稳定，各个模块指标怎么样，都需要数据得到反馈">
-<meta property="og:locale" content="default">
-<meta property="og:image" content="http://mayunlei.github.io/2021/12/25/从数据分析到数据洞察/12/25/从数据分析到数据洞察/1639895690262-2b65cf5f-0853-488a-aa1c-136d2d79be11.png">
-<meta property="og:image" content="http://mayunlei.github.io/2021/12/25/从数据分析到数据洞察/12/25/从数据分析到数据洞察/1639914240796-aa90d9c9-0521-4741-825f-248664cbe39d.png">
-<meta property="og:image" content="http://mayunlei.github.io/2021/12/25/从数据分析到数据洞察/12/25/从数据分析到数据洞察/1638965299987-04d1c697-7f85-4dd2-899e-9e5598c647bb.png">
-<meta property="og:image" content="http://mayunlei.github.io/2021/12/25/从数据分析到数据洞察/12/25/从数据分析到数据洞察/1639967567533-5e587d1b-3db0-4da0-aae2-906309bfd6f3.png">
-<meta property="og:image" content="http://mayunlei.github.io/2021/12/25/从数据分析到数据洞察/12/25/从数据分析到数据洞察/1639967723187-2fb0e24c-0aba-4dee-940a-5e50cbd882d3.png">
-<meta property="og:image" content="http://mayunlei.github.io/2021/12/25/从数据分析到数据洞察/12/25/从数据分析到数据洞察/1639967822622-80a912a7-3c39-45bf-9baf-ebef36fb6c37.png">
-<meta property="og:image" content="http://mayunlei.github.io/2021/12/25/从数据分析到数据洞察/12/25/从数据分析到数据洞察/1639968277868-cd7f7b87-340f-4814-9470-17abca65d53e.png">
-<meta property="og:image" content="http://mayunlei.github.io/2021/12/25/从数据分析到数据洞察/12/25/从数据分析到数据洞察/1639970025835-dc36319c-3779-40d2-8ee3-3666f3c2a277.png">
-<meta property="og:image" content="http://mayunlei.github.io/2021/12/25/从数据分析到数据洞察/12/25/从数据分析到数据洞察/1639971950420-24beef6e-73f9-44c7-9e2b-64ed77900b6e.png">
-<meta property="og:updated_time" content="2022-01-04T01:45:53.238Z">
+<meta property="og:description" content="数据用途和玩转数据的手段 数据分析通常用于商业决策，一般在大公司中，会养一个专门的商业分析部门，专门采集各种数据用于辅助董事会&#x2F;CEO等决策层做核心的商业决策。但是，数据分析的需求无处不在，在各个业务线中也有对于数据分析的诉求，例如运营部分，一个运营活动的好坏、应该向哪个渠道投放资源，不能靠拍脑袋决定，要分析具体数据。同样对于开发运维也一样，线上系统是否稳定，各个模块指标怎么样，都需要数据得到反馈">
+<meta property="og:locale">
+<meta property="og:image" content="http://mayunlei.github.io/2021/12/25/%E4%BB%8E%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E5%88%B0%E6%95%B0%E6%8D%AE%E6%B4%9E%E5%AF%9F/12/25/%E4%BB%8E%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E5%88%B0%E6%95%B0%E6%8D%AE%E6%B4%9E%E5%AF%9F/1639895690262-2b65cf5f-0853-488a-aa1c-136d2d79be11.png">
+<meta property="og:image" content="http://mayunlei.github.io/2021/12/25/%E4%BB%8E%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E5%88%B0%E6%95%B0%E6%8D%AE%E6%B4%9E%E5%AF%9F/12/25/%E4%BB%8E%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E5%88%B0%E6%95%B0%E6%8D%AE%E6%B4%9E%E5%AF%9F/1639914240796-aa90d9c9-0521-4741-825f-248664cbe39d.png">
+<meta property="og:image" content="http://mayunlei.github.io/2021/12/25/%E4%BB%8E%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E5%88%B0%E6%95%B0%E6%8D%AE%E6%B4%9E%E5%AF%9F/12/25/%E4%BB%8E%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E5%88%B0%E6%95%B0%E6%8D%AE%E6%B4%9E%E5%AF%9F/1638965299987-04d1c697-7f85-4dd2-899e-9e5598c647bb.png">
+<meta property="og:image" content="http://mayunlei.github.io/2021/12/25/%E4%BB%8E%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E5%88%B0%E6%95%B0%E6%8D%AE%E6%B4%9E%E5%AF%9F/12/25/%E4%BB%8E%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E5%88%B0%E6%95%B0%E6%8D%AE%E6%B4%9E%E5%AF%9F/1639967567533-5e587d1b-3db0-4da0-aae2-906309bfd6f3.png">
+<meta property="og:image" content="http://mayunlei.github.io/2021/12/25/%E4%BB%8E%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E5%88%B0%E6%95%B0%E6%8D%AE%E6%B4%9E%E5%AF%9F/12/25/%E4%BB%8E%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E5%88%B0%E6%95%B0%E6%8D%AE%E6%B4%9E%E5%AF%9F/1639967723187-2fb0e24c-0aba-4dee-940a-5e50cbd882d3.png">
+<meta property="og:image" content="http://mayunlei.github.io/2021/12/25/%E4%BB%8E%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E5%88%B0%E6%95%B0%E6%8D%AE%E6%B4%9E%E5%AF%9F/12/25/%E4%BB%8E%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E5%88%B0%E6%95%B0%E6%8D%AE%E6%B4%9E%E5%AF%9F/1639967822622-80a912a7-3c39-45bf-9baf-ebef36fb6c37.png">
+<meta property="og:image" content="http://mayunlei.github.io/2021/12/25/%E4%BB%8E%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E5%88%B0%E6%95%B0%E6%8D%AE%E6%B4%9E%E5%AF%9F/12/25/%E4%BB%8E%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E5%88%B0%E6%95%B0%E6%8D%AE%E6%B4%9E%E5%AF%9F/1639968277868-cd7f7b87-340f-4814-9470-17abca65d53e.png">
+<meta property="og:image" content="http://mayunlei.github.io/2021/12/25/%E4%BB%8E%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E5%88%B0%E6%95%B0%E6%8D%AE%E6%B4%9E%E5%AF%9F/12/25/%E4%BB%8E%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E5%88%B0%E6%95%B0%E6%8D%AE%E6%B4%9E%E5%AF%9F/1639970025835-dc36319c-3779-40d2-8ee3-3666f3c2a277.png">
+<meta property="og:image" content="http://mayunlei.github.io/2021/12/25/%E4%BB%8E%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E5%88%B0%E6%95%B0%E6%8D%AE%E6%B4%9E%E5%AF%9F/12/25/%E4%BB%8E%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E5%88%B0%E6%95%B0%E6%8D%AE%E6%B4%9E%E5%AF%9F/1639971950420-24beef6e-73f9-44c7-9e2b-64ed77900b6e.png">
+<meta property="article:published_time" content="2021-12-25T02:08:08.000Z">
+<meta property="article:modified_time" content="2022-01-04T01:45:53.238Z">
+<meta property="article:author" content="马云雷">
+<meta property="article:tag" content="SQL洞察">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="从数据分析到数据洞察">
-<meta name="twitter:description" content="数据用途和玩转数据的手段 数据分析通常用于商业决策，一般在大公司中，会养一个专门的商业分析部门，专门采集各种数据用于辅助董事会/CEO等决策层做核心的商业决策。但是，数据分析的需求无处不在，在各个业务线中也有对于数据分析的诉求，例如运营部分，一个运营活动的好坏、应该向哪个渠道投放资源，不能靠拍脑袋决定，要分析具体数据。同样对于开发运维也一样，线上系统是否稳定，各个模块指标怎么样，都需要数据得到反馈">
-<meta name="twitter:image" content="http://mayunlei.github.io/2021/12/25/从数据分析到数据洞察/12/25/从数据分析到数据洞察/1639895690262-2b65cf5f-0853-488a-aa1c-136d2d79be11.png">
+<meta name="twitter:image" content="http://mayunlei.github.io/2021/12/25/%E4%BB%8E%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E5%88%B0%E6%95%B0%E6%8D%AE%E6%B4%9E%E5%AF%9F/12/25/%E4%BB%8E%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E5%88%B0%E6%95%B0%E6%8D%AE%E6%B4%9E%E5%AF%9F/1639895690262-2b65cf5f-0853-488a-aa1c-136d2d79be11.png">
   
     <link rel="alternate" href="/atom.xml" title="马云雷的技术博客" type="application/atom+xml">
   
@@ -38,9 +38,11 @@
   
     <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
   
-  <link rel="stylesheet" href="/css/style.css">
-</head>
-</html>
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 7.1.1"></head>
+
 <body>
   <div id="container">
     <div id="wrap">
@@ -79,7 +81,7 @@
       <div class="outer">
         <section id="main"><article id="post-从数据分析到数据洞察" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2021/12/25/从数据分析到数据洞察/" class="article-date">
+    <a href="/2021/12/25/%E4%BB%8E%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E5%88%B0%E6%95%B0%E6%8D%AE%E6%B4%9E%E5%AF%9F/" class="article-date">
   <time datetime="2021-12-25T02:08:08.000Z" itemprop="datePublished">2021-12-25</time>
 </a>
     
@@ -99,8 +101,8 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="数据用途和玩转数据的手段"><a href="#数据用途和玩转数据的手段" class="headerlink" title="数据用途和玩转数据的手段"></a>数据用途和玩转数据的手段</h2><img src="/2021/12/25/从数据分析到数据洞察/12/25/从数据分析到数据洞察/1639895690262-2b65cf5f-0853-488a-aa1c-136d2d79be11.png" title="image.png">
-<p>数据分析通常用于商业决策，一般在大公司中，会养一个专门的商业分析部门，专门采集各种数据用于辅助董事会/CEO等决策层做核心的商业决策。但是，数据分析的需求无处不在，在各个业务线中也有对于数据分析的诉求，例如运营部分，一个运营活动的好坏、应该向哪个渠道投放资源，不能靠拍脑袋决定，要分析具体数据。同样对于开发运维也一样，线上系统是否稳定，各个模块指标怎么样，都需要数据得到反馈。对于董事会，可以养一个专门的机构搞数据分析；而对于普通的业务线，那只能自助分析了。今天我们就来总结一下数据分析的方法，如何洞察数据中的有效信息。<br>数据分析首先得有数据，从各个地方采集数据。所谓巧妇难为无米之炊，没有数据更谈不上数据洞察。有些公司，成立商业分析部门，干的活却是窃取其他公司的商业核心数据，愣是把一个高上大的技术名词搞成了间谍。20世纪上半叶，数学上的统计学在各行各业流行开来，数学家们，利用很少的数据，再加上统计学理论，推断一个结论。如经典的”女士品茶”这个故事，通过数据判定女士到底有没有某个超能力。至于把商业分析干成商业间谍的人，大概是不懂得需要如何合法的采集数据，以及分析数据的手段吧。<br>数据存储无需多讨论，要分析数据，首先要把数据存储下来，无论是存储在云端也好，还是excel也好，只有存储下来，才能方便后续的计算和分析。<br>数据有哪些使用方式呢？这里列举了四种用法，例如report，monitoring，analysis，exploration/mining。我们可以按照两个维度来划分，需求是否明确，分析方式是否成熟。<br><img src="/2021/12/25/从数据分析到数据洞察/12/25/从数据分析到数据洞察/1639914240796-aa90d9c9-0521-4741-825f-248664cbe39d.png" title="image.png"><br>有些需求场景是明确的，例如老板需要每天看几个关键的业务指标，那么就需要每天跑个固定的脚本，生成报告。在这个过程中分析方法也是固定的，即运行固定的计算逻辑。有些需求需要经过一番分析，例如某天业务量降低了，要分析下原因是什么，就需要从多种指标里边去探索。<br>还有些需求场景是不明确的，给你一份数据，我们知道数据里边有金矿，关键是怎么把数据中的核心信息捞出来，也需要探索才能找到，但是探索的目标不确定。这就是个开放式的话题了，也就是探索式数据分析：有数据，尝试找信息。应该沿着怎么样的一条路是探索呢？我认为有两种方式：</p>
+        <h2 id="数据用途和玩转数据的手段"><a href="#数据用途和玩转数据的手段" class="headerlink" title="数据用途和玩转数据的手段"></a>数据用途和玩转数据的手段</h2><img src="/2021/12/25/%E4%BB%8E%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E5%88%B0%E6%95%B0%E6%8D%AE%E6%B4%9E%E5%AF%9F/12/25/%E4%BB%8E%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E5%88%B0%E6%95%B0%E6%8D%AE%E6%B4%9E%E5%AF%9F/1639895690262-2b65cf5f-0853-488a-aa1c-136d2d79be11.png" class title="image.png">
+<p>数据分析通常用于商业决策，一般在大公司中，会养一个专门的商业分析部门，专门采集各种数据用于辅助董事会/CEO等决策层做核心的商业决策。但是，数据分析的需求无处不在，在各个业务线中也有对于数据分析的诉求，例如运营部分，一个运营活动的好坏、应该向哪个渠道投放资源，不能靠拍脑袋决定，要分析具体数据。同样对于开发运维也一样，线上系统是否稳定，各个模块指标怎么样，都需要数据得到反馈。对于董事会，可以养一个专门的机构搞数据分析；而对于普通的业务线，那只能自助分析了。今天我们就来总结一下数据分析的方法，如何洞察数据中的有效信息。<br>数据分析首先得有数据，从各个地方采集数据。所谓巧妇难为无米之炊，没有数据更谈不上数据洞察。有些公司，成立商业分析部门，干的活却是窃取其他公司的商业核心数据，愣是把一个高上大的技术名词搞成了间谍。20世纪上半叶，数学上的统计学在各行各业流行开来，数学家们，利用很少的数据，再加上统计学理论，推断一个结论。如经典的”女士品茶”这个故事，通过数据判定女士到底有没有某个超能力。至于把商业分析干成商业间谍的人，大概是不懂得需要如何合法的采集数据，以及分析数据的手段吧。<br>数据存储无需多讨论，要分析数据，首先要把数据存储下来，无论是存储在云端也好，还是excel也好，只有存储下来，才能方便后续的计算和分析。<br>数据有哪些使用方式呢？这里列举了四种用法，例如report，monitoring，analysis，exploration/mining。我们可以按照两个维度来划分，需求是否明确，分析方式是否成熟。<br><img src="/2021/12/25/%E4%BB%8E%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E5%88%B0%E6%95%B0%E6%8D%AE%E6%B4%9E%E5%AF%9F/12/25/%E4%BB%8E%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E5%88%B0%E6%95%B0%E6%8D%AE%E6%B4%9E%E5%AF%9F/1639914240796-aa90d9c9-0521-4741-825f-248664cbe39d.png" class title="image.png"><br>有些需求场景是明确的，例如老板需要每天看几个关键的业务指标，那么就需要每天跑个固定的脚本，生成报告。在这个过程中分析方法也是固定的，即运行固定的计算逻辑。有些需求需要经过一番分析，例如某天业务量降低了，要分析下原因是什么，就需要从多种指标里边去探索。<br>还有些需求场景是不明确的，给你一份数据，我们知道数据里边有金矿，关键是怎么把数据中的核心信息捞出来，也需要探索才能找到，但是探索的目标不确定。这就是个开放式的话题了，也就是探索式数据分析：有数据，尝试找信息。应该沿着怎么样的一条路是探索呢？我认为有两种方式：</p>
 <ul>
 <li>尝试不同的分析方法，例如统计方法/机器学习方，挨个尝试，看能得到什么结果。有哪些分析方法，会在下文列一下常用的手段。</li>
 <li>尝试不同的目标，比如，首先用一句话描述数据的总体分布，然后找出其中的一些异常点，最后通过拟合数据做未来预测等等，有哪些分析目标，也会在下文列出一下常用的。</li>
@@ -111,7 +113,7 @@
 <h3 id="验证假设"><a href="#验证假设" class="headerlink" title="验证假设"></a>验证假设</h3><p>首先给出一个假设，通过数据给出证明。</p>
 <h3 id="预测"><a href="#预测" class="headerlink" title="预测"></a>预测</h3><p>拟合已有的数据，根据模型预测未来数据。<br>​</p>
 <p>无论哪种目标，最终都是需要能过帮助完成决策，只有完成决策，才算完沉了闭环，否则就是无意义的数据分析。</p>
-<h2 id="洞察数据的方法"><a href="#洞察数据的方法" class="headerlink" title="洞察数据的方法"></a>洞察数据的方法</h2><p>一个优秀的软件，必定是有灵魂的，他的灵魂就是背后的方法论。Saas的本质，就是输出管理的理念和方法论，并且提供解决方案的工具。具体到数据分析工具而言，一个优秀的数据分析工具一定以数据分析方法论的为基础的，融合集合常见的数据分析方法。而不是东一榔头、西一棒槌追加分析函数，永远跟着甲方的需求跑，面向客户开发，面向demo开发，这样的话永远不成体系。<br>我们先来看个数据分析的笑话：<br><img src="/2021/12/25/从数据分析到数据洞察/12/25/从数据分析到数据洞察/1638965299987-04d1c697-7f85-4dd2-899e-9e5598c647bb.png" title="image.png"><br>手里有个锤子，看什么都是钉子，数据分析专业的同学，看到什么都要现象都要分析一把。疫情也要分析一把，强行刷存在感。不过笑归笑，外行看热闹，内行看门道。在这个简短的笑话中，我们看到一些常见的数据分析方法：相关性分析、假设检验、ab测试、z test、数据分布、标准差、显著性水平等。</p>
+<h2 id="洞察数据的方法"><a href="#洞察数据的方法" class="headerlink" title="洞察数据的方法"></a>洞察数据的方法</h2><p>一个优秀的软件，必定是有灵魂的，他的灵魂就是背后的方法论。Saas的本质，就是输出管理的理念和方法论，并且提供解决方案的工具。具体到数据分析工具而言，一个优秀的数据分析工具一定以数据分析方法论的为基础的，融合集合常见的数据分析方法。而不是东一榔头、西一棒槌追加分析函数，永远跟着甲方的需求跑，面向客户开发，面向demo开发，这样的话永远不成体系。<br>我们先来看个数据分析的笑话：<br><img src="/2021/12/25/%E4%BB%8E%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E5%88%B0%E6%95%B0%E6%8D%AE%E6%B4%9E%E5%AF%9F/12/25/%E4%BB%8E%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E5%88%B0%E6%95%B0%E6%8D%AE%E6%B4%9E%E5%AF%9F/1638965299987-04d1c697-7f85-4dd2-899e-9e5598c647bb.png" class title="image.png"><br>手里有个锤子，看什么都是钉子，数据分析专业的同学，看到什么都要现象都要分析一把。疫情也要分析一把，强行刷存在感。不过笑归笑，外行看热闹，内行看门道。在这个简短的笑话中，我们看到一些常见的数据分析方法：相关性分析、假设检验、ab测试、z test、数据分布、标准差、显著性水平等。</p>
 <p>那么常见的数据分析方法有哪些呢？这些我们在大学的各个数学课程中都学习过了。首先我们做个分类，按照实现方式，数据分析包括：</p>
 <ul>
 <li>基于统计算法的数据分析。</li>
@@ -154,10 +156,10 @@
 <li>范围</li>
 <li>四分位距</li>
 </ul>
-<img src="/2021/12/25/从数据分析到数据洞察/12/25/从数据分析到数据洞察/1639967567533-5e587d1b-3db0-4da0-aae2-906309bfd6f3.png" title="image.png">
-<h3 id="数据分布"><a href="#数据分布" class="headerlink" title="数据分布"></a>数据分布</h3><p>数据分布的目标主要是查看数据的分布频率(分布密度)，针对不同的数据采取不同的分析方式，对于连续数据，采取散点图/箱线图(分位统计)描述。在散点图中，把所有的点都打印到图中，密度比较高的地方则说明分布比较多。对于离散数据，采取堆叠图/直方图描述。按照每个不同的类别，分桶后统计计数，然后用直方图绘出。同样的，对于连续数据也可以采取直方图的方式，把连续数据按照固定的桶大小分桶后再计数。<br><img src="/2021/12/25/从数据分析到数据洞察/12/25/从数据分析到数据洞察/1639967723187-2fb0e24c-0aba-4dee-940a-5e50cbd882d3.png" title="image.png"></p>
-<img src="/2021/12/25/从数据分析到数据洞察/12/25/从数据分析到数据洞察/1639967822622-80a912a7-3c39-45bf-9baf-ebef36fb6c37.png" title="image.png">
-<h3 id="相关性"><a href="#相关性" class="headerlink" title="相关性"></a>相关性</h3><p>上文的统计量分析/数据分布分析，是用于分析单变量。 而对于多变量分析，则需要用到相关性分析。探索两个变量之间的相关性。在计算相关性时，主要计算两个数据集合的相关性系数。常见的相关性系数有皮尔逊系数、斯皮尔曼系数等。在计算好相关性系数后，可以绘制出一个相关性表如下：<br><img src="/2021/12/25/从数据分析到数据洞察/12/25/从数据分析到数据洞察/1639968277868-cd7f7b87-340f-4814-9470-17abca65d53e.png" title="image.png"></p>
+<img src="/2021/12/25/%E4%BB%8E%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E5%88%B0%E6%95%B0%E6%8D%AE%E6%B4%9E%E5%AF%9F/12/25/%E4%BB%8E%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E5%88%B0%E6%95%B0%E6%8D%AE%E6%B4%9E%E5%AF%9F/1639967567533-5e587d1b-3db0-4da0-aae2-906309bfd6f3.png" class title="image.png">
+<h3 id="数据分布"><a href="#数据分布" class="headerlink" title="数据分布"></a>数据分布</h3><p>数据分布的目标主要是查看数据的分布频率(分布密度)，针对不同的数据采取不同的分析方式，对于连续数据，采取散点图/箱线图(分位统计)描述。在散点图中，把所有的点都打印到图中，密度比较高的地方则说明分布比较多。对于离散数据，采取堆叠图/直方图描述。按照每个不同的类别，分桶后统计计数，然后用直方图绘出。同样的，对于连续数据也可以采取直方图的方式，把连续数据按照固定的桶大小分桶后再计数。<br><img src="/2021/12/25/%E4%BB%8E%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E5%88%B0%E6%95%B0%E6%8D%AE%E6%B4%9E%E5%AF%9F/12/25/%E4%BB%8E%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E5%88%B0%E6%95%B0%E6%8D%AE%E6%B4%9E%E5%AF%9F/1639967723187-2fb0e24c-0aba-4dee-940a-5e50cbd882d3.png" class title="image.png"></p>
+<img src="/2021/12/25/%E4%BB%8E%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E5%88%B0%E6%95%B0%E6%8D%AE%E6%B4%9E%E5%AF%9F/12/25/%E4%BB%8E%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E5%88%B0%E6%95%B0%E6%8D%AE%E6%B4%9E%E5%AF%9F/1639967822622-80a912a7-3c39-45bf-9baf-ebef36fb6c37.png" class title="image.png">
+<h3 id="相关性"><a href="#相关性" class="headerlink" title="相关性"></a>相关性</h3><p>上文的统计量分析/数据分布分析，是用于分析单变量。 而对于多变量分析，则需要用到相关性分析。探索两个变量之间的相关性。在计算相关性时，主要计算两个数据集合的相关性系数。常见的相关性系数有皮尔逊系数、斯皮尔曼系数等。在计算好相关性系数后，可以绘制出一个相关性表如下：<br><img src="/2021/12/25/%E4%BB%8E%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E5%88%B0%E6%95%B0%E6%8D%AE%E6%B4%9E%E5%AF%9F/12/25/%E4%BB%8E%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E5%88%B0%E6%95%B0%E6%8D%AE%E6%B4%9E%E5%AF%9F/1639968277868-cd7f7b87-340f-4814-9470-17abca65d53e.png" class title="image.png"></p>
 <h3 id="抽样分布"><a href="#抽样分布" class="headerlink" title="抽样分布"></a>抽样分布</h3><p>抽样分布是用少量数据估算整体数据的分布情况，用途有三种：第一,可以概括性描述整体分布;第二可以根据整体分布预测未来的新数据；第三，可以利用分布系数来排查异常值。<br>常见的分布有：</p>
 <ul>
 <li>正态分布： 如果确定数据服从正态分布，估算出正态分布的sigma后，我们可以使用3sigma来排除异常值。</li>
@@ -169,7 +171,7 @@
 </ul>
 <p>柏松分布和指数分布通常用于估算事件发生率，也可用于估算IT系统的故障发生率。或者用于估算系统的上限水位，例如一个IT系统，每分钟的流量是x qps，那么根据泊松分布，可以估算出最大值是多少qps，系统需要准备多少资源。<br>​</p>
 <p>在现实的数据中，可能具备多种形状和类型，在特定场景下，应该首先确定数据集合服从哪种分布，求的分布系数后，再进行下一步的分析。<br>​</p>
-<h3 id="统计实验和假设性检验"><a href="#统计实验和假设性检验" class="headerlink" title="统计实验和假设性检验"></a>统计实验和假设性检验</h3><p>假设检验有个很好的用途，例如我们的营销团队做了个活动，那么如何评估活动是否带来了客流量呢？我们都知道现实的数据可能是有波动的，可能有N天变高，M天变低。所以要评估是否活动的影响，可以使用假设检验来验证。<br>最常见的业务场景，例如A/B测试。两种算法，哪个效果更好，可以通过假设检验来完成。<br>常见的方法有T检验、卡方检验<br>例如<br><img src="/2021/12/25/从数据分析到数据洞察/12/25/从数据分析到数据洞察/1639970025835-dc36319c-3779-40d2-8ee3-3666f3c2a277.png" title="image.png"><br>不同的标题下，有不同的点击率，那么这个点击率是随机造成的，还是标题起到了关键作用呢？可以通过卡方检验，计算皮尔逊残差，结果证明完全是随机作用。<br>​</p>
+<h3 id="统计实验和假设性检验"><a href="#统计实验和假设性检验" class="headerlink" title="统计实验和假设性检验"></a>统计实验和假设性检验</h3><p>假设检验有个很好的用途，例如我们的营销团队做了个活动，那么如何评估活动是否带来了客流量呢？我们都知道现实的数据可能是有波动的，可能有N天变高，M天变低。所以要评估是否活动的影响，可以使用假设检验来验证。<br>最常见的业务场景，例如A/B测试。两种算法，哪个效果更好，可以通过假设检验来完成。<br>常见的方法有T检验、卡方检验<br>例如<br><img src="/2021/12/25/%E4%BB%8E%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E5%88%B0%E6%95%B0%E6%8D%AE%E6%B4%9E%E5%AF%9F/12/25/%E4%BB%8E%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E5%88%B0%E6%95%B0%E6%8D%AE%E6%B4%9E%E5%AF%9F/1639970025835-dc36319c-3779-40d2-8ee3-3666f3c2a277.png" class title="image.png"><br>不同的标题下，有不同的点击率，那么这个点击率是随机造成的，还是标题起到了关键作用呢？可以通过卡方检验，计算皮尔逊残差，结果证明完全是随机作用。<br>​</p>
 <h3 id="回归和预测"><a href="#回归和预测" class="headerlink" title="回归和预测"></a>回归和预测</h3><p>在现实中，我们经常要回答的一个问题是，这两个指标之间是否有关联？如果有关联，是否可以通过其中一个指标预测另外一个指标。预测常见的一个使用场景是：根据预测的结果和实际的结果进行比对，然后判断是否有异常。</p>
 <h3 id="分类-1"><a href="#分类-1" class="headerlink" title="分类"></a>分类</h3><p>在数据分析中，经常要回答一个问题，一个电子邮件是否是钓鱼邮件？一个客户是否会流失？这种情况就需要分类。分类是有监督的学习。<br>常用的分类算法有：</p>
 <ul>
@@ -194,7 +196,7 @@
 <li>循环神经网络RNN</li>
 <li>深度神经网络DNN</li>
 </ul>
-<h1 id="数据分析工具和数据洞察解决方案"><a href="#数据分析工具和数据洞察解决方案" class="headerlink" title="数据分析工具和数据洞察解决方案"></a>数据分析工具和数据洞察解决方案</h1><img src="/2021/12/25/从数据分析到数据洞察/12/25/从数据分析到数据洞察/1639971950420-24beef6e-73f9-44c7-9e2b-64ed77900b6e.png" title="image.png">
+<h1 id="数据分析工具和数据洞察解决方案"><a href="#数据分析工具和数据洞察解决方案" class="headerlink" title="数据分析工具和数据洞察解决方案"></a>数据分析工具和数据洞察解决方案</h1><img src="/2021/12/25/%E4%BB%8E%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E5%88%B0%E6%95%B0%E6%8D%AE%E6%B4%9E%E5%AF%9F/12/25/%E4%BB%8E%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E5%88%B0%E6%95%B0%E6%8D%AE%E6%B4%9E%E5%AF%9F/1639971950420-24beef6e-73f9-44c7-9e2b-64ed77900b6e.png" class title="image.png">
 <p>上文介紹了很多数据分析的方法算法。这些方法，归根结底是一个个工具，或者说是积木，用户可以使用这些积木组合成解决方案，解决自己特定的问题。市场上有很多系统提供类似的数据分析工具，例如Pandas，R，SQL，Tensorflow等等。 但是这依赖于使用者既要明确自己的分析目标，又要十分精通使用工具。 对于开放式的话题，在分析时需要不断尝试各种各样的手段进行分析，有些分析手段可能是无效的，因此需要不断尝试，在这个过程中浪费了太多的时间。如何能够快速洞察数据呢？<br>有些工具尝试集合数据分析的工具和数据洞察的解决方案，例如tableau，Knime等，而Pandas profiling则是一个纯粹的数据洞察方案。它自动的尝试上文描述的各种手段，把结论呈现给客户，减少了数据探索的时间，能过快速的完成数据洞察。<br>​</p>
 <h1 id="数据洞察工具的价值"><a href="#数据洞察工具的价值" class="headerlink" title="数据洞察工具的价值"></a>数据洞察工具的价值</h1><p>针对开放式的课题，需要投入大量的人工时间在各个方向上探索，这存在几个问题：</p>
 <ul>
@@ -206,10 +208,10 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://mayunlei.github.io/2021/12/25/从数据分析到数据洞察/" data-id="clbczv5zq000cx23jciqma127" class="article-share-link">Share</a>
+      <a data-url="http://mayunlei.github.io/2021/12/25/%E4%BB%8E%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E5%88%B0%E6%95%B0%E6%8D%AE%E6%B4%9E%E5%AF%9F/" data-id="cltb1iov5000ir6gtc3b05ebp" class="article-share-link">Share</a>
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SQL洞察/">SQL洞察</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SQL%E6%B4%9E%E5%AF%9F/" rel="tag">SQL洞察</a></li></ul>
 
     </footer>
   </div>
@@ -217,7 +219,7 @@
     
 <nav id="article-nav">
   
-    <a href="/2022/05/04/探索无人驾驶载货小飞机：航模技术研究/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2022/05/04/%E6%8E%A2%E7%B4%A2%E6%97%A0%E4%BA%BA%E9%A9%BE%E9%A9%B6%E8%BD%BD%E8%B4%A7%E5%B0%8F%E9%A3%9E%E6%9C%BA%EF%BC%9A%E8%88%AA%E6%A8%A1%E6%8A%80%E6%9C%AF%E7%A0%94%E7%A9%B6/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Newer</strong>
       <div class="article-nav-title">
         
@@ -248,7 +250,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/ClickHouse-OLAP/">ClickHouse OLAP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ML-机器学习-神经网络/">ML 机器学习 神经网络</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SQL洞察/">SQL洞察</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/presto/">presto</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/string-cow/">string cow</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/向量化-SIMD/">向量化, SIMD</a></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/ClickHouse-OLAP/" rel="tag">ClickHouse OLAP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ML-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/" rel="tag">ML 机器学习 神经网络</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SQL%E6%B4%9E%E5%AF%9F/" rel="tag">SQL洞察</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/presto/" rel="tag">presto</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/string-cow/" rel="tag">string cow</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%90%91%E9%87%8F%E5%8C%96-SIMD/" rel="tag">向量化, SIMD</a></li></ul>
     </div>
   </div>
 
@@ -258,7 +260,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/ClickHouse-OLAP/" style="font-size: 10px;">ClickHouse OLAP</a> <a href="/tags/ML-机器学习-神经网络/" style="font-size: 10px;">ML 机器学习 神经网络</a> <a href="/tags/SQL洞察/" style="font-size: 10px;">SQL洞察</a> <a href="/tags/presto/" style="font-size: 20px;">presto</a> <a href="/tags/string-cow/" style="font-size: 10px;">string cow</a> <a href="/tags/向量化-SIMD/" style="font-size: 10px;">向量化, SIMD</a>
+      <a href="/tags/ClickHouse-OLAP/" style="font-size: 10px;">ClickHouse OLAP</a> <a href="/tags/ML-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/" style="font-size: 10px;">ML 机器学习 神经网络</a> <a href="/tags/SQL%E6%B4%9E%E5%AF%9F/" style="font-size: 10px;">SQL洞察</a> <a href="/tags/presto/" style="font-size: 20px;">presto</a> <a href="/tags/string-cow/" style="font-size: 10px;">string cow</a> <a href="/tags/%E5%90%91%E9%87%8F%E5%8C%96-SIMD/" style="font-size: 10px;">向量化, SIMD</a>
     </div>
   </div>
 
@@ -267,7 +269,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/06/">June 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/05/">May 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/12/">December 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">January 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">August 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">November 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/06/">June 2013</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/03/">March 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/06/">June 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/05/">May 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/12/">December 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">January 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">August 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">November 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/06/">June 2013</a></li></ul>
     </div>
   </div>
 
@@ -280,23 +282,23 @@
       <ul>
         
           <li>
-            <a href="/2022/06/16/深入浅出向量化技术/">深入向量化计算技术</a>
+            <a href="/2024/03/03/OLAP%E8%AE%A1%E7%AE%97%E5%BC%95%E6%93%8E%E5%8E%9F%E7%90%86%E5%92%8C%E5%AE%9E%E7%8E%B0/">OLAP计算引擎原理和实现</a>
           </li>
         
           <li>
-            <a href="/2022/05/04/探索无人驾驶载货小飞机：航模技术研究/">探索无人驾驶载货小飞机：航模技术研究</a>
+            <a href="/2022/06/16/%E6%B7%B1%E5%85%A5%E6%B5%85%E5%87%BA%E5%90%91%E9%87%8F%E5%8C%96%E6%8A%80%E6%9C%AF/">深入向量化计算技术</a>
           </li>
         
           <li>
-            <a href="/2021/12/25/从数据分析到数据洞察/">从数据分析到数据洞察</a>
+            <a href="/2022/05/04/%E6%8E%A2%E7%B4%A2%E6%97%A0%E4%BA%BA%E9%A9%BE%E9%A9%B6%E8%BD%BD%E8%B4%A7%E5%B0%8F%E9%A3%9E%E6%9C%BA%EF%BC%9A%E8%88%AA%E6%A8%A1%E6%8A%80%E6%9C%AF%E7%A0%94%E7%A9%B6/">探索无人驾驶载货小飞机：航模技术研究</a>
+          </li>
+        
+          <li>
+            <a href="/2021/12/25/%E4%BB%8E%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E5%88%B0%E6%95%B0%E6%8D%AE%E6%B4%9E%E5%AF%9F/">从数据分析到数据洞察</a>
           </li>
         
           <li>
             <a href="/2021/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/">Petabytes scale log analysis at Alibaba:intrastructure/challenge/optimization</a>
-          </li>
-        
-          <li>
-            <a href="/2021/01/09/ClickHouse计算速度是如何做到领跑OLAP类产品的/">ClickHouse计算速度是如何做到领跑OLAP类产品的</a>
           </li>
         
       </ul>
@@ -311,7 +313,7 @@
   
   <div class="outer">
     <div id="footer-info" class="inner">
-      &copy; 2022 马云雷<br>
+      &copy; 2024 马云雷<br>
       Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>
@@ -331,11 +333,17 @@
 <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 
 
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
-  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
 
 
 <script src="/js/script.js"></script>
+
 
 
 
