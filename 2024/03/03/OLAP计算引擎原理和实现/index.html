@@ -7,15 +7,15 @@
   
   <title>OLAP计算引擎原理和实现 | 马云雷的技术博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="目录1. 数据分析的重要性及OLAP引擎的角色2. SQL语法3. 语法分析4. 逻辑执行计划5. 基于规则的优化器RBO7. 运行时优化">
+  <meta name="description" content="目录 1. 数据分析的重要性及OLAP引擎的角色 2. SQL语法 3. 语法分析 4. 逻辑执行计划 5. 基于规则的优化器RBO 6. CBO基于代价的优化器 7. 运行时优化 8.任务调度和并行执行: 8.1执行框架 8.2任务调度 8.3分布式算法 8.4 Shared-Nothing vs Shared-Disk vs Shared-Memory 8.5 指令集并行SIMD 8.6任务调">
 <meta property="og:type" content="article">
 <meta property="og:title" content="OLAP计算引擎原理和实现">
 <meta property="og:url" content="http://mayunlei.github.io/2024/03/03/OLAP%E8%AE%A1%E7%AE%97%E5%BC%95%E6%93%8E%E5%8E%9F%E7%90%86%E5%92%8C%E5%AE%9E%E7%8E%B0/index.html">
 <meta property="og:site_name" content="马云雷的技术博客">
-<meta property="og:description" content="目录1. 数据分析的重要性及OLAP引擎的角色2. SQL语法3. 语法分析4. 逻辑执行计划5. 基于规则的优化器RBO7. 运行时优化">
+<meta property="og:description" content="目录 1. 数据分析的重要性及OLAP引擎的角色 2. SQL语法 3. 语法分析 4. 逻辑执行计划 5. 基于规则的优化器RBO 6. CBO基于代价的优化器 7. 运行时优化 8.任务调度和并行执行: 8.1执行框架 8.2任务调度 8.3分布式算法 8.4 Shared-Nothing vs Shared-Disk vs Shared-Memory 8.5 指令集并行SIMD 8.6任务调">
 <meta property="og:locale">
 <meta property="article:published_time" content="2024-03-03T04:22:49.000Z">
-<meta property="article:modified_time" content="2024-04-05T09:46:49.786Z">
+<meta property="article:modified_time" content="2024-04-20T00:16:09.103Z">
 <meta property="article:author" content="马云雷">
 <meta name="twitter:card" content="summary">
   
@@ -90,7 +90,35 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h1><p><a href="https://mp.weixin.qq.com/s?__biz=MzI0MDI2Mzk5Mw==&amp;mid=2247483880&amp;idx=1&amp;sn=92948ab1207c9cb5cc1df13b3a80a846&amp;chksm=e91c37bede6bbea8733ef1f7584adf7afbb5672aa273e40c08276876dcf5f6e06911acd837e7&amp;token=1661421359&amp;lang=zh_CN#rd">1. 数据分析的重要性及OLAP引擎的角色</a><br><a href="https://mp.weixin.qq.com/s/YKrSOMqrauJCHedtLVBOaQ">2. SQL语法</a><br><a href="https://mp.weixin.qq.com/s?__biz=MzI0MDI2Mzk5Mw==&amp;mid=2247483902&amp;idx=1&amp;sn=36bce6075ae7039db52a607f16397cf0&amp;chksm=e91c37a8de6bbebe49741bcc741c89fe0943f33a60b15934f015805275881850340db8e1c6a7&amp;token=2097292777&amp;lang=zh_CN#rd">3. 语法分析</a><br><a href="https://mp.weixin.qq.com/s?__biz=MzI0MDI2Mzk5Mw==&amp;mid=2247483909&amp;idx=1&amp;sn=295c64154704e3becf60c824e507e518&amp;chksm=e91c3453de6bbd45e4f54a88d35f7712f23e1e9e234fc3569890712dfaccc83fcd04b5cf2a68&amp;token=2097292777&amp;lang=zh_CN#rd">4. 逻辑执行计划</a><br><a href="https://mp.weixin.qq.com/s?__biz=MzI0MDI2Mzk5Mw==&amp;mid=2247483924&amp;idx=1&amp;sn=76d44607db891285c319cd8467e7e467&amp;chksm=e91c3442de6bbd5496c02a7af6efc3f49541c871a8f7f5300e3ce6127c26f75acaff2ea5aa00&amp;token=2097292777&amp;lang=zh_CN#rd">5. 基于规则的优化器RBO</a><br><a href="https://mp.weixin.qq.com/s?__biz=MzI0MDI2Mzk5Mw==&amp;mid=2247483932&amp;idx=1&amp;sn=d2ebc3f9c09d94a962208e13fa8034ff&amp;chksm=e91c344ade6bbd5cf2826ab9eb94572b11a93d3b3515e4061d3d32e4f2424402c2904b41a39c&amp;token=2097292777&amp;lang=zh_CN#rd">7. 运行时优化</a></p>
+        <h1 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h1><ul>
+<li><a href="https://mp.weixin.qq.com/s?__biz=MzI0MDI2Mzk5Mw==&amp;mid=2247483880&amp;idx=1&amp;sn=92948ab1207c9cb5cc1df13b3a80a846&amp;chksm=e91c37bede6bbea8733ef1f7584adf7afbb5672aa273e40c08276876dcf5f6e06911acd837e7&amp;token=1661421359&amp;lang=zh_CN#rd">1. 数据分析的重要性及OLAP引擎的角色</a></li>
+<li><a href="https://mp.weixin.qq.com/s/YKrSOMqrauJCHedtLVBOaQ">2. SQL语法</a></li>
+<li><a href="https://mp.weixin.qq.com/s?__biz=MzI0MDI2Mzk5Mw==&amp;mid=2247483902&amp;idx=1&amp;sn=36bce6075ae7039db52a607f16397cf0&amp;chksm=e91c37a8de6bbebe49741bcc741c89fe0943f33a60b15934f015805275881850340db8e1c6a7&amp;token=2097292777&amp;lang=zh_CN#rd">3. 语法分析</a></li>
+<li><a href="https://mp.weixin.qq.com/s?__biz=MzI0MDI2Mzk5Mw==&amp;mid=2247483909&amp;idx=1&amp;sn=295c64154704e3becf60c824e507e518&amp;chksm=e91c3453de6bbd45e4f54a88d35f7712f23e1e9e234fc3569890712dfaccc83fcd04b5cf2a68&amp;token=2097292777&amp;lang=zh_CN#rd">4. 逻辑执行计划</a></li>
+<li><a href="https://mp.weixin.qq.com/s?__biz=MzI0MDI2Mzk5Mw==&amp;mid=2247483924&amp;idx=1&amp;sn=76d44607db891285c319cd8467e7e467&amp;chksm=e91c3442de6bbd5496c02a7af6efc3f49541c871a8f7f5300e3ce6127c26f75acaff2ea5aa00&amp;token=2097292777&amp;lang=zh_CN#rd">5. 基于规则的优化器RBO</a></li>
+<li><a href="http://mp.weixin.qq.com/s?__biz=MzI0MDI2Mzk5Mw==&amp;mid=2247483915&amp;idx=1&amp;sn=5074d1366ee3d6374c6f818db8f75ad0&amp;chksm=e91c345dde6bbd4b4305704d4a714f09bb259374975fdd9120459ff93795b36ccb721aac3a1c&amp;scene=21#wechat_redirect">6. CBO基于代价的优化器</a></li>
+<li><a href="https://mp.weixin.qq.com/s?__biz=MzI0MDI2Mzk5Mw==&amp;mid=2247483932&amp;idx=1&amp;sn=d2ebc3f9c09d94a962208e13fa8034ff&amp;chksm=e91c344ade6bbd5cf2826ab9eb94572b11a93d3b3515e4061d3d32e4f2424402c2904b41a39c&amp;token=2097292777&amp;lang=zh_CN#rd">7. 运行时优化</a></li>
+<li>8.任务调度和并行执行:<ul>
+<li><a href="http://mp.weixin.qq.com/s?__biz=MzI0MDI2Mzk5Mw==&amp;mid=2247483938&amp;idx=1&amp;sn=a989a8aa8253bc8dde3a51410bab1539&amp;chksm=e91c3474de6bbd62b4e4ad992c2f3c6074d8ef7502b9393f906ed1d8d4becd65f983545d13a5&amp;scene=21#wechat_redirect">8.1执行框架</a></li>
+<li><a href="http://mp.weixin.qq.com/s?__biz=MzI0MDI2Mzk5Mw==&amp;mid=2247483943&amp;idx=1&amp;sn=7d8dff012a137ffc2987549328210706&amp;chksm=e91c3471de6bbd67f41a6d1cb898a3c342385eb1ee1bf90d98edb3b579ea5af62d3edf1b4bdd&amp;scene=21#wechat_redirect">8.2任务调度</a></li>
+<li><a href="http://mp.weixin.qq.com/s?__biz=MzI0MDI2Mzk5Mw==&amp;mid=2247483951&amp;idx=1&amp;sn=2120b8ebe88bf752911df72562140302&amp;chksm=e91c3479de6bbd6f0605661e80e46a8920914dd2911f374dc1e09115e5d961116bc546e88109&amp;scene=21#wechat_redirect">8.3分布式算法</a></li>
+<li><a href="http://mp.weixin.qq.com/s?__biz=MzI0MDI2Mzk5Mw==&amp;mid=2247483955&amp;idx=1&amp;sn=cd5fc85d581a420434e95e9669600df0&amp;chksm=e91c3465de6bbd73aad68822a0997aa3a86a11f4f6744e9627698f4bda3b3764449bf6f01c20&amp;scene=21#wechat_redirect">8.4 Shared-Nothing vs Shared-Disk vs Shared-Memory</a></li>
+<li><a href="http://mp.weixin.qq.com/s?__biz=MzI0MDI2Mzk5Mw==&amp;mid=2247483961&amp;idx=1&amp;sn=37cb210e07620185ac6835d943b709e8&amp;chksm=e91c346fde6bbd79b3653ec74a1d1747ad560be3a2f3b545699cd5980eea0f4a6c8e8c0ac5bb&amp;scene=21#wechat_redirect">8.5 指令集并行SIMD</a></li>
+<li><a href="http://mp.weixin.qq.com/s?__biz=MzI0MDI2Mzk5Mw==&amp;mid=2247483965&amp;idx=1&amp;sn=0c38c9b19b5e05a7879826dc6bdd6eca&amp;chksm=e91c346bde6bbd7de42979033deffc8da9f722a2da6e36f351f7762694394b614bc13206f19f&amp;scene=21#wechat_redirect">8.6任务调度和并行计算章节小结</a></li>
+</ul>
+</li>
+<li>9.LLVM与代码生:<ul>
+<li><a href="http://mp.weixin.qq.com/s?__biz=MzI0MDI2Mzk5Mw==&amp;mid=2247483970&amp;idx=1&amp;sn=c169e17d1f6b1096174e36267dcc8f59&amp;chksm=e91c3414de6bbd0214fe416138ab398d003e3ca337bb11af72ac9ce636c820e1d719523c8d21&amp;scene=21#wechat_redirect">9.1物理执行计划的转化与优化</a></li>
+<li><a href="http://mp.weixin.qq.com/s?__biz=MzI0MDI2Mzk5Mw==&amp;mid=2247483976&amp;idx=1&amp;sn=f7a752fe35b973e34a85445b137af3b2&amp;chksm=e91c341ede6bbd087083b06200f453f701fd0c0de458e22465b4dcf503065f69de9f2c76f12a&amp;scene=21#wechat_redirect">9.2 LLVM的历史与普及原因</a></li>
+<li><a href="http://mp.weixin.qq.com/s?__biz=MzI0MDI2Mzk5Mw==&amp;mid=2247483980&amp;idx=1&amp;sn=93f1c337b6037110f21b2324addeccef&amp;chksm=e91c341ade6bbd0c0d135519d750117a99f338ec0d3b4ac55270bf32495aff2e398f131e5518&amp;scene=21#wechat_redirect">9.3 LLVM与协同开发的协同性</a></li>
+<li><a href="http://mp.weixin.qq.com/s?__biz=MzI0MDI2Mzk5Mw==&amp;mid=2247483984&amp;idx=1&amp;sn=672dacf50cfbd2851800c17bb197eb00&amp;chksm=e91c3406de6bbd10eec88df0344af5dffad851bf13eca5d4f27c2a209efdfcb5a5632948b634&amp;scene=21#wechat_redirect">9.4 LLVM项目组成</a></li>
+<li><a href="http://mp.weixin.qq.com/s?__biz=MzI0MDI2Mzk5Mw==&amp;mid=2247483989&amp;idx=1&amp;sn=3d8a3461250247dcb6b31c534f652a73&amp;chksm=e91c3403de6bbd151023eb5c69e81a3dae3d430182724ac478dfa70e81b19ce4745c8f350b9c&amp;scene=21#wechat_redirect">9.5 LLVM工具介绍</a></li>
+<li><a href="http://mp.weixin.qq.com/s?__biz=MzI0MDI2Mzk5Mw==&amp;mid=2247483993&amp;idx=1&amp;sn=a24da723376a39264d30054882ab10c4&amp;chksm=e91c340fde6bbd19330a875f5e6acaf381eed5c8546e24f3511e0cce2880fc17b124cf708ffb&amp;scene=21#wechat_redirect">9.6 LLVM IR 介绍</a></li>
+<li><a href="http://mp.weixin.qq.com/s?__biz=MzI0MDI2Mzk5Mw==&amp;mid=2247484001&amp;idx=1&amp;sn=9559728d66a5f86f9f753139bd5e2dc5&amp;chksm=e91c3437de6bbd21a14acaa0b6d0c718cd778b9e7fcdbec042bacd6a52e90788b995d31fb36c&amp;scene=21#wechat_redirect">9.7 IR代码数据结构</a></li>
+<li><a href="http://mp.weixin.qq.com/s?__biz=MzI0MDI2Mzk5Mw==&amp;mid=2247484006&amp;idx=1&amp;sn=0457743d4d9dec216b682040b84ba743&amp;chksm=e91c3430de6bbd2679ab4f2e6bdadc3a8ab80a9144657075688bda14264d91c4ba14b235fa9b&amp;scene=21#wechat_redirect">9.8 LLVM-JIT</a></li>
+</ul>
+</li>
+</ul>
 
       
     </div>
