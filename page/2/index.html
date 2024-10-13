@@ -66,6 +66,69 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-Presto-任务调度：-任务分配到哪里" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/05/30/Presto-%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6%EF%BC%9A-%E4%BB%BB%E5%8A%A1%E5%88%86%E9%85%8D%E5%88%B0%E5%93%AA%E9%87%8C/" class="article-date">
+  <time datetime="2020-05-30T14:12:41.000Z" itemprop="datePublished">2020-05-30</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/05/30/Presto-%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6%EF%BC%9A-%E4%BB%BB%E5%8A%A1%E5%88%86%E9%85%8D%E5%88%B0%E5%93%AA%E9%87%8C/">Presto 任务调度： 任务分配到哪里</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在调度任务时，有几个决策点，第一：分配多少个任务，第二：每个任务分配到哪些机器上。</p>
+<p>要回答这个问题，首先把计算任务做一下分类，在presto内部有4种计算类型的节点：</p>
+<ol>
+<li>source节点，读源数据的节点，负责读取数据、Map阶段的计算任务。分配的个数由SplitManager根据数据决定。</li>
+<li>fixed节点，shuffle节点，用于处理reduce任务。比如group by计算，source阶段的数据按照hash发送到fixed节点。分配的个数由<code>hash_partition_count</code>这个session参数决定，由于是固定个数，所以对于不同的数据规模采用同样的个数也不是很合适，这也是需要改进的点。</li>
+<li>single节点，单节点计算任务，某些计算需要在单一节点计算，比如MergeReduce，output等，需要分配一个节点。</li>
+<li>coordinator only，只在coordinator节点计算的任务，一般是meta类操作。</li>
+</ol>
+<p><img src="https://ata2-img.oss-cn-zhangjiakou.aliyuncs.com/78ff9393e5c396a123bccfb532552f4d.png" alt="image.png"></p>
+<p>Presto是一个计算引擎，采用计算和存储分离的架构。所以，理论上来讲，上边回答清楚每个阶段分配多少个计算任务，然后按照随机的原则把task分配到每台机器上，并注意机器之间的负载均衡就足够了。</p>
+<p>但是这样性能并不是最佳的。我们都知道，大规模的数据迁移是一件非常耗时的事情。在计算机硬件中，CPU、内存、磁盘、网卡，这些硬件中，网卡的性能提升是最慢的，在整个分布式系统中也是性能最差的。<br>因此在调度上presto提供了一种基于拓扑的调度算法(Topology Aware schedule),以使source节点尽量靠近数据。</p>
+<h2 id="拓扑调度算法Topology-Aware-Scheduling-strategy"><a href="#拓扑调度算法Topology-Aware-Scheduling-strategy" class="headerlink" title="拓扑调度算法Topology Aware Scheduling strategy"></a>拓扑调度算法Topology Aware Scheduling strategy</h2><p><img src="https://ata2-img.oss-cn-zhangjiakou.aliyuncs.com/c922f1f4738940e0c9254d22991bfff6.png" alt="image.png"></p>
+<p>Presto把集群资源划分成两级结构(Machine,集群)(包含机架的三级结构是我们的实现方式，不是presto原生的算法)。</p>
+<p>分配算法如下：</p>
+<ol>
+<li>当分配一个split时候，会给定split的一个地址，这个地址代表期望的分配地址。</li>
+<li>从Machine层开始查找，首先查看Machine上已经分配的split个数是否已满，若未满则分配该机器，</li>
+<li>若Machine资源池已满，然后查看机架级别的资源池。多个机器组成一个机架。然后在同一个机架找出一台机器，这台机器的资源池小于75%，则分配这台机器。</li>
+<li>如果在机架级别找不到可用机器，则到集群级别找一台机器，这台机器的资源池使用量小于50%，则分配这台机器。否则分配失败。</li>
+</ol>
+<p>presto代码提供了Machine/集群的两级拓扑结构，但是架构上提供一个基础的多级分配策略，因此我们增加了机架级别的资源调度。我们知道，同一个机架内机器在一个交换机下，网络速度要快于跨机架传输。</p>
+<h2 id="Presto调度上的其他优化点"><a href="#Presto调度上的其他优化点" class="headerlink" title="Presto调度上的其他优化点"></a>Presto调度上的其他优化点</h2><p>presto提供了基础的调度能力，这个调度策略是很简单的，如果要实现精细化的调度，还有很多工作可以做。例如：</p>
+<ol>
+<li>上文提到的Fix Count Scheduler，对所有的计算采用固定的节点个数。这个可以通过CBO，衡量不同数据源的大小，以及计算的复杂度，分配不同的节点个数。</li>
+<li>上文提到的机架级别调度。</li>
+<li>在资源池的管理上，简单以split的个数来衡量，但是我们知道每个split对应的数据量和计算复杂度是不一样的。因此更加精细化的策略是根据统计数据预估split消耗的内存/cpu。</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://mayunlei.github.io/2020/05/30/Presto-%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6%EF%BC%9A-%E4%BB%BB%E5%8A%A1%E5%88%86%E9%85%8D%E5%88%B0%E5%93%AA%E9%87%8C/" data-id="cltb1iov00006r6gtbzdj8rub" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-Procella-Youtube-把计算加速玩到极致的实时计算引擎" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2020/05/20/Procella-Youtube-%E6%8A%8A%E8%AE%A1%E7%AE%97%E5%8A%A0%E9%80%9F%E7%8E%A9%E5%88%B0%E6%9E%81%E8%87%B4%E7%9A%84%E5%AE%9E%E6%97%B6%E8%AE%A1%E7%AE%97%E5%BC%95%E6%93%8E/" class="article-date">
@@ -1030,7 +1093,7 @@ var _hmt = _hmt || [];
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/03/">March 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/06/">June 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/05/">May 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/12/">December 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">January 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">August 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">November 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/06/">June 2013</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/10/">October 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/03/">March 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/06/">June 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/05/">May 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/12/">December 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">January 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">August 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">November 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/06/">June 2013</a></li></ul>
     </div>
   </div>
 
@@ -1041,6 +1104,10 @@ var _hmt = _hmt || [];
     <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2024/10/13/c-11-%E6%A8%A1%E6%9D%BF%E5%85%83%E7%BC%96%E7%A8%8B%EF%BC%9A%E7%8E%B0%E4%BB%A3%E5%8C%96%E8%AE%A1%E7%AE%97%E5%BC%95%E6%93%8E%E7%9A%84%E9%80%9F%E5%BA%A6%E7%A7%98%E8%AF%80/">c++11+模板元编程：现代化计算引擎的速度秘诀</a>
+          </li>
         
           <li>
             <a href="/2024/03/03/OLAP%E8%AE%A1%E7%AE%97%E5%BC%95%E6%93%8E%E5%8E%9F%E7%90%86%E5%92%8C%E5%AE%9E%E7%8E%B0/">OLAP计算引擎原理和实现</a>
@@ -1056,10 +1123,6 @@ var _hmt = _hmt || [];
         
           <li>
             <a href="/2021/12/25/%E4%BB%8E%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E5%88%B0%E6%95%B0%E6%8D%AE%E6%B4%9E%E5%AF%9F/">从数据分析到数据洞察</a>
-          </li>
-        
-          <li>
-            <a href="/2021/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/">Petabytes scale log analysis at Alibaba:intrastructure/challenge/optimization</a>
           </li>
         
       </ul>
