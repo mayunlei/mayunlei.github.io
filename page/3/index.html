@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>马云雷的技术博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="马云雷的技术博客">
+<meta property="og:url" content="http://mayunlei.github.io/page/3/index.html">
+<meta property="og:site_name" content="马云雷的技术博客">
+<meta property="og:locale">
+<meta property="article:author" content="马云雷">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="马云雷的技术博客" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css">
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">马云雷的技术博客</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://mayunlei.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-presto-1-infrastructure" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2017/10/12/presto-1-infrastructure/" class="article-date">
+  <time class="dt-published" datetime="2017-10-12T11:56:49.000Z" itemprop="datePublished">2017-10-12</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2017/10/12/presto-1-infrastructure/">深入理解Presto(1) : Presto的架构</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>Presto是一个facebook开源的分布式SQL查询引擎，适用于交互式分析查询，数据量支持GB到PB字节。presto的架构由关系型数据库的架构演化而来。presto之所以能在各个内存计算型数据库中脱颖而出，在于以下几点：</p>
+<ol>
+<li>清晰的架构，是一个能够独立运行的系统，不依赖于任何其他外部系统。例如调度，presto自身提供了对集群的监控，可以根据监控信息完成调度。</li>
+<li>简单的数据结构，列式存储，逻辑行，大部分数据都可以轻易的转化成presto所需要的这种数据结构。</li>
+<li>丰富的插件接口，完美对接外部存储系统，或者添加自定义的函数。</li>
+</ol>
+<p>本文从外到内，依次来介绍presto。</p>
+<h2 id="架构"><a href="#架构" class="headerlink" title="架构"></a>架构</h2><p><img src="http://ata2-img.cn-hangzhou.img-pub.aliyun-inc.com/a3f863b0236a31d11851fe2c2f94df53.png" alt="image.png"></p>
+<p>Presto采用典型的master-slave模型：</p>
+<ol>
+<li>coordinator(master)负责meta管理,worker管理，query的解析和调度</li>
+<li>worker则负责计算和读写。</li>
+<li>discovery server， 通常内嵌于coordinator节点中，也可以单独部署，用于节点心跳。在下文中，默认discovery和coordinator共享一台机器。</li>
+</ol>
+<p>在worker的配置中，可以选择配置：</p>
+<ol>
+<li><p>discovery的ip:port。</p>
+</li>
+<li><p>一个http地址，内容是service inventory，包含discovery地址。</p>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">	&#123;</span><br><span class="line">    &quot;environment&quot;: &quot;production&quot;,</span><br><span class="line">        &quot;services&quot;: [</span><br><span class="line">        &#123;   </span><br><span class="line">            &quot;id&quot;: &quot;ffffffff-ffff-ffff-ffff-ffffffffffff&quot;,</span><br><span class="line">            &quot;type&quot;: &quot;discovery&quot;,</span><br><span class="line">            &quot;location&quot;: &quot;/ffffffff-ffff-ffff-ffff-ffffffffffff&quot;,</span><br><span class="line">            &quot;pool&quot;: &quot;general&quot;,</span><br><span class="line">            &quot;state&quot;: &quot;RUNNING&quot;,</span><br><span class="line">            &quot;properties&quot;: &#123;</span><br><span class="line">                &quot;http&quot;: &quot;http://192.168.1.1:8080&quot;</span><br><span class="line">            &#125;   </span><br><span class="line">        &#125;   </span><br><span class="line">    ]   </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>一个本地文件地址，内容同2。</p>
+</li>
+</ol>
+<p>2和3的原理是基于service inventory, worker 会动态监听这个文件，如果有变化，load出最新的配置，指向最新的discovery节点。</p>
+<p>在设计上，discovery和coordinator都是单节点。如果有多个coordinator同时存活，worker 会随机的向其中一个汇报进程和task状态，导致脑裂。调度query时有可能会发生死锁。</p>
+<p>discovery和coordinator可用性设计。由于service inventory的使用，监控程序可以在发现discovery挂掉后，修改service inventory中的内容，指向备机的discovery。无缝的完成切换。coordiantor的配置必须要在进程启动时指定，同一个集群中无法存活多个coordinator。因此最好的办法是和discovery配置到一台机器。 secondary机器部署备用的discovery和coordinator。在平时，secondary机器是一个只包含一台机器的集群，在primary宕机时，worker的心跳瞬间切换到secondary。</p>
+<h2 id="数据模型"><a href="#数据模型" class="headerlink" title="数据模型"></a>数据模型</h2><p>presto采取三层表结构：</p>
+<ol>
+<li>catalog 对应某一类数据源，例如hive的数据，或mysql的数据</li>
+<li>schema 对应mysql中的数据库</li>
+<li>table 对应mysql中的表</li>
+</ol>
+<p><img src="http://ata2-img.cn-hangzhou.img-pub.aliyun-inc.com/01be5ad22d66e0b0099901fb5b1980c3.png" alt="image.png"></p>
+<p>presto的存储单元包括：</p>
+<ol>
+<li>Page： 多行数据的集合，包含多个列的数据，内部仅提供逻辑行，实际以列式存储。</li>
+<li>Block：一列数据，根据不同类型的数据，通常采取不同的编码方式，了解这些编码方式，有助于自己的存储系统对接presto。</li>
+</ol>
+<p>不同类型的block：</p>
+<ol>
+<li><p>array类型block，应用于固定宽度的类型，例如int，long，double。block由两部分组成</p>
+<ul>
+<li>boolean valueIsNull[]表示每一行是否有值。</li>
+<li>T  values[] 每一行的具体值。</li>
+</ul>
+</li>
+<li><p>可变宽度的block，应用于string类数据，由三部分信息组成</p>
+<ul>
+<li>Slice ： 所有行的数据拼接起来的字符串。</li>
+<li>int offsets[] :每一行数据的起始便宜位置。每一行的长度等于下一行的起始便宜减去当前行的起始便宜。</li>
+<li>boolean valueIsNull[] 表示某一行是否有值。如果有某一行无值，那么这一行的便宜量等于上一行的偏移量。</li>
+</ul>
+</li>
+<li><p>固定宽度的string类型的block，所有行的数据拼接成一长串Slice，每一行的长度固定。</p>
+</li>
+<li><p>字典block：对于某些列，distinct值较少，适合使用字典保存。主要有两部分组成：</p>
+<ul>
+<li>字典，可以是任意一种类型的block(甚至可以嵌套一个字典block)，block中的每一行按照顺序排序编号。</li>
+<li>int ids[] 表示每一行数据对应的value在字典中的编号。在查找时，首先找到某一行的id，然后到字典中获取真实的值。</li>
+</ul>
+</li>
+</ol>
+<h2 id="插件"><a href="#插件" class="headerlink" title="插件"></a>插件</h2><p>了解了presto的数据模型，就可以给presto编写插件，来对接自己的存储系统。presto提供了一套connector接口，从自定义存储中读取元数据，以及列存储数据。先看connector的基本概念：</p>
+<ol>
+<li>ConnectorMetadata: 管理表的元数据，表的元数据，partition等信息。在处理请求时，需要获取元信息，以便确认读取的数据的位置。Presto会传入filter条件，以便减少读取的数据的范围。元信息可以从磁盘上读取，也可以缓存在内存中。</li>
+<li>ConnectorSplit: 一个IO Task处理的数据的集合，是调度的单元。一个split可以对应一个partition，或多个partition。</li>
+<li>SplitManager : 根据表的meta，构造split。</li>
+<li>SlsPageSource : 根据split的信息以及要读取的列信息，从磁盘上读取0个或多个page，供计算引擎计算。</li>
+</ol>
+<p>插件能够帮助开发者添加这些功能：</p>
+<ol>
+<li>对接自己的存储系统。</li>
+<li>添加自定义数据类型。</li>
+<li>添加自定义处理函数。</li>
+<li>自定义权限控制。</li>
+<li>自定义资源控制。</li>
+<li>添加query事件处理逻辑。</li>
+</ol>
+<p>Presto提供了一个简单的connector : local file connector ,可用于参考如何实现自己的connector。不过local file connector中使用的遍历数据的单元是cursor,即一行数据，而不是一个page。 hive 的connector中实现了三种类型，parquet connector, orc  connector, rc file connector。<br><img src="http://ata2-img.cn-hangzhou.img-pub.aliyun-inc.com/169cd57c386a9d4a83a7d6f761423346.png" alt="image.png"></p>
+<p>上文从宏观上介绍了presto的一些原理，接下来几篇文章让我们深入presto 内部，了解一些内部的设计，这对性能调优会有比较大的用处，也有助于添加自定义的operator。</p>
+<script> var _hmt = _hmt || []; (function() { var hm = document.createElement("script"); hm.src = "https://hm.baidu.com/hm.js?561f64275a5d4dab256b033830fecc5a"; var s = document.getElementsByTagName("script")[0]; s.parentNode.insertBefore(hm, s); })(); </script>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://mayunlei.github.io/2017/10/12/presto-1-infrastructure/" data-id="cmcf1wffg000dmz3j42ud3j7n" data-title="深入理解Presto(1) : Presto的架构" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/presto/" rel="tag">presto</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-string-copy-on-write" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2013/06/26/string-copy-on-write/" class="article-date">
+  <time class="dt-published" datetime="2013-06-26T12:33:49.000Z" itemprop="datePublished">2013-06-26</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2013/06/26/string-copy-on-write/">String copy on write 引发的线程不安全</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>   一个string对象的读操作是线程安全的么？答案是否定的。读取一个string在某些情况下是线程不安全的。这是为什么呢？原因就是string在优化存储空间时采用的策略cow。</p>
+<p>什么是cow</p>
+<p>     Cow 是copy on write的缩写。String 为了减少内存拷贝，当两个string对象的内容相同时，他们指向同一块内存空间，并通过引用计数来表示有多少对象引用了这块内存。当其中某个string对象的内容发生改变时，string会先重新分配一块空间，把原来的内容拷贝到新空间，原来的空间的引用计数减去1。</p>
+<p>什么情况下引发cow</p>
+<p>      当程序判断string对象要改变时，就会引发cow。一种比较少见的情况就是，程序获得了string对象的非const引用，那么程序无法判断在接下来的操作中是否会改变这个string对象。所以会触发cow操作。一个典型的例子是string::operator[], 当一个非const对象调用[]操作符时，实际上获得的是对象的非const引用，于是引发了cow。</p>
+<p>危害<br>      上边的operator[],如果只是为了读取字符串的话，那么我们期望这个操作应该是线程安全的。但实际上这个读操作包含了写操作，假如另一个线程同时在读这个字符串的话，程序就有可能在这里使内存写坏。为了解决这个问题，必须给string对象限定为const.</p>
+<p>我在产品中发现了这个问题，为了调查这个问题花费了3周的时间，并在第四周时从理论上解释通了这个原因。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://mayunlei.github.io/2013/06/26/string-copy-on-write/" data-id="cmcf1wffi000qmz3jhpcf1294" data-title="String copy on write 引发的线程不安全" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/string-cow/" rel="tag">string cow</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+
+
+  <nav id="page-nav">
+    
+    <a class="extend prev" rel="prev" href="/page/2/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span>
+  </nav>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/ClickHouse-OLAP/" rel="tag">ClickHouse OLAP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ML-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/" rel="tag">ML 机器学习 神经网络</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SQL%E6%B4%9E%E5%AF%9F/" rel="tag">SQL洞察</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/presto/" rel="tag">presto</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/string-cow/" rel="tag">string cow</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%90%91%E9%87%8F%E5%8C%96-SIMD/" rel="tag">向量化, SIMD</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/ClickHouse-OLAP/" style="font-size: 10px;">ClickHouse OLAP</a> <a href="/tags/ML-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/" style="font-size: 10px;">ML 机器学习 神经网络</a> <a href="/tags/SQL%E6%B4%9E%E5%AF%9F/" style="font-size: 10px;">SQL洞察</a> <a href="/tags/presto/" style="font-size: 20px;">presto</a> <a href="/tags/string-cow/" style="font-size: 10px;">string cow</a> <a href="/tags/%E5%90%91%E9%87%8F%E5%8C%96-SIMD/" style="font-size: 10px;">向量化, SIMD</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/06/">June 2025</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/10/">October 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/03/">March 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/06/">June 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/05/">May 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/12/">December 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">January 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">August 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">November 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/06/">June 2013</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2025/06/28/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2025/06/28/AI-Agent-%E5%9F%BA%E7%A1%80%E8%AE%BE%E6%96%BD/">AI Agent 基础设施</a>
+          </li>
+        
+          <li>
+            <a href="/2024/10/13/c-11-%E6%A8%A1%E6%9D%BF%E5%85%83%E7%BC%96%E7%A8%8B%EF%BC%9A%E7%8E%B0%E4%BB%A3%E5%8C%96%E8%AE%A1%E7%AE%97%E5%BC%95%E6%93%8E%E7%9A%84%E9%80%9F%E5%BA%A6%E7%A7%98%E8%AF%80/">c++11+模板元编程：现代化计算引擎的速度秘诀</a>
+          </li>
+        
+          <li>
+            <a href="/2024/03/03/OLAP%E8%AE%A1%E7%AE%97%E5%BC%95%E6%93%8E%E5%8E%9F%E7%90%86%E5%92%8C%E5%AE%9E%E7%8E%B0/">OLAP计算引擎原理和实现</a>
+          </li>
+        
+          <li>
+            <a href="/2022/06/16/%E6%B7%B1%E5%85%A5%E6%B5%85%E5%87%BA%E5%90%91%E9%87%8F%E5%8C%96%E6%8A%80%E6%9C%AF/">深入向量化计算技术</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2025 马云雷<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

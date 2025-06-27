@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Petabytes scale log analysis at Alibaba:intrastructure/challenge/optimization | 马云雷的技术博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="2021年3月25日凌晨0：00，我参加了PrestoCon2021全球技术峰会，在会上直播分享了阿里云SLS使用Presto构建交互式分析产品的挑战和优化。本文是演讲稿全文。PrestoCon2021日程：https:&#x2F;&#x2F;prestoconday2021.sched.com&#x2F;?iframe&#x3D;no，直播视频已经上传到B站https:&#x2F;&#x2F;www.bilibili.com&#x2F;video&#x2F;BV1hK4y1">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Petabytes scale log analysis at Alibaba:intrastructure&#x2F;challenge&#x2F;optimization">
+<meta property="og:url" content="http://mayunlei.github.io/2021/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/index.html">
+<meta property="og:site_name" content="马云雷的技术博客">
+<meta property="og:description" content="2021年3月25日凌晨0：00，我参加了PrestoCon2021全球技术峰会，在会上直播分享了阿里云SLS使用Presto构建交互式分析产品的挑战和优化。本文是演讲稿全文。PrestoCon2021日程：https:&#x2F;&#x2F;prestoconday2021.sched.com&#x2F;?iframe&#x3D;no，直播视频已经上传到B站https:&#x2F;&#x2F;www.bilibili.com&#x2F;video&#x2F;BV1hK4y1">
+<meta property="og:locale">
+<meta property="og:image" content="http://mayunlei.github.io/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617422880023-8b0bcbe0-5016-48be-9ef6-09d33a8e28b8.png">
+<meta property="og:image" content="http://mayunlei.github.io/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617424047759-aef063ca-f536-46ca-bcde-d672f868ea96.png">
+<meta property="og:image" content="http://mayunlei.github.io/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617424064586-453cf25f-6bff-4dab-a258-572163bc29b2.png">
+<meta property="og:image" content="http://mayunlei.github.io/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617424085479-947ee0dd-7136-446c-9eb3-7d19e6fddb44.png">
+<meta property="og:image" content="http://mayunlei.github.io/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617424102038-4ac1684f-5525-4932-940e-8f27480897da.png">
+<meta property="og:image" content="http://mayunlei.github.io/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617424115235-59d335b5-b076-4de5-a717-aedbec1d7399.png">
+<meta property="og:image" content="http://mayunlei.github.io/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617424157805-b6df2168-c7a5-47bf-b034-2d38641b6127.png">
+<meta property="og:image" content="http://mayunlei.github.io/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617424171251-5420046d-4e6c-4607-9891-cf6d2e64329c.png">
+<meta property="og:image" content="http://mayunlei.github.io/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617424190608-a0d8d74d-5925-4f0a-a13d-280d1ee25ea8.png">
+<meta property="og:image" content="http://mayunlei.github.io/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617424208162-f254d8cb-b03a-45a8-8175-129bb878d88c.png">
+<meta property="og:image" content="http://mayunlei.github.io/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617424220492-9a72f5a5-99f4-489a-993f-4556faf5c06c.png">
+<meta property="og:image" content="http://mayunlei.github.io/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617424234433-bf57b216-ed16-4155-a7ca-11de19da5c25.png">
+<meta property="og:image" content="http://mayunlei.github.io/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617424953423-4a63a842-e655-4d43-953a-46ef4363b76f.png">
+<meta property="og:image" content="http://mayunlei.github.io/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617424969227-e65a0a3a-fc14-4284-b618-f064b17db078.png">
+<meta property="og:image" content="http://mayunlei.github.io/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617425009217-0057e623-4495-447f-9a49-dcd24d6d8c56.png">
+<meta property="og:image" content="http://mayunlei.github.io/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617425021490-e42b4c38-9d1f-4c5a-8f4c-3c3c28939708.png">
+<meta property="og:image" content="http://mayunlei.github.io/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617425034418-771bd915-8711-455d-ab40-a88ffe74e48e.png">
+<meta property="og:image" content="http://mayunlei.github.io/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617425122280-6c261c3d-0b80-4e09-8eb4-a794ee80092c.png">
+<meta property="article:published_time" content="2021-12-25T02:02:23.000Z">
+<meta property="article:modified_time" content="2025-06-27T16:52:51.585Z">
+<meta property="article:author" content="马云雷">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://mayunlei.github.io/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617422880023-8b0bcbe0-5016-48be-9ef6-09d33a8e28b8.png">
+  
+    <link rel="alternate" href="/atom.xml" title="马云雷的技术博客" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css">
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">马云雷的技术博客</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://mayunlei.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/" class="article-date">
+  <time class="dt-published" datetime="2021-12-25T02:02:23.000Z" itemprop="datePublished">2021-12-25</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      Petabytes scale log analysis at Alibaba:intrastructure/challenge/optimization
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>2021年3月25日凌晨0：00，我参加了PrestoCon2021全球技术峰会，在会上直播分享了阿里云SLS使用Presto构建交互式分析产品的挑战和优化。本文是演讲稿全文。PrestoCon2021日程：<a href="https://prestoconday2021.sched.com/?iframe=no">https://prestoconday2021.sched.com/?iframe=no</a>，直播视频已经上传到B站<a href="https://www.bilibili.com/video/BV1hK4y1m7qe/">https://www.bilibili.com/video/BV1hK4y1m7qe/</a>，B站还包括其他演讲视频。<br><img src="/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617422880023-8b0bcbe0-5016-48be-9ef6-09d33a8e28b8.png"><br>hello everyone my name is yunlei. I work at Alibaba Cloud log service team. Today I will share petabytes scale log data analysis at Alibaba group, I will share our experience with presto, the challenges we faced and the optimizations we did for presto.<br>​<img src="/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617424047759-aef063ca-f536-46ca-bcde-d672f868ea96.png"><br>So today, I will first give an introduction about our team and talk about the motivation why we provide analysis service for logging data. And then I will talk about the challenges we face. And after that I will share our architecture to achieve scalability. And also share some ways to achieve low latency and high qps or high concurrency. And after that I will talk about some additional work based on the scalable framework of presto. And finally, I will talk about the future roadmap.<br>​<img src="/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617424064586-453cf25f-6bff-4dab-a258-572163bc29b2.png"><br>​</p>
+<p>First let me introduce my team, this may help you have a better understanding of the background, and the motivation of my we provide analysis service for logging data. And we are log service team, we are providing the infrastructure of all kinds of logging data inside Alibaba group., for example linux server, web page, mobile phone, or kubernetes.. and all these data from different kinds of platforms are collected to our clusters in real time. And then, consumers can consume streaming data in real time, without worrying about different platforms.<br>And after that, we wanted to provide service just like what engineers can do on their linux servers. For example, we found that engineers often use the command grep to search some key word from their log file. So, in order to provide the real time interactive search, we build inverted index for logging data. By using inverted index, people can search large amount data with very low latency.<br>And after that we notices that in this era of data explosion, even the searching result may contain thousands to millions, even to billions of rows. That is a very large number, even thousands of data is large amount of data for human being’s eye, it is not easy to fully understand what is really appending inside the large amount data. But If, we can summarize the data, do aggregation on data, take web access log as an example, if we can calculate the average response time or max response time, we can better understand the whole data. That is the motivation my we provide analysis service for logging data. And we also have a visualization service, to visualize the interactive query result, which is helpful for understanding the data trend.<br>So, in summary, our team provide multi-tenant, interactive analysis for petabytes scale real time logging data.<br><img src="/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617424085479-947ee0dd-7136-446c-9eb3-7d19e6fddb44.png"><br>What are the challenges we faced? The first challenge is the high QPS and high concurrency. Every day, we process about 400 millions queries, at the peak hour there are about 10000 queries running concurrently. Second, every day presto process over 1 quadrillion rows. Which is huge amount of data. But we can deliver the interactive query with very low latency. The average latency is only about 500 ms. So, how do we deal with those challenges, and how to achieve that low latency? In the latter slides, I will talk about some techniques we used.<br><img src="/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617424102038-4ac1684f-5525-4932-940e-8f27480897da.png"><br>​</p>
+<p>In order to provide the interactive log analysis. The first thing we did is introducing presto into our system. Many people ask me the question that, why did we choose presto in the first day. Well, I think the first and most import reason is that, presto is really really fast, very flexible for interactive query. It suits our use case.  Second reason, presto has a scalable framework. We can develop our own connector&#x2F;function&#x2F;optimization rule which makes it very easy to integrate presto with our own storage. Last, the architecture and coding style Is very elegant. The architecture is simple, it doesn’t rely on any external components for deployment. The coding style is also very simple, it is easy for us to learn its internal implementation, also easy for us to do some modification for optimization. That is the reason why we choose presto in the first day.<br>​</p>
+<p><img src="/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617424115235-59d335b5-b076-4de5-a717-aedbec1d7399.png"><br>In order to deal with the large amount of data ingested every day. We design our architecture like this. This is simplified architecture, only analysis related components are included. Data from different kinds of platforms are collected to our cluster, in the backend, the index worker keeps building inverted index and column format data for logging data. And then all the data are stored in the distributed file system, which is called pangu. This is the flow of data ingestion. When submitting query, users can send their query by sdk or jdbc client through our front api server, to one coordinator. We support distributed coordinators, and I will talk more detail about the design. In the backend, presto server read inverted index for filtering and column data for computing. This is the flow of querying. And presto play a key role in this architecture.<br>​<img src="/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617424157805-b6df2168-c7a5-47bf-b034-2d38641b6127.png"><br>How to support querying large amount of data? Every day we process about 1quadrillinon rows. Fortunately, presto is a pure computing engine, so it is easy to decouple computing and storage separately. So that we can scale presto horizontally. Also, log data has a feature that it is immutable after ingested. And in the backend, we keep compacting small file into larger file, when the file is large enough, the file will become immutable. One immutable file contains tens of millions rows.so, each time we schedule a file, we schedule each immutable file to one presto server. And by this way, we can use a lot of presto server for one query. And thus, we can query large amount of data in one query. And the performance is also significant. If we run a simple group by query on 200 billions rows, it only takes about 20 seconds. That is a large amount of data and the latency is acceptable.<br>​<img src="/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617424171251-5420046d-4e6c-4607-9891-cf6d2e64329c.png"><br>So, how to achieve low latency? There are a few techniques we used. The first technique we used is column format storage. In the backend, we keep building column format data. We all know that column storage is helpful for reducing data size to read from disk, and also helpful for vectorized execution, thus it will makes query faster.<br>​</p>
+<p>Another technique we used is data locality. We all know that, network speed inside cluster is much faster than network between clusters. So, we deploy storage and computing engine in same shared cluster. When scheduling task, we choose a free node by the order of machine, rack, cluster.<br>​</p>
+<p>There are some other techniques we used, for example cache, inverted index. I will talk more detail about that.<br>​<img src="/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617424190608-a0d8d74d-5925-4f0a-a13d-280d1ee25ea8.png"><br>We all know that cache can make query faster, it can also help us removing some duplicated computation. And in order to take advantage of cache, the scheduling algorithm has to remember scheduling history in memory. Every time we schedule a file, we schedule each immutable file to the same node it has been scheduled before, unless the workload of specified node is much too high. In that case, we will choose another free node.<br>So there are three layers of cache, from the bottom up, there are raw data cache, intermediate result cache, and final result cache. The raw data cache and final result cache are common solutions. But the intermediate cache is a very rare solution. So, I’d like to talk more detail about the intermediate cache. As I mentioned earlier, file is immutable. So, every time we schedule a file, we schedule each mapper with exactly one immutable file. Then after finishing the partial aggregation operator, we store the result of partial aggregation operator in memory. And next time when we run exactly the same partial aggregation operator on exactly the same immutable file, we can just read the result from the memory, and send the intermediate result to final aggregation operator directly, without reading data from disk and recomputing the partial aggregation operator. We all know that partial aggregation operator deals with large amount of data, and only generate small amount of data. So, most of the computation happens in the partial aggregation operator. By using intermediate cache, we can achieve a faster query and also save a lot of cpu and IO resource.<br>​</p>
+<p><img src="/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617424208162-f254d8cb-b03a-45a8-8175-129bb878d88c.png"><br>What about the performance of cache? Every day, there are more than about 100 millions query hitting final result cache. The average latency when hitting final result cache is only about 6 milliseconds. So, it is really fast. What’s more, final result cache can help us prevent a lot of duplicated computations and save us a lot of resource. What about the performance of intermediate cache?  For 1 billion rows.  It only takes about 1.3 second when hitting intermediate cache, but it will take 6 seconds when not hitting intermediate cache. So, the comparation of two latency is impressive.<br>​</p>
+<p><img src="/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617424220492-9a72f5a5-99f4-489a-993f-4556faf5c06c.png"><br>Another technique we used is inverted index. In the first day, we use inverted index for searching data. After introducing presto into our system. I push down predicate from presto to storage system, and then use the inverted index to first calculate the matched row id, and use the matched row id to read matched rows, and then send only matched data to presto. This strategy is very effective if we can use inverted index to skip some file or only read small part of file. If you run a query select count(*), that will be extremely fast by using only index!.<br>​<img src="/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617424234433-bf57b216-ed16-4155-a7ca-11de19da5c25.png"><br>Every day we are processing more than 400 million queries. And the main challenge is on coordinator. This picture was taken about 2 years ago. And at that time there was only one single coordinator. This picture shows the top 4 nodes with highest CPU usage of presto, the fist picture is coordinator. You may notice that the CPU usage of coordinator is much higher than normal workers. In our cluster, one single coordinator can process 1000 queries concurrently at most. So, the single coordinator is the bottleneck of the cluster. It has the problem of both scalability and availability. In order to improve the performance of coordinator, I did a few optimizations. The first optimization is supporting distributed scalable coordinators. The second optimization is transferring data from output stage to client directly, without worrying coordinator.<br>​<img src="/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617424953423-4a63a842-e655-4d43-953a-46ef4363b76f.png"><br>Let us look at the detailed design of distributed coordinators. I design the distributed coordinators for scalability. And there are two kinds of roles in this design: the global coordinator, and the distributed coordinators. The global coordinator has only one instance. It is responsible for cluster management. For example, detect node state, replicate all the node state to other coordinators, track memory usage, assign largest query to reserved pool.  The distributed coordinators are responsible for query management. For example, parse query, create logical plan, optimize logical plan, schedule task, track task state. It is also responsible for a user queue. Every time submitting a query, user send his query to one coordinator based on the hashing of user name, in this way, all the queries belonging to one user can always be found in one coordinator. This design is not 100 percent perfect, because the global queue is not supported. But it is enough for our scenario. It helps us to scale coordinators horizontally for much higher concurrency.<br>​<img src="/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617424969227-e65a0a3a-fc14-4284-b618-f064b17db078.png"><br>Another thing we did is optimizing the data transfer flow. In the original design, the coordinator transfers query result from output stage to client. So, the coordinator has to serialize query result into json format. We all know that json serialization is very slow. What if coordinator transfers large amount of data? For example, 1 gigabytes data. That will take a lot of CPU usage of coordinator. In order to optimize the performance of coordinator, here is my solution. The coordinator will tell the client all the addresses of the output stage. Because there may more than one node in the output stage. And then client will use the addresses to talk to output stage to directly fetch data with protobuf format. By this way we can make query faster and save a lot of cpu usage of coordinator.<br>​</p>
+<p><img src="/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617425009217-0057e623-4495-447f-9a49-dcd24d6d8c56.png"><br>Here is the final performance. We can process 400 million queries every day by supporting distributed coordinator and optimizing data transfer. And by decoupling computing and storage, we can support processing over 1 quadrillion rows every day. By taking advantage of column storage, data locality, cache, inverted index, we can provide interactive query with very low latency, the average latency is only about 500 milliseconds.<br>​<img src="/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617425021490-e42b4c38-9d1f-4c5a-8f4c-3c3c28939708.png"><br>Besides those optimizations, we also did a few additional works based on the scalable framework of presto. The first thing we did is machine learning library for time series data. We also noticed that only logging data is not enough for analysis. Sometimes, we need to join logging data with some external data. So, I developed a connector to read object file on OSS storage.  We also use presto as a federated SQL engine.<br>​<img src="/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617425034418-771bd915-8711-455d-ab40-a88ffe74e48e.png"><br>In the future, there are still a lot of things to do. The biggest challenge is still on coordinator. We will keep optimizing coordinator. Another thing we want to do is increase the availability of discovery, by now, discovery has only one instance. We also want to improve the performance of data exchange by using rpc protocol, which will make it faster to shuffling large amount of data.<br><img src="/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/1617425122280-6c261c3d-0b80-4e09-8eb4-a794ee80092c.png"><br>If you are interested in data analysis engine or OLAP engine, don’t hesitate connect me,  our team are hiring OLAP engineers, let us work together to make data easy to understand!<br>​</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://mayunlei.github.io/2021/12/25/Petabytes-scale-log-analysis-at-Alibaba-intrastructure-challenge-optimization/" data-id="cmcf1wffe0005mz3j2536bm2z" data-title="Petabytes scale log analysis at Alibaba:intrastructure/challenge/optimization" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2021/12/25/%E4%BB%8E%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E5%88%B0%E6%95%B0%E6%8D%AE%E6%B4%9E%E5%AF%9F/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          从数据分析到数据洞察
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2021/01/09/ClickHouse%E8%AE%A1%E7%AE%97%E9%80%9F%E5%BA%A6%E6%98%AF%E5%A6%82%E4%BD%95%E5%81%9A%E5%88%B0%E9%A2%86%E8%B7%91OLAP%E7%B1%BB%E4%BA%A7%E5%93%81%E7%9A%84/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">ClickHouse计算速度是如何做到领跑OLAP类产品的</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/ClickHouse-OLAP/" rel="tag">ClickHouse OLAP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ML-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/" rel="tag">ML 机器学习 神经网络</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SQL%E6%B4%9E%E5%AF%9F/" rel="tag">SQL洞察</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/presto/" rel="tag">presto</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/string-cow/" rel="tag">string cow</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%90%91%E9%87%8F%E5%8C%96-SIMD/" rel="tag">向量化, SIMD</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/ClickHouse-OLAP/" style="font-size: 10px;">ClickHouse OLAP</a> <a href="/tags/ML-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/" style="font-size: 10px;">ML 机器学习 神经网络</a> <a href="/tags/SQL%E6%B4%9E%E5%AF%9F/" style="font-size: 10px;">SQL洞察</a> <a href="/tags/presto/" style="font-size: 20px;">presto</a> <a href="/tags/string-cow/" style="font-size: 10px;">string cow</a> <a href="/tags/%E5%90%91%E9%87%8F%E5%8C%96-SIMD/" style="font-size: 10px;">向量化, SIMD</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/06/">June 2025</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/10/">October 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/03/">March 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/06/">June 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/05/">May 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/12/">December 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">January 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">August 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">November 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/06/">June 2013</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2025/06/28/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2025/06/28/AI-Agent-%E5%9F%BA%E7%A1%80%E8%AE%BE%E6%96%BD/">AI Agent 基础设施</a>
+          </li>
+        
+          <li>
+            <a href="/2024/10/13/c-11-%E6%A8%A1%E6%9D%BF%E5%85%83%E7%BC%96%E7%A8%8B%EF%BC%9A%E7%8E%B0%E4%BB%A3%E5%8C%96%E8%AE%A1%E7%AE%97%E5%BC%95%E6%93%8E%E7%9A%84%E9%80%9F%E5%BA%A6%E7%A7%98%E8%AF%80/">c++11+模板元编程：现代化计算引擎的速度秘诀</a>
+          </li>
+        
+          <li>
+            <a href="/2024/03/03/OLAP%E8%AE%A1%E7%AE%97%E5%BC%95%E6%93%8E%E5%8E%9F%E7%90%86%E5%92%8C%E5%AE%9E%E7%8E%B0/">OLAP计算引擎原理和实现</a>
+          </li>
+        
+          <li>
+            <a href="/2022/06/16/%E6%B7%B1%E5%85%A5%E6%B5%85%E5%87%BA%E5%90%91%E9%87%8F%E5%8C%96%E6%8A%80%E6%9C%AF/">深入向量化计算技术</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2025 马云雷<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

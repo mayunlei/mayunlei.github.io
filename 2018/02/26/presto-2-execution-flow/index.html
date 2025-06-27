@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>深入理解Presto(2) ：Presto查询执行过程 | 马云雷的技术博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="深入理解Presto(2) ：Presto查询执行过程Presto查询执行过程 Presto包含三类角色，coordinator,discovery,worker。coordinator负责query的解析和调度。discovery负责集群的心跳和角色管理。worker负责执行计算。 presto-cli提交的查询，实际上是一个http POST请求。查询请求发送到coordinator后，经过词">
+<meta property="og:type" content="article">
+<meta property="og:title" content="深入理解Presto(2) ：Presto查询执行过程">
+<meta property="og:url" content="http://mayunlei.github.io/2018/02/26/presto-2-execution-flow/index.html">
+<meta property="og:site_name" content="马云雷的技术博客">
+<meta property="og:description" content="深入理解Presto(2) ：Presto查询执行过程Presto查询执行过程 Presto包含三类角色，coordinator,discovery,worker。coordinator负责query的解析和调度。discovery负责集群的心跳和角色管理。worker负责执行计算。 presto-cli提交的查询，实际上是一个http POST请求。查询请求发送到coordinator后，经过词">
+<meta property="og:locale">
+<meta property="og:image" content="http://img.blog.csdn.net/20180226231925791?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvc2p0dXl1bmxlaQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70">
+<meta property="og:image" content="http://img.blog.csdn.net/20180226232039250?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvc2p0dXl1bmxlaQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70">
+<meta property="og:image" content="http://img.blog.csdn.net/20180226232159260?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvc2p0dXl1bmxlaQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70">
+<meta property="og:image" content="http://img.blog.csdn.net/20180226232230284?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvc2p0dXl1bmxlaQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70">
+<meta property="og:image" content="http://img.blog.csdn.net/20180226232302199?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvc2p0dXl1bmxlaQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70">
+<meta property="article:published_time" content="2018-02-26T15:33:00.000Z">
+<meta property="article:modified_time" content="2025-06-27T16:52:51.585Z">
+<meta property="article:author" content="马云雷">
+<meta property="article:tag" content="presto">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://img.blog.csdn.net/20180226231925791?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvc2p0dXl1bmxlaQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70">
+  
+    <link rel="alternate" href="/atom.xml" title="马云雷的技术博客" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css">
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">马云雷的技术博客</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://mayunlei.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-presto-2-execution-flow" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2018/02/26/presto-2-execution-flow/" class="article-date">
+  <time class="dt-published" datetime="2018-02-26T15:33:00.000Z" itemprop="datePublished">2018-02-26</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      深入理解Presto(2) ：Presto查询执行过程
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="深入理解Presto-2-：Presto查询执行过程"><a href="#深入理解Presto-2-：Presto查询执行过程" class="headerlink" title="深入理解Presto(2) ：Presto查询执行过程"></a>深入理解Presto(2) ：Presto查询执行过程</h1><h2 id="Presto查询执行过程"><a href="#Presto查询执行过程" class="headerlink" title="Presto查询执行过程"></a>Presto查询执行过程</h2><p><img src="http://img.blog.csdn.net/20180226231925791?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvc2p0dXl1bmxlaQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="这里写图片描述"></p>
+<p>Presto包含三类角色，coordinator,discovery,worker。coordinator负责query的解析和调度。discovery负责集群的心跳和角色管理。worker负责执行计算。</p>
+<p>presto-cli提交的查询，实际上是一个http POST请求。查询请求发送到coordinator后，经过词法解析和语法解析，生成抽象语法树，描述查询的执行。</p>
+<p>执行计划编译器，会根据抽象语法树，层层展开，把语法树所表示的结构，转化成由单个操作所组成的树状的执行结构，称为逻辑执行计划。</p>
+<p>原始的逻辑执行计划，直接表示用户所期望的操作，未必是性能最优的，在经过一系列性能优化和转写，以及分布式处理后，形成最终的逻辑执行计划。这时的逻辑执行计划，已经包含了map-reduce操作，以及跨机器传输中间计算结果操作。</p>
+<p>scheduler从数据的meta上获取数据的分布，构造split，配合逻辑执行计划，把对应的执行计划调度到对应的worker上。</p>
+<p>在worker上，逻辑执行计划生成物理执行计划，根据逻辑执行计划，会生成执行的字节码，以及operator列表。operator交由执行驱动来完成计算。</p>
+<h3 id="抽象语法树"><a href="#抽象语法树" class="headerlink" title="抽象语法树"></a>抽象语法树</h3><p>由语法解析器根据SQL，解析生成的树状结构，描述SQL的执行过程。 在下文中，以SQL<code> select avg(response_size) as a , client_address from localfile.logs.http_request_log group by client_address order by a desc limit 10</code>为例来描述。</p>
+<p>抽象语法树数以Query为单位来描述查询，分层次表示不同层的子查询。每一层查询查询包含了几个关键因素：<code>select</code>, <code>from</code>,<code>where</code>,<code>group by</code>,<code>having</code>,<code>order by</code>,<code>limit</code>。其中，<code>from</code>可以是一个子查询，也可以是一张表。</p>
+<p>一个典型的抽象语法树：</p>
+<p><img src="http://img.blog.csdn.net/20180226232039250?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvc2p0dXl1bmxlaQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="这里写图片描述"></p>
+<h3 id="生成逻辑执行计划"><a href="#生成逻辑执行计划" class="headerlink" title="生成逻辑执行计划"></a>生成逻辑执行计划</h3><p>抽象语法树树，描述的最原始的用户需求。抽象语法树描述的信息，执行效率上不是最优，执行操作也过于复杂。需要把抽象语法树转化成执行计划。执行计划分成两类，一类是逻辑执行计划，一类是物理执行计划。逻辑执行计划，以树状结构来描述执行，每个节点是最简单的操作。物理执行计划，根据逻辑执行计划生成字节码，交由驱动执行。</p>
+<p>转写成逻辑执行计划的过程，包括转写和优化。把抽象语法树转写成由简单操作组成的结点树，然后把树中所有聚合计算节点转写成map-reduce形式。并且在map-reduce节点中间插入Exchange节点。然后，进行一系列优化，把一些能提前加速计算的节点下推，能合并的节点合并。</p>
+<p>最后逻辑执行计划按照Exchange节点做划分，分成不同的段(fragament)，表示不同阶段的的执行计划。在调度时，按照fragment调度。</p>
+<p>SQL<code> select avg(response_size) as a , client_address from localfile.logs.http_request_log group by client_address order by a desc limit 10</code>的逻辑执行计划：<br><img src="http://img.blog.csdn.net/20180226232159260?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvc2p0dXl1bmxlaQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="这里写图片描述"></p>
+<p>从执行计划中可以看到，agg节点都是分成partial和final两步。</p>
+<h3 id="调度执行计划到机器上"><a href="#调度执行计划到机器上" class="headerlink" title="调度执行计划到机器上"></a>调度执行计划到机器上</h3><p>调度涉及到两个问题，第一，某个fragment分配由哪些机器执行；第二，某个fragment的计算结果如何输出到下游fragment。</p>
+<p>在调度时，需要为每一个fragment指定分配到哪些机器上。从调度上划分，fragment分三种类型</p>
+<ul>
+<li>一类是source类型由原始数据的存储位置决定fragment调度机器，有多少个source节点呢？connector会根据数据的meta，决定需要读取多少个split(分片) ，对于每一个source节点，分配一个split到一台机器上，如果在配置中指定了network-topology&#x3D;flat，则尽量选择split所在的机器。</li>
+<li>一类是FIXED类型，主要用于纯计算节点，从集群中选择一台或多台机器分配给某个fragment。一般只有最终输出节点分配一个机器，中间的计算结果都要分配多台机器。分配的机器数由配置<code>hash_partition_count</code>决定。选择机器的方式是随机选择。</li>
+<li>一类是SINGLE类型，只有一台机器，主要用于汇总结果，随机选择一台机器。</li>
+</ul>
+<p>对于计算结果输出，根据下游节点的机器个数，也有多种方式，</p>
+<ul>
+<li>如果下游节点有多台机器，例如group by的中间结果，会按照group by的key计算hash，按照hash值选择一个下游机器输出。对于非group by的计算，会随机选择或者round robin。</li>
+<li>如果下游节点只有一台机器，会输出到这台机器上。</li>
+</ul>
+<p>以下图为例，fragment 2是source类型fragment，有三个split，所以分配了三台机器。因为这一层计算是group by 聚合计算，所以输出时按照group by的key计算hash，选择下游的某台机器输出。</p>
+<p><img src="http://img.blog.csdn.net/20180226232230284?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvc2p0dXl1bmxlaQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="这里写图片描述"></p>
+<p>调度之前的任务，都在coordinator完成，调度完成后，之后任务发送到worker上执行。</p>
+<h3 id="生成物理执行计划"><a href="#生成物理执行计划" class="headerlink" title="生成物理执行计划"></a>生成物理执行计划</h3><p>逻辑执行计划fragment发送到机器上后，由结点树形式转写成operator list，根据逻辑代码动态编译生成字节码。动态生成字节码，主要是利用编译原理：</p>
+<ul>
+<li>展开循环</li>
+<li>根据数据列的类型，直接调用对用的函数，以减少分支跳转语句。</li>
+</ul>
+<p>这些手段会更好的利用CPU的流水线。</p>
+<h3 id="执行驱动"><a href="#执行驱动" class="headerlink" title="执行驱动"></a>执行驱动</h3><p>物理执行计划构造生成的Operator list，交给Driver执行。具体计算哪些数据，由加载的Split决定。</p>
+<p>Operator list 以串联形式处理数据，前一个operator的结果作为下一个结果的输入，对于source类型的operator，每一次调用都会获取一份新的数据；对于Aggregate的operator，只有之前所有的operator都finish之后，才能获取输出结果。</p>
+<p><img src="http://img.blog.csdn.net/20180226232302199?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvc2p0dXl1bmxlaQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="这里写图片描述"></p>
+<h3 id="聚合计算"><a href="#聚合计算" class="headerlink" title="聚合计算"></a>聚合计算</h3><p>生成的执行计划中，聚合计算都拆分成了两步，分别是Map、Reduce。</p>
+<p>聚合计算的Operator有两类，分别是AggregationOperator和HashAggregationOperator。</p>
+<p>AggregationOperator对所有行进行计算，并且把结果更新到一个位置。HashAggregationOperator使用某一列的hash值作为hash表的key，key相同的行才会把结果保存在一起，用于group by类的计算。</p>
+<p>聚合计算都是要按照Map-Reduce的形式执行。</p>
+<p>聚合计算所提供的函数，都要提供四个接口，分别有两个输入，两个输出:</p>
+<ol>
+<li>接受原始数据的输入</li>
+<li>接受中间结果的输入</li>
+<li>输出中间结果</li>
+<li>输出最终结果。</li>
+</ol>
+<p>1+3 构成了Map操作  2+4构成了Reduce操作。</p>
+<p>以Avg为例：</p>
+<ol>
+<li>Map阶段输入1,2,3,4</li>
+<li>Map截断输出10,4 分别代表Sum和Count</li>
+<li>Reduce输入10,4</li>
+<li>Reduce输出最终平均值2.5</li>
+</ol>
+<p>我们改造了Presto系统，使得Presto能够提供缓存功能，就是在MapReduce中间加了一层计算，接受中间结果输入和中间结果输出。</p>
+<h3 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h3><p>函数分为两类，分别是Scaler函数和Aggregate函数</p>
+<p>Scaler函数提供数据的转换处理，不保存状态，一个输入产生一个输出。</p>
+<p>Aggregate函数提供数据的聚合处理，利用已有状态+输入，产生新的状态。</p>
+<p>上文已经提到，聚合函数提供了两种输入接口和两种输出接口。</p>
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?561f64275a5d4dab256b033830fecc5a";
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://mayunlei.github.io/2018/02/26/presto-2-execution-flow/" data-id="cmcf1wffh000imz3jfb483rxs" data-title="深入理解Presto(2) ：Presto查询执行过程" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/presto/" rel="tag">presto</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/05/10/presto-4-tutorial-config-a-http-connector/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Presto入门： 配置第一个http connector
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/10/12/presto-1-infrastructure/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">深入理解Presto(1) : Presto的架构</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/ClickHouse-OLAP/" rel="tag">ClickHouse OLAP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ML-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/" rel="tag">ML 机器学习 神经网络</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SQL%E6%B4%9E%E5%AF%9F/" rel="tag">SQL洞察</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/presto/" rel="tag">presto</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/string-cow/" rel="tag">string cow</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%90%91%E9%87%8F%E5%8C%96-SIMD/" rel="tag">向量化, SIMD</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/ClickHouse-OLAP/" style="font-size: 10px;">ClickHouse OLAP</a> <a href="/tags/ML-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/" style="font-size: 10px;">ML 机器学习 神经网络</a> <a href="/tags/SQL%E6%B4%9E%E5%AF%9F/" style="font-size: 10px;">SQL洞察</a> <a href="/tags/presto/" style="font-size: 20px;">presto</a> <a href="/tags/string-cow/" style="font-size: 10px;">string cow</a> <a href="/tags/%E5%90%91%E9%87%8F%E5%8C%96-SIMD/" style="font-size: 10px;">向量化, SIMD</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/06/">June 2025</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/10/">October 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/03/">March 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/06/">June 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/05/">May 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/12/">December 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">January 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">August 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">November 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/06/">June 2013</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2025/06/28/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2025/06/28/AI-Agent-%E5%9F%BA%E7%A1%80%E8%AE%BE%E6%96%BD/">AI Agent 基础设施</a>
+          </li>
+        
+          <li>
+            <a href="/2024/10/13/c-11-%E6%A8%A1%E6%9D%BF%E5%85%83%E7%BC%96%E7%A8%8B%EF%BC%9A%E7%8E%B0%E4%BB%A3%E5%8C%96%E8%AE%A1%E7%AE%97%E5%BC%95%E6%93%8E%E7%9A%84%E9%80%9F%E5%BA%A6%E7%A7%98%E8%AF%80/">c++11+模板元编程：现代化计算引擎的速度秘诀</a>
+          </li>
+        
+          <li>
+            <a href="/2024/03/03/OLAP%E8%AE%A1%E7%AE%97%E5%BC%95%E6%93%8E%E5%8E%9F%E7%90%86%E5%92%8C%E5%AE%9E%E7%8E%B0/">OLAP计算引擎原理和实现</a>
+          </li>
+        
+          <li>
+            <a href="/2022/06/16/%E6%B7%B1%E5%85%A5%E6%B5%85%E5%87%BA%E5%90%91%E9%87%8F%E5%8C%96%E6%8A%80%E6%9C%AF/">深入向量化计算技术</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2025 马云雷<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

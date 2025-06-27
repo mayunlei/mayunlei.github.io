@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>探索无人驾驶载货小飞机：航模技术研究 | 马云雷的技术博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="上海突然封城，造成了物资紧张。大人还好办，好赖能充饥就行。但是小孩的物资是很挑剔的，奶粉和尿不湿是必需品。因此我就考虑了怎么才能远距离把紧急物资投送到家里。正好在B站看了一些航模的介绍，于是就做了下航模的调研，看能否用来载货。  无人机的分类大众常见的无人机类型包括： 固定翼固定翼是最传统的航空模型，主要由飞手使用遥控器目视飞行。固定翼是最传统的航空模型，主要由飞手使用遥控器目视飞行。固定翼也是最">
+<meta property="og:type" content="article">
+<meta property="og:title" content="探索无人驾驶载货小飞机：航模技术研究">
+<meta property="og:url" content="http://mayunlei.github.io/2022/05/04/%E6%8E%A2%E7%B4%A2%E6%97%A0%E4%BA%BA%E9%A9%BE%E9%A9%B6%E8%BD%BD%E8%B4%A7%E5%B0%8F%E9%A3%9E%E6%9C%BA%EF%BC%9A%E8%88%AA%E6%A8%A1%E6%8A%80%E6%9C%AF%E7%A0%94%E7%A9%B6/index.html">
+<meta property="og:site_name" content="马云雷的技术博客">
+<meta property="og:description" content="上海突然封城，造成了物资紧张。大人还好办，好赖能充饥就行。但是小孩的物资是很挑剔的，奶粉和尿不湿是必需品。因此我就考虑了怎么才能远距离把紧急物资投送到家里。正好在B站看了一些航模的介绍，于是就做了下航模的调研，看能否用来载货。  无人机的分类大众常见的无人机类型包括： 固定翼固定翼是最传统的航空模型，主要由飞手使用遥控器目视飞行。固定翼是最传统的航空模型，主要由飞手使用遥控器目视飞行。固定翼也是最">
+<meta property="og:locale">
+<meta property="og:image" content="http://mayunlei.github.io/%E6%8E%A2%E7%B4%A2%E6%97%A0%E4%BA%BA%E9%A9%BE%E9%A9%B6%E8%BD%BD%E8%B4%A7%E5%B0%8F%E9%A3%9E%E6%9C%BA%EF%BC%9A%E8%88%AA%E6%A8%A1%E6%8A%80%E6%9C%AF%E7%A0%94%E7%A9%B6/1651389558708-b8852d80-ccbe-481c-a973-f15aaad23154.png">
+<meta property="og:image" content="http://mayunlei.github.io/%E6%8E%A2%E7%B4%A2%E6%97%A0%E4%BA%BA%E9%A9%BE%E9%A9%B6%E8%BD%BD%E8%B4%A7%E5%B0%8F%E9%A3%9E%E6%9C%BA%EF%BC%9A%E8%88%AA%E6%A8%A1%E6%8A%80%E6%9C%AF%E7%A0%94%E7%A9%B6/1651390240486-4c2862fb-287d-424b-84b8-ca926e3ee3b9.png">
+<meta property="og:image" content="http://mayunlei.github.io/%E6%8E%A2%E7%B4%A2%E6%97%A0%E4%BA%BA%E9%A9%BE%E9%A9%B6%E8%BD%BD%E8%B4%A7%E5%B0%8F%E9%A3%9E%E6%9C%BA%EF%BC%9A%E8%88%AA%E6%A8%A1%E6%8A%80%E6%9C%AF%E7%A0%94%E7%A9%B6/1651672552344-143aa623-b95b-429f-9cc5-f37013913cc3.png">
+<meta property="og:image" content="http://mayunlei.github.io/%E6%8E%A2%E7%B4%A2%E6%97%A0%E4%BA%BA%E9%A9%BE%E9%A9%B6%E8%BD%BD%E8%B4%A7%E5%B0%8F%E9%A3%9E%E6%9C%BA%EF%BC%9A%E8%88%AA%E6%A8%A1%E6%8A%80%E6%9C%AF%E7%A0%94%E7%A9%B6/1651669325811-7d8496ac-4b91-4f1c-8a93-3a49690505fb.png">
+<meta property="og:image" content="http://mayunlei.github.io/%E6%8E%A2%E7%B4%A2%E6%97%A0%E4%BA%BA%E9%A9%BE%E9%A9%B6%E8%BD%BD%E8%B4%A7%E5%B0%8F%E9%A3%9E%E6%9C%BA%EF%BC%9A%E8%88%AA%E6%A8%A1%E6%8A%80%E6%9C%AF%E7%A0%94%E7%A9%B6/1651669778547-02afd493-b5c2-418f-884b-bc11dee782ec.png">
+<meta property="og:image" content="http://mayunlei.github.io/%E6%8E%A2%E7%B4%A2%E6%97%A0%E4%BA%BA%E9%A9%BE%E9%A9%B6%E8%BD%BD%E8%B4%A7%E5%B0%8F%E9%A3%9E%E6%9C%BA%EF%BC%9A%E8%88%AA%E6%A8%A1%E6%8A%80%E6%9C%AF%E7%A0%94%E7%A9%B6/1651669262307-6df48767-2453-4445-8c77-cb79d99ee09e.png">
+<meta property="og:image" content="http://mayunlei.github.io/%E6%8E%A2%E7%B4%A2%E6%97%A0%E4%BA%BA%E9%A9%BE%E9%A9%B6%E8%BD%BD%E8%B4%A7%E5%B0%8F%E9%A3%9E%E6%9C%BA%EF%BC%9A%E8%88%AA%E6%A8%A1%E6%8A%80%E6%9C%AF%E7%A0%94%E7%A9%B6/1651670374663-745ee6be-469a-482a-8725-9872390f2f98.gif">
+<meta property="og:image" content="http://mayunlei.github.io/%E6%8E%A2%E7%B4%A2%E6%97%A0%E4%BA%BA%E9%A9%BE%E9%A9%B6%E8%BD%BD%E8%B4%A7%E5%B0%8F%E9%A3%9E%E6%9C%BA%EF%BC%9A%E8%88%AA%E6%A8%A1%E6%8A%80%E6%9C%AF%E7%A0%94%E7%A9%B6/1651635253722-5dabbda4-63b1-438d-b67e-b7f89a05330d.png">
+<meta property="og:image" content="http://mayunlei.github.io/%E6%8E%A2%E7%B4%A2%E6%97%A0%E4%BA%BA%E9%A9%BE%E9%A9%B6%E8%BD%BD%E8%B4%A7%E5%B0%8F%E9%A3%9E%E6%9C%BA%EF%BC%9A%E8%88%AA%E6%A8%A1%E6%8A%80%E6%9C%AF%E7%A0%94%E7%A9%B6/1651569996870-0654253e-a44c-48d1-9a34-37b1b02edf2d.png">
+<meta property="og:image" content="http://mayunlei.github.io/%E6%8E%A2%E7%B4%A2%E6%97%A0%E4%BA%BA%E9%A9%BE%E9%A9%B6%E8%BD%BD%E8%B4%A7%E5%B0%8F%E9%A3%9E%E6%9C%BA%EF%BC%9A%E8%88%AA%E6%A8%A1%E6%8A%80%E6%9C%AF%E7%A0%94%E7%A9%B6/1651647442585-f0c5123e-769b-45c1-b49f-b72159ceec61.png">
+<meta property="og:image" content="http://mayunlei.github.io/%E6%8E%A2%E7%B4%A2%E6%97%A0%E4%BA%BA%E9%A9%BE%E9%A9%B6%E8%BD%BD%E8%B4%A7%E5%B0%8F%E9%A3%9E%E6%9C%BA%EF%BC%9A%E8%88%AA%E6%A8%A1%E6%8A%80%E6%9C%AF%E7%A0%94%E7%A9%B6/1651647533503-c5a3cc47-c0dd-4bb1-a96c-a5e2487ec9fb.png">
+<meta property="og:image" content="http://mayunlei.github.io/%E6%8E%A2%E7%B4%A2%E6%97%A0%E4%BA%BA%E9%A9%BE%E9%A9%B6%E8%BD%BD%E8%B4%A7%E5%B0%8F%E9%A3%9E%E6%9C%BA%EF%BC%9A%E8%88%AA%E6%A8%A1%E6%8A%80%E6%9C%AF%E7%A0%94%E7%A9%B6/1651647810740-9520afd1-68b4-428b-82ed-ac3205f19a45.png">
+<meta property="og:image" content="http://mayunlei.github.io/%E6%8E%A2%E7%B4%A2%E6%97%A0%E4%BA%BA%E9%A9%BE%E9%A9%B6%E8%BD%BD%E8%B4%A7%E5%B0%8F%E9%A3%9E%E6%9C%BA%EF%BC%9A%E8%88%AA%E6%A8%A1%E6%8A%80%E6%9C%AF%E7%A0%94%E7%A9%B6/1651650141737-54091b88-8b38-4f31-9f37-898fd8be7be3.png">
+<meta property="og:image" content="http://mayunlei.github.io/%E6%8E%A2%E7%B4%A2%E6%97%A0%E4%BA%BA%E9%A9%BE%E9%A9%B6%E8%BD%BD%E8%B4%A7%E5%B0%8F%E9%A3%9E%E6%9C%BA%EF%BC%9A%E8%88%AA%E6%A8%A1%E6%8A%80%E6%9C%AF%E7%A0%94%E7%A9%B6/1651650213336-ab583bdf-75c6-4fcc-9e9c-fe344de9ed86.png">
+<meta property="article:published_time" content="2022-05-04T14:39:22.000Z">
+<meta property="article:modified_time" content="2025-06-27T16:52:51.592Z">
+<meta property="article:author" content="马云雷">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://mayunlei.github.io/%E6%8E%A2%E7%B4%A2%E6%97%A0%E4%BA%BA%E9%A9%BE%E9%A9%B6%E8%BD%BD%E8%B4%A7%E5%B0%8F%E9%A3%9E%E6%9C%BA%EF%BC%9A%E8%88%AA%E6%A8%A1%E6%8A%80%E6%9C%AF%E7%A0%94%E7%A9%B6/1651389558708-b8852d80-ccbe-481c-a973-f15aaad23154.png">
+  
+    <link rel="alternate" href="/atom.xml" title="马云雷的技术博客" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css">
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">马云雷的技术博客</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://mayunlei.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-探索无人驾驶载货小飞机：航模技术研究" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2022/05/04/%E6%8E%A2%E7%B4%A2%E6%97%A0%E4%BA%BA%E9%A9%BE%E9%A9%B6%E8%BD%BD%E8%B4%A7%E5%B0%8F%E9%A3%9E%E6%9C%BA%EF%BC%9A%E8%88%AA%E6%A8%A1%E6%8A%80%E6%9C%AF%E7%A0%94%E7%A9%B6/" class="article-date">
+  <time class="dt-published" datetime="2022-05-04T14:39:22.000Z" itemprop="datePublished">2022-05-04</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      探索无人驾驶载货小飞机：航模技术研究
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>上海突然封城，造成了物资紧张。大人还好办，好赖能充饥就行。但是小孩的物资是很挑剔的，奶粉和尿不湿是必需品。因此我就考虑了怎么才能远距离把紧急物资投送到家里。正好在B站看了一些航模的介绍，于是就做了下航模的调研，看能否用来载货。 </p>
+<h2 id="无人机的分类"><a href="#无人机的分类" class="headerlink" title="无人机的分类"></a>无人机的分类</h2><p>大众常见的无人机类型包括：</p>
+<h3 id="固定翼"><a href="#固定翼" class="headerlink" title="固定翼"></a>固定翼</h3><p>固定翼是最传统的航空模型，主要由飞手使用遥控器目视飞行。固定翼是最传统的航空模型，主要由飞手使用遥控器目视飞行。固定翼也是最接近真实飞机的，各种组件以及飞行原理，和真实飞机类似。多旋翼依靠发动机实现向前的推力，有了速度后，通过机翼实现向上的升力。固定翼的好处在于，能够达到一个很低的推重比，在空中的姿态有更多的可玩性，同时因为推力在水平方向上，可以达到很高的速度。固定翼的劣势在于，起降需要借助跑道，需要严格关注空中的姿态，操作不当就会炸机，非常考验操作者的观察能力和操作能力，因此更具备挑战性，更烧钱。鉴于固定翼飞机能够达到一个很低的推重比，相同的发动机下，固定翼可以载货更多，因此本文主要介绍固定翼飞机的原理。</p>
+<p><img src="/%E6%8E%A2%E7%B4%A2%E6%97%A0%E4%BA%BA%E9%A9%BE%E9%A9%B6%E8%BD%BD%E8%B4%A7%E5%B0%8F%E9%A3%9E%E6%9C%BA%EF%BC%9A%E8%88%AA%E6%A8%A1%E6%8A%80%E6%9C%AF%E7%A0%94%E7%A9%B6/1651389558708-b8852d80-ccbe-481c-a973-f15aaad23154.png" alt="image.png"></p>
+<h3 id="多旋翼"><a href="#多旋翼" class="headerlink" title="多旋翼"></a>多旋翼</h3><p>多旋翼的典型参考大疆的无人机。多旋翼和单旋翼一样，通过发动机的推力维持。多旋翼可以实现空中悬停，不需要跑道就能起降，因此门槛较低。但是多旋翼完全依靠电机的推力实现载重，推重比需要达到1以上才能起飞，所谓大力飞砖就是说只要推力足够大，火箭也能升上天。而发动机是制造成本里边占比最高的组件了，因此成本也很高。不过多旋翼的优势在于可以垂直起降，并且可以稳定在空中，因此操作成本较低，不会轻易炸机，玩家受众多。<br><img src="/%E6%8E%A2%E7%B4%A2%E6%97%A0%E4%BA%BA%E9%A9%BE%E9%A9%B6%E8%BD%BD%E8%B4%A7%E5%B0%8F%E9%A3%9E%E6%9C%BA%EF%BC%9A%E8%88%AA%E6%A8%A1%E6%8A%80%E6%9C%AF%E7%A0%94%E7%A9%B6/1651390240486-4c2862fb-287d-424b-84b8-ca926e3ee3b9.png" alt="image.png"><br>固定翼和多旋翼是我们常见的两种无人机，还有其它一些衍生的无人机，这里不再一一介绍，本文的目标是介绍固定翼飞机的原理和入门，介绍这两种无人机只是方便对无人机有一个简单的认知。航模界的玩家一般是把一些商用大飞机或者战斗机，等比例缩小，制作成模型飞机，再配上一些关键的组件，完成空中的飞行。</p>
+<h2 id="固定翼结构和核心组件"><a href="#固定翼结构和核心组件" class="headerlink" title="固定翼结构和核心组件"></a>固定翼结构和核心组件</h2><h3 id="主体结构"><a href="#主体结构" class="headerlink" title="主体结构"></a>主体结构</h3><ol>
+<li>从主体结构上，飞机由前后的机身和左右的机翼构成主体结构。</li>
+<li>在机身的头部可以安装发动机和螺旋桨，当然发动机和螺旋桨也可以安装到机翼上。</li>
+<li>在机身的尾部是尾翼，分为水平尾翼和垂直尾翼，水平尾翼上有可以调整水平方向的升降舵，可控制机头的抬起和下降。垂直尾翼上有方向舵，可控制飞机左右调整方向。</li>
+<li>在机翼上附着的组件有襟翼和副翼。襟翼靠近内侧，距离重心较近，因此他不会用来调整方向，而是提供升力。襟翼只能向下运动，向下运动后，襟翼的受力会转化成升力。</li>
+<li>副翼是机翼上离中心较远的组件，由于离重心较远，受力可通过杠杆作用放大，用于实现飞机的滚转。在同一时刻，左右副翼的运动是相反的。也就是同一时刻，左右副翼的受力正好相反，但达到的效果是相同的，要么顺时针受力，要么逆时针受力，以此实现滚转。</li>
+<li>起落架，起飞和降落时需要起落架。</li>
+</ol>
+<p><img src="/%E6%8E%A2%E7%B4%A2%E6%97%A0%E4%BA%BA%E9%A9%BE%E9%A9%B6%E8%BD%BD%E8%B4%A7%E5%B0%8F%E9%A3%9E%E6%9C%BA%EF%BC%9A%E8%88%AA%E6%A8%A1%E6%8A%80%E6%9C%AF%E7%A0%94%E7%A9%B6/1651672552344-143aa623-b95b-429f-9cc5-f37013913cc3.png" alt="image.png"><br>在原理上可以区分襟翼和副翼，但是在机身上，襟翼和副翼可以实现混控，也就是机身组件是同一套，但是通过舵机实现不同的效果，当同向运动时，是襟翼；当向相反方向运动时，是副翼。</p>
+<h3 id="控制组件"><a href="#控制组件" class="headerlink" title="控制组件"></a>控制组件</h3><p>上边这些结构是飞机上能看到的核心组件，还有一些控制组件，用于控制飞机的飞行。</p>
+<ol>
+<li>发动机需要能源，能源可以是燃油也可以是电池，一般藏在机身内部，重心附近。</li>
+<li>襟翼、尾翼、方向舵、升降舵的动作也需要动力来源，动力来自舵机。由舵机控制四个组件运动。舵机通过钢丝线拉动舵面运动。</li>
+<li>遥控器和接收机，遥控器是地面人员用于控制飞机速度和姿态的，接收机安装在机身内，用于接受遥控器的无线电信号。</li>
+<li>发动机的速度变化，需要通过调节电流来达到控制速度变化的目的。电调就是控制电流变化的组件。在遥控器上调节油门时，电调就可以调整电流的大小，进而达到控制发动机速度的。在选择电调时，要注意最大工作电流，需要大于电机的最大工作电流。</li>
+</ol>
+<h2 id=""><a href="#" class="headerlink" title=""></a></h2><h3 id="电池介绍"><a href="#电池介绍" class="headerlink" title="电池介绍"></a>电池介绍</h3><p>航模一般使用锂电池，电池涉及到一些基本参数，比如4S 2200maH，2200mAh代表电池的容量，表示可以以2200mA持续放电1小时，4S指的是串联电芯数，也就是4块电芯，每块电芯的标准电压是3.7V，充满电是4.2V。4S的标准电压也就是14.8V，充满电是16.8V。也有并联的电池，3S4P代表3串4并，并联可以提升电流，一般不需要并联电池。此外还有最大放电倍率和最大充电倍率，最大放电倍率35C，代表最大可以是标准电流的35倍放电，最大充电倍率5C代表以标准充电电流的5倍充电，其中标准电流就是上边是2200mA，也就是2.2A。锂电池要注意保养，不能长时间低于3.7V工作，可以通过安装BB响，针对低电压告警。</p>
+<h3 id="电机介绍"><a href="#电机介绍" class="headerlink" title="电机介绍"></a>电机介绍</h3><p>根据动力系统的不同，航模可分为电动、油动、涡轮喷气、火箭助推和无动力滑翔这几类。电机靠带动螺旋桨旋转，窝喷靠喷推动。电机的动力比不上窝喷。但是电机比较便宜，涡喷发动机比较贵。对于新入门而言，电机是更主流的选择，安装调试和保养都比较简单。电动机也可以模仿喷气式飞机，电机外围包裹<strong>涵道</strong>，在内部安装多片直径较小的螺旋桨。包裹在<strong>涵道</strong>内的螺旋桨可以产生更大的推力，但相比窝喷仍然是比较低的。<br>电机的核心参数是KV值。KV值指的是电机的压每升高1V，转速就提高一个KV值的数目，转速越高，电机输出扭力越小，反之亦然。遥控器通过控制电调调整电流大小，进而改变电机的转速。<br>一般来说，高KV值电机搭配小直径的螺旋桨，低KV值电机则搭配较大的螺旋桨。<br>在航模领域，常用的电机是新西达电机，性价比高。</p>
+<h3 id="螺旋桨"><a href="#螺旋桨" class="headerlink" title="螺旋桨"></a>螺旋桨</h3><p>螺旋桨主要关注桨的尺寸，和电机的功率要匹配，注意电机到地面的距离。</p>
+<h3 id="遥控器"><a href="#遥控器" class="headerlink" title="遥控器"></a>遥控器</h3><p>遥控器发射信号，机身上的接收机接受信号，并传递给对应组件。遥控器分为左手油门和右手油门，顾名思义，油门分别在左侧或者右侧。真实的飞机，油门在左侧，因此推荐左手油门。 以左手油门为例，左侧摇杆上下控制油门，左右控制方向舵；右手摇杆上下控制升降，左右控制副翼。<br>除了油门，还有多个通道，每个通道控制一个舵机的运动。通道当然越多越好，但是越多肯定越贵，一般旋转6通道就足够了。<br>此外，还要关注，遥控器的距离，至少需要500米到1000米。如果太短，飞机飞出遥控距离容易失控；而太长了，人也看不清飞机的姿态，也容易失控。<br>入门级遥控器，有富斯i6价位在200多,MC6C价位在100多。遥控器不同于其他组件，其他组件飞上天可能会摔坏，但是遥控器是可以长期使用的，不建议买太差的。<br><img src="/%E6%8E%A2%E7%B4%A2%E6%97%A0%E4%BA%BA%E9%A9%BE%E9%A9%B6%E8%BD%BD%E8%B4%A7%E5%B0%8F%E9%A3%9E%E6%9C%BA%EF%BC%9A%E8%88%AA%E6%A8%A1%E6%8A%80%E6%9C%AF%E7%A0%94%E7%A9%B6/1651669325811-7d8496ac-4b91-4f1c-8a93-3a49690505fb.png" alt="image.png"></p>
+<h3 id="-1"><a href="#-1" class="headerlink" title=""></a><img src="/%E6%8E%A2%E7%B4%A2%E6%97%A0%E4%BA%BA%E9%A9%BE%E9%A9%B6%E8%BD%BD%E8%B4%A7%E5%B0%8F%E9%A3%9E%E6%9C%BA%EF%BC%9A%E8%88%AA%E6%A8%A1%E6%8A%80%E6%9C%AF%E7%A0%94%E7%A9%B6/1651669778547-02afd493-b5c2-418f-884b-bc11dee782ec.png" alt="image.png"></h3><h3 id="接收机"><a href="#接收机" class="headerlink" title="接收机"></a>接收机</h3><p><img src="/%E6%8E%A2%E7%B4%A2%E6%97%A0%E4%BA%BA%E9%A9%BE%E9%A9%B6%E8%BD%BD%E8%B4%A7%E5%B0%8F%E9%A3%9E%E6%9C%BA%EF%BC%9A%E8%88%AA%E6%A8%A1%E6%8A%80%E6%9C%AF%E7%A0%94%E7%A9%B6/1651669262307-6df48767-2453-4445-8c77-cb79d99ee09e.png" alt="image.png"><br>接收机每个通道分别有正极、负极、信号孔，执行设备通过排线连接接收机。接收机可通过电调供电，插入任意一个通道即可。<br>操作各个通道，飞机各个部分的动作如下：<br><img src="/%E6%8E%A2%E7%B4%A2%E6%97%A0%E4%BA%BA%E9%A9%BE%E9%A9%B6%E8%BD%BD%E8%B4%A7%E5%B0%8F%E9%A3%9E%E6%9C%BA%EF%BC%9A%E8%88%AA%E6%A8%A1%E6%8A%80%E6%9C%AF%E7%A0%94%E7%A9%B6/1651670374663-745ee6be-469a-482a-8725-9872390f2f98.gif" alt="May-04-2022 21-17-38.gif"></p>
+<h2 id="固定翼飞行原理"><a href="#固定翼飞行原理" class="headerlink" title="固定翼飞行原理"></a>固定翼飞行原理</h2><h3 id="升力原理"><a href="#升力原理" class="headerlink" title="升力原理"></a>升力原理</h3><p><img src="/%E6%8E%A2%E7%B4%A2%E6%97%A0%E4%BA%BA%E9%A9%BE%E9%A9%B6%E8%BD%BD%E8%B4%A7%E5%B0%8F%E9%A3%9E%E6%9C%BA%EF%BC%9A%E8%88%AA%E6%A8%A1%E6%8A%80%E6%9C%AF%E7%A0%94%E7%A9%B6/1651635253722-5dabbda4-63b1-438d-b67e-b7f89a05330d.png" alt="image.png"><br><img src="/%E6%8E%A2%E7%B4%A2%E6%97%A0%E4%BA%BA%E9%A9%BE%E9%A9%B6%E8%BD%BD%E8%B4%A7%E5%B0%8F%E9%A3%9E%E6%9C%BA%EF%BC%9A%E8%88%AA%E6%A8%A1%E6%8A%80%E6%9C%AF%E7%A0%94%E7%A9%B6/1651569996870-0654253e-a44c-48d1-9a34-37b1b02edf2d.png" alt="image.png"><br>固定翼飞机是如何升上天空的呢？特殊构造的机翼表面，下方接近扁平，而上方则有凸起。发动机提供了向前的速度，当气流流过机翼表面时，上方的气流压强较小，下方气流压强较大。上下的压强差提供了向上的升力。当升力大于重力时，飞机上升高度。升力翼形和翼展相关。</p>
+<h3 id="舵机"><a href="#舵机" class="headerlink" title="舵机"></a>舵机</h3><p>舵机有金属齿和塑料齿。前者更重一些，但是不容易扫齿，更耐用。舵机上也会注明扭矩，也就是力量。一般来说，尺寸大的，扭矩更大。</p>
+<h3 id="控制方式"><a href="#控制方式" class="headerlink" title="控制方式"></a>控制方式</h3><p>通过电机的转速可以改变飞行速度。<br>而飞机的姿态、方向的变化，则通过方向舵、升降舵、副翼来完成。这三个结构的特点是离重心比较远，受力后通过杠杆作用放大；围绕重心两侧，一侧受力，一侧不受力，受力不均衡就会产生偏斜，以此达到改变姿态的效果。<br>襟翼，位于重心附近，而且重心两侧的受力是一样的，因此不会改变飞行姿态，但是会增加阻力，把一部分阻力转化为升力。</p>
+<h3 id="反扭力"><a href="#反扭力" class="headerlink" title="反扭力"></a>反扭力</h3><p>如果发动机安装到机头，螺旋桨向一个方向转动时，形成的空气漩涡会撞击到机尾的垂直尾翼上，导致尾翼受到一个同方向的力。由于尾翼远离重心，收到的力叠加杠杆作用，会导致尾部向受力方向偏转。由于机尾和机头位于重心的两端，所以相当于机头受到了一个反方向的力，也就是和旋转方向相反的力，这就是反扭力。因此单发飞机会出现偏航。<br>要克服反扭力，在安装发动机时，可以适当偏斜一点，以抵消反扭力。<br>另一种办法是安装双发动机，分别位于机翼的两侧，两个发动机按照相反方向运动，互相抵消反扭力。</p>
+<h2 id="模拟器"><a href="#模拟器" class="headerlink" title="模拟器"></a>模拟器</h2><p>好了，硬件装备介绍完了，那么怎么才能让飞机升天呢？人在地面遥控飞机，和坐在飞机里驾驶飞机，感觉是完全不一样的。坐在驾驶舱，有各种仪表设备显示飞机的各项指标，能清楚的感知飞机的姿态和状态。而在地面遥控飞机，首先看不清飞机姿态，其次，地面视角还要转化成飞行员视角，这是很难的。而稍微操作不当。而稍微操作不当，导致飞机掉下来，把硬件摔坏，损失就太大了。机身或者零件摔坏，就得重新花钱买，因此玩航模的成本极高。为了避免炸机，最好的办法是在模拟器上训练好在上天，能做到从地面视角理解飞行员视角。最重要的是，即便是在模拟器中摔掉100架飞机，你也不会损失一分钱。</p>
+<p>模拟器是安装在电脑上的软件，遥控器通过加密狗接入电脑，可以控制模拟器飞机的运动。<br><img src="/%E6%8E%A2%E7%B4%A2%E6%97%A0%E4%BA%BA%E9%A9%BE%E9%A9%B6%E8%BD%BD%E8%B4%A7%E5%B0%8F%E9%A3%9E%E6%9C%BA%EF%BC%9A%E8%88%AA%E6%A8%A1%E6%8A%80%E6%9C%AF%E7%A0%94%E7%A9%B6/1651647442585-f0c5123e-769b-45c1-b49f-b72159ceec61.png" alt="image.png"><br>新手入门，最简单的是练习无边航线，通过无边航线训练起飞，转弯，降落等重要的操作。</p>
+<h2 id="飞机常见动作"><a href="#飞机常见动作" class="headerlink" title="飞机常见动作"></a>飞机常见动作</h2><h3 id="起飞"><a href="#起飞" class="headerlink" title="起飞"></a>起飞</h3><p>飞机在跑道上达到足够的速度后，通过让升降舵向上抬起，升降舵受到向下的力，相当于机头受到一个向上的力，进而飞机抬头上升。机头抬起时，容易失速，应该注意速度。</p>
+<h3 id="上升"><a href="#上升" class="headerlink" title="上升"></a>上升</h3><p>上升过程类似起飞，也是让机头抬起。</p>
+<h3 id="下降"><a href="#下降" class="headerlink" title="下降"></a>下降</h3><p>下降时，通过让升降舵下压。让机尾收到向上的力，相当于机头受到向下的力。进而飞机向下俯冲。飞机向下俯冲时，叠加重力因素，飞机会加速。</p>
+<h3 id="降落"><a href="#降落" class="headerlink" title="降落"></a>降落</h3><p>降落，则是初学飞行时最难掌握的本领。降落分为欧式降落或俄式降落。<br>在降落时，飞机飞行的高度、俯冲的角度和接地时的速度都需要精确操控，而且不同的飞机在降落阶段的特性也各不相同，必须逐个细心掌握。概括起来说，降落包括3个环节：首先降低飞行高度，低空通过场地并保持航线；然后调整油门，进一步降低高度；当飞机距离地面一米左右时，持续拉一点升降舵，使飞机轻微仰头，让起落架平稳地接触地面。<br>欧式降落，保持机头向上，通过降低速度，不断降低高度，后起落架先着地，由于重心在前后起落架中间，速度向前，因此后起落架先着地的冲击力比较小。由于速度和升力相关，如果速度过低，会导致升力不足而失速。因此在下降时，需要时刻关注飞行姿态。如果降落发生问题，无法落地，复飞也会因为速度不足而受影响。<br>俄式降落，是向下俯冲，下降过程速度不降低，直到快落地时才调整机头向上。这种做法比较有挑战。</p>
+<h3 id="滚转"><a href="#滚转" class="headerlink" title="滚转"></a>滚转</h3><p>滚转通过控制副翼的上下运动来实现，两侧副翼相向运动，使一侧受到向上的力，机翼上升；另一侧收到向下的力，机翼下降，在回正前，会持续圆周运动，也就是发生滚转。<br><img src="/%E6%8E%A2%E7%B4%A2%E6%97%A0%E4%BA%BA%E9%A9%BE%E9%A9%B6%E8%BD%BD%E8%B4%A7%E5%B0%8F%E9%A3%9E%E6%9C%BA%EF%BC%9A%E8%88%AA%E6%A8%A1%E6%8A%80%E6%9C%AF%E7%A0%94%E7%A9%B6/1651647533503-c5a3cc47-c0dd-4bb1-a96c-a5e2487ec9fb.png" alt="image.png"></p>
+<h3 id="偏航"><a href="#偏航" class="headerlink" title="偏航"></a>偏航</h3><p>飞机的偏航由垂直方向舵控制，需要向哪边转就向对应方向打方向舵。偏航只用于微调运动方向。不适用于转弯。<br><img src="/%E6%8E%A2%E7%B4%A2%E6%97%A0%E4%BA%BA%E9%A9%BE%E9%A9%B6%E8%BD%BD%E8%B4%A7%E5%B0%8F%E9%A3%9E%E6%9C%BA%EF%BC%9A%E8%88%AA%E6%A8%A1%E6%8A%80%E6%9C%AF%E7%A0%94%E7%A9%B6/1651647810740-9520afd1-68b4-428b-82ed-ac3205f19a45.png" alt="image.png"></p>
+<h3 id="转弯"><a href="#转弯" class="headerlink" title="转弯"></a>转弯</h3><p>转弯需要副翼和升降舵配合使用。首先，利用副翼将机翼向要转的方向滚转，然后将副翼操纵杆“回中”(回归零位，以便下次操作），以使机翼不再进一步倾斜。此时立即拉升降舵，直到飞机转向到合适位置，再将升降舵操纵杆回中，以停止转弯。然后向相反方向打副翼，使机翼恢复水平状态。最后，在机翼恢复水平状态的那一刹，将副翼回中。</p>
+<h2 id="实操"><a href="#实操" class="headerlink" title="实操"></a>实操</h2><p>一般玩航模，上边说的那些控制组件，可以分别购买。机身可以购买空的机身或者用3D打印自己打印机身。机身因为负载比较轻，一般是泡沫材料。</p>
+<h3 id="入门机型"><a href="#入门机型" class="headerlink" title="入门机型"></a>入门机型</h3><p>新手入门采用的机型有：赛斯纳，冲浪者。赛斯纳是一款真私人飞机的微缩版，冲浪者没有原型。两者的区别在于，赛斯纳有起落架，螺旋桨在最前方，因而速度更高；冲浪者螺旋桨没有起落架，螺旋桨在翼后方。因此在炸机时，赛斯纳的螺旋桨更容易损坏，而冲浪者的螺旋桨可以受到保护。但是赛斯纳可以训练起飞和降落，而冲浪者因没有起落架而无法训练起飞和降落。</p>
+<p><img src="/%E6%8E%A2%E7%B4%A2%E6%97%A0%E4%BA%BA%E9%A9%BE%E9%A9%B6%E8%BD%BD%E8%B4%A7%E5%B0%8F%E9%A3%9E%E6%9C%BA%EF%BC%9A%E8%88%AA%E6%A8%A1%E6%8A%80%E6%9C%AF%E7%A0%94%E7%A9%B6/1651650141737-54091b88-8b38-4f31-9f37-898fd8be7be3.png" alt="image.png"><br><img src="/%E6%8E%A2%E7%B4%A2%E6%97%A0%E4%BA%BA%E9%A9%BE%E9%A9%B6%E8%BD%BD%E8%B4%A7%E5%B0%8F%E9%A3%9E%E6%9C%BA%EF%BC%9A%E8%88%AA%E6%A8%A1%E6%8A%80%E6%9C%AF%E7%A0%94%E7%A9%B6/1651650213336-ab583bdf-75c6-4fcc-9e9c-fe344de9ed86.png" alt="image.png"></p>
+<h3 id="炸机常见问题"><a href="#炸机常见问题" class="headerlink" title="炸机常见问题"></a>炸机常见问题</h3><p>航模炸机的主要原因：看不清飞机姿态；飞机失速。其实这些问题都可以用自动驾驶来解决。在飞机上安装陀螺仪和GPS。通过陀螺仪判断飞机的姿态，上下左右是否平衡。通过GPS判断位置和计算速度。采集的信息传递到机载芯片上，对姿态做一下判断，然后做一下对应的操作应对。如果是失速，则应该立即下压机头，俯冲提速。如果向左或者向右倾斜，则打副翼让姿态回正。一些玩具厂家就是通过内在陀螺仪，自动纠正错误姿态，避免炸机。通过这种程序化的处理，是可以减少炸机的概率的。同时通过无人驾驶，设定好GPS航路坐标后，可以脱离遥控器飞得更远。如果加上物联网卡，则可以实现远程的控制。</p>
+<h2 id="搭载货物"><a href="#搭载货物" class="headerlink" title="搭载货物"></a>搭载货物</h2><p>搭载货物意味着提升了重力，需要更大的升力。对于多旋翼飞机，推重比至少得是1。而固定翼飞机，推重比能够低到0.2。 也就是相同的发动机，固定翼的载货量可以达到多旋翼的5倍以上。固定翼飞机的速度，升力，转弯的灵活度等，都是相互关联的性能因素，可以通过调整参数结构，尽可能的牺牲其他性能，尽可能的提升载重量。通过设计机翼，采用高升阻比的低速翼型，机翼平面形状做大。不过载重提升后，对机翼的结构强度要求比较高。从一些航模比赛中获得的数据，大概可以承受自重的5到6倍以上。</p>
+<h2 id="成本估算"><a href="#成本估算" class="headerlink" title="成本估算"></a>成本估算</h2><p>最便宜的入门遥控器MC6C 200+<br>最便宜的一套控制配件 100<br>赛斯纳空机 100+<br>充电器100+<br>总体而言需要500+的入门费用。<br>此外模拟机需要用windows电脑。<br>如果炸机，则需要更换损坏的机身或者配件。航模真是个烧钱并且劝退的兴趣。 </p>
+<h2 id="资料库"><a href="#资料库" class="headerlink" title="资料库"></a>资料库</h2><p>Flite Test 提供航模的资料和图纸。</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="https://max.book118.com/html/2019/0405/6044052152002021.shtm">固定翼飞机的结构及飞行原理.ppt</a><br><a href="https://www.docin.com/p-2311183982.html">固定翼无人机的结构及飞行原理 </a><br><a href="https://zhuanlan.zhihu.com/p/145581790">【机型知识】固定翼飞机的飞行原理简介（一）</a><br><a href="http://hudongkepu.com/wap.php?action=article&id=31818">航模飞空(上)</a><br><a href="http://www.hudongkepu.com/m/view.php?aid=31819">航模飞空(下）</a><br><a href="https://www.bilibili.com/video/BV1Ft4y127Th/?spm_id_from=333.788.recommend_more_video.-1">【航模制作入门】5分钟了解航模电子设备</a><br><a href="https://www.bilibili.com/video/BV1BE411R7JR/?spm_id_from=autoNext">如何用最低的价格，买一套入门航模设备</a><br><a href="https://www.bilibili.com/video/BV1eh411y7cw/?spm_id_from=333.788.recommend_more_video.1">【固定翼飞手1】航模入门教程•必要设备介绍</a><br><a href="https://www.bilibili.com/video/BV1Er4y1K74V">固定翼飞手2】航模入门教程•怎样购买空机与航模装备 最便宜？高性价比？</a><br><a href="https://www.ncnynl.com/archives/201608/713.html">无人机基础知识-组成-航模电机</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://mayunlei.github.io/2022/05/04/%E6%8E%A2%E7%B4%A2%E6%97%A0%E4%BA%BA%E9%A9%BE%E9%A9%B6%E8%BD%BD%E8%B4%A7%E5%B0%8F%E9%A3%9E%E6%9C%BA%EF%BC%9A%E8%88%AA%E6%A8%A1%E6%8A%80%E6%9C%AF%E7%A0%94%E7%A9%B6/" data-id="cmcf1wffh000nmz3jbu6t0lbz" data-title="探索无人驾驶载货小飞机：航模技术研究" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/06/16/%E6%B7%B1%E5%85%A5%E6%B5%85%E5%87%BA%E5%90%91%E9%87%8F%E5%8C%96%E6%8A%80%E6%9C%AF/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          深入向量化计算技术
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2021/12/25/%E4%BB%8E%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E5%88%B0%E6%95%B0%E6%8D%AE%E6%B4%9E%E5%AF%9F/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">从数据分析到数据洞察</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/ClickHouse-OLAP/" rel="tag">ClickHouse OLAP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ML-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/" rel="tag">ML 机器学习 神经网络</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SQL%E6%B4%9E%E5%AF%9F/" rel="tag">SQL洞察</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/presto/" rel="tag">presto</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/string-cow/" rel="tag">string cow</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%90%91%E9%87%8F%E5%8C%96-SIMD/" rel="tag">向量化, SIMD</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/ClickHouse-OLAP/" style="font-size: 10px;">ClickHouse OLAP</a> <a href="/tags/ML-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/" style="font-size: 10px;">ML 机器学习 神经网络</a> <a href="/tags/SQL%E6%B4%9E%E5%AF%9F/" style="font-size: 10px;">SQL洞察</a> <a href="/tags/presto/" style="font-size: 20px;">presto</a> <a href="/tags/string-cow/" style="font-size: 10px;">string cow</a> <a href="/tags/%E5%90%91%E9%87%8F%E5%8C%96-SIMD/" style="font-size: 10px;">向量化, SIMD</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/06/">June 2025</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/10/">October 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/03/">March 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/06/">June 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/05/">May 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/12/">December 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">January 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">August 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">November 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/06/">June 2013</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2025/06/28/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2025/06/28/AI-Agent-%E5%9F%BA%E7%A1%80%E8%AE%BE%E6%96%BD/">AI Agent 基础设施</a>
+          </li>
+        
+          <li>
+            <a href="/2024/10/13/c-11-%E6%A8%A1%E6%9D%BF%E5%85%83%E7%BC%96%E7%A8%8B%EF%BC%9A%E7%8E%B0%E4%BB%A3%E5%8C%96%E8%AE%A1%E7%AE%97%E5%BC%95%E6%93%8E%E7%9A%84%E9%80%9F%E5%BA%A6%E7%A7%98%E8%AF%80/">c++11+模板元编程：现代化计算引擎的速度秘诀</a>
+          </li>
+        
+          <li>
+            <a href="/2024/03/03/OLAP%E8%AE%A1%E7%AE%97%E5%BC%95%E6%93%8E%E5%8E%9F%E7%90%86%E5%92%8C%E5%AE%9E%E7%8E%B0/">OLAP计算引擎原理和实现</a>
+          </li>
+        
+          <li>
+            <a href="/2022/06/16/%E6%B7%B1%E5%85%A5%E6%B5%85%E5%87%BA%E5%90%91%E9%87%8F%E5%8C%96%E6%8A%80%E6%9C%AF/">深入向量化计算技术</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2025 马云雷<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

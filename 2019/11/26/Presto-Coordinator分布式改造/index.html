@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Presto Coordinator分布式改造 | 马云雷的技术博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="背景自从上线SQL功能以来，经过两年的时间，随着sls业务的不断增长，每天处理1亿次query，扫描1000,000,000,000,000行日志(没错1000万亿行日志)。业务的增长也给系统带来无形的压力，如何保障在低延时的前提下提供这么大的负载是一个巨大的挑战。 挑战之一就是单master架构。在之前的文章中，我介绍过了presto的架构。coordinator是presto中负责query解">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Presto Coordinator分布式改造">
+<meta property="og:url" content="http://mayunlei.github.io/2019/11/26/Presto-Coordinator%E5%88%86%E5%B8%83%E5%BC%8F%E6%94%B9%E9%80%A0/index.html">
+<meta property="og:site_name" content="马云雷的技术博客">
+<meta property="og:description" content="背景自从上线SQL功能以来，经过两年的时间，随着sls业务的不断增长，每天处理1亿次query，扫描1000,000,000,000,000行日志(没错1000万亿行日志)。业务的增长也给系统带来无形的压力，如何保障在低延时的前提下提供这么大的负载是一个巨大的挑战。 挑战之一就是单master架构。在之前的文章中，我介绍过了presto的架构。coordinator是presto中负责query解">
+<meta property="og:locale">
+<meta property="og:image" content="https://ata2-img.cn-hangzhou.oss-pub.aliyun-inc.com/17c9e09fbc9034a36062a04df78511e8.png">
+<meta property="og:image" content="https://ata2-img.cn-hangzhou.oss-pub.aliyun-inc.com/53e9b9c700072e729d5ec67a23b8a0e1.png">
+<meta property="og:image" content="https://ata2-img.cn-hangzhou.oss-pub.aliyun-inc.com/328d49e08d5a95951b3f6bf65763c5c3.png">
+<meta property="og:image" content="http://ata2-img.cn-hangzhou.img-pub.aliyun-inc.com/f2a0b04d61e5ca4b90242d5d0137e7d9.png">
+<meta property="og:image" content="http://ata2-img.cn-hangzhou.img-pub.aliyun-inc.com/9f49f578848c4f28c27bab8712964f8b.png">
+<meta property="og:image" content="https://ata2-img.cn-hangzhou.oss-pub.aliyun-inc.com/18e9153c9f29f2d12a53a24000d8cca9.png">
+<meta property="og:image" content="https://ata2-img.cn-hangzhou.oss-pub.aliyun-inc.com/066b825ea45dea34cb12d498b8981687.png">
+<meta property="og:image" content="https://ata2-img.cn-hangzhou.oss-pub.aliyun-inc.com/6b504ed115bcae435655e6f3e151255f.png">
+<meta property="og:image" content="https://ata2-img.cn-hangzhou.oss-pub.aliyun-inc.com/64a1027341118ef55468e52607da4817.png">
+<meta property="og:image" content="https://ata2-img.cn-hangzhou.oss-pub.aliyun-inc.com/582cb9c822365f930db3cf444af70081.png">
+<meta property="article:published_time" content="2019-11-26T08:27:24.000Z">
+<meta property="article:modified_time" content="2025-06-27T16:52:51.555Z">
+<meta property="article:author" content="马云雷">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://ata2-img.cn-hangzhou.oss-pub.aliyun-inc.com/17c9e09fbc9034a36062a04df78511e8.png">
+  
+    <link rel="alternate" href="/atom.xml" title="马云雷的技术博客" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css">
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">马云雷的技术博客</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://mayunlei.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-Presto-Coordinator分布式改造" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2019/11/26/Presto-Coordinator%E5%88%86%E5%B8%83%E5%BC%8F%E6%94%B9%E9%80%A0/" class="article-date">
+  <time class="dt-published" datetime="2019-11-26T08:27:24.000Z" itemprop="datePublished">2019-11-26</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      Presto Coordinator分布式改造
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>自从上线SQL功能以来，经过两年的时间，随着sls业务的不断增长，每天处理1亿次query，扫描1000,000,000,000,000行日志(没错1000万亿行日志)。业务的增长也给系统带来无形的压力，如何保障在低延时的前提下提供这么大的负载是一个巨大的挑战。</p>
+<p>挑战之一就是单master架构。在之前的<a href="https://blog.csdn.net/sjtuyunlei/article/details/78219029">文章</a>中，我介绍过了presto的架构。coordinator是presto中负责query解析，任务调度，结果汇总的，集群监控的节点。其他的worker节点只负责接收单个task进行计算即可。coordinator的任务可谓是多而广，在整个集群中起到了不可替代的作用。一旦该节点出问题，整个集群不可用。</p>
+<p>上图为集群平均cpu，下图第一个为coordinator的cpu，可见coordinator的负载一直处于高位，且明显高于普通的worker。<br><img src="https://ata2-img.cn-hangzhou.oss-pub.aliyun-inc.com/17c9e09fbc9034a36062a04df78511e8.png" alt="image.png"></p>
+<p>随着业务的上升，coordinator的几点瓶颈愈发凸显：</p>
+<ol>
+<li>负责query的解析和任务分发，负载比较重，且随着业务增加，负载线性增加。而单机的性能有上限，无法横向扩展。</li>
+<li>单coordinator节点无容灾，一旦宕机，恢复时间比较长。</li>
+</ol>
+<p>为了解决以上问题，我下决心把coordinator改造成分布式。</p>
+<h1 id="coordinator主要工作内容"><a href="#coordinator主要工作内容" class="headerlink" title="coordinator主要工作内容"></a>coordinator主要工作内容</h1><p>coordinator主要有几个功能：</p>
+<ol>
+<li>query的解析，任务调度，任务监控。</li>
+<li>集群内存监控。</li>
+<li>机器状态监控。</li>
+</ol>
+<h2 id="query任务流"><a href="#query任务流" class="headerlink" title="query任务流"></a>query任务流</h2><p><img src="https://ata2-img.cn-hangzhou.oss-pub.aliyun-inc.com/53e9b9c700072e729d5ec67a23b8a0e1.png" alt="image.png"></p>
+<p>query从提交到coordinator，到query执行完成，由coordinator负责管理，一个qeuery的具体流程包括:</p>
+<ol>
+<li>队列排队，获取运行许可。</li>
+<li>词法解析和语法解析，把SQL转换成抽象语法树。</li>
+<li>语法优化，语法检查。利用预定义规则对语法数进行优化，例如剪枝优化。还有把单机plan改造成并行式plan。</li>
+<li>对plan划分出不同的stage，并且按照并行度的需求，为每个stage生成多个task，每个task指定一台机器。形成最终的逻辑执行计划。</li>
+<li>stage代表的任务的上下游，task代表一个stage内的并行执行。一个stage内的task执行相同的任务，只是接收的数据不一样。</li>
+<li>每个task调度到一个worker上，并且coordinator为每个task启动一个任务追踪，即TaskInfoFetcher，周期性轮训task的状态。</li>
+<li>当轮训到task的状态发生改变时，回调改变stage-&gt; query的状态，最终直到query的所有task都结束。</li>
+</ol>
+<p>整个任务流中，像query解析，调度，监控等都可以在任意节点执行，不需要非得在全局唯一节点执行。 只有queue涉及到全局队列，需要在单点执行。</p>
+<h2 id="集群控制流"><a href="#集群控制流" class="headerlink" title="集群控制流"></a>集群控制流</h2><p>Presto集群控制只要有两方面内容：</p>
+<ol>
+<li>集群状态控制<ol start="2">
+<li>检查每台机器的状态，判断是ALIVE、SHUTDOWN中的哪个状态。</li>
+<li>检查每台机器的各个内存池分配状态，终止超限query，以及提升大query的优先级。</li>
+</ol>
+</li>
+<li>Query状态控制<ol>
+<li>轮询每个task的状态，通过状态机管理query状态。</li>
+</ol>
+</li>
+</ol>
+<p><img src="https://ata2-img.cn-hangzhou.oss-pub.aliyun-inc.com/328d49e08d5a95951b3f6bf65763c5c3.png" alt="image.png"></p>
+<h2 id="集群内存管理"><a href="#集群内存管理" class="headerlink" title="集群内存管理"></a>集群内存管理</h2><p>Presto采用逻辑的内存池，来管理不同类型的内存需求。</p>
+<p>Presto把整个内存划分成三个内存池，分别是System Pool ,Reserved Pool, General Pool。</p>
+<p><img src="http://ata2-img.cn-hangzhou.img-pub.aliyun-inc.com/f2a0b04d61e5ca4b90242d5d0137e7d9.png"></p>
+<ul>
+<li>System Pool 是用来保留给系统使用的，默认为40%的内存空间留给系统使用。</li>
+<li>Reserved Pool和General Pool 是用来分配query运行时内存的。</li>
+<li>其中大部分的query使用general Pool。 而最大的一个query，使用Reserved Pool， 所以Reserved Pool的空间等同于一个query在一个机器上运行使用的最大空间大小，默认是10%的空间。</li>
+<li>General则享有除了System Pool和General Pool之外的其他内存空间。</li>
+</ul>
+<p><img src="http://ata2-img.cn-hangzhou.img-pub.aliyun-inc.com/9f49f578848c4f28c27bab8712964f8b.png"></p>
+<p>Presto内存管理，分两部分：</p>
+<ul>
+<li>query内存管理<ul>
+<li>query划分成很多task， 每个task会有一个线程循环获取task的状态，包括task所用内存。汇总成query所用内存。</li>
+<li>如果query的汇总内存超过一定大小，则强制终止该query。</li>
+</ul>
+</li>
+<li>机器内存管理<ul>
+<li>coordinator有一个线程，定时的轮训每台机器，查看当前的机器内存状态。</li>
+<li>当query内存和机器内存汇总之后，coordinator会挑选出一个内存使用最大的query，分配给Reserved Pool。</li>
+</ul>
+</li>
+</ul>
+<p>内存管理是由coordinator来管理的， coordinator每秒钟做一次判断，指定某个query在所有的机器上都能使用reserved 内存。那么问题来了，如果某台机器上，，没有运行该query，那岂不是该机器预留的内存浪费了？为什么不在单台机器上挑出来一个最大的task执行。原因还是死锁，假如query，在其他机器上享有reserved内存，很快执行结束。但是在某一台机器上不是最大的task，一直得不到运行，导致该query无法结束。</p>
+<h2 id="Coordinator分布式改造"><a href="#Coordinator分布式改造" class="headerlink" title="Coordinator分布式改造"></a>Coordinator分布式改造</h2><p>从上边的介绍中，我们可以看出，只能在集群唯一节点进行的操作有：</p>
+<ol>
+<li>全局队列。</li>
+<li>机器状态监控。</li>
+<li>集群内存状态管理。</li>
+</ol>
+<p>二coordinator上负载最重的操作是query的task状态管理。一个query会分配若干个task，这个膨胀是很大的。每个task都要轮询状态信息。这部分逻辑是可以分布式搞得，不必放在全局唯一节点进行。</p>
+<p><img src="https://ata2-img.cn-hangzhou.oss-pub.aliyun-inc.com/18e9153c9f29f2d12a53a24000d8cca9.png" alt="image.png"></p>
+<p>coordinator改造方案，就是把一些不是全局性的操作，都拆分到不同节点去做。而把全局性的操作放到一个节点。所以原来的coordinator会变成两个角色,watch tower和新coordinator：</p>
+<p><img src="https://ata2-img.cn-hangzhou.oss-pub.aliyun-inc.com/066b825ea45dea34cb12d498b8981687.png" alt="image.png"></p>
+<h3 id="Watch-tower"><a href="#Watch-tower" class="headerlink" title="Watch tower:"></a>Watch tower:</h3><p>只负责集群的监控，不负责跟query相关的工作。</p>
+<ul>
+<li>集群内存管理，周期性轮询每台机器的内存分配状态，把最大的query提升导reserved memory pool。</li>
+<li>机器状态管理，周期性轮询每台机器状态，是否ALIVE、SHUTDOWN。</li>
+</ul>
+<p>由于coordinator需要知道每台机器的状态、内存，因此在coordinate向每台机器同步信息时，会同时把相关状态同步给coordinator。</p>
+<p><img src="https://ata2-img.cn-hangzhou.oss-pub.aliyun-inc.com/6b504ed115bcae435655e6f3e151255f.png" alt="image.png"></p>
+<h3 id="Coordinator"><a href="#Coordinator" class="headerlink" title="Coordinator:"></a>Coordinator:</h3><p>coordinator只专心做query相关的工作，接受请求，解析、调度、监控所有的task。</p>
+<h4 id="队列处理"><a href="#队列处理" class="headerlink" title="队列处理"></a>队列处理</h4><p>presto的队列模型，可以设置query运行的最大并发度和最大排队数。这些参数可以时用户级别，也可以是整个集群的级别。</p>
+<p>在官方的presto中，由于只有一个coordinator节点，可以很容易在单点控制整个集群的执行并发度。分拆成多个coordinator并发执行之后，控制整个集群的并发度变得比较困难。因而我们选择在单个coordinator上控制运行在本机的并发度。</p>
+<h3 id="客户端"><a href="#客户端" class="headerlink" title="客户端"></a>客户端</h3><p><img src="https://ata2-img.cn-hangzhou.oss-pub.aliyun-inc.com/64a1027341118ef55468e52607da4817.png" alt="image.png"></p>
+<p>改造成并发coordinator后，client端从Discovery获取到所有的coordinator(coordiantor向discovery回报心跳时，增加了标识coordinator)。并且把coordinator按照地址排序，保证所有的client获取到的都是同样的顺序。</p>
+<p>当接收到SQL请求后，client按照user的hash值，选择一个coordinator发送。这样就可以保证同一个用户的SQL只发送导一个coordinator，从而控制并发度。当然如果coordinator发生扩容缩容，在短时间内，coordinate的顺序会发生改变，影响队列。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>在完成分布式改造后， coordinator可以做到水平扩展，解决了coordinator的单点问题。改造后的效果：</p>
+<p><img src="https://ata2-img.cn-hangzhou.oss-pub.aliyun-inc.com/582cb9c822365f930db3cf444af70081.png" alt="image.png"></p>
+<p>CPU消耗比较高的Coordinator经过分布式改造后，有3个coordinator，可以看出每个coordinator的CPU仍然很高。这是由于coordinator上负责整个query的运行监控，如果一个query分配的task非常多，那么是需要启动很多后台任务轮询task状态，这对coordinator的负载压力是很大的。虽然我们可以做到水平扩展coordinator，但是由于单个coordinator的最大并发有限，也影响了整个集群的性能。接下来我们也会继续对这部分逻辑进行改造，期望能够优化coordinator的性能。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://mayunlei.github.io/2019/11/26/Presto-Coordinator%E5%88%86%E5%B8%83%E5%BC%8F%E6%94%B9%E9%80%A0/" data-id="cmcf1wffe0008mz3j78e2eiee" data-title="Presto Coordinator分布式改造" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2020/05/20/Procella-Youtube-%E6%8A%8A%E8%AE%A1%E7%AE%97%E5%8A%A0%E9%80%9F%E7%8E%A9%E5%88%B0%E6%9E%81%E8%87%B4%E7%9A%84%E5%AE%9E%E6%97%B6%E8%AE%A1%E7%AE%97%E5%BC%95%E6%93%8E/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Procella@Youtube 把计算加速玩到极致的实时计算引擎
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/09/02/Presto%E5%86%85%E5%AD%98%E6%B3%84%E9%9C%B2%E9%97%AE%E9%A2%98%E8%B0%83%E6%9F%A5/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Presto内存泄露问题调查</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/ClickHouse-OLAP/" rel="tag">ClickHouse OLAP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ML-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/" rel="tag">ML 机器学习 神经网络</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SQL%E6%B4%9E%E5%AF%9F/" rel="tag">SQL洞察</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/presto/" rel="tag">presto</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/string-cow/" rel="tag">string cow</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%90%91%E9%87%8F%E5%8C%96-SIMD/" rel="tag">向量化, SIMD</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/ClickHouse-OLAP/" style="font-size: 10px;">ClickHouse OLAP</a> <a href="/tags/ML-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/" style="font-size: 10px;">ML 机器学习 神经网络</a> <a href="/tags/SQL%E6%B4%9E%E5%AF%9F/" style="font-size: 10px;">SQL洞察</a> <a href="/tags/presto/" style="font-size: 20px;">presto</a> <a href="/tags/string-cow/" style="font-size: 10px;">string cow</a> <a href="/tags/%E5%90%91%E9%87%8F%E5%8C%96-SIMD/" style="font-size: 10px;">向量化, SIMD</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/06/">June 2025</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/10/">October 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/03/">March 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/06/">June 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/05/">May 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/12/">December 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">January 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">August 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">November 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/06/">June 2013</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2025/06/28/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2025/06/28/AI-Agent-%E5%9F%BA%E7%A1%80%E8%AE%BE%E6%96%BD/">AI Agent 基础设施</a>
+          </li>
+        
+          <li>
+            <a href="/2024/10/13/c-11-%E6%A8%A1%E6%9D%BF%E5%85%83%E7%BC%96%E7%A8%8B%EF%BC%9A%E7%8E%B0%E4%BB%A3%E5%8C%96%E8%AE%A1%E7%AE%97%E5%BC%95%E6%93%8E%E7%9A%84%E9%80%9F%E5%BA%A6%E7%A7%98%E8%AF%80/">c++11+模板元编程：现代化计算引擎的速度秘诀</a>
+          </li>
+        
+          <li>
+            <a href="/2024/03/03/OLAP%E8%AE%A1%E7%AE%97%E5%BC%95%E6%93%8E%E5%8E%9F%E7%90%86%E5%92%8C%E5%AE%9E%E7%8E%B0/">OLAP计算引擎原理和实现</a>
+          </li>
+        
+          <li>
+            <a href="/2022/06/16/%E6%B7%B1%E5%85%A5%E6%B5%85%E5%87%BA%E5%90%91%E9%87%8F%E5%8C%96%E6%8A%80%E6%9C%AF/">深入向量化计算技术</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2025 马云雷<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>
